@@ -5,12 +5,13 @@ import axios from '../utils/ajax';
  * baseUrl  接口路径
  */
 // const baseUrl  = 'http://117.34.105.87:8088';//服务器IP
-const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
+// const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
 // const baseUrl  = 'http://117.34.105.87:8086';//测试服务器IP
 // const baseUrl  = 'http://192.168.3.108:8088';//杨腾飞IP
 // const baseUrl  = 'http://192.168.3.108:8087';//杨腾飞IP
 // const baseUrl  = 'http://192.168.3.108:8080';//杨腾飞加盟IP
 // const baseUrl  = 'http://192.168.3.155:8088';//李思雨IP
+const baseUrl  = 'http://192.168.1.112:8088';//李思雨IP
 // const baseUrl  = 'http://192.168.3.155:8087';//李思雨IP
 /*
 *
@@ -225,6 +226,8 @@ export const selectRepairStatistics = async params => axios.post(baseUrl  + '/tr
 *测评
 *
 */
+//待接待
+export const printMakeParam = async params => axios.get(baseUrl  + '/examination/printMakeParam', params);//检测报告查询基本信息
 //已接待
 export const examineAdmit = async params => axios.post(baseUrl  + '/examination/examineAdmit', params);//测评已接待查询
 //测评统计

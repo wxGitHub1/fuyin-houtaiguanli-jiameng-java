@@ -323,3 +323,59 @@ export function arrayDeduplication(arr) {
   }
   return hash;
 }
+/**
+ * 网络图片转换base64编码
+ * @param {*} img 
+ */
+export function getBase64Image(img) {
+  let canvas = document.createElement("canvas");
+  canvas.width = img.width;
+  canvas.height = img.height;
+  let ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0, img.width, img.height);
+  let ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+  let dataURL = canvas.toDataURL("image/" + ext);
+  return dataURL;
+}
+/*****封装打印测评报告页面图片转化base64函数 */
+/**
+ * 
+ * @param {*} that vue对象
+ * @param {*} res 数据
+ */
+export function img_base64(that,res){
+            let img1 = res.zgRight;
+            let img2 = res.zgLeft;
+            let img3 = res.ggLeft;
+            let img4 = res.ggRight;
+            let image1 = new Image();
+            image1.crossOrigin = "";
+            image1.src = img1;
+            let image2 = new Image();
+            image2.crossOrigin = "";
+            image2.src = img2;
+            let image3 = new Image();
+            image3.crossOrigin = "";
+            image3.src = img3;
+            image1.onload = () => {
+              that.testReport.zgRight = getBase64Image(image1);
+            };
+            image2.onload = () => {
+              that.testReport.zgLeft = getBase64Image(image2);
+            };
+            image3.onload = () => {
+              that.testReport.ggLeft = getBase64Image(image3);
+            };
+            if (img4 != null || img4 != undefined) {
+              let image4 = new Image();
+              image4.crossOrigin = "";
+              image4.src = img4;
+              image4.onload = () => {
+                that.testReport.ggRight = getBase64Image(image4);
+              };
+              that.isTwo = true;
+            }else{
+              that.isTwo = false;
+            }
+
+} 

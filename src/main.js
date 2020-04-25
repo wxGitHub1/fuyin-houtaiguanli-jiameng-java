@@ -20,6 +20,9 @@ import Print from 'vue-print-nb'
 Vue.use(Print); 
 import Print2 from '../src/utils/print' // 引入附件的、js文件打印图片
 Vue.use(Print2) // 注册Print2
+//pdf引入
+import htmlToPdf from '../src/utils/htmlToPdf'
+Vue.use(htmlToPdf)
 // common
 import Header from './components/common/header';
 import Vheader from './components/common/vheader';

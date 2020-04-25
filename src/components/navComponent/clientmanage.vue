@@ -656,6 +656,15 @@
             >测评详情</el-button>
           </template>
         </el-table-column>
+        <el-table-column label="操作" min-width="110">
+          <template slot-scope="scope">
+            <el-button
+              @click="evaluationReport(scope.row.evaluateId)"
+              size="mini"
+              type="primary"
+            >测评报告</el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="height" label="身高"></el-table-column>
         <el-table-column prop="weight" label="体重"></el-table-column>
         <el-table-column prop="zgfy" label="足弓发育"></el-table-column>
@@ -1414,6 +1423,21 @@
         >保存</el-button>
       </div>
     </el-dialog>
+    <!-- dialog 打印检测报告-->
+    <el-dialog
+      title="检测报告"
+      :visible.sync="dialogTestReport"
+      center
+      :close-on-click-modal="false"
+      width="70%"
+    >
+      <my-print :testReport="testReport" :isTwo="isTwo" ref="print"></my-print>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="close_testReport()" type="primary" icon="el-icon-circle-close">取消</el-button>
+        <el-button type="success" icon="el-icon-receiving" @click="printpage()">打印报告</el-button>
+        <el-button type="success" icon="el-icon-picture-outline" v-on:click="getPdf()">导出PDF</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -1435,12 +1459,14 @@ import {
   sales,
   deleteUser,
   queryExamineDetail,
-  changeSite
+  changeSite,
+  printMakeParam
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod,province,city,site,hospital } from "../../utils/public";
+import { exportMethod,province,city,site,hospital,getBase64Image,img_base64 } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
+import Print from "../commonComponent/PrintTemplate";
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
@@ -1736,8 +1762,16 @@ export default {
         siteLists:[],
         sitePhone:null
       },
-      xd_siteId:null
+      xd_siteId:null,
+      //检测报告
+      dialogTestReport: false,
+      testReport: {},
+      isTwo: true,
+      htmlTitle: "测评报告PDF"
     };
+  },
+  components: {
+    "my-print": Print
   },
   mounted() {
     this.pageList();
@@ -1745,6 +1779,35 @@ export default {
     this.provinceList();
   },
   methods: {
+    printpage() {
+      this.$print2(this.$refs.print);
+    },
+    close_testReport() {
+      this.dialogTestReport = false;
+      this.testReport = {};
+    },
+    evaluationReport(id) {
+      let data = {
+        recordId: id
+      };
+      printMakeParam(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.testReport = res.data.data;
+            img_base64(this,res.data.data)
+            this.dialogTestReport = true;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     confirmTransferSite_func(){
         let data={
           memberId:this.currentNamberId,

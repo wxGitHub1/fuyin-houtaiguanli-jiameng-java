@@ -156,6 +156,7 @@ export default {
         baseList:[
            { name:"防护气垫C3",id:978},
            { name:"防护气垫C2",id:982},
+           { name:"F1发育性防护气垫",id:1401}
         ]
       },
       loading: true

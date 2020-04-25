@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="pdfDom">
     <div id="subOutputRank-print">
       <div id="printTest">
         <h1 class="TR_title">产品制作参数</h1>
