@@ -1,3 +1,6 @@
+/**
+ * 统计报表
+ */
 <template>
   <div>
     <el-row class="search">
@@ -286,7 +289,7 @@ export default {
           this.seach.OrderTime == null ? null : this.seach.OrderTime[0],
         orderTimeEnd:
           this.seach.OrderTime == null ? null : this.seach.OrderTime[1],
-        productName: this.seach.product || null,
+        nickname: this.seach.product || null,
         hospitalId: this.seach.hospitalValue || null,
         departmentId: this.seach.departmentValue || null,
         doctorId: this.seach.doctorValue || null,
@@ -325,7 +328,7 @@ export default {
           this.seach.OrderTime == null ? null : this.seach.OrderTime[0],
         orderTimeEnd:
           this.seach.OrderTime == null ? null : this.seach.OrderTime[1],
-        productName: this.seach.product || null,
+        nickname: this.seach.product || null,
         hospitalId: this.seach.hospitalValue || null,
         departmentId: this.seach.departmentValue || null,
         doctorId: this.seach.doctorValue || null,

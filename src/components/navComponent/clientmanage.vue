@@ -1003,7 +1003,7 @@
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格">
           <template slot-scope="scope">
-            <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" />
+            <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" oninput="value=value.replace(/[^\d]/g,'')"/>
           </template>
         </el-table-column>
         <el-table-column prop="deliveryTime" label="交货日期" min-width="100">
@@ -1219,7 +1219,7 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div>
         折扣价格：
-        <input type="text" class="input" v-model="zhekouyouhui.favorable" />
+        <input type="text" class="input" v-model="zhekouyouhui.favorable" oninput="value=value.replace(/[^\d]/g,'')" />
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
@@ -1571,6 +1571,10 @@ export default {
             {
               type: 3,
               name: "其他"
+            },
+            {
+              type: 4,
+              name: "儿保"
             }
           ],
           value: ""

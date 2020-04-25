@@ -254,7 +254,7 @@
         <span>医院名称</span>
       </el-col>
       <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.hospitaId" placeholder="请先选择站点"  @change="listenKey()">
+        <el-select clearable size="small" v-model="seach.hospitalId" placeholder="请先选择站点"  @change="listenKey()">
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -959,7 +959,7 @@
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格">
           <template slot-scope="scope">
-            <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" />
+            <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" oninput="value=value.replace(/[^\d]/g,'')"/>
           </template>
         </el-table-column>
         <el-table-column prop="deliveryTime" label="交货日期" min-width="100">
@@ -1175,7 +1175,7 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div>
         折扣价格：
-        <input type="text" class="input" v-model="zhekouyouhui.favorable" />
+        <input type="text" class="input" v-model="zhekouyouhui.favorable" oninput="value=value.replace(/[^\d]/g,'')"/>
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
@@ -11082,7 +11082,7 @@ export default {
         cityId: null,
         provinceIdList: [],
         cityIdList: [],
-        hospitaId:null,
+        hospitalId:null,
         hospitalLists:[],
       },
       //分页
@@ -12087,7 +12087,7 @@ export default {
         siteId: this.seach.siteValue,
         provinceId: this.seach.provinceId,
         cityId: this.seach.cityId,
-        hospitaId: this.seach.hospitaId,
+        hospitalId: this.seach.hospitalId,
       };
       this.loading = true;
       orderList(data)
@@ -12133,7 +12133,7 @@ export default {
         siteId: this.seach.siteValue,
         provinceId: this.seach.provinceId,
         cityId: this.seach.cityId,
-        hospitaId: this.seach.hospitaId,
+        hospitalId: this.seach.hospitalId,
       };
       const lsyObj = {
         method: "post",
