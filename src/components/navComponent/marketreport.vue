@@ -204,8 +204,9 @@
     <div class="total">
       <span>合计：</span>
       <span>产品总数量：{{total.num}}</span>
-      <span>营业额：{{total.actualSum}}</span>
-      <span>退款金额：{{total.refundSum}}</span>
+      <span>营业总额：{{total.actualSum}}</span>
+      <span>退款总金额：{{total.refundSum}}</span>
+      <span>加急费总金额：{{total.quicklyRefundSum}}</span>
     </div>
     <!-- Pagination 分页 -->
     <el-pagination
@@ -315,6 +316,7 @@ export default {
             this.total.num = dataList.data.num;
             this.total.actualSum = dataList.data.actualSum;
             this.total.refundSum = dataList.data.refundSum;
+            this.total.quicklyRefundSum = dataList.data.quicklyRefundSum;
           }
         })
         .catch(err => {
