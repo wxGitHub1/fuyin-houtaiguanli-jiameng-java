@@ -172,6 +172,8 @@ import SysconfigurationRole from './components/supermanage/configurationRole';
 import SysAddRole from './components/supermanage/addrole';
 import HospitalManage from './components/supermanage/hospitalManage';
 import SiteManagement from './components/supermanage/siteManagement';
+import ProductConfiguration from './components/supermanage/product_configuration';
+import testConfiguration from './components/supermanage/test_configuration';
 
 import session from './utils/session';
 Vue.config.productionTip = false;
@@ -322,6 +324,8 @@ Vue.component('sys-configurationRole', SysconfigurationRole);
 Vue.component('sys-add', SysAddRole);
 Vue.component('sys-hospital', HospitalManage);
 Vue.component('sys-siteManagement', SiteManagement);
+Vue.component('product-configuration', ProductConfiguration);
+Vue.component('test-configuration', testConfiguration);
 
 import axios from 'axios'
 axios.defaults.withCredentials = true;

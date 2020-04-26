@@ -5,9 +5,9 @@ import axios from '../utils/ajax';
  * baseUrl  接口路径
  */
 // const baseUrl  = 'http://117.34.105.87:8088';//服务器IP
-// const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
+const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
 // const baseUrl  = 'http://117.34.105.87:8086';//测试服务器IP
-const baseUrl  = 'http://192.168.1.108:8088';//杨腾飞IP
+// const baseUrl  = 'http://192.168.1.108:8088';//杨腾飞IP
 // const baseUrl  = 'http://192.168.1.108:8087';//杨腾飞IP
 // const baseUrl  = 'http://192.168.1.108:8080';//杨腾飞加盟IP
 // const baseUrl  = 'http://192.168.1.155:8088';//李思雨IP
@@ -76,6 +76,10 @@ export const selectMenuByModel = async params => axios.post(baseUrl  + '/sys/men
 export const roleMenuUpdate = async params => axios.post(baseUrl  + '/sys/role/roleMenuUpdate', params);//保存角色权限
 export const roleMenuTree = async params => axios.get(baseUrl  + '/sys/menu/roleMenuTree', params);//修改选择菜单接口
 export const changeRoleList = async params => axios.post(baseUrl  + '/sys/role/changeRoleList', params);//角色配置列表
+//产品配置清单
+export const selectHospitalAndSaleBaseBatch = async params => axios.post(baseUrl  + '/hospital/selectHospitalAndSaleBaseBatch', params);//查询产品配置清单列表
+//站点测评配置
+export const selectExaminationSiteList = async params => axios.post(baseUrl  + '/examination/selectExaminationSiteList', params);//查询站点测评配置列表
 /*
 *
 *
@@ -304,6 +308,7 @@ const exportExamineStatistics = baseUrl +"/examination/exportExamineStatistics"
 const exportExamineJoinStatistics = baseUrl +"/examination/exportExamineJoinStatistics"
 const exportShapeStatisticsExcel = baseUrl +"/shape/exportShapeStatisticsExcel"
 const makeInsoleExport = baseUrl +"/shape/makeInsoleExport"
+const exportHospitalAndSaleBase = baseUrl +"/hospital/exportHospitalAndSaleBase"
 export default{
     baseUrl ,
     ExportUrl,
@@ -331,4 +336,5 @@ export default{
     exportExamineJoinStatistics,
     exportShapeStatisticsExcel,
     makeInsoleExport,
+    exportHospitalAndSaleBase
 }

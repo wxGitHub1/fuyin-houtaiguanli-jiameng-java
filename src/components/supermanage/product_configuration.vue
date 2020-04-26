@@ -1,0 +1,582 @@
+<template>
+  <div>
+    <!-- seach -->
+    <el-row class="search">
+      <el-col :span="2" class="input-title">
+        <span class="time_style">省份:</span>
+      </el-col>
+      <el-col :span="2">
+        <el-select
+          size="small"
+          clearable
+          v-model="seach.provinceId"
+          placeholder="请选择"
+          @change="cityList(seach.provinceId)"
+        >
+          <el-option
+            v-for="item in seach.provinceIdList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="2" class="input-title">
+        <span class="time_style">城市:</span>
+      </el-col>
+      <el-col :span="2">
+        <el-select
+          size="small"
+          clearable
+          v-model="seach.cityId"
+          placeholder="请先选择省份"
+          @change="siteList(seach.cityId)"
+        >
+          <el-option
+            v-for="item in seach.cityIdList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="2" class="input-title">
+        <span class="time_style">站点:</span>
+      </el-col>
+      <el-col :span="2">
+        <el-select
+          style="width:100%"
+          size="small"
+          clearable
+          v-model="seach.siteId"
+          placeholder="请先选择站点"
+        >
+          <el-option
+            v-for="item in seach.siteIdList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="2" class="input-title">
+        <span class="time_style">医院:</span>
+      </el-col>
+      <el-col :span="2">
+        <el-select
+          style="width:100%"
+          size="small"
+          clearable
+          v-model="seach.siteType"
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="item in seach.siteTypeList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-col>
+      <!-- <el-col :span="2" class="input-title">
+        <span class="time_style">负责人:</span>
+      </el-col>
+      <el-col :span="2">
+        <el-input size="small" style="width：100%" v-model="seach.userName" placeholder="请输入产品昵称"></el-input>
+      </el-col> -->
+      <el-col :span="5">
+        <el-button
+          size="small"
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          icon="el-icon-search"
+          type="primary"
+        >查询</el-button>
+         <el-button type="danger" icon="el-icon-download" size="small" @click="exportExcels()">导出excel</el-button>
+        <el-button
+          type="primary"
+          size="small"
+          icon="el-icon-circle-plus-outline"
+          @click="addSite_function()"
+        >新增配置</el-button>
+      </el-col>
+    </el-row>
+    <!-- table -->
+    <el-table
+      border
+      :data="clientData"
+      max-height="670"
+      v-loading="loading"
+      element-loading-text="加载中..."
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+    >
+      <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
+      <el-table-column align="center" prop="batchNum" label="产品清单编号"></el-table-column>
+      <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
+      <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
+      <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
+      <el-table-column align="center" prop="hospitalName" label="医院名称"></el-table-column>
+      <el-table-column align="center" prop="saleBaseNumber" label="产品数量"></el-table-column>
+      <el-table-column align="center" prop="createTime" label="创建时间"></el-table-column>
+      <el-table-column align="center" label="操作">
+        <template slot-scope="scope">
+          <el-button @click="modify_function(scope.row)" type="primary" size="small">复制订单号</el-button>
+          <el-button @click="modify_function(scope.row)" type="primary" size="small">修改</el-button>
+          <el-button @click="deletesite_function(scope.row.siteId)" type="danger" size="small">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- Pagination 分页 -->
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="pages.currentPage"
+      :page-sizes="[10, 15, 20]"
+      :page-size="pages.pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="pages.total"
+      class="pagination"
+    ></el-pagination>
+    <!-- dialog 新增站点-->
+    <el-dialog
+      :title="isShowAddTitle"
+      :visible.sync="addSiteDialog"
+      center
+      :close-on-click-modal="false"
+      :before-close="comeBack"
+    >
+      <el-form
+        :model="addSite"
+        ref="dialogForm"
+        :inline="true"
+        size="mini"
+        :rules="rules"
+        label-width="80px"
+      >
+        <el-form-item label="省份" prop="provinceValue">
+          <el-select
+            clearable
+            v-model="addSite.provinceValue"
+            placeholder="请选择"
+            @change="addCityList(addSite.provinceValue)"
+          >
+            <el-option
+              v-for="item in add.provinceIdList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="城市" prop="citysValue">
+          <el-select clearable v-model="addSite.citysValue" placeholder="请先选择省份">
+            <el-option
+              v-for="item in add.cityIdList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="站点类型" prop="siteType">
+          <el-select clearable v-model="addSite.siteType" placeholder="请选择">
+            <el-option
+              v-for="item in seach.siteTypeList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="站点名称" prop="siteName">
+          <el-input
+            v-model="addSite.siteName"
+            autocomplete="off"
+            placeholder="请输入站点名称"
+            style="width:193px"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="站点地址" prop="siteAddress">
+          <el-input
+            v-model="addSite.siteAddress"
+            autocomplete="off"
+            placeholder="请输入站点地址"
+            style="width:193px"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="站点电话" prop="sitePhone">
+          <el-input
+            v-model="addSite.sitePhone"
+            autocomplete="off"
+            placeholder="请输入站点电话"
+            style="width:193px"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="comeBack()" type="success">取消</el-button>
+        <el-button v-if="isShowAdd" @click="addSite_fuc('dialogForm')" type="primary">确认</el-button>
+        <el-button v-else @click="addSite_fuc('dialogForm','modify')" type="primary">确认修改</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import {
+  selectHospitalAndSaleBaseBatch,
+  insertSite,
+  deleteSite,
+  updateSite
+} from "../../api/javaApi";
+import javaApi from "../../api/javaApi";
+import {
+  exportMethod,
+  personnel,
+  province,
+  city,
+  site,
+  joinAllProvince,joinAllCity
+} from "../../utils/public";
+import { Promise, all, async } from "q";
+import session from "../../utils/session";
+export default {
+  name: "App",
+  data() {
+    return {
+      loading: false,
+      clientData: [],
+      //分页
+      pages: {
+        total: 10,
+        pageSize: 10,
+        currentPage: 1
+      },
+      seach: {
+        provinceId: null,
+        provinceIdList: [],
+        cityId: null,
+        cityIdList: [],
+        siteId: null,
+        siteIdList: [],
+        siteType: null,
+        siteTypeList: [
+          { name: "连锁加盟", id: 3 },
+          { name: "独立加盟", id: 2 },
+          { name: "总部", id: 1 }
+        ],
+        userName: null
+      },
+      add:{
+        provinceIdList:[],
+        cityIdList:[]
+      },
+      addSiteDialog: false,
+      addSite: {
+        provinceValue: null,
+        citysValue: null,
+        siteType: null,
+        siteName: null,
+        siteAddress: null,
+        sitePhone: null
+      },
+      isShowAdd: true,
+      isShowAddTitle: "新增站点信息",
+      rowSiteId: null,
+      //表单验证
+      rules: {
+        siteName: [
+          { required: true, message: "请输入站点名称", trigger: "blur" }
+        ],
+        siteAddress: [
+          { required: true, message: "请输入站点地址", trigger: "blur" }
+        ],
+        sitePhone: [
+          { required: true, message: "请输入站点电话", trigger: "blur" }
+        ],
+        provinceValue: [
+          {
+            required: true,
+            message: "请选择省份",
+            trigger: "change",
+            type: "number"
+          }
+        ],
+        citysValue: [
+          {
+            required: true,
+            message: "请选择城市",
+            trigger: "change",
+            type: "number"
+          }
+        ],
+        siteType: [
+          {
+            required: true,
+            message: "请选择站点类型",
+            trigger: "change",
+            type: "number"
+          }
+        ]
+      }
+    };
+  },
+  mounted() {
+    this.pageList();
+    //获取省列表
+    this.provinceList();
+    //获取新增加盟省列表
+    this.addProvinceList()
+  },
+  methods: {
+    modify_function(obj) {
+      this.isShowAdd = false;
+      this.isShowAddTitle = "修改站点信息";
+      this.rowSiteId = obj.siteId;
+      this.addSite.provinceValue = obj.provinceId;
+      this.addCityList(obj.provinceId);
+      this.addSite.citysValue = obj.cityId;
+      this.addSite.siteType = obj.siteTypeInt;
+      this.addSite.siteName = obj.siteName;
+      this.addSite.siteAddress = obj.siteAddress;
+      this.addSite.sitePhone = obj.sitePhone;
+      this.addSiteDialog = true;
+    },
+    deletesite_function(id) {
+      this.$confirm("此操作将永久删除该信息, 是否继续？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          let data = {
+            siteId: id
+          };
+          deleteSite(data)
+            .then(res => {
+              if (res.data.returnCode != 0) {
+                this.$message({
+                  type: "warning",
+                  message: res.data.returnMsg,
+                  center: true
+                });
+              } else {
+                this.pageList(this.pages.currentPage, this.pages.pageSize);
+                this.$message({
+                  type: "success",
+                  message: "删除成功！",
+                  center: true
+                });
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消删除"
+          });
+        });
+    },
+    addSite_fuc(formName, name) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          if (name == "modify") {
+            let data = {
+              siteId: this.rowSiteId,
+              provinceId: this.addSite.provinceValue, //省ID
+              cityId: this.addSite.citysValue, //市ID
+              siteName: this.addSite.siteName, //站点名
+              siteType: this.addSite.siteType, //0-总部，1-独立，2-连锁
+              sitePhone: this.addSite.sitePhone, //站点联系方式
+              siteAddress: this.addSite.siteAddress //站点地址 address
+            };
+            updateSite(data)
+              .then(res => {
+                if (res.data.returnCode != 0) {
+                  this.$message({
+                    type: "warning",
+                    message: res.data.returnMsg,
+                    center: true
+                  });
+                } else {
+                  this.comeBack();
+                  this.pageList(this.pages.currentPage, this.pages.pageSize);
+                  this.$message({
+                    type: "success",
+                    message: "修改成功！",
+                    center: true
+                  });
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          } else {
+            let data = {
+              provinceId: this.addSite.provinceValue, //省ID
+              cityId: this.addSite.citysValue, //市ID
+              siteName: this.addSite.siteName, //站点名
+              siteType: this.addSite.siteType, //0-总部，1-独立，2-连锁
+              sitePhone: this.addSite.sitePhone, //站点联系方式
+              siteAddress: this.addSite.siteAddress //站点地址 address
+            };
+            insertSite(data)
+              .then(res => {
+                if (res.data.returnCode != 0) {
+                  this.$message({
+                    type: "warning",
+                    message: res.data.returnMsg,
+                    center: true
+                  });
+                } else {
+                  this.comeBack();
+                  this.pageList(this.pages.currentPage, this.pages.pageSize);
+                  this.$message({
+                    type: "success",
+                    message: "添加成功！",
+                    center: true
+                  });
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+        } else {
+          this.$message({
+            type: "warning",
+            message: "请填写表格！",
+            center: true
+          });
+          return false;
+        }
+      });
+    },
+    addSite_function() {
+      this.isShowAdd = true;
+      this.isShowAddTitle = "新增站点信息";
+      this.addSiteDialog = true;
+    },
+    comeBack() {
+      this.$refs["dialogForm"].resetFields();
+      this.addSite.provinceValue = null;
+      this.addSite.citysValue = null;
+      this.addSite.siteType = null;
+      this.addSite.siteName = null;
+      this.addSite.siteAddress = null;
+      this.addSite.sitePhone = null;
+      this.addSiteDialog = false;
+    },
+    //统计列表 //查询
+    async pageList(pageIndex = 1, pageSize = 10) {
+      let data = {
+        pageNum: pageIndex,
+        pageSize: pageSize,
+        provinceId:this.seach.provinceId||null,
+        cityId: this.seach.cityId||null,
+        siteId: this.seach.siteId||null, 
+         //缺少医院
+        hospitalId: this.seach.hospitalId||null
+      };
+      this.loading = true;
+      selectHospitalAndSaleBaseBatch(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            let dataList = res.data.data;
+            this.clientData = dataList.data;
+            this.pages.total = dataList.total;
+            this.loading = false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //导出excel
+    exportExcels() {
+      let data = {
+        provinceId:this.seach.provinceId||null,
+        cityId: this.seach.cityId||null,
+        siteId: this.seach.siteId||null, 
+         //缺少医院
+        hospitalId: this.seach.hospitalId||null
+      };
+      const lsyObj = {
+        method: "post",
+        fileName: "产品配置清单信息",
+        url: javaApi.exportHospitalAndSaleBase,
+        data: data
+      };
+      exportMethod(this, lsyObj);
+    },
+    //当前页面变化时
+    handleCurrentChange(num) {
+      this.pages.currentPage = num;
+      let pageIndex = this.pages.currentPage;
+      let pageSize = this.pages.pageSize;
+      this.pageList(pageIndex, pageSize);
+    },
+    //页面条数发生变化时
+    handleSizeChange(val) {
+      this.pages.pageSize = val;
+      let pageIndex = this.pages.currentPage;
+      let pageSize = this.pages.pageSize;
+      this.pageList(pageIndex, pageSize);
+    },
+
+    //新增加盟获取省
+    async addProvinceList() {
+      this.add.provinceIdList = await joinAllProvince();
+    },
+    //新增加盟获取市
+    async addCityList(id) {
+      this.add.cityIdList = await joinAllCity(id);
+    },
+    //获取省
+    async provinceList() {
+      this.seach.provinceIdList = await province();
+    },
+    //获取市
+    async cityList(id) {
+      this.seach.cityIdList = await city(id);
+    },
+    //站点
+    async siteList(id) {
+      this.seach.siteIdList = await site(id);
+    }
+  }
+};
+</script>
+
+<style scoped lang="scss">
+.search {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 10px;
+  .time_style {
+    letter-spacing: 1px;
+    font-size: 14px;
+    color: #606266;
+  }
+}
+.client_table {
+  margin-top: 10px;
+}
+.pagination {
+  margin-top: 10px;
+  text-align: center;
+}
+.input-title {
+  width: 5.5%;
+  line-height: 30px;
+}
+</style>

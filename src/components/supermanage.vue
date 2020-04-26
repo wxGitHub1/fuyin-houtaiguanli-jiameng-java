@@ -39,6 +39,14 @@ export default {
           name: "sys",
           title: "用户管理"
         },
+        {
+          name: "ProductConfiguration",
+          title: "产品配置清单"
+        },
+        {
+          name: "testConfiguration",
+          title: "站点测评配置"
+        },
         // {
         //   name: "role",
         //   title: "角色管理"
@@ -135,6 +143,24 @@ export default {
               title: "操作日志",
               name: "log",
               content: "my-log",
+              isClose: true
+            });
+            this.tableNav = newTabName;
+            break;
+          case "ProductConfiguration":
+            _this.tables.push({
+              title: "产品配置清单",
+              name: "ProductConfiguration",
+              content: "product-configuration",
+              isClose: true
+            });
+            this.tableNav = newTabName;
+            break;
+          case "testConfiguration":
+            _this.tables.push({
+              title: "站点测评配置",
+              name: "testConfiguration",
+              content: "test-configuration",
               isClose: true
             });
             this.tableNav = newTabName;
