@@ -7,12 +7,12 @@ import axios from '../utils/ajax';
 // const baseUrl  = 'http://117.34.105.87:8088';//服务器IP
 // const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
 // const baseUrl  = 'http://117.34.105.87:8086';//测试服务器IP
-// const baseUrl  = 'http://192.168.3.108:8088';//杨腾飞IP
-// const baseUrl  = 'http://192.168.3.108:8087';//杨腾飞IP
-// const baseUrl  = 'http://192.168.3.108:8080';//杨腾飞加盟IP
-// const baseUrl  = 'http://192.168.3.155:8088';//李思雨IP
-const baseUrl  = 'http://192.168.1.112:8088';//李思雨IP
-// const baseUrl  = 'http://192.168.3.155:8087';//李思雨IP
+const baseUrl  = 'http://192.168.1.108:8088';//杨腾飞IP
+// const baseUrl  = 'http://192.168.1.108:8087';//杨腾飞IP
+// const baseUrl  = 'http://192.168.1.108:8080';//杨腾飞加盟IP
+// const baseUrl  = 'http://192.168.1.155:8088';//李思雨IP
+// const baseUrl  = 'http://192.168.1.112:8088';//李思雨IP
+// const baseUrl  = 'http://192.168.1.155:8087';//李思雨IP
 /*
 *
 *用户登录 
@@ -93,7 +93,8 @@ export const queryForUpdate = async params => axios.get(baseUrl  + '/member/quer
 export const queryMemberDetail = async params => axios.get(baseUrl  + '/member/queryMemberDetail', params);//客户详情
 export const blackOperation = async params => axios.post(baseUrl  + '/member/blackOperation', params);//移入黑名单
 export const queryBlackHistory = async params => axios.get(baseUrl  + '/member/queryBlackHistory', params);//黑名单详细
-export const orderInsert = async params => axios.post(baseUrl  + '/sale/order/orderInsert', params);//下单
+export const orderInsert = async params => axios.post(baseUrl  + '/sale/order/orderInsertNew', params);//下单
+export const selectUserListByHospitalId = async params => axios.get(baseUrl  + '/hospital/selectUserListByHospitalId', params);//根据医院查询取型人列表
 export const sales = async params => axios.post(baseUrl  + '/sale/base/sales', params);//下单产品列表
 export const memberCardStatistics = async params => axios.get(baseUrl  + '/member/memberCardStatistics', params);//会员统计列表
 export const queryExamineDetail = async params => axios.get(baseUrl  + '/examination/queryExamineDetail', params);//查询测评详情
