@@ -1,3 +1,4 @@
+// 产品配置清单
 <template>
   <div>
     <!-- seach -->

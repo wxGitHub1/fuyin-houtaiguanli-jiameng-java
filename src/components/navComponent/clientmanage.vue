@@ -362,6 +362,12 @@
                 <el-radio label="4">儿保</el-radio>
               </el-radio-group>
             </el-form-item>
+            <el-form-item label="就诊类型" prop="laiyuan">
+              <el-radio-group v-model="ruleForm.leixing">
+                <el-radio label="1">固定类</el-radio>
+                <el-radio label="2">矫形类</el-radio>
+              </el-radio-group>
+            </el-form-item>
           </el-col>
         </el-form>
       </el-row>
@@ -1738,7 +1744,8 @@ export default {
         renzhi: null,
         laiyuan: null,
         desc: null,
-        memberId: null
+        memberId: null,
+        leixing:null
       },
       rules: {
         name: [{ required: true, message: "请输入客户姓名", trigger: "blur" }],

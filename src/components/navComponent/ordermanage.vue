@@ -951,21 +951,23 @@
       </el-row>
       <el-table class="margin-t-10" :data="detailFormList" border max-height="500">
         <el-table-column type="index" label="序号" width="60"></el-table-column>
+        <el-table-column prop="source" label="产品分类"></el-table-column>
+        <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="unit" label="产品规格"></el-table-column>
         <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
-        <el-table-column prop="actual" label="实际价格">
+        <el-table-column prop="actual" label="实际价格" min-width="100">
           <template slot-scope="scope">
             <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" oninput="value=value.replace(/[^\d]/g,'')"/>
           </template>
         </el-table-column>
-        <el-table-column prop="deliveryTime" label="交货日期" min-width="100">
+        <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
           <template slot-scope="scope">
             <el-date-picker
-              v-if="scope.row.source =='自制产品' || scope.row.source =='定制产品'|| scope.row.source =='外购产品'|| scope.row.source =='试穿成品' ? true : false "
+              v-if="scope.row.process == 1 ? true : false"
               v-model="scope.row.deliveryTime"
               @blur="deliveryTimeDate(scope.row,scope.$index)"
               style="width:100%"
@@ -980,17 +982,36 @@
           </template>
         </el-table-column>
         <el-table-column prop="qualification" label="产品资质"></el-table-column>
+        <el-table-column prop="price" label="下单类型" min-width="100">
+          <template slot-scope="scope">
+          <el-select
+          v-if="scope.row.productOrderType == 5 ? false : true"
+              clearable
+              v-model="scope.row.productOrderType"
+              placeholder="请选择"
+              size="mini"
+            >
+              <el-option
+                v-for="item in productOrderTypeList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+            <div v-else>服务产品</div>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center" min-width="290">
           <template slot-scope="scope">
             <el-button
               size="mini"
-              v-if="scope.row.source =='自制产品' || scope.row.source =='定制产品'|| scope.row.source =='外购产品' ? true : false "
+              v-if="scope.row.source =='会员卡' || scope.row.source =='测评服务' ? true: false "
               @click="tsyq(scope)"
               type="primary"
             >特殊要求</el-button>
             <el-button
               size="mini"
-              v-if="scope.row.source =='自制产品' || scope.row.source =='定制产品' ? true : false "
+              v-if="scope.row.process == 1 ? true : false "
               @click="sizeEntry(scope)"
               type="primary"
             >尺寸录入</el-button>
@@ -1053,16 +1074,16 @@
       </div>
     </el-dialog>
     <!-- dialog 选择产品-->
-    <el-dialog
+    <!-- <el-dialog
       title="选择产品"
       :visible.sync="dialogselectProduct"
       center
       :close-on-click-modal="false"
       width="70%"
       :before-close="cancelSelection"
-    >
+    > -->
       <!-- seach product-->
-      <el-row class="search">
+      <!-- <el-row class="search">
         <el-col :span="2" class="input-title">
           <span>选择产品</span>
         </el-col>
@@ -1125,9 +1146,9 @@
         <el-table-column prop="model" label="产品型号" show-overflow-tooltip></el-table-column>
         <el-table-column prop="qualification" label="产品资质" show-overflow-tooltip></el-table-column>
         <el-table-column prop="price" label="标准价格" show-overflow-tooltip></el-table-column>
-      </el-table>
+      </el-table> -->
       <!-- Pagination 分页 -->
-      <el-pagination
+      <!-- <el-pagination
         @size-change="handleSizeChangeProduct"
         @current-change="handleCurrentChangeProduct"
         :current-page="pagesProduct.currentPage"
@@ -1136,12 +1157,12 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="pagesProduct.total"
         class="pagination"
-      ></el-pagination>
-      <div slot="footer" class="dialog-footer">
+      ></el-pagination> -->
+      <!-- <div slot="footer" class="dialog-footer">
         <el-button @click="cancelSelection()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button @click="confirmProduct()" type="success" icon="el-icon-circle-check">选择</el-button>
-      </div>
-    </el-dialog>
+      </div> -->
+    <!-- </el-dialog> -->
     <!-- dialog 特殊要求-->
     <el-dialog
       title="特殊要求"
@@ -1198,34 +1219,36 @@
       :before-close="sizeCancel"
     >
       <div class="clearfix">
-        <div v-for="item in productSize.wc" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
+        <div v-for="item in productSize.list" :key="item.name" class="cpSize">
+          <span class="span">{{item.key}}</span>
           <div class="div">
-            <input class="sizeInput" v-model="item.value" style="width：100%" placeholder="请输入" />
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
           </div>
         </div>
-        <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
+        <div class="cpSize" >
+          <span class="span">是否有X光片：</span>
           <div class="div">
-            <input class="sizeInput" v-model="item.value" style="width：100%" placeholder="请输入" />
-          </div>
-        </div>
-        <div v-for="item in productSize.gd" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
-          <div class="div">
-            <input class="sizeInput" v-model="item.value" style="width：100%" placeholder="请输入" />
-          </div>
-        </div>
-        <div v-for="item in productSize.zb" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
-          <div class="div">
-            <input class="sizeInput" v-model="item.value" style="width：100%" placeholder="请输入" />
+            <el-radio v-model="productSize.radio" label="1">是</el-radio>
+            <el-radio v-model="productSize.radio" label="0">否</el-radio>
           </div>
         </div>
         <div class="cpSize">
-          <span class="span">是否有X光片：</span>
-          <el-radio v-model="productSize.radio" label="1">是</el-radio>
-          <el-radio v-model="productSize.radio" label="0">否</el-radio>
+          <span class="span">取型人：</span>
+           <div class="div">
+              <el-select
+              clearable
+              v-model="productSize.shapeUser"
+              placeholder="请选择"
+              size="mini"
+            >
+              <el-option
+                v-for="item in productSize.shapeUserList"
+                :key="item.id"
+                :label="item.username"
+                :value="item"
+              ></el-option>
+            </el-select>
+           </div>
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -10938,12 +10961,13 @@ import {
   orderDetail,
   addMoney,
   refundMoney,
-  orderUpdate,
+  orderUpdateNew,
   productShape,
   printOrderDetail,
   printAddMoney,
   sales,
-  printProduct
+  printProduct,
+  selectUserListByHospitalId
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
 import {
@@ -10963,7 +10987,7 @@ export default {
       isCancel: false, //详情中退款、取消、修改按钮状态   :disabled="isCancel" 按钮加入显示状态
       //
       dialogreadyOrder: false,
-      dialogselectProduct: false,
+      // dialogselectProduct: false,
       seachProduct: {
         name: null,
         productTypeValue: null,
@@ -11124,12 +11148,18 @@ export default {
         remark: null
       },
       productSizeList: [],
+      // productSize: {
+      //   wc: [],
+      //   kd: [],
+      //   gd: [],
+      //   yq: [],
+      //   zb: []
+      // },
       productSize: {
-        wc: [],
-        kd: [],
-        gd: [],
-        yq: [],
-        zb: []
+        list:[],
+        radio:"",
+        shapeUserList:[],
+        shapeUser:"",
       },
       loading: true,
       //打印订货单
@@ -11145,7 +11175,14 @@ export default {
       bj_obj: {},
       transactionType_jj: null,
       transactionType_cp: null,
-      transactionType_fw: null
+      transactionType_fw: null,
+      /**新增data */
+      productOrderTypeList: [
+          { name: "处方产品", id: 1 },
+          { name: "新增产品", id: 2 },
+          { name: "更换产品", id: 3 },
+          { name: "赠送产品", id: 4 },
+        ]
     };
   },
   mounted() {
@@ -11212,44 +11249,47 @@ export default {
     },
     entrySize() {
       // console.log(this.productSize);
-      let wc = this.productSize.wc;
-      let wcList = {};
-      for (let i in wc) {
-        wcList[wc[i].name] = wc[i].value;
-      }
-      let kd = this.productSize.kd;
-      let kdList = {};
-      for (let i in kd) {
-        kdList[kd[i].name] = kd[i].value;
-      }
-      let gd = this.productSize.gd;
-      let gdList = {};
-      for (let i in gd) {
-        gdList[gd[i].name] = gd[i].value;
-      }
-      let zb = this.productSize.zb;
-      let zbList = {};
-      for (let i in zb) {
-        zbList[zb[i].name] = zb[i].value;
-      }
-      let cpxq = {
-        取型: {
-          围长: wcList,
-          宽度: kdList,
-          高度: gdList,
-          足部: zbList,
-          要求: this.productSize.yq
-        }
-      };
-      // console.log(cpxq);
-      debugger;
+      // let wc = this.productSize.wc;
+      // let wcList = {};
+      // for (let i in wc) {
+      //   wcList[wc[i].name] = wc[i].value;
+      // }
+      // let kd = this.productSize.kd;
+      // let kdList = {};
+      // for (let i in kd) {
+      //   kdList[kd[i].name] = kd[i].value;
+      // }
+      // let gd = this.productSize.gd;
+      // let gdList = {};
+      // for (let i in gd) {
+      //   gdList[gd[i].name] = gd[i].value;
+      // }
+      // let zb = this.productSize.zb;
+      // let zbList = {};
+      // for (let i in zb) {
+      //   zbList[zb[i].name] = zb[i].value;
+      // }
+      // let cpxq = {
+      //   取型: {
+      //     围长: wcList,
+      //     宽度: kdList,
+      //     高度: gdList,
+      //     足部: zbList,
+      //     要求: this.productSize.yq
+      //   }
+      // };
+      // // console.log(cpxq);
       this.detailFormList.forEach((obj, index) => {
         if (index == this.cpIndex) {
-          obj.size = cpxq;
+          // obj.size = cpxq;
+          obj.detailFormList = this.productSize.list;
           obj.xRay = this.productSize.radio;
+          obj.shapeUser = this.productSize.shapeUser;
         }
       });
+      console.log(this.detailFormList)
       this.sizeCancel();
+      // this.sizeCancel();
       // this.dialogSizeDetails = false;
       // console.log(this.detailFormList);
       // console.log(this.productSize);
@@ -11257,9 +11297,13 @@ export default {
     },
     sizeCancel() {
       this.dialogSizeDetails = false;
-      for (let key in this.productSize) {
-        this.productSize[key] = [];
-      }
+      this.productSize.list=[]
+      this.productSize.shapeUserList=[]
+      this.productSize.radio=null
+      this.productSize.shapeUser=null
+      // for (let key in this.productSize) {
+      //   this.productSize[key] = [];
+      // }
     },
     bujiaoManey() {
       this.dialogMakeUpTheArrears = true;
@@ -11303,34 +11347,56 @@ export default {
       this.cpIndex = null;
     },
     sizeEntry(obj) {
-      if (!!obj.row.size && JSON.stringify(obj.row.size) != "{}") {
-        let qxwc = obj.row.size["取型"]["围长"];
-        let qxkd = obj.row.size["取型"]["宽度"];
-        let qxgd = obj.row.size["取型"]["高度"];
-        let qxzb = obj.row.size["取型"]["足部"];
-        this.productSize.yq = obj.row.size["取型"]["要求"];
-        for (let i in qxzb) {
-          this.productSize.zb.push({ name: i, value: qxzb[i] });
+      // if (!!obj.row.size && JSON.stringify(obj.row.size) != "{}") {
+      //   let qxwc = obj.row.size["取型"]["围长"];
+      //   let qxkd = obj.row.size["取型"]["宽度"];
+      //   let qxgd = obj.row.size["取型"]["高度"];
+      //   let qxzb = obj.row.size["取型"]["足部"];
+      //   this.productSize.yq = obj.row.size["取型"]["要求"];
+      //   for (let i in qxzb) {
+      //     this.productSize.zb.push({ name: i, value: qxzb[i] });
+      //   }
+      //   for (let i in qxwc) {
+      //     this.productSize.wc.push({ name: i, value: qxwc[i] });
+      //   }
+      //   for (let i in qxkd) {
+      //     this.productSize.kd.push({ name: i, value: qxkd[i] });
+      //   }
+      //   for (let i in qxgd) {
+      //     this.productSize.gd.push({ name: i, value: qxgd[i] });
+      //   }
+      //   this.productSize.radio = obj.row.xRay;
+      //   this.dialogSizeDetails = true;
+      //   this.cpIndex = obj.$index;
+      // } else {
+      //   this.$message({
+      //     type: "warning",
+      //     message: "暂无尺寸信息！",
+      //     center: true
+      //   });
+      // }
+      let data={
+          hospitalId:obj.row.hospitalId
         }
-        for (let i in qxwc) {
-          this.productSize.wc.push({ name: i, value: qxwc[i] });
-        }
-        for (let i in qxkd) {
-          this.productSize.kd.push({ name: i, value: qxkd[i] });
-        }
-        for (let i in qxgd) {
-          this.productSize.gd.push({ name: i, value: qxgd[i] });
-        }
-        this.productSize.radio = obj.row.xRay;
-        this.dialogSizeDetails = true;
-        this.cpIndex = obj.$index;
-      } else {
-        this.$message({
-          type: "warning",
-          message: "暂无尺寸信息！",
-          center: true
-        });
-      }
+        selectUserListByHospitalId(data).then(res=>{
+          if (res.data.returnCode != 0) {
+              this.$message({
+                type: "warning",
+                message: res.data.returnMsg,
+                center: true
+              });
+            } else {
+              console.log(res)
+              this.productSize.list = obj.row.sizeMapList;
+              this.productSize.shapeUser = obj.row.shapeUser;
+              this.productSize.radio = obj.row.xRay;
+              this.cpIndex = obj.$index;
+              this.dialogSizeDetails = true;
+              this.productSize.shapeUserList=res.data.data
+            }
+        }).catch(err=>{
+          console.log(err)
+        })
     },
     tsyq(obj) {
       this.dialogSpecialRequirements = true;
@@ -11342,6 +11408,7 @@ export default {
       this.dialogDiscount = true;
       this.cpIndex = obj.$index;
       this.zhekouyouhui = obj.row;
+      this.favorableRemark = obj.row.favorableRemark;
       console.log(obj.$index);
     },
     deleteRow(index, rows) {
@@ -11353,117 +11420,117 @@ export default {
       console.log(val);
       this.multipleSelection = val;
     },
-    cancelSelection() {
-      this.dialogselectProduct = false;
-      this.multipleSelection = [];
-    },
-    confirmProduct() {
-      debugger;
-      if (this.detailFormList.length == 0) {
-        // debugger;
-        // this.multipleSelection.forEach(obj=>{})
-        if (this.multipleSelection.length >= 2) {
-          let isTrue;
-          for (let index = 0; index < this.multipleSelection.length; index++) {
-            const element = this.multipleSelection[index];
-            const element2 =
-              this.multipleSelection[index + 1] ||
-              this.multipleSelection[this.multipleSelection.length - 1];
-            if (element.sourceType != element2.sourceType) {
-              debugger;
-              isTrue = false;
-              break;
-            } else {
-              isTrue = true;
-            }
-          }
-          if (isTrue) {
-            this.multipleSelection.forEach(obj => {
-              this.detailFormList.push(obj);
-            });
-            this.detailFormList.forEach(obj => {
-              obj.deliveryTime = null;
-              obj.number = 1;
-              obj.actual = obj.price;
-              obj.demand = null;
-              obj.favorable = null;
-              obj.favorableRemark = null;
-            });
-            // this.dialogselectProduct = false;
-            this.paymentMethod.totalAmountReceivable = this.ysMoney();
-            this.paymentMethod.arrears = this.xqMoney();
-            this.cancelSelection();
-            // console.log(this.paymentMethod.arrears)
-          }
-        } else {
-          this.multipleSelection.forEach(obj => {
-            this.detailFormList.push(obj);
-          });
-          this.detailFormList.forEach(obj => {
-            obj.deliveryTime = null;
-            obj.number = 1;
-            obj.actual = obj.price;
-            obj.demand = null;
-            obj.favorable = null;
-            obj.favorableRemark = null;
-          });
-          // this.dialogselectProduct = false;
-          this.paymentMethod.totalAmountReceivable = this.ysMoney();
-          this.paymentMethod.arrears = this.xqMoney();
-          this.cancelSelection();
-        }
-      } else {
-        let isTrue;
-        let id;
-        let tishi;
-        for (let index = 0; index < this.multipleSelection.length; index++) {
-          const element = this.multipleSelection[index];
-          const element2 =
-            this.multipleSelection[index + 1] ||
-            this.multipleSelection[this.multipleSelection.length - 1];
-          if (element.sourceType != element2.sourceType) {
-            isTrue = false;
-            break;
-          } else {
-            isTrue = true;
-            id = element.sourceType;
-          }
-        }
-        for (let index = 0; index < this.detailFormList.length; index++) {
-          const element = this.detailFormList[index];
-          if (element.sourceType != id) {
-            tishi = true;
-            break;
-          } else {
-            tishi = false;
-          }
-        }
-        if (tishi) {
-          this.$message({
-            type: "warning",
-            message: "不支持同时选择两种类型的产品！",
-            center: true
-          });
-        } else {
-          this.multipleSelection.forEach(obj => {
-            this.detailFormList.push(obj);
-          });
-          this.detailFormList.forEach(obj => {
-            obj.deliveryTime = null;
-            obj.number = 1;
-            obj.actual = obj.price;
-            obj.demand = null;
-            obj.favorable = null;
-            obj.favorableRemark = null;
-          });
-          // this.dialogselectProduct = false;
-          this.paymentMethod.totalAmountReceivable = this.ysMoney();
-          this.paymentMethod.arrears = this.xqMoney();
-          this.cancelSelection();
-          // console.log(this.detailFormList);
-        }
-      }
-    },
+    // cancelSelection() {
+    //   this.dialogselectProduct = false;
+    //   this.multipleSelection = [];
+    // },
+    // confirmProduct() {
+    //   debugger;
+    //   if (this.detailFormList.length == 0) {
+    //     // debugger;
+    //     // this.multipleSelection.forEach(obj=>{})
+    //     if (this.multipleSelection.length >= 2) {
+    //       let isTrue;
+    //       for (let index = 0; index < this.multipleSelection.length; index++) {
+    //         const element = this.multipleSelection[index];
+    //         const element2 =
+    //           this.multipleSelection[index + 1] ||
+    //           this.multipleSelection[this.multipleSelection.length - 1];
+    //         if (element.sourceType != element2.sourceType) {
+    //           debugger;
+    //           isTrue = false;
+    //           break;
+    //         } else {
+    //           isTrue = true;
+    //         }
+    //       }
+    //       if (isTrue) {
+    //         this.multipleSelection.forEach(obj => {
+    //           this.detailFormList.push(obj);
+    //         });
+    //         this.detailFormList.forEach(obj => {
+    //           obj.deliveryTime = null;
+    //           obj.number = 1;
+    //           obj.actual = obj.price;
+    //           obj.demand = null;
+    //           obj.favorable = null;
+    //           obj.favorableRemark = null;
+    //         });
+    //         // this.dialogselectProduct = false;
+    //         this.paymentMethod.totalAmountReceivable = this.ysMoney();
+    //         this.paymentMethod.arrears = this.xqMoney();
+    //         this.cancelSelection();
+    //         // console.log(this.paymentMethod.arrears)
+    //       }
+    //     } else {
+    //       this.multipleSelection.forEach(obj => {
+    //         this.detailFormList.push(obj);
+    //       });
+    //       this.detailFormList.forEach(obj => {
+    //         obj.deliveryTime = null;
+    //         obj.number = 1;
+    //         obj.actual = obj.price;
+    //         obj.demand = null;
+    //         obj.favorable = null;
+    //         obj.favorableRemark = null;
+    //       });
+    //       // this.dialogselectProduct = false;
+    //       this.paymentMethod.totalAmountReceivable = this.ysMoney();
+    //       this.paymentMethod.arrears = this.xqMoney();
+    //       this.cancelSelection();
+    //     }
+    //   } else {
+    //     let isTrue;
+    //     let id;
+    //     let tishi;
+    //     for (let index = 0; index < this.multipleSelection.length; index++) {
+    //       const element = this.multipleSelection[index];
+    //       const element2 =
+    //         this.multipleSelection[index + 1] ||
+    //         this.multipleSelection[this.multipleSelection.length - 1];
+    //       if (element.sourceType != element2.sourceType) {
+    //         isTrue = false;
+    //         break;
+    //       } else {
+    //         isTrue = true;
+    //         id = element.sourceType;
+    //       }
+    //     }
+    //     for (let index = 0; index < this.detailFormList.length; index++) {
+    //       const element = this.detailFormList[index];
+    //       if (element.sourceType != id) {
+    //         tishi = true;
+    //         break;
+    //       } else {
+    //         tishi = false;
+    //       }
+    //     }
+    //     if (tishi) {
+    //       this.$message({
+    //         type: "warning",
+    //         message: "不支持同时选择两种类型的产品！",
+    //         center: true
+    //       });
+    //     } else {
+    //       this.multipleSelection.forEach(obj => {
+    //         this.detailFormList.push(obj);
+    //       });
+    //       this.detailFormList.forEach(obj => {
+    //         obj.deliveryTime = null;
+    //         obj.number = 1;
+    //         obj.actual = obj.price;
+    //         obj.demand = null;
+    //         obj.favorable = null;
+    //         obj.favorableRemark = null;
+    //       });
+    //       // this.dialogselectProduct = false;
+    //       this.paymentMethod.totalAmountReceivable = this.ysMoney();
+    //       this.paymentMethod.arrears = this.xqMoney();
+    //       this.cancelSelection();
+    //       // console.log(this.detailFormList);
+    //     }
+    //   }
+    // },
     readyOrderCancel() {
       this.dialogreadyOrder = false;
       this.currentPrescriptions = [];
@@ -11560,10 +11627,11 @@ export default {
       let jhrq = true;
       this.detailFormList.forEach(obj => {
         if (
-          obj.source == "自制产品" ||
-          obj.source == "定制产品" ||
-          obj.source == "试穿成品" ||
-          obj.source == "外购产品"
+           obj.process == 1 
+          // obj.source == "自制产品" ||
+          // obj.source == "定制产品" ||
+          // obj.source == "试穿成品" ||
+          // obj.source == "外购产品"
         ) {
           if (!obj.deliveryTime) {
             jhrq = false;
@@ -11584,59 +11652,59 @@ export default {
           center: true
         });
       } else {
-        this.detailFormList.forEach(obj => {
-          obj.salesId = obj.id;
-          if (obj.size != undefined) {
-            if (
-              obj.size["取型"] == "" ||
-              obj.size["取型"] == undefined ||
-              obj.size["取型"] == null ||
-              JSON.stringify(obj.size) == "{}"
-            ) {
-              delete obj.size;
-              return;
-            } else {
-              let qxwc = obj.size["取型"]["围长"];
-              let qxkd = obj.size["取型"]["宽度"];
-              let qxgd = obj.size["取型"]["高度"];
-              let qxzb = obj.size["取型"]["足部"];
-              let qxyq = obj.size["取型"]["要求"];
-              for (var key in qxzb) {
-                if (!qxzb[key]) {
-                  delete obj.size;
-                  return;
-                }
-              }
-              for (var key in qxwc) {
-                if (!qxwc[key]) {
-                  delete obj.size;
-                  return;
-                }
-              }
-              for (var key in qxkd) {
-                if (!qxkd[key]) {
-                  delete obj.size;
-                  return;
-                }
-              }
-              for (var key in qxgd) {
-                if (!qxgd[key]) {
-                  delete obj.size;
-                  return;
-                }
-              }
-              for (var key in qxyq) {
-                if (!qxyq[key]) {
-                  delete obj.size;
-                  return;
-                }
-              }
-            }
-          }
-        });
+        // this.detailFormList.forEach(obj => {
+        //   obj.salesId = obj.id;
+        //   if (obj.size != undefined) {
+        //     if (
+        //       obj.size["取型"] == "" ||
+        //       obj.size["取型"] == undefined ||
+        //       obj.size["取型"] == null ||
+        //       JSON.stringify(obj.size) == "{}"
+        //     ) {
+        //       delete obj.size;
+        //       return;
+        //     } else {
+        //       let qxwc = obj.size["取型"]["围长"];
+        //       let qxkd = obj.size["取型"]["宽度"];
+        //       let qxgd = obj.size["取型"]["高度"];
+        //       let qxzb = obj.size["取型"]["足部"];
+        //       let qxyq = obj.size["取型"]["要求"];
+        //       for (var key in qxzb) {
+        //         if (!qxzb[key]) {
+        //           delete obj.size;
+        //           return;
+        //         }
+        //       }
+        //       for (var key in qxwc) {
+        //         if (!qxwc[key]) {
+        //           delete obj.size;
+        //           return;
+        //         }
+        //       }
+        //       for (var key in qxkd) {
+        //         if (!qxkd[key]) {
+        //           delete obj.size;
+        //           return;
+        //         }
+        //       }
+        //       for (var key in qxgd) {
+        //         if (!qxgd[key]) {
+        //           delete obj.size;
+        //           return;
+        //         }
+        //       }
+        //       for (var key in qxyq) {
+        //         if (!qxyq[key]) {
+        //           delete obj.size;
+        //           return;
+        //         }
+        //       }
+        //     }
+        //   }
+        // });
         data.detailFormList = this.detailFormList;
         // debugger;
-        orderUpdate(data)
+        orderUpdateNew(data)
           .then(res => {
             if (res.data.returnCode != 0) {
               this.$message({
@@ -11774,7 +11842,7 @@ export default {
             id: this.paymentMethod.orderId,
             status: 2
           };
-          orderUpdate(data)
+          orderUpdateNew(data)
             .then(res => {
               if (res.data.returnCode != 0) {
                 this.$message({
@@ -12027,6 +12095,13 @@ export default {
       orderDetail(data)
         .then(res => {
           console.log(res);
+if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
           this.Details = res.data.data.orderDetailDto;
           // this.Details.address = res.data.data.orderDetailDto.address;
           // this.Details.birthday = res.data.data.orderDetailDto.birthday;
@@ -12056,6 +12131,7 @@ export default {
             this.isCancel = false;
           }
           this.dialogDepartmentDetails = true;
+          }
         })
         .catch(err => {
           console.log(err);

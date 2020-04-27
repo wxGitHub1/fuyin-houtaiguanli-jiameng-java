@@ -1,3 +1,4 @@
+// 已接待
 <template>
   <div>
     <el-row class="search">
@@ -243,11 +244,11 @@
         <span class="margin-r-20">{{productShapeDto[0].xRay}}</span>
       </div>
       <div class="margin-t-10">
-        <div class="display-i-b" v-for="item in productSize.wc" :key="item.name">
-          <span>{{item.name}}:</span>
+        <div class="display-i-b" v-for="item in productSize.list" :key="item.name">
+          <span>{{item.key}}:</span>
           <span class="margin-r-20">{{item.value || "暂无数据"}}</span>
         </div>
-        <div class="display-i-b" v-for="item in productSize.kd" :key="item.name">
+        <!-- <div class="display-i-b" v-for="item in productSize.kd" :key="item.name">
           <span>{{item.name}}:</span>
           <span class="margin-r-20">{{item.value || "暂无数据"}}</span>
         </div>
@@ -258,7 +259,7 @@
         <div class="display-i-b" v-for="item in productSize.zb" :key="item.name">
           <span>{{item.name}}:</span>
           <span class="margin-r-20">{{item.value || "暂无数据"}}</span>
-        </div>
+        </div> -->
       </div>
       <h3 class="b-b-p-1">家长反应</h3>
       <div>
@@ -305,13 +306,13 @@
       width="70%"
     >
       <div class="clearfix">
-        <div v-for="item in productSize.wc" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
+        <div v-for="item in productSize.list" :key="item.name" class="cpSize">
+          <span class="span">{{item.key}}</span>
           <div class="div">
             <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
           </div>
         </div>
-        <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
+        <!-- <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
           <span class="span">{{item.name}}</span>
           <div class="div">
             <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
@@ -328,7 +329,7 @@
           <div class="div">
             <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
           </div>
-        </div>
+        </div> -->
         <div class="cpSize">
           <span class="span">是否有X光片：</span>
           <div class="div">
@@ -492,11 +493,12 @@ export default {
         }
       ],
       productSize: {
-        wc: [],
-        kd: [],
-        gd: [],
-        zb: [],
-        yq: null,
+        // wc: [],
+        // kd: [],
+        // gd: [],
+        // zb: [],
+        // yq: null,
+        list:[],
         radio: null,
         fy: [],
         fyList: ["配合", "理智", "心疼", "抱怨", "嫌弃", "暴躁"],
@@ -574,11 +576,11 @@ export default {
       debugger;
       this.dialogDepartmentDetails = false;
       this.productShapeDt0Id = null;
-      this.productSize.wc = [];
-      this.productSize.kd = [];
-      this.productSize.gd = [];
-      this.productSize.zb = [];
-      this.productSize.yq = [];
+      // this.productSize.wc = [];
+      // this.productSize.kd = [];
+      // this.productSize.gd = [];
+      // this.productSize.zb = [];
+      // this.productSize.yq = [];
       this.pageList(this.pages.currentPage, this.pages.pageSize);
       // this.productShapeDto = [];
     },
@@ -602,40 +604,40 @@ export default {
         });
       }
 
-      let wc = this.productSize.wc;
-      let wcList = {};
-      for (let i in wc) {
-        wcList[wc[i].name] = wc[i].value;
-      }
-      let kd = this.productSize.kd;
-      let kdList = {};
-      for (let i in kd) {
-        kdList[kd[i].name] = kd[i].value;
-      }
-      let gd = this.productSize.gd;
-      let gdList = {};
-      for (let i in gd) {
-        gdList[gd[i].name] = gd[i].value;
-      }
-      let zb = this.productSize.zb;
-      let zbList = {};
-      for (let i in zb) {
-        zbList[zb[i].name] = zb[i].value;
-      }
-      let cpxq = {
-        取型: {
-          围长: wcList,
-          宽度: kdList,
-          高度: gdList,
-          足部: zbList,
-          要求: this.productSize.yq
-        }
-      };
-      console.log(cpxq);
+      // let wc = this.productSize.wc;
+      // let wcList = {};
+      // for (let i in wc) {
+      //   wcList[wc[i].name] = wc[i].value;
+      // }
+      // let kd = this.productSize.kd;
+      // let kdList = {};
+      // for (let i in kd) {
+      //   kdList[kd[i].name] = kd[i].value;
+      // }
+      // let gd = this.productSize.gd;
+      // let gdList = {};
+      // for (let i in gd) {
+      //   gdList[gd[i].name] = gd[i].value;
+      // }
+      // let zb = this.productSize.zb;
+      // let zbList = {};
+      // for (let i in zb) {
+      //   zbList[zb[i].name] = zb[i].value;
+      // }
+      // let cpxq = {
+      //   取型: {
+      //     围长: wcList,
+      //     宽度: kdList,
+      //     高度: gdList,
+      //     足部: zbList,
+      //     要求: this.productSize.yq
+      //   }
+      // };
+      // console.log(cpxq);
       let data = {
         id: this.productShapeDt0Id,
         user: user,
-        size: cpxq,
+        sizeMapList: this.productSize.list,
         xRay:
           this.productSize.radio == "1"
             ? 1
@@ -709,6 +711,7 @@ export default {
       };
       shapeDetail(data)
         .then(res => {
+
           console.log(res);
           // debugger;
           this.memberDetailDto = res.data.data.memberDetailDto;
@@ -716,26 +719,27 @@ export default {
           this.saleProductDto[0] = res.data.data.saleProductDto;
           this.productShapeDto[0] = res.data.data.productShapeDto;
           this.productShapeDt0Id = res.data.data.productShapeDto.id;
-          if (!!res.data.data.productShapeDto.size) {
-            let qxwc = res.data.data.productShapeDto.size["取型"]["围长"];
-            let qxkd = res.data.data.productShapeDto.size["取型"]["宽度"];
-            let qxgd = res.data.data.productShapeDto.size["取型"]["高度"];
-            let qxzb = res.data.data.productShapeDto.size["取型"]["足部"];
-            this.productSize.yq =
-              res.data.data.productShapeDto.size["取型"]["要求"];
-            for (let i in qxwc) {
-              this.productSize.wc.push({ name: i, value: qxwc[i] });
-            }
-            for (let i in qxzb) {
-              this.productSize.zb.push({ name: i, value: qxzb[i] });
-            }
-            for (let i in qxkd) {
-              this.productSize.kd.push({ name: i, value: qxkd[i] });
-            }
-            for (let i in qxgd) {
-              this.productSize.gd.push({ name: i, value: qxgd[i] });
-            }
-          }
+          this.productSize.list=res.data.data.productShapeDto.sizeMaps
+          // if (!!res.data.data.productShapeDto.size) {
+          //   let qxwc = res.data.data.productShapeDto.size["取型"]["围长"];
+          //   let qxkd = res.data.data.productShapeDto.size["取型"]["宽度"];
+          //   let qxgd = res.data.data.productShapeDto.size["取型"]["高度"];
+          //   let qxzb = res.data.data.productShapeDto.size["取型"]["足部"];
+          //   this.productSize.yq =
+          //     res.data.data.productShapeDto.size["取型"]["要求"];
+          //   for (let i in qxwc) {
+          //     this.productSize.wc.push({ name: i, value: qxwc[i] });
+          //   }
+          //   for (let i in qxzb) {
+          //     this.productSize.zb.push({ name: i, value: qxzb[i] });
+          //   }
+          //   for (let i in qxkd) {
+          //     this.productSize.kd.push({ name: i, value: qxkd[i] });
+          //   }
+          //   for (let i in qxgd) {
+          //     this.productSize.gd.push({ name: i, value: qxgd[i] });
+          //   }
+          // }
           this.dialogDepartmentDetails = true;
         })
         .catch(err => {

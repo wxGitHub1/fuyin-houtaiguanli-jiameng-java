@@ -5,11 +5,11 @@ import axios from '../utils/ajax';
  * baseUrl  接口路径
  */
 // const baseUrl  = 'http://117.34.105.87:8088';//服务器IP
-const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
+// const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
 // const baseUrl  = 'http://117.34.105.87:8086';//测试服务器IP
-// const baseUrl  = 'http://192.168.1.108:8088';//杨腾飞IP
+const baseUrl  = 'http://192.168.1.108:8088';//杨腾飞加盟IP
 // const baseUrl  = 'http://192.168.1.108:8087';//杨腾飞IP
-// const baseUrl  = 'http://192.168.1.108:8080';//杨腾飞加盟IP
+// const baseUrl  = 'http://192.168.1.108:8080';//杨腾飞IP
 // const baseUrl  = 'http://192.168.1.155:8088';//李思雨IP
 // const baseUrl  = 'http://192.168.1.112:8088';//李思雨IP
 // const baseUrl  = 'http://192.168.1.155:8087';//李思雨IP
@@ -107,7 +107,8 @@ export const orderList = async params => axios.post(baseUrl  + '/sale/order/orde
 export const orderDetail = async params => axios.get(baseUrl  + '/sale/order/orderDetail', params);//订单详情
 export const addMoney = async params => axios.post(baseUrl  + '/sale/money/addMoney', params);//补交欠款
 export const refundMoney = async params => axios.post(baseUrl  + '/sale/money/refundMoney', params);//退款
-export const orderUpdate = async params => axios.post(baseUrl  + '/sale/order/orderUpdate', params);//取消订单 && 修改订单
+// export const orderUpdate = async params => axios.post(baseUrl  + '/sale/order/orderUpdate', params);//取消订单 && 修改订单 修改前↓
+export const orderUpdateNew = async params => axios.post(baseUrl  + '/sale/order/orderUpdateNew', params);//取消订单 && 修改订单 修改后
 export const productShape = async params => axios.get(baseUrl  + '/sale/order/productShape', params);//订单取型尺寸
 export const printOrderDetail = async params => axios.get(baseUrl  + '/sale/order/printOrderDetail', params);//打印小票信息
 export const printAddMoney = async params => axios.get(baseUrl  + '/sale/money/printAddMoney', params);//打印补交小票信息
@@ -150,7 +151,8 @@ export const firstAssess = async params => axios.post(baseUrl  + '/member/firstA
 //待接待
 export const shapeAssignList = async params => axios.post(baseUrl  + '/member/assign/shape/assignList', params);//取型待接待列表
 export const memberShapeProduct = async params => axios.post(baseUrl  + '/shape/memberShapeProduct', params);//待接待详情
-export const baseShapeDetail = async params => axios.post(baseUrl  + '/shape/baseShapeDetail', params);//根据配置id查询取型项
+// export const baseShapeDetail = async params => axios.post(baseUrl  + '/shape/baseShapeDetail', params);//根据配置id查询取型项 修改前↓
+export const baseShapeDetailNew = async params => axios.post(baseUrl  + '/shape/baseShapeDetailNew', params);//根据配置id查询取型项 修改后
 export const shapeInsert = async params => axios.post(baseUrl  + '/shape/shapeInsert', params);//新增取型详情
 export const getShapeUser = async params => axios.get(baseUrl  + '/member/assign/getShapeUser', params);//查询产品对应取型人
 //已接待

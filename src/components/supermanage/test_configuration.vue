@@ -1,3 +1,4 @@
+// 站点测评项目
 <template>
   <div>
     <!-- seach -->
@@ -117,7 +118,7 @@
       <el-table-column align="center" prop="siteType" label="站点类型"></el-table-column>
       <el-table-column align="center" prop="sitePhone" label="联系电话"></el-table-column>
       <el-table-column align="center" prop="examinationCount" label="测评项目数"></el-table-column>
-      <el-table-column align="center" prop="examinations" label="测评项目"></el-table-column>
+      <el-table-column align="center" prop="examinations" label="测评项目" min-width="250"></el-table-column>
       <el-table-column align="center" prop="examinationSiteTime" label="创建时间"></el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">

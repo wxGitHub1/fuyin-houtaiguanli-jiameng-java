@@ -1,3 +1,4 @@
+//待接待
 <template>
   <div>
     <el-row class="search">
@@ -189,13 +190,13 @@
       width="70%"
     >
       <div class="clearfix">
-        <div v-for="item in productSize.wc" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
+        <div v-for="item in productSize.list" :key="item.name" class="cpSize">
+          <span class="span">{{item.key}}</span>
           <div class="div">
             <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
           </div>
         </div>
-        <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
+        <!-- <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
           <span class="span">{{item.name}}</span>
           <div class="div">
             <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
@@ -212,7 +213,7 @@
           <div class="div">
             <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
           </div>
-        </div>
+        </div> -->
         <div class="cpSize">
           <span class="span">是否有X光片：</span>
           <div class="div">
@@ -289,7 +290,7 @@
 import {
   shapeAssignList,
   memberShapeProduct,
-  baseShapeDetail,
+  baseShapeDetailNew,
   shapeInsert,
   getShapeUser
 } from "../../api/javaApi";
@@ -321,18 +322,19 @@ export default {
         provinceId: null,
         cityId: null,
         provinceIdList: [],
-        cityIdList: [],
+        cityIdList: []
       },
       dialogReceptionDetails: false,
       Details: [],
       shapeDetails: [],
       dialogSizeDetails: false,
       productSize: {
-        wc: [],
-        kd: [],
-        gd: [],
-        zb: [],
-        yq: null,
+        // wc: [],
+        // kd: [],
+        // gd: [],
+        // zb: [],
+        // yq: null,
+        list:[],
         radio: null,
         fy: [],
         fyList: ["配合", "理智", "心疼", "抱怨", "嫌弃", "暴躁"],
@@ -374,11 +376,11 @@ export default {
       this.dialogSizeDetails = false;
       this.productSize.saleBaseId = null;
       this.productSize.saleProductId = null;
-      this.productSize.wc = [];
-      this.productSize.kd = [];
-      this.productSize.gd = [];
-      this.productSize.zb = [];
-      this.productSize.yq = null;
+      // this.productSize.wc = [];
+      // this.productSize.kd = [];
+      // this.productSize.gd = [];
+      // this.productSize.zb = [];
+      // this.productSize.yq = null;
       this.productSize.user = null;
       this.productSize.fy = [];
       this.productSize.textarea_illness = null;
@@ -391,41 +393,41 @@ export default {
           user[element.id] = element.name;
         }
       });
-      let wc = this.productSize.wc;
-      let wcList = {};
-      for (let i in wc) {
-        wcList[wc[i].name] = wc[i].value;
-      }
-      let kd = this.productSize.kd;
-      let kdList = {};
-      for (let i in kd) {
-        kdList[kd[i].name] = kd[i].value;
-      }
-      let gd = this.productSize.gd;
-      let gdList = {};
-      for (let i in gd) {
-        gdList[gd[i].name] = gd[i].value;
-      }
-      let zb = this.productSize.zb;
-      let zbList = {};
-      for (let i in zb) {
-        zbList[zb[i].name] = zb[i].value;
-      }
-      let cpxq = {
-        取型: {
-          围长: wcList,
-          宽度: kdList,
-          高度: gdList,
-          足部: zbList,
-          要求: this.productSize.yq
-        }
-      };
+      // let wc = this.productSize.wc;
+      // let wcList = {};
+      // for (let i in wc) {
+      //   wcList[wc[i].name] = wc[i].value;
+      // }
+      // let kd = this.productSize.kd;
+      // let kdList = {};
+      // for (let i in kd) {
+      //   kdList[kd[i].name] = kd[i].value;
+      // }
+      // let gd = this.productSize.gd;
+      // let gdList = {};
+      // for (let i in gd) {
+      //   gdList[gd[i].name] = gd[i].value;
+      // }
+      // let zb = this.productSize.zb;
+      // let zbList = {};
+      // for (let i in zb) {
+      //   zbList[zb[i].name] = zb[i].value;
+      // }
+      // let cpxq = {
+      //   取型: {
+      //     围长: wcList,
+      //     宽度: kdList,
+      //     高度: gdList,
+      //     足部: zbList,
+      //     要求: this.productSize.yq
+      //   }
+      // };
       // console.log(cpxq);
       let data = {
         saleBaseId: this.productSize.saleBaseId,
         saleProductId: this.productSize.saleProductId,
         user: user,
-        size: cpxq,
+        sizeMapList: this.productSize.list,
         xRay:
           this.productSize.radio == "1"
             ? 1
@@ -482,30 +484,21 @@ export default {
         saleBaseId: obj.baseId,
         saleProductId: obj.id
       };
-      baseShapeDetail(data)
+      baseShapeDetailNew(data)
         .then(res => {
-          console.log(res);
-          let qxwc = res.data.data["取型"]["围长"];
-          let qxkd = res.data.data["取型"]["宽度"];
-          let qxgd = res.data.data["取型"]["高度"];
-          let qxzb = res.data.data["取型"]["足部"];
-          this.productSize.yq = res.data.data["取型"]["要求"];
-          for (let i in qxwc) {
-            this.productSize.wc.push({ name: i, value: qxwc[i] });
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.productSize.list = res.data.data;
+            this.productSize.time = obj.deliveryTime;
+            this.productSize.textarea_illness = this.Details.illness;
+            this.dialogSizeDetails = true;
+            this.userList(obj.id);
           }
-          for (let i in qxzb) {
-            this.productSize.zb.push({ name: i, value: qxzb[i] });
-          }
-          for (let i in qxkd) {
-            this.productSize.kd.push({ name: i, value: qxkd[i] });
-          }
-          for (let i in qxgd) {
-            this.productSize.gd.push({ name: i, value: qxgd[i] });
-          }
-          this.productSize.time = obj.deliveryTime;
-          this.productSize.textarea_illness = this.Details.illness;
-          this.dialogSizeDetails = true;
-          this.userList(obj.id);
         })
         .catch(err => {
           console.log(err);
