@@ -1,9 +1,7 @@
 <!-- 用户管理 -->
 <template>  
   <div id="sys">
-    <el-row>
-      <el-col :span="22" :offset="1">
-        <el-form :inline="true" :model="formInline" size="small">
+        <el-form :inline="true" :model="formInline" size="small" class="margin-l-p1">
           <el-form-item label="站点名称">
             <el-select
               clearable
@@ -59,8 +57,6 @@
         >新增用户</el-button>
           </el-form-item>
         </el-form>
-      </el-col>
-    </el-row>
     <!-- 用户列表 -->
     <el-table
       :border="true"

@@ -61,7 +61,26 @@
         </el-select>
       </el-col>
       <el-col :span="2" class="input-title">
-        <span class="time_style">医院:</span>
+        <span class="time_style">测评项目:</span>
+      </el-col>
+      <el-col :span="2">
+        <el-select
+          style="width:100%"
+          size="small"
+          clearable
+          v-model="seach.evaluationId"
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="item in seach.evaluationList"
+            :key="item.baseId"
+            :label="item.baseName"
+            :value="item.baseId"
+          ></el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="2" class="input-title">
+        <span class="time_style">站点类型:</span>
       </el-col>
       <el-col :span="2">
         <el-select
@@ -69,7 +88,7 @@
           size="small"
           clearable
           v-model="seach.siteType"
-          placeholder="请选择"
+          placeholder="请先选择站点"
         >
           <el-option
             v-for="item in seach.siteTypeList"
@@ -79,12 +98,6 @@
           ></el-option>
         </el-select>
       </el-col>
-      <!-- <el-col :span="2" class="input-title">
-        <span class="time_style">负责人:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" style="width：100%" v-model="seach.userName" placeholder="请输入产品昵称"></el-input>
-      </el-col> -->
       <el-col :span="5">
         <el-button
           size="small"
@@ -92,7 +105,12 @@
           icon="el-icon-search"
           type="primary"
         >查询</el-button>
-         <el-button type="danger" icon="el-icon-download" size="small" @click="exportExcels()">导出excel</el-button>
+        <el-button
+          type="danger"
+          icon="el-icon-download"
+          size="small"
+          @click="exportExcels()"
+        >导出excel</el-button>
         <el-button
           type="primary"
           size="small"
@@ -147,14 +165,14 @@
       :before-close="comeBack"
     >
       <el-form
+        v-if="isShowForm"
         :model="addSite"
         ref="dialogForm"
         :inline="true"
         size="mini"
-        :rules="rules"
         label-width="80px"
       >
-        <el-form-item label="省份" prop="provinceValue">
+        <el-form-item label="省份">
           <el-select
             clearable
             v-model="addSite.provinceValue"
@@ -169,8 +187,13 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="城市" prop="citysValue">
-          <el-select clearable v-model="addSite.citysValue" placeholder="请先选择省份">
+        <el-form-item label="城市">
+          <el-select
+            clearable
+            v-model="addSite.citysValue"
+            placeholder="请先选择省份"
+            @change="siteList(addSite.citysValue,'新增')"
+          >
             <el-option
               v-for="item in add.cityIdList"
               :key="item.id"
@@ -179,45 +202,30 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="站点类型" prop="siteType">
-          <el-select clearable v-model="addSite.siteType" placeholder="请选择">
+        <el-form-item label="站点名称" prop="siteName">
+          <el-select clearable v-model="addSite.siteId" placeholder="请先选择省份">
             <el-option
-              v-for="item in seach.siteTypeList"
+              v-for="item in add.siteIdList"
               :key="item.id"
               :label="item.name"
               :value="item.id"
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="站点名称" prop="siteName">
-          <el-input
-            v-model="addSite.siteName"
-            autocomplete="off"
-            placeholder="请输入站点名称"
-            style="width:193px"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="站点地址" prop="siteAddress">
-          <el-input
-            v-model="addSite.siteAddress"
-            autocomplete="off"
-            placeholder="请输入站点地址"
-            style="width:193px"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="站点电话" prop="sitePhone">
-          <el-input
-            v-model="addSite.sitePhone"
-            autocomplete="off"
-            placeholder="请输入站点电话"
-            style="width:193px"
-          ></el-input>
-        </el-form-item>
       </el-form>
+      <div style="width:496px;margin:0 auto;">
+        <el-transfer
+          v-model="myValue"
+          filterable
+          filter-placeholder="请输入人员"
+          :titles="['请选择测评项', '已选择项目']"
+          :data="nameList"
+        ></el-transfer>
+      </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="comeBack()" type="success">取消</el-button>
-        <el-button v-if="isShowAdd" @click="addSite_fuc('dialogForm')" type="primary">确认</el-button>
-        <el-button v-else @click="addSite_fuc('dialogForm','modify')" type="primary">确认修改</el-button>
+        <el-button v-if="isShowAdd" @click="addSite_fuc()" type="primary">确认</el-button>
+        <el-button v-else @click="addSite_fuc('modify')" type="primary">确认修改</el-button>
       </div>
     </el-dialog>
   </div>
@@ -226,18 +234,21 @@
 <script>
 import {
   selectExaminationSiteList,
-  insertSite,
-  deleteSite,
-  updateSite
+  insertExaminationSite,
+  deleteExaminationSite,
+  updateExaminationSite
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
 import {
   exportMethod,
-  personnel,
+  // personnel,
   province,
   city,
   site,
-  joinAllProvince,joinAllCity
+  evaluation,
+  evaluationList,
+  joinAllProvince,
+  joinAllCity
 } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
@@ -260,6 +271,8 @@ export default {
         cityIdList: [],
         siteId: null,
         siteIdList: [],
+        evaluationList: [],
+        evaluationId: null,
         siteType: null,
         siteTypeList: [
           { name: "连锁加盟", id: 3 },
@@ -268,58 +281,24 @@ export default {
         ],
         userName: null
       },
-      add:{
-        provinceIdList:[],
-        cityIdList:[]
+      add: {
+        provinceIdList: [],
+        cityIdList: [],
+        siteIdList: []
       },
       addSiteDialog: false,
       addSite: {
         provinceValue: null,
         citysValue: null,
-        siteType: null,
-        siteName: null,
-        siteAddress: null,
-        sitePhone: null
+        siteId: null
       },
       isShowAdd: true,
       isShowAddTitle: "新增站点信息",
       rowSiteId: null,
-      //表单验证
-      rules: {
-        siteName: [
-          { required: true, message: "请输入站点名称", trigger: "blur" }
-        ],
-        siteAddress: [
-          { required: true, message: "请输入站点地址", trigger: "blur" }
-        ],
-        sitePhone: [
-          { required: true, message: "请输入站点电话", trigger: "blur" }
-        ],
-        provinceValue: [
-          {
-            required: true,
-            message: "请选择省份",
-            trigger: "change",
-            type: "number"
-          }
-        ],
-        citysValue: [
-          {
-            required: true,
-            message: "请选择城市",
-            trigger: "change",
-            type: "number"
-          }
-        ],
-        siteType: [
-          {
-            required: true,
-            message: "请选择站点类型",
-            trigger: "change",
-            type: "number"
-          }
-        ]
-      }
+      //新增data
+      isShowForm: true,
+      myValue: [],
+      nameList: []
     };
   },
   mounted() {
@@ -327,22 +306,19 @@ export default {
     //获取省列表
     this.provinceList();
     //获取新增加盟省列表
-    this.addProvinceList()
+    this.addProvinceList();
+    this.allEvaluationList();
   },
   methods: {
     modify_function(obj) {
       this.isShowAdd = false;
-      this.isShowAddTitle = "修改站点信息";
+      this.isShowAddTitle = "修改测评配置";
       this.rowSiteId = obj.siteId;
-      this.addSite.provinceValue = obj.provinceId;
-      this.addCityList(obj.provinceId);
-      this.addSite.citysValue = obj.cityId;
-      this.addSite.siteType = obj.siteTypeInt;
-      this.addSite.siteName = obj.siteName;
-      this.addSite.siteAddress = obj.siteAddress;
-      this.addSite.sitePhone = obj.sitePhone;
+      this.isShowForm = false;
       this.addSiteDialog = true;
+      this.myValue=obj.examinationIds
     },
+    //删除站点配置测评 √
     deletesite_function(id) {
       this.$confirm("此操作将永久删除该信息, 是否继续？", "提示", {
         confirmButtonText: "确定",
@@ -353,7 +329,7 @@ export default {
           let data = {
             siteId: id
           };
-          deleteSite(data)
+          deleteExaminationSite(data)
             .then(res => {
               if (res.data.returnCode != 0) {
                 this.$message({
@@ -381,106 +357,86 @@ export default {
           });
         });
     },
-    addSite_fuc(formName, name) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          if (name == "modify") {
-            let data = {
-              siteId: this.rowSiteId,
-              provinceId: this.addSite.provinceValue, //省ID
-              cityId: this.addSite.citysValue, //市ID
-              siteName: this.addSite.siteName, //站点名
-              siteType: this.addSite.siteType, //0-总部，1-独立，2-连锁
-              sitePhone: this.addSite.sitePhone, //站点联系方式
-              siteAddress: this.addSite.siteAddress //站点地址 address
-            };
-            updateSite(data)
-              .then(res => {
-                if (res.data.returnCode != 0) {
-                  this.$message({
-                    type: "warning",
-                    message: res.data.returnMsg,
-                    center: true
-                  });
-                } else {
-                  this.comeBack();
-                  this.pageList(this.pages.currentPage, this.pages.pageSize);
-                  this.$message({
-                    type: "success",
-                    message: "修改成功！",
-                    center: true
-                  });
-                }
-              })
-              .catch(err => {
-                console.log(err);
+    addSite_fuc(name) {
+      if (name == "modify") {
+        let data = {
+          siteId: this.rowSiteId,
+          baseIds: this.myValue
+        };
+        updateExaminationSite(data)
+          .then(res => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                type: "warning",
+                message: res.data.returnMsg,
+                center: true
               });
-          } else {
-            let data = {
-              provinceId: this.addSite.provinceValue, //省ID
-              cityId: this.addSite.citysValue, //市ID
-              siteName: this.addSite.siteName, //站点名
-              siteType: this.addSite.siteType, //0-总部，1-独立，2-连锁
-              sitePhone: this.addSite.sitePhone, //站点联系方式
-              siteAddress: this.addSite.siteAddress //站点地址 address
-            };
-            insertSite(data)
-              .then(res => {
-                if (res.data.returnCode != 0) {
-                  this.$message({
-                    type: "warning",
-                    message: res.data.returnMsg,
-                    center: true
-                  });
-                } else {
-                  this.comeBack();
-                  this.pageList(this.pages.currentPage, this.pages.pageSize);
-                  this.$message({
-                    type: "success",
-                    message: "添加成功！",
-                    center: true
-                  });
-                }
-              })
-              .catch(err => {
-                console.log(err);
+            } else {
+              this.comeBack();
+              this.pageList(this.pages.currentPage, this.pages.pageSize);
+              this.$message({
+                type: "success",
+                message: "修改成功！",
+                center: true
               });
-          }
-        } else {
-          this.$message({
-            type: "warning",
-            message: "请填写表格！",
-            center: true
+            }
+          })
+          .catch(err => {
+            console.log(err);
           });
-          return false;
-        }
-      });
+      } else {
+        let data = {
+          siteId: this.addSite.siteId,
+          baseIds: this.myValue
+        };
+        console.log(data);
+        insertExaminationSite(data)
+          .then(res => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                type: "warning",
+                message: res.data.returnMsg,
+                center: true
+              });
+            } else {
+              this.comeBack();
+              this.pageList(this.pages.currentPage, this.pages.pageSize);
+              this.$message({
+                type: "success",
+                message: "添加成功！",
+                center: true
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     },
     addSite_function() {
       this.isShowAdd = true;
-      this.isShowAddTitle = "新增站点信息";
+      this.isShowAddTitle = "新增测评配置";
       this.addSiteDialog = true;
+      this.isShowForm = true;
     },
     comeBack() {
-      this.$refs["dialogForm"].resetFields();
-      this.addSite.provinceValue = null;
-      this.addSite.citysValue = null;
-      this.addSite.siteType = null;
-      this.addSite.siteName = null;
-      this.addSite.siteAddress = null;
-      this.addSite.sitePhone = null;
+      this.isShowForm = true;
+      this.addSite.provinceValue = null,
+      this.addSite.citysValue = null,
+      this.addSite.siteId = null;
+      this.myValue = [];
       this.addSiteDialog = false;
     },
-    //统计列表 //查询
+    //统计列表 //查询 √
     async pageList(pageIndex = 1, pageSize = 10) {
       let data = {
         pageNum: pageIndex,
         pageSize: pageSize,
-        provinceId:this.seach.provinceId||null,
-        cityId:this.seach.cityId||null,
-        siteId:this.seach.siteId||null,
-        siteType:this.seach.siteType||null,
-        baseId:this.seach.baseId||null,
+        provinceId: this.seach.provinceId || null,
+        cityId: this.seach.cityId || null,
+        siteId: this.seach.siteId || null,
+        siteType: this.seach.siteType || null,
+        baseId: this.seach.evaluationId || null
       };
       this.loading = true;
       selectExaminationSiteList(data)
@@ -502,14 +458,14 @@ export default {
           console.log(err);
         });
     },
-    //导出excel
+    //导出excel √
     exportExcels() {
       let data = {
-        provinceId:this.seach.provinceId||null,
-        cityId: this.seach.cityId||null,
-        siteId: this.seach.siteId||null, 
-         //缺少医院
-        hospitalId: this.seach.hospitalId||null
+        provinceId: this.seach.provinceId || null,
+        cityId: this.seach.cityId || null,
+        siteId: this.seach.siteId || null,
+        siteType: this.seach.siteType || null,
+        baseId: this.seach.evaluationId || null
       };
       const lsyObj = {
         method: "post",
@@ -519,14 +475,14 @@ export default {
       };
       exportMethod(this, lsyObj);
     },
-    //当前页面变化时
+    //当前页面变化时 √
     handleCurrentChange(num) {
       this.pages.currentPage = num;
       let pageIndex = this.pages.currentPage;
       let pageSize = this.pages.pageSize;
       this.pageList(pageIndex, pageSize);
     },
-    //页面条数发生变化时
+    //页面条数发生变化时 √
     handleSizeChange(val) {
       this.pages.pageSize = val;
       let pageIndex = this.pages.currentPage;
@@ -551,8 +507,26 @@ export default {
       this.seach.cityIdList = await city(id);
     },
     //站点
-    async siteList(id) {
-      this.seach.siteIdList = await site(id);
+    async siteList(id, xz) {
+      let data = await site(id);
+      if (xz == "新增") {
+        this.add.siteIdList = data;
+      } else {
+        this.seach.siteIdList = data;
+      }
+    },
+    //站点id查询配置的测评
+    // async evaluations(id) {
+    //   this.myValue = await evaluation(id);
+    // },
+    //查询全部配置的测评
+    async allEvaluationList() {
+      this.seach.evaluationList = await evaluationList();
+      let list = [];
+      this.seach.evaluationList.forEach(element => {
+        list.push({ label: element.baseName, key: element.baseId });
+      });
+      this.nameList = list;
     }
   }
 };

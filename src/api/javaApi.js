@@ -80,6 +80,11 @@ export const changeRoleList = async params => axios.post(baseUrl  + '/sys/role/c
 export const selectHospitalAndSaleBaseBatch = async params => axios.post(baseUrl  + '/hospital/selectHospitalAndSaleBaseBatch', params);//查询产品配置清单列表
 //站点测评配置
 export const selectExaminationSiteList = async params => axios.post(baseUrl  + '/examination/selectExaminationSiteList', params);//查询站点测评配置列表
+export const deleteExaminationSite = async params => axios.post(baseUrl  + '/examination/deleteExaminationSite', params);//删除站点测评配置
+export const selectExaminationBaseList = async params => axios.get(baseUrl  + '/examination/selectExaminationBaseList', params);//查询全部测评项
+export const selectExaminationBaseBySiteId = async params => axios.post(baseUrl  + '/examination/selectExaminationBaseBySiteId', params);//根据站点id查询配置的测评
+export const insertExaminationSite = async params => axios.post(baseUrl  + '/examination/insertExaminationSite', params);//新增站点测评配置
+export const updateExaminationSite = async params => axios.post(baseUrl  + '/examination/updateExaminationSite', params);//修改站点测评配置
 /*
 *
 *

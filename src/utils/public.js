@@ -8,6 +8,8 @@ import {
   getHospitalList,
   getAllProvinceList,
   getAllCityList,
+  selectExaminationBaseBySiteId,
+  selectExaminationBaseList,
   GetHospitalTypeList,
   getTechnicalList,
   getUserListForUserHospital,
@@ -220,6 +222,33 @@ export function site(id) {
   let data = { cityId: id };
   return new Promise((resolve) => {
     selectSiteListByCity(data)
+      .then(res => {
+        const myData = res.data.data;
+        resolve(myData)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  })
+}
+//根据站点获取测评项
+export function evaluation(id) {
+  let data = { siteId: id };
+  return new Promise((resolve) => {
+    selectExaminationBaseBySiteId(data)
+      .then(res => {
+        const myData = res.data.data;
+        resolve(myData)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  })
+}
+//获取全部测评项
+export function evaluationList() {
+  return new Promise((resolve) => {
+    selectExaminationBaseList()
       .then(res => {
         const myData = res.data.data;
         resolve(myData)
