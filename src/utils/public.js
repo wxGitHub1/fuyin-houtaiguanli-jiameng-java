@@ -10,6 +10,7 @@ import {
   getAllCityList,
   selectExaminationBaseBySiteId,
   selectExaminationBaseList,
+  selectBatchNumBySiteId,
   GetHospitalTypeList,
   getTechnicalList,
   getUserListForUserHospital,
@@ -263,6 +264,20 @@ export function hospital(id) {
   let data = { siteId: id };
   return new Promise((resolve) => {
     getHospitalList(data)
+      .then(res => {
+        const myData = res.data.data;
+        resolve(myData)
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  })
+}
+//根据站点获取医院
+export function batch(id) {
+  let data = { siteId: id };
+  return new Promise((resolve) => {
+    selectBatchNumBySiteId(data)
       .then(res => {
         const myData = res.data.data;
         resolve(myData)

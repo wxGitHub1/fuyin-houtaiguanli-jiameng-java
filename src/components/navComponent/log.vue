@@ -177,7 +177,10 @@
           <el-table-column align="center" prop="favorableNew" label="优惠价格后"></el-table-column>
           <el-table-column align="center" prop="favorableRemarkOld" label="优惠原因前"></el-table-column>
           <el-table-column align="center" prop="favorableRemarkNew" label="优惠原因后"></el-table-column>
+          <el-table-column align="center" prop="productOrderTypeOld" label="下单类型前"></el-table-column>
+          <el-table-column align="center" prop="productOrderTypeNew" label="下单类型后"></el-table-column>
           <el-table-column align="center" prop="nickname" label="产品昵称"></el-table-column>
+          
         </el-table>
         <el-table class="client_table" border :data="xq.before">
           <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>

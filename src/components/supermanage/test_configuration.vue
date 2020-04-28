@@ -12,7 +12,7 @@
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
-          @change="cityList(seach.provinceId)"
+          @change="addCityList(seach.provinceId)"
         >
           <el-option
             v-for="item in seach.provinceIdList"
@@ -98,19 +98,19 @@
           ></el-option>
         </el-select>
       </el-col>
-      <el-col :span="5">
+      <el-col :span="3">
         <el-button
           size="small"
           @click="pageList(pages.currentPage,pages.pageSize)"
           icon="el-icon-search"
           type="primary"
         >查询</el-button>
-        <el-button
+        <!-- <el-button
           type="danger"
           icon="el-icon-download"
           size="small"
           @click="exportExcels()"
-        >导出excel</el-button>
+        >导出excel</el-button> -->
         <el-button
           type="primary"
           size="small"
@@ -304,7 +304,7 @@ export default {
   mounted() {
     this.pageList();
     //获取省列表
-    this.provinceList();
+    // this.provinceList();
     //获取新增加盟省列表
     this.addProvinceList();
     this.allEvaluationList();
@@ -459,22 +459,22 @@ export default {
         });
     },
     //导出excel √
-    exportExcels() {
-      let data = {
-        provinceId: this.seach.provinceId || null,
-        cityId: this.seach.cityId || null,
-        siteId: this.seach.siteId || null,
-        siteType: this.seach.siteType || null,
-        baseId: this.seach.evaluationId || null
-      };
-      const lsyObj = {
-        method: "post",
-        fileName: "产品配置清单信息",
-        url: javaApi.exportHospitalAndSaleBase,
-        data: data
-      };
-      exportMethod(this, lsyObj);
-    },
+    // exportExcels() {
+    //   let data = {
+    //     provinceId: this.seach.provinceId || null,
+    //     cityId: this.seach.cityId || null,
+    //     siteId: this.seach.siteId || null,
+    //     siteType: this.seach.siteType || null,
+    //     baseId: this.seach.evaluationId || null
+    //   };
+    //   const lsyObj = {
+    //     method: "post",
+    //     fileName: "产品配置清单信息",
+    //     url: javaApi.exportHospitalAndSaleBase,
+    //     data: data
+    //   };
+    //   exportMethod(this, lsyObj);
+    // },
     //当前页面变化时 √
     handleCurrentChange(num) {
       this.pages.currentPage = num;
@@ -493,19 +493,21 @@ export default {
     //新增加盟获取省
     async addProvinceList() {
       this.add.provinceIdList = await joinAllProvince();
+      this.seach.provinceIdList = this.add.provinceIdList;
     },
     //新增加盟获取市
     async addCityList(id) {
       this.add.cityIdList = await joinAllCity(id);
+      this.seach.cityIdList = this.add.cityIdList;
     },
     //获取省
-    async provinceList() {
-      this.seach.provinceIdList = await province();
-    },
-    //获取市
-    async cityList(id) {
-      this.seach.cityIdList = await city(id);
-    },
+    // async provinceList() {
+    //   this.seach.provinceIdList = await province();
+    // },
+    // //获取市
+    // async cityList(id) {
+    //   this.seach.cityIdList = await city(id);
+    // },
     //站点
     async siteList(id, xz) {
       let data = await site(id);

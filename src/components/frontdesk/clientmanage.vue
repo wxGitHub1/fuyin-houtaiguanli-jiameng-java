@@ -265,6 +265,12 @@
                 <el-radio label="4">儿保</el-radio>
               </el-radio-group>
             </el-form-item>
+            <el-form-item label="就诊类型" prop="memberType">
+              <el-radio-group v-model="ruleForm.memberType">
+                <el-radio label="1">固定类</el-radio>
+                <el-radio label="2">矫形类</el-radio>
+              </el-radio-group>
+            </el-form-item>
           </el-col>
         </el-form>
       </el-row>
@@ -2004,6 +2010,7 @@ export default {
         zhouqi: null,
         renzhi: null,
         laiyuan: null,
+        memberType: null,
         desc: null,
         memberId: null
       },
@@ -2024,6 +2031,7 @@ export default {
         zhouqi: [{ required: true, message: "请选择周期", trigger: "change" }],
         renzhi: [{ required: true, message: "请选择认知", trigger: "change" }],
         laiyuan: [{ required: true, message: "请选择来源", trigger: "change" }],
+        memberType: [{ required: true, message: "请选择来源", trigger: "change" }],
         sex: [{ required: true, message: "请选择性别", trigger: "change" }]
       },
       addData: [
@@ -3027,6 +3035,7 @@ export default {
           treatmentCycle: Number(this.ruleForm.zhouqi),
           cognition: this.ruleForm.renzhi,
           source: Number(this.ruleForm.laiyuan),
+          memberType: Number(this.ruleForm.memberType),
           siteId: this.addData[0].siteValue,
           provinceId: this.addData[0].provinceId,
           cityId: this.addData[0].cityId
@@ -3213,6 +3222,7 @@ export default {
             treatmentCycle: Number(this.ruleForm.zhouqi),
             cognition: this.ruleForm.renzhi,
             source: Number(this.ruleForm.laiyuan),
+            memberType: Number(this.ruleForm.memberType),
             doctorId: this.addData[0].doctorValue,
             prescriptionType: this.addData[0].prescriptionValue,
             condition: this.addData[0].condition,
@@ -3273,6 +3283,7 @@ export default {
       this.ruleForm.zhouqi = null;
       this.ruleForm.renzhi = null;
       this.ruleForm.laiyuan = null;
+      this.ruleForm.memberType = null;
       this.ruleForm.desc = null;
       this.modefiy = false;
       // this.currentNamberId = null;
@@ -3305,6 +3316,7 @@ export default {
           this.ruleForm.desc = res.data.data[0].address;
           this.ruleForm.renzhi = res.data.data[0].cognition;
           this.ruleForm.laiyuan = res.data.data[0].source.toString();
+          this.ruleForm.memberType = res.data.data[0].memberType.toString();
           this.DataList = res.data.data[0].prescriptions;
           this.modfiyTreatmentCycle = res.data.data[0].treatmentCycle;
           this.dialogFormVisible = true;

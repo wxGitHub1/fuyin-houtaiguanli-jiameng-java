@@ -247,6 +247,7 @@
       <el-table-column align="center" prop="cognition" label="客户认知"></el-table-column>
       <el-table-column align="center" prop="isBlack" label="黑名单"></el-table-column>
       <el-table-column align="center" prop="createUserName" label="创建人"></el-table-column>
+      <el-table-column align="center" prop="haveOrder" label="是否下单"></el-table-column>
       <el-table-column align="center" prop="createTime" label="创建时间" min-width="100"></el-table-column>
       <el-table-column align="center" prop="operation" label="操作" min-width="200">
         <template slot-scope="scope">
@@ -362,12 +363,12 @@
                 <el-radio label="4">儿保</el-radio>
               </el-radio-group>
             </el-form-item>
-            <!-- <el-form-item label="就诊类型" prop="laiyuan">
-              <el-radio-group v-model="ruleForm.leixing">
+            <el-form-item label="就诊类型" prop="memberType">
+              <el-radio-group v-model="ruleForm.memberType">
                 <el-radio label="1">固定类</el-radio>
                 <el-radio label="2">矫形类</el-radio>
               </el-radio-group>
-            </el-form-item> -->
+            </el-form-item>
           </el-col>
         </el-form>
       </el-row>
@@ -1225,11 +1226,11 @@
         <el-table-column type="selection"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
-        <el-table-column prop="nickname" label="产品昵称" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="unit" label="产品规格" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="model" label="产品型号" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="qualification" label="产品资质" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="price" label="标准价格" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="nickname" label="产品昵称" ></el-table-column>
+        <el-table-column prop="unit" label="产品规格" ></el-table-column>
+        <el-table-column prop="model" label="产品型号" ></el-table-column>
+        <el-table-column prop="qualification" label="产品资质" ></el-table-column>
+        <el-table-column prop="price" label="标准价格" ></el-table-column>
       </el-table>
       <!-- Pagination 分页 -->
       <el-pagination
@@ -1745,7 +1746,7 @@ export default {
         laiyuan: null,
         desc: null,
         memberId: null,
-        // leixing:null
+        memberType:null
       },
       rules: {
         name: [{ required: true, message: "请输入客户姓名", trigger: "blur" }],
@@ -1764,6 +1765,7 @@ export default {
         zhouqi: [{ required: true, message: "请选择周期", trigger: "change" }],
         renzhi: [{ required: true, message: "请选择认知", trigger: "change" }],
         laiyuan: [{ required: true, message: "请选择来源", trigger: "change" }],
+        memberType: [{ required: true, message: "请选择来源", trigger: "change" }],
         sex: [{ required: true, message: "请选择性别", trigger: "change" }]
       },
       addData: [
@@ -2533,6 +2535,7 @@ export default {
           treatmentCycle: Number(this.ruleForm.zhouqi),
           cognition: this.ruleForm.renzhi,
           source: Number(this.ruleForm.laiyuan),
+          memberType: Number(this.ruleForm.memberType),
           siteId: this.addData[0].siteValue,
           provinceId: this.addData[0].provinceId,
           cityId: this.addData[0].cityId,
@@ -2761,6 +2764,7 @@ export default {
             treatmentCycle: Number(this.ruleForm.zhouqi),
             cognition: this.ruleForm.renzhi,
             source: Number(this.ruleForm.laiyuan),
+            source: Number(this.ruleForm.memberType),
             doctorId: this.addData[0].doctorValue,
             prescriptionType: this.addData[0].prescriptionValue,
             condition: this.addData[0].condition,
@@ -2821,6 +2825,7 @@ export default {
       this.ruleForm.zhouqi = null;
       this.ruleForm.renzhi = null;
       this.ruleForm.laiyuan = null;
+      this.ruleForm.memberType = null;
       this.ruleForm.desc = null;
       this.modefiy = false;
       // this.currentNamberId = null;
@@ -2856,6 +2861,7 @@ export default {
           this.ruleForm.desc = res.data.data[0].address;
           this.ruleForm.renzhi = res.data.data[0].cognition;
           this.ruleForm.laiyuan = res.data.data[0].source.toString();
+          this.ruleForm.memberType = res.data.data[0].memberType.toString();
           this.DataList = res.data.data[0].prescriptions;
           this.modfiyTreatmentCycle = res.data.data[0].treatmentCycle;
         })

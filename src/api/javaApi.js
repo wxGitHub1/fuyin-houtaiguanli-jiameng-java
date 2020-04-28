@@ -78,6 +78,13 @@ export const roleMenuTree = async params => axios.get(baseUrl  + '/sys/menu/role
 export const changeRoleList = async params => axios.post(baseUrl  + '/sys/role/changeRoleList', params);//角色配置列表
 //产品配置清单
 export const selectHospitalAndSaleBaseBatch = async params => axios.post(baseUrl  + '/hospital/selectHospitalAndSaleBaseBatch', params);//查询产品配置清单列表
+export const deleteHospitalAndSaleBase = async params => axios.post(baseUrl  + '/hospital/deleteHospitalAndSaleBase', params);//删除医院和产品绑定关系
+export const selectBatchNumBySiteId = async params => axios.post(baseUrl  + '/hospital/selectBatchNumBySiteId', params);//根据站点id查询复用批次清单
+export const insertNext = async params => axios.post(baseUrl  + '/hospital/insertNext', params);//新增配置点击下一步
+export const selectHospitalSaleBaseList = async params => axios.post(baseUrl  + '/hospital/selectHospitalSaleBaseList', params);//选择产品页面的查询列表
+export const selectSales = async params => axios.post(baseUrl  + '/hospital/selectSales', params);//查询销售项
+export const insertHospitalAndSaleBase = async params => axios.post(baseUrl  + '/hospital/insertHospitalAndSaleBase', params);//绑定医院和基础产品
+export const updateHospitalSaleBasePrice = async params => axios.post(baseUrl  + '/hospital/updateHospitalSaleBasePrice', params);//新增/修改医院绑定的产品价格
 //站点测评配置
 export const selectExaminationSiteList = async params => axios.post(baseUrl  + '/examination/selectExaminationSiteList', params);//查询站点测评配置列表
 export const deleteExaminationSite = async params => axios.post(baseUrl  + '/examination/deleteExaminationSite', params);//删除站点测评配置
