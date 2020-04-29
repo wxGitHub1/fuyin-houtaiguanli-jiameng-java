@@ -1,3 +1,4 @@
+// 已接待
 <template>
   <div>
     <!-- seach -->
@@ -252,7 +253,13 @@
         </el-table-column>
         <el-table-column label="站点" align="center">
           <template slot-scope="scope">
-            <el-select clearable v-model="scope.row.siteValue" @change="hospitalList(scope.row.siteValue)" placeholder="请选择" size="mini">
+            <el-select
+              clearable
+              v-model="scope.row.siteValue"
+              @change="hospitalList(scope.row.siteValue)"
+              placeholder="请选择"
+              size="mini"
+            >
               <el-option
                 v-for="item in seach.siteLists"
                 :key="item.id"
@@ -609,7 +616,13 @@
         </el-table-column>
         <el-table-column label="站点" align="center">
           <template slot-scope="scope">
-            <el-select clearable v-model="scope.row.siteValue" @change="hospitalList(scope.row.siteValue)" placeholder="请选择" size="mini">
+            <el-select
+              clearable
+              v-model="scope.row.siteValue"
+              @change="hospitalList(scope.row.siteValue)"
+              placeholder="请选择"
+              size="mini"
+            >
               <el-option
                 v-for="item in seach.siteLists"
                 :key="item.id"
@@ -818,7 +831,13 @@
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格">
           <template slot-scope="scope">
-            <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" oninput="value=value.replace(/[^\d]/g,'')"/>
+            <input
+              class="input"
+              type="text"
+              v-model="scope.row.actual"
+              @change="changeMoney()"
+              oninput="value=value.replace(/[^\d]/g,'')"
+            />
             <!-- <el-input v-model="scope.row.actual" size="mini" placeholder="请输入金额" ></el-input> -->
           </template>
         </el-table-column>
@@ -1042,7 +1061,12 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div>
         折扣价格：
-        <input type="text" class="input" v-model="zhekouyouhui.favorable" oninput="value=value.replace(/[^\d]/g,'')"/>
+        <input
+          type="text"
+          class="input"
+          v-model="zhekouyouhui.favorable"
+          oninput="value=value.replace(/[^\d]/g,'')"
+        />
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
@@ -1119,19 +1143,67 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
       </div>
-      <h3 class="b-b-p-1">结果备注</h3>
-      <div>{{examinationInfo.remark || "暂无数据"}}</div>
-      <h3 class="b-b-p-1">复查日期</h3>
-      <div>{{examinationInfo.repeatTime || "暂无数据"}}</div>
-      <h3 class="b-b-p-1">孩子配合程度</h3>
-      <div>{{examinationInfo.cooperate || "暂无数据"}}</div>
-      <h3 class="b-b-p-1">治疗周期</h3>
-      <div>{{examinationInfo.cycle || "暂无数据"}}</div>
+      <el-row>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">结果备注</h3>
+          <div>{{examinationInfo.remark || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">复查日期</h3>
+          <div>{{examinationInfo.repeatTime || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">孩子配合程度</h3>
+          <div>{{examinationInfo.cooperate || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">治疗周期</h3>
+          <div>{{examinationInfo.cycle || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">老带新</h3>
+          <div>{{examinationInfo.recommendCN || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">驼背</h3>
+          <div>{{examinationInfo.tuobeiCN || "暂无数据"}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">客户分析</h3>
+          <div>{{examinationInfo.memberAnalysisCN || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">客户类型</h3>
+          <div>{{examinationInfo.memberModeCN || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">是否全身测评</h3>
+          <div>{{examinationInfo.completeCN || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">未进行全身测评的原因</h3>
+          <div>{{examinationInfo.incompleteReason || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">恢复情况</h3>
+          <div>{{examinationInfo.recoveryCN || "暂无数据"}}</div>
+        </el-col>
+      </el-row>
       <h3 class="b-b-p-1">测评详情</h3>
       <div v-for="(item,index) in detailList" :key="index" class="margin-t-20">
         <div>
           <span>测评项目:</span>
           <span class="margin-r-20">{{item.examinationName}}</span>
+          <el-button
+            class="right"
+            v-if="item.examinationName=='足部3D扫描测评'"
+            type="primary"
+            icon="el-icon-edit"
+            @click="threeD_show(item.detail)"
+            size="mini"
+          >修改</el-button>
         </div>
         <div class="margin-t-5">
           <span>测评数据:</span>
@@ -1180,6 +1252,17 @@
         <el-button type="success" icon="el-icon-picture-outline" v-on:click="getPdf()">导出PDF</el-button>
       </div>
     </el-dialog>
+    <!-- dialog 足长足宽修改-->
+    <el-dialog title="足长足宽修改" :visible.sync="threeDDialg" :close-on-click-modal="false" width="30%">
+      <el-form :model="threeD_ObjFrom" :inline="true" size="mini" label-width="80px">
+        <el-form-item v-for="(item,index) in threeD_ObjFrom.list" :key="index" :label="item.name">
+          <el-input v-model="item.value" size="small" placeholder="请输入"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="threeD_func()" type="success" icon="el-icon-circle-check">提交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -1201,9 +1284,18 @@ import {
   sales,
   deleteUser,
   queryExamineDetail,
-  printMakeParam
+  printMakeParam,
+  examinePadZb3d
 } from "../../api/javaApi";
-import { exportMethod, province, city, site,hospital,getBase64Image,img_base64 } from "../../utils/public";
+import {
+  exportMethod,
+  province,
+  city,
+  site,
+  hospital,
+  getBase64Image,
+  img_base64
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import Print from "../commonComponent/PrintTemplate";
@@ -1334,7 +1426,9 @@ export default {
         zhouqi: [{ required: true, message: "请选择周期", trigger: "change" }],
         renzhi: [{ required: true, message: "请选择认知", trigger: "change" }],
         laiyuan: [{ required: true, message: "请选择来源", trigger: "change" }],
-        memberType: [{ required: true, message: "请选择来源", trigger: "change" }],
+        memberType: [
+          { required: true, message: "请选择来源", trigger: "change" }
+        ],
         sex: [{ required: true, message: "请选择性别", trigger: "change" }]
       },
       addData: [
@@ -1408,14 +1502,19 @@ export default {
         zb: null,
         radio: null
       },
-      loading:true,
-      xd_siteId:null,
+      loading: true,
+      xd_siteId: null,
       //检测报告
       dialogTestReport: false,
       testReport: {},
       isTwo: true,
       htmlTitle: "测评报告PDF",
-      overdueList:[]
+      overdueList: [],
+      threeD_ObjFrom: {
+        list: []
+      },
+      threeDDialg: false,
+      only_recordId: null
     };
   },
   components: {
@@ -1428,6 +1527,44 @@ export default {
     // this.salesList();
   },
   methods: {
+    threeD_func() {
+      let data = {
+        recordId: this.only_recordId,
+        footLength:
+          this.threeD_ObjFrom.list[1].name == "足长"
+            ? this.threeD_ObjFrom.list[1].value
+            : this.threeD_ObjFrom.list[0].value,
+        footWidth:
+          this.threeD_ObjFrom.list[0].name == "足宽"
+            ? this.threeD_ObjFrom.list[0].value
+            : this.threeD_ObjFrom.list[1].value
+      };
+      examinePadZb3d(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.threeDDialg = false;
+            this.dialogEvaluationDetails = false;
+            this.$message({
+              type: "success",
+              message: "下单成功！",
+              center: true
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    threeD_show(obj) {
+      this.threeD_ObjFrom.list = obj;
+      this.threeDDialg = true;
+    },
     printpage() {
       this.$print2(this.$refs.print);
     },
@@ -1449,7 +1586,7 @@ export default {
             });
           } else {
             this.testReport = res.data.data;
-            img_base64(this,res.data.data)
+            img_base64(this, res.data.data);
             this.dialogTestReport = true;
           }
         })
@@ -1458,6 +1595,7 @@ export default {
         });
     },
     evaluationDetails(id) {
+      this.only_recordId = id;
       let data = {
         recordId: id
       };
@@ -1728,7 +1866,7 @@ export default {
         qualification: this.seachProduct.qualification,
         name: this.seachProduct.name || null,
         type: this.seachProduct.productTypeValue || null,
-        siteId:this.xd_siteId
+        siteId: this.xd_siteId
       };
       sales(data)
         .then(res => {
@@ -2068,7 +2206,7 @@ export default {
       this.addData[0].doctorValue = obj.doctorId;
       this.addData[0].hospitalValue = obj.hospitalId;
       this.addData[0].siteValue = obj.siteId;
-      this.hospitalList(obj.siteId)
+      this.hospitalList(obj.siteId);
       this.addData[0].provinceId = obj.provinceId;
       this.cityList(obj.provinceId);
       this.addData[0].cityId = obj.cityId;
@@ -2346,7 +2484,7 @@ export default {
     // },
     //根据站点获取医院列表
     async hospitalList(id) {
-      let data=await hospital(id)
+      let data = await hospital(id);
       // this.seach.hospitalLists = data;
       this.addData[0].hospitals = data;
     },

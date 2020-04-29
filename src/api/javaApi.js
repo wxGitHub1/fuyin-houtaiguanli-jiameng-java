@@ -249,6 +249,7 @@ export const selectRepairStatistics = async params => axios.post(baseUrl  + '/tr
 export const printMakeParam = async params => axios.get(baseUrl  + '/examination/printMakeParam', params);//检测报告查询基本信息
 //已接待
 export const examineAdmit = async params => axios.post(baseUrl  + '/examination/examineAdmit', params);//测评已接待查询
+export const examinePadZb3d = async params => axios.post(baseUrl  + '/examination/examinePadZb3d', params);//3d足部扫描增加修改足长足宽接口
 //测评统计
 export const examineStatistics = async params => axios.get(baseUrl  + '/examination/examineStatistics', params);//测评统计查询
 //测评加盟统计
