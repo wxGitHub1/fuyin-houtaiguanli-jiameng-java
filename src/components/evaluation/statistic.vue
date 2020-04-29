@@ -106,6 +106,19 @@
           ></el-option>
         </el-select>
       </el-col>
+      <el-col :span="2" id="input-title">
+        <span class="time_style">下单类型:</span>
+      </el-col>
+      <el-col :span="2">
+        <el-select clearable size="small" v-model="seach.productOrderType" placeholder="请先选择城市">
+          <el-option
+            v-for="item in seach.productOrderTypeList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-col>
       <el-col :span="2">
         <el-button
           type="danger"
@@ -133,6 +146,7 @@
       <el-table-column align="center" prop="repeat" label="到访类型"></el-table-column>
       <el-table-column align="center" prop="memberVip" label="是否会员"></el-table-column>
       <el-table-column align="center" prop="vipType" label="是否续会员"></el-table-column>
+      <el-table-column align="center" prop="productOrderType" label="下单类型"></el-table-column>
       <el-table-column align="center" prop="replaceProduct" label="是否换产品"></el-table-column>
     </el-table>
     <div class="total">
@@ -192,7 +206,15 @@ export default {
         provinceId: null,
         cityId: null,
         provinceIdList: [],
-        cityIdList: []
+        cityIdList: [],
+        productOrderType:null,
+        productOrderTypeList:[
+          {name:"处方产品",id:1},
+          {name:"新增产品",id:2},
+          {name:"更换产品",id:3},
+          {name:"赠送产品",id:4},
+          {name:"服务产品",id:5}
+        ]
       },
       total: {},
       nameList: [],
@@ -237,9 +259,10 @@ export default {
         userId: this.seach.recordValue,
         repeat:
           this.seach.visitTypeValue == "0" ? 0 : this.seach.visitTypeValue,
-        provinceId: this.seach.provinceId,
-        cityId: this.seach.cityId,
-        siteId: this.seach.siteValue
+        provinceId: this.seach.provinceId || null,
+        cityId: this.seach.cityId || null,
+        siteId: this.seach.siteValue || null,
+        productOrderType: this.seach.productOrderType || null,
       };
       this.loading = true;
       examineStatistics(data)

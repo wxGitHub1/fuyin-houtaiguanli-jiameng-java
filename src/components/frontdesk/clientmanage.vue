@@ -518,6 +518,13 @@
         <el-table-column prop="vipType" label="是否续会员"></el-table-column>
         <el-table-column prop="expireDate" label="会员到期时间"></el-table-column>
       </el-table>
+      <h3 class="b-b-p-1">历史信息</h3>
+      <el-table :data="overdueList" border>
+        <el-table-column prop="isOverdue" label="会员是否过期"></el-table-column>
+        <el-table-column prop="overdueDate" label="过期时间"></el-table-column>
+        <el-table-column prop="allOverdueTimes" label="过期全身次数"></el-table-column>
+        <el-table-column prop="overdueTimes" label="过期部位次数"></el-table-column>
+      </el-table>
       <h3 class="b-b-p-1">初诊评价</h3>
       <div>{{Details.firstCognition}}</div>
       <h3 class="b-b-p-1">治疗周期</h3>
@@ -2174,7 +2181,8 @@ export default {
           { name: "新增产品", id: 2 },
           { name: "更换产品", id: 3 },
           { name: "赠送产品", id: 4 },
-        ]
+        ],
+      overdueList:[]
     };
   },
   components: {
@@ -3343,6 +3351,7 @@ export default {
           // console.log(res);
           this.dialogDepartmentDetails = true;
           this.Details = res.data.data.memberInfo;
+          this.overdueList = res.data.data.overdueList;
           this.$set(this.memberCard, 0, res.data.data.memberCard);
           // this.memberCard[0] = res.data.data.memberCard;
           this.prescriptions = res.data.data.prescriptions;

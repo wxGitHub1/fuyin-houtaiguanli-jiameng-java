@@ -272,6 +272,12 @@
                 <el-radio label="4">儿保</el-radio>
               </el-radio-group>
             </el-form-item>
+            <el-form-item label="就诊类型" prop="memberType">
+              <el-radio-group v-model="ruleForm.memberType">
+                <el-radio label="1">固定类</el-radio>
+                <el-radio label="2">矫形类</el-radio>
+              </el-radio-group>
+            </el-form-item>
           </el-col>
         </el-form>
       </el-row>
@@ -500,6 +506,13 @@
         <el-table-column prop="wholeNum" label="全身剩余次数"></el-table-column>
         <el-table-column prop="vipType" label="是否续会员"></el-table-column>
         <el-table-column prop="expireDate" label="会员到期时间"></el-table-column>
+      </el-table>
+      <h3 class="b-b-p-1">历史信息</h3>
+      <el-table :data="overdueList" border>
+        <el-table-column prop="isOverdue" label="会员是否过期"></el-table-column>
+        <el-table-column prop="overdueDate" label="过期时间"></el-table-column>
+        <el-table-column prop="allOverdueTimes" label="过期全身次数"></el-table-column>
+        <el-table-column prop="overdueTimes" label="过期部位次数"></el-table-column>
       </el-table>
       <h3 class="b-b-p-1">初诊评价</h3>
       <div>{{Details.firstCognition}}</div>
@@ -1675,6 +1688,7 @@ export default {
         zhouqi: null,
         renzhi: null,
         laiyuan: null,
+        memberType: null,
         desc: null,
         memberId: null
       },
@@ -1695,6 +1709,7 @@ export default {
         zhouqi: [{ required: true, message: "请选择周期", trigger: "change" }],
         renzhi: [{ required: true, message: "请选择认知", trigger: "change" }],
         laiyuan: [{ required: true, message: "请选择来源", trigger: "change" }],
+        memberType: [{ required: true, message: "请选择来源", trigger: "change" }],
         sex: [{ required: true, message: "请选择性别", trigger: "change" }]
       },
       addData: [
@@ -1822,7 +1837,8 @@ export default {
       dialogTestReport: false,
       testReport: {},
       isTwo: true,
-      htmlTitle: "测评报告PDF"
+      htmlTitle: "测评报告PDF",
+      overdueList:[]
     };
   },
   components: {
@@ -2622,7 +2638,8 @@ export default {
           address: this.ruleForm.desc || "",
           treatmentCycle: Number(this.ruleForm.zhouqi),
           cognition: this.ruleForm.renzhi,
-          source: Number(this.ruleForm.laiyuan)
+          source: Number(this.ruleForm.laiyuan),
+          memberType: Number(this.ruleForm.memberType),
         };
         // console.log(data)
         updateMemberInfo(data)
@@ -2796,6 +2813,7 @@ export default {
             treatmentCycle: Number(this.ruleForm.zhouqi),
             cognition: this.ruleForm.renzhi,
             source: Number(this.ruleForm.laiyuan),
+            memberType: Number(this.ruleForm.memberType),
             doctorId: this.addData[0].doctorValue,
             prescriptionType: this.addData[0].prescriptionValue,
             condition: this.addData[0].condition,
@@ -2850,6 +2868,7 @@ export default {
       this.ruleForm.zhouqi = null;
       this.ruleForm.renzhi = null;
       this.ruleForm.laiyuan = null;
+      this.ruleForm.memberType = null;
       this.ruleForm.desc = null;
       this.modefiy = false;
       this.currentNamberId = null;
@@ -2876,6 +2895,7 @@ export default {
           this.ruleForm.desc = res.data.data[0].address;
           this.ruleForm.renzhi = res.data.data[0].cognition;
           this.ruleForm.laiyuan = res.data.data[0].source.toString();
+          this.ruleForm.memberType = res.data.data[0].memberType.toString();
           this.DataList = res.data.data[0].prescriptions;
           this.modfiyTreatmentCycle = res.data.data[0].treatmentCycle;
         })
@@ -2894,6 +2914,7 @@ export default {
           console.log(res);
           this.dialogDepartmentDetails = true;
           this.Details = res.data.data.memberInfo;
+          this.overdueList = res.data.data.overdueList;
           this.memberCard[0] = res.data.data.memberCard;
           this.prescriptions = res.data.data.prescriptions;
           this.evaluates = res.data.data.evaluates;
