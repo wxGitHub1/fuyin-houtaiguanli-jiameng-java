@@ -430,6 +430,7 @@
         <el-table-column prop="name" label="产品名" min-width="230"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称" min-width="100"></el-table-column>
         <el-table-column prop="type" label="产品分类"></el-table-column>
+        <el-table-column prop="productOrderType" label="下单类型"></el-table-column>
         <el-table-column prop="unit" label="产品规格"></el-table-column>
         <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column label="产品尺寸" align="center" min-width="90">

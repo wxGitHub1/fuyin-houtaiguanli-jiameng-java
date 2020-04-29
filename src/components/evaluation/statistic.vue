@@ -146,7 +146,7 @@
       <el-table-column align="center" prop="repeat" label="到访类型"></el-table-column>
       <el-table-column align="center" prop="memberVip" label="是否会员"></el-table-column>
       <el-table-column align="center" prop="vipType" label="是否续会员"></el-table-column>
-      <el-table-column align="center" prop="productOrderType" label="下单类型"></el-table-column>
+      <el-table-column align="center" prop="productOrderTypeCN" label="下单类型"></el-table-column>
       <el-table-column align="center" prop="replaceProduct" label="是否换产品"></el-table-column>
     </el-table>
     <div class="total">

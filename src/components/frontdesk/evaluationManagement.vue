@@ -552,6 +552,7 @@
       <el-table :data="evaluates" border max-height="500">
         <el-table-column prop="evaluateUserName" label="测评人" min-width="100"></el-table-column>
         <el-table-column prop="createTime" label="测评时间"></el-table-column>
+        <el-table-column prop="recoveryCN" label="恢复情况"></el-table-column>
         <el-table-column label="操作" min-width="100">
           <template slot-scope="scope">
             <el-button
