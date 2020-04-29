@@ -1511,7 +1511,8 @@ export default {
       htmlTitle: "测评报告PDF",
       overdueList: [],
       threeD_ObjFrom: {
-        list: []
+        list: [{name:"足长",value:null},
+          {name:"足宽",value:null}]
       },
       threeDDialg: false,
       only_recordId: null

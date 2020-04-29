@@ -1496,7 +1496,10 @@ export default {
       htmlTitle: "测评报告PDF",
       overdueList: [],
       threeD_ObjFrom: {
-        list: []
+        list: [
+          { name: "足长", value: null },
+          { name: "足宽", value: null }
+        ]
       },
       threeDDialg: false,
       only_recordId: null
@@ -1512,7 +1515,7 @@ export default {
     // this.salesList();
   },
   methods: {
-     threeD_func() {
+    threeD_func() {
       let data = {
         recordId: this.only_recordId,
         footLength:
