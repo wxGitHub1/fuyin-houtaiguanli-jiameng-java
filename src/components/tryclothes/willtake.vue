@@ -1,3 +1,4 @@
+// 待试穿
 <template>
   <div>
     <!-- seach -->
@@ -296,7 +297,7 @@
         </div>
       </div>
       <div v-if=" but_xq === '接待' " slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="detailsReturn()">返回</el-button>
+        <el-button type="primary" icon="el-icon-back" @click="detailsReturn()">返回</el-button>
         <el-button type="primary" @click="uploadPhotos(saleProductId)">上传照片</el-button>
         <el-button
           type="primary"
@@ -308,12 +309,14 @@
         <el-button type="success" @click="trialComplete()">试穿完成</el-button>
       </div>
       <div v-else slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="detailsReturn()">返回</el-button>
+        <el-button type="primary" icon="el-icon-back" @click="detailsReturn()">返回</el-button>
         <el-button
           type="primary"
+          icon="el-icon-edit"
           @click="modifyDate(pickupServiceInformation[0].saleProductId,memberDetailDto.memberId)"
         >修改日期</el-button>
-        <el-button type="primary" @click="redoDialog=true">重做</el-button>
+        <el-button type="danger" icon="el-icon-warning-outline" @click="redoDialog=true">重做</el-button>
+        <el-button type="warning" icon="el-icon-s-promotion">快递邮递</el-button>
       </div>
     </el-dialog>
     <!-- 选择用户弹框 -->

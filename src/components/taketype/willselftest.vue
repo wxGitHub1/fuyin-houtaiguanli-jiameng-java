@@ -206,7 +206,7 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="xiangxifanhui()">返回</el-button>
+        <el-button type="primary" icon="el-icon-back" @click="xiangxifanhui()">返回</el-button>
         <el-button type="success" @click="handleModify()">合格</el-button>
         <el-button type="warning" @click="dialogTurnDown=true">驳回</el-button>
         <el-button type="warning" @click="dialogFeedback = true">问题反馈</el-button>

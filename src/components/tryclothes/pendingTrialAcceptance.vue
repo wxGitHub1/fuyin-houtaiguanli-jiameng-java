@@ -1,3 +1,4 @@
+// 待试穿验收
 <template>
   <div>
     <!-- seach -->
@@ -321,6 +322,54 @@
         <el-button @click="serve_XC()" type="success" icon="el-icon-finished">确认现场调整</el-button>
       </span>
     </el-dialog>
+    <!-- 分配试穿人弹框 -->
+    <el-dialog
+      title="分配试穿人"
+      :visible.sync="acceptanDialog"
+      :close-on-click-modal="false"
+      :before-close="cancel_two"
+    >
+      <el-table border :data="productData" max-height="580">
+        <el-table-column align="center" prop="saleProductNickname" label="产品昵称"></el-table-column>
+        <el-table-column align="center" prop="deliveryTime" label="交货日期"></el-table-column>
+        <el-table-column align="center" prop="acceptanceResult" label="试穿验收结果"></el-table-column>
+        <el-table-column align="center" prop="acceptanceCreateTime" label="试穿验收时间"></el-table-column>
+        <el-table-column align="center" prop="acceptanceUserName" label="试穿验收人"></el-table-column>
+        <el-table-column align="center" label="操作">
+          <template slot-scope="scope">
+            <el-button
+              v-if="scope.row.button == '1'"
+              @click="distribution(scope.row)"
+              type="primary"
+              size="small"
+              icon="el-icon-s-custom"
+            >分配</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
+    <!-- 选择用户弹框 -->
+    <el-dialog
+      title="试穿人员分配"
+      :visible.sync="userDialog"
+      :close-on-click-modal="false"
+      :before-close="cancel_YH"
+      center
+    >
+      <div style="width:496px;margin:0 auto;">
+        <el-transfer
+          v-model="myValue"
+          filterable
+          filter-placeholder="请输入人员"
+          :titles="['待选择人员', '被选择人员']"
+          :data="nameList"
+        ></el-transfer>
+      </div>
+      <span slot="footer">
+        <el-button @click="cancel_YH()" type="primary" icon="el-icon-circle-close">取消</el-button>
+        <el-button @click="add_distribution()" type="success" icon="el-icon-circle-check">新增分配</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -331,7 +380,9 @@ import {
   tryOnAcceptanceInsertEligible,
   tryOnAcceptanceInsertBack,
   userListByDept,
-  tryOnAcceptanceInsertSite
+  tryOnAcceptanceInsertSite,
+  selectProductListInTryOnPendingAssign,
+  insertTryOn
 } from "../../api/javaApi";
 import { exportMethod, province, city, site,hospital } from "../../utils/public";
 import { Promise, all, async } from "q";
@@ -392,14 +443,92 @@ export default {
       otherContent_XC: null,
       userList: [],
       userValue: null,
-      loading: true
+      loading: true,
+      //新增data
+      only_memberId:null,
+      productData:[],
+      acceptanDialog:false,
+      userDialog:false,
+      nameList:[],
+      myValue:[],
     };
   },
   mounted() {
     this.pageList();
     this.provinceList();
+    this.personnel();
   },
   methods: {
+    cancel_YH() {
+      this.userDialog = false;
+      this.saleProductId = null;
+      this.myValue = [];
+    },
+    add_distribution() {
+      if (this.myValue.length != 0) {
+        let data = {
+          saleProductId: this.saleProductId,
+          tryOnUserIds: this.myValue
+        };
+        insertTryOn(data)
+          .then(res => {
+            if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.cancel_YH();
+            this.cancel_two();
+            this.pageList(this.pages.currentPage, this.pages.pageSize);
+            this.$message({
+              type: "success",
+              message: "分配成功！",
+              center: true
+            });}
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        this.$message({
+          type: "warning",
+          message: "请选择分配人员",
+          center: true
+        });
+      }
+    },
+    distribution(obj) {
+      this.saleProductId = obj.saleProductId;
+      this.userDialog = true;
+      this.personnel(obj.siteId)
+    },
+    cancel_two() {
+      this.acceptanDialog = false;
+    },
+    details_two(id) {
+      let data = { memberId: id };
+      selectProductListInTryOnPendingAssign(data)
+        .then(res => {
+          console.log(res);
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            console.log(res);
+            let details = res.data.data;
+            this.productData = details;
+            this.acceptanDialog = true;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     xc_tz() {
       this.acceptanceXcDialog = true;
       this.user();
@@ -418,6 +547,7 @@ export default {
       this.acceptanceDialog = false;
       this.otherContent = null;
       this.checkedCities = [];
+      this.checkAll = false;
     },
     cancel_XC() {
       this.acceptanceXcDialog = false;
@@ -450,6 +580,7 @@ export default {
                 message: "提交成功！",
                 center: true
               });
+              this.details_two(this.only_memberId)
             }
           })
           .catch(err => {
@@ -562,6 +693,7 @@ export default {
             this.productDetailDTO[0] = details.productDetailDTO;
             this.shapeDetail = details.shapeDetail;
             this.dialogPendingAcceptanceDetails = true;
+            this.only_memberId=details.memberDetail.memberId
           }
         })
         .catch(err => {
@@ -643,6 +775,26 @@ export default {
         .then(res => {
           debugger;
           this.userList = res.data.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //获取试穿人员列表
+    personnel(siteId) {
+      let data = {
+        deptId: 6,
+        siteId:siteId
+      };
+      userListByDept(data)
+        .then(res => {
+          console.log(res);
+          let data = res.data.data;
+          let list=[]
+          data.forEach(element => {
+            list.push({ label: element.username, key: element.id });
+          });
+          this.nameList=list
         })
         .catch(err => {
           console.log(err);

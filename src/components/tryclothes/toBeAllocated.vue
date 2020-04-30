@@ -1,3 +1,4 @@
+// 待分配
 <template>
   <div>
     <!-- seach -->
@@ -154,7 +155,7 @@
       :total="pages.total"
       class="pagination"
     ></el-pagination>
-    <!-- 详情弹框 -->
+    <!-- 分配试穿人弹框 -->
     <el-dialog
       title="分配试穿人"
       :visible.sync="acceptanDialog"

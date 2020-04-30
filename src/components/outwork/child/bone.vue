@@ -104,7 +104,7 @@
               </el-row>
               <el-row class="foot_btn">
                 <el-col :span="2" :offset="16">
-                  <el-button @click="InputdialogVisible = false" type="success" style="width: 100%;" size="middle">返回</el-button> 
+                  <el-button @click="InputdialogVisible = false" type="success" style="width: 100%;" icon="el-icon-back" size="middle">返回</el-button> 
                 </el-col>
                 <el-col :span="2" :offset="1">
                   <el-button style="width: 100%;" type="primary" size="middle" @click="saveData()">保存</el-button> 
@@ -258,7 +258,7 @@
               </el-row>
               <el-row class="foot_btn">
                 <el-col :span="2" :offset="16">
-                  <el-button @click="InfodialogVisible = false" type="success" style="width: 100%;" size="middle">返回</el-button> 
+                  <el-button @click="InfodialogVisible = false" type="success" style="width: 100%;" icon="el-icon-back" size="middle">返回</el-button> 
                 </el-col>
                 <el-col :span="2" :offset="1">
                   <el-button style="width: 100%;" type="primary" size="middle" @click="saveInputData('info')">保存</el-button> 

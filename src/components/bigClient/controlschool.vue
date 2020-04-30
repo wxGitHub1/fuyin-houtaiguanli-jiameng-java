@@ -134,6 +134,7 @@
                 type="success"
                 style="width: 100%;"
                 size="middle"
+                icon="el-icon-back"
               >返回</el-button>
             </el-col>
             <el-col :span="2" :offset="1">
@@ -335,6 +336,7 @@
             type="success"
             style="width: 100%;"
             size="middle"
+            icon="el-icon-back"
           >返回</el-button>
         </el-col>
         <el-col :span="2" :offset="1">

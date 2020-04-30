@@ -287,7 +287,7 @@
         <el-table-column prop="remark" label="问题反馈"></el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="xiangxifanhui()">返回</el-button>
+        <el-button type="primary" icon="el-icon-back" @click="xiangxifanhui()">返回</el-button>
         <el-button type="success" @click="handleModify(saleProductDto)">修改</el-button>
         <el-button
           type="warning"
