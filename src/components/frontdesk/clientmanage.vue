@@ -63,6 +63,7 @@
       </el-col>
       <el-col :span="3">
         <el-button
+        v-if="tryOnly_show"
           class="margin-l-p1"
           type="primary"
           size="small"
@@ -154,7 +155,9 @@
       <el-table-column align="center" prop="orderNum" label="订单号"></el-table-column>
       <el-table-column align="center" prop="oweMoney" label="下欠金额" min-width="30"></el-table-column>
       <el-table-column align="center" prop="orderDate" label="下单时间"></el-table-column>
-      <el-table-column align="center" label="操作" min-width="350">
+      <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
+      <el-table-column align="center" prop="visitFlagCN" label="到访状态"></el-table-column>
+      <el-table-column v-if="tryOnly_show" align="center" label="操作" min-width="350">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.phone == '***********' "
@@ -176,6 +179,16 @@
             size="small"
           >详情</el-button>
         </template>
+      </el-table-column>
+      <el-table-column v-else align="center" label="操作">
+          <template slot-scope="scope">
+              <el-button
+                @click="handleInfo(scope.row.memberId)"
+                type="info"
+                icon="el-icon-document"
+                size="small"
+              >详情</el-button>
+          </template>
       </el-table-column>
     </el-table>
     <!-- Pagination 分页 -->
@@ -1043,7 +1056,7 @@
         <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
-        <el-table-column prop="actual" label="实际价格"  min-width="100">
+        <el-table-column prop="actual" label="实际价格" min-width="100">
           <template slot-scope="scope">
             <input
               class="input"
@@ -1057,7 +1070,7 @@
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
           <template slot-scope="scope">
             <el-date-picker
-               v-if="scope.row.process == 1 ? true : false"
+              v-if="scope.row.process == 1 ? true : false"
               v-model="scope.row.deliveryTime"
               @blur="deliveryTimeDate(scope.row,scope.$index)"
               style="width:100%"
@@ -1072,10 +1085,10 @@
           </template>
         </el-table-column>
         <el-table-column prop="qualification" label="产品资质"></el-table-column>
-         <el-table-column prop="price" label="下单类型" min-width="100">
+        <el-table-column prop="price" label="下单类型" min-width="100">
           <template slot-scope="scope">
-          <el-select
-          v-if="scope.row.productOrderType == 5 ? false : true"
+            <el-select
+              v-if="scope.row.productOrderType == 5 ? false : true"
               clearable
               v-model="scope.row.productOrderType"
               placeholder="请选择"
@@ -1095,7 +1108,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-               v-if="scope.row.source =='会员卡' || scope.row.source =='测评服务' ? true: false "
+              v-if="scope.row.source =='会员卡' || scope.row.source =='测评服务' ? true: false "
               @click="tsyq(scope)"
               type="primary"
             >特殊要求</el-button>
@@ -1175,22 +1188,37 @@
       <!-- seach product-->
       <el-row class="search">
         <el-col :span="2" class="input-title">
-           <span>产品名称</span>
+          <span>产品名称</span>
         </el-col>
         <el-col :span="2">
-          <el-input v-model="seachProduct.name" size="mini" placeholder="请输入产品名称" autocomplete="off"></el-input>
+          <el-input
+            v-model="seachProduct.name"
+            size="mini"
+            placeholder="请输入产品名称"
+            autocomplete="off"
+          ></el-input>
         </el-col>
         <el-col :span="2" class="input-title">
           <span>产品昵称</span>
         </el-col>
         <el-col :span="2">
-          <el-input v-model="seachProduct.nickname" size="mini" placeholder="请输入产品昵称" autocomplete="off"></el-input>
+          <el-input
+            v-model="seachProduct.nickname"
+            size="mini"
+            placeholder="请输入产品昵称"
+            autocomplete="off"
+          ></el-input>
         </el-col>
         <el-col :span="2" class="input-title">
           <span>备案编号</span>
         </el-col>
         <el-col :span="2">
-          <el-input v-model="seachProduct.recordNumber" size="mini" placeholder="请输入备案编号" autocomplete="off"></el-input>
+          <el-input
+            v-model="seachProduct.recordNumber"
+            size="mini"
+            placeholder="请输入备案编号"
+            autocomplete="off"
+          ></el-input>
         </el-col>
         <el-col :span="2" class="input-title">
           <span>产品类型</span>
@@ -1337,7 +1365,7 @@
             <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
           </div>
         </div>
-        <div class="cpSize" >
+        <div class="cpSize">
           <span class="span">是否有X光片：</span>
           <div class="div">
             <el-radio v-model="productSize.radio" label="1">是</el-radio>
@@ -1346,13 +1374,8 @@
         </div>
         <div class="cpSize">
           <span class="span">取型人：</span>
-           <div class="div">
-              <el-select
-              clearable
-              v-model="productSize.shapeUser"
-              placeholder="请选择"
-              size="mini"
-            >
+          <div class="div">
+            <el-select clearable v-model="productSize.shapeUser" placeholder="请选择" size="mini">
               <el-option
                 v-for="item in productSize.shapeUserList"
                 :key="item.id"
@@ -1360,7 +1383,7 @@
                 :value="item"
               ></el-option>
             </el-select>
-           </div>
+          </div>
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -1818,6 +1841,7 @@ import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import Print from "../commonComponent/PrintTemplate";
 import placeOrder from "../navComponent/place_order";
+import {viewPage_function} from "../../router/path";
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
@@ -1855,16 +1879,16 @@ export default {
           { name: "矫形定制", id: 303 },
           { name: "矫形成品", id: 304 },
           { name: "低温板", id: 305 },
-          { name: "外购", id: 306 },
+          { name: "外购", id: 306 }
         ],
         qualificationList: [
           { name: "一类", id: 1 },
           { name: "二类", id: 2 },
-          { name: "默认", id: 3 },
+          { name: "默认", id: 3 }
         ],
-        origin:null,
-        recordNumber:null,
-        nickname:null,
+        origin: null,
+        recordNumber: null,
+        nickname: null,
         originList: [
           { name: "国产", id: 1 },
           { name: "进口", id: 2 }
@@ -2039,7 +2063,9 @@ export default {
         zhouqi: [{ required: true, message: "请选择周期", trigger: "change" }],
         renzhi: [{ required: true, message: "请选择认知", trigger: "change" }],
         laiyuan: [{ required: true, message: "请选择来源", trigger: "change" }],
-        memberType: [{ required: true, message: "请选择来源", trigger: "change" }],
+        memberType: [
+          { required: true, message: "请选择来源", trigger: "change" }
+        ],
         sex: [{ required: true, message: "请选择性别", trigger: "change" }]
       },
       addData: [
@@ -2105,10 +2131,10 @@ export default {
       },
       favorableRemark: null,
       productSize: {
-        list:[],
-        radio:"",
-        shapeUserList:[],
-        shapeUser:"",
+        list: [],
+        radio: "",
+        shapeUserList: [],
+        shapeUser: ""
       },
       userDialog: false,
       xzfp: {
@@ -2178,12 +2204,13 @@ export default {
       htmlTitle: "测评报告PDF",
       /**新增data */
       productOrderTypeList: [
-          { name: "处方产品", id: 1 },
-          { name: "新增产品", id: 2 },
-          { name: "更换产品", id: 3 },
-          { name: "赠送产品", id: 4 },
-        ],
-      overdueList:[]
+        { name: "处方产品", id: 1 },
+        { name: "新增产品", id: 2 },
+        { name: "更换产品", id: 3 },
+        { name: "赠送产品", id: 4 }
+      ],
+      overdueList: [],
+      tryOnly_show:true
     };
   },
   components: {
@@ -2197,8 +2224,16 @@ export default {
     this.personnel(9);
     this.personnel(6);
     this.personnel(12);
+    this.init();
   },
   methods: {
+    init() {
+      if (viewPage_function(String(window.location.href)) == "试穿") {
+        this.tryOnly_show = false;
+      } else {
+        this.tryOnly_show = true;
+      }
+    },
     printpage() {
       this.$print2(this.$refs.print);
     },
@@ -2782,10 +2817,10 @@ export default {
     },
     sizeCancel() {
       this.dialogSizeDetails = false;
-      this.productSize.list=[]
-      this.productSize.shapeUserList=[]
-      this.productSize.radio=null
-      this.productSize.shapeUser=null
+      this.productSize.list = [];
+      this.productSize.shapeUserList = [];
+      this.productSize.radio = null;
+      this.productSize.shapeUser = null;
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);
@@ -2843,7 +2878,7 @@ export default {
       // console.log(value);
     },
     confirmProduct() {
-      placeOrder.choose_product(this)
+      placeOrder.choose_product(this);
     },
     handleSelectionChange(val) {
       // console.log(val);
@@ -2853,29 +2888,29 @@ export default {
       let data = {
         pageNum: pageIndex,
         pageSize: pageSize,
-        prescriptionNum:this.currentPrescriptions[0].prescriptionNum,
+        prescriptionNum: this.currentPrescriptions[0].prescriptionNum,
         qualification: this.seachProduct.qualification || null,
         name: this.seachProduct.name || null,
         nickname: this.seachProduct.nickname || null,
         source: this.seachProduct.productTypeValue || null,
         recordNumber: this.seachProduct.recordNumber || null,
-        origin: this.seachProduct.origin || null,
+        origin: this.seachProduct.origin || null
         // siteId:this.xd_siteId
       };
       sales(data)
         .then(res => {
-           console.log(res);
+          console.log(res);
           if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-          // debugger
-          this.productData = res.data.data.data;
-          this.pagesProduct.total = res.data.data.total;
-          this.dialogselectProduct = true;
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            // debugger
+            this.productData = res.data.data.data;
+            this.pagesProduct.total = res.data.data.total;
+            this.dialogselectProduct = true;
           }
         })
         .catch(err => {
@@ -3348,16 +3383,16 @@ export default {
               center: true
             });
           } else {
-          // console.log("详情");
-          // console.log(res);
-          this.dialogDepartmentDetails = true;
-          this.Details = res.data.data.memberInfo;
-          this.overdueList = res.data.data.overdueList;
-          this.$set(this.memberCard, 0, res.data.data.memberCard);
-          // this.memberCard[0] = res.data.data.memberCard;
-          this.prescriptions = res.data.data.prescriptions;
-          this.evaluates = res.data.data.evaluates;
-          this.orders = res.data.data.orders;
+            // console.log("详情");
+            // console.log(res);
+            this.dialogDepartmentDetails = true;
+            this.Details = res.data.data.memberInfo;
+            this.overdueList = res.data.data.overdueList;
+            this.$set(this.memberCard, 0, res.data.data.memberCard);
+            // this.memberCard[0] = res.data.data.memberCard;
+            this.prescriptions = res.data.data.prescriptions;
+            this.evaluates = res.data.data.evaluates;
+            this.orders = res.data.data.orders;
           }
         })
         .catch(err => {

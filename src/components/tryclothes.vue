@@ -24,17 +24,21 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      tableNav: "willmessage",
-      tabIndex: "willmessage",
+      tableNav: "clientManage",
+      tabIndex: "clientManage",
       tables: [
         {
-          title: "待通知",
-          name: "willmessage",
-          content: "try-message",
+          title: "客户管理",
+          name: "clientManage",
+          content: "front-client",
           isClose: false
         }
       ],
       navTable: [
+         {
+          name: "clientManage",
+          title: "客户管理"
+        },
         {
           name: "pendingTrialAcceptance",
           title: "待试穿验收"
@@ -113,7 +117,22 @@ export default {
       });
       if (_this.Repeat) {
         switch (newTabName) {
+          case "clientManage":
+            _this.tables.push({
+              title: "客户管理",
+              name: newTabName,
+              content: "front-client",
+              isClose: true
+            });
+            this.tableNav = newTabName;
+            break;
           case "willmessage":
+             _this.tables.push({
+              title: "待通知",
+              name: newTabName,
+              content: "try-message",
+              isClose: true
+            });
             _this.tableNav = newTabName;
             break;
           case "pendingTrialAcceptance":
@@ -123,7 +142,7 @@ export default {
               content: "try-acceptance",
               isClose: true
             });
-            this.tableNav = newTabName;
+            _this.tableNav = newTabName;
             break;
           case "accepted":
             _this.tables.push({

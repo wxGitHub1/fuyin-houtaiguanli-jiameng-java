@@ -223,7 +223,11 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address || "暂无数据"}}</span>
         <span>就读学校:</span>
-        <span>{{Details.school || "暂无数据"}}</span>
+        <span class="margin-r-20">{{Details.school || "暂无数据"}}</span>
+        <span>客户当前类型:</span>
+        <span class="margin-r-20">{{Details.memberModeCN || "暂无数据"}}</span>
+        <span>就诊类型:</span>
+        <span>{{Details.memberTypeCN || "暂无数据"}}</span>
       </div>
 
       <h3 class="b-b-p-1">会员信息</h3>
