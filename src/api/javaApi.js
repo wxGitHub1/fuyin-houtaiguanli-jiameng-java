@@ -211,6 +211,7 @@ export const deleteTryOnImage = async params => axios.post(baseUrl  + '/tryOn/de
 export const rivetStart = async params => axios.post(baseUrl  + '/tryOn/rivetStart', params);//铆接开始
 export const rivetEnd = async params => axios.post(baseUrl  + '/tryOn/rivetEnd', params);//铆接完成
 export const tryOnFinish = async params => axios.post(baseUrl  + '/tryOn/tryOnFinish', params);//完成试穿
+export const postExpress = async params => axios.post(baseUrl  + '/tryOn/postExpress', params);//快递邮递
 //待维修
 export const selectPendingDoRepairList = async params => axios.post(baseUrl  + '/tryOn/selectPendingDoRepairList', params);//待维修查询列表
 export const overRepair = async params => axios.post(baseUrl  + '/tryOn/overRepair', params);//待维修完成

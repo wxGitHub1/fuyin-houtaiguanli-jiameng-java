@@ -307,6 +307,7 @@
         <el-button type="success" v-if="tryOn[0].rivetStatus === 2" @click="rivetOver()">完成铆接</el-button>
         <el-button type="info" v-if="tryOn[0].rivetStatus === 0">已铆接</el-button>
         <el-button type="success" @click="trialComplete()">试穿完成</el-button>
+        <el-button type="warning" @click="express_func(pickupServiceInformation[0].saleProductId)" icon="el-icon-s-promotion">快递邮递</el-button>
       </div>
       <div v-else slot="footer" class="dialog-footer">
         <el-button type="primary" icon="el-icon-back" @click="detailsReturn()">返回</el-button>
@@ -316,7 +317,6 @@
           @click="modifyDate(pickupServiceInformation[0].saleProductId,memberDetailDto.memberId)"
         >修改日期</el-button>
         <el-button type="danger" icon="el-icon-warning-outline" @click="redoDialog=true">重做</el-button>
-        <el-button type="warning" icon="el-icon-s-promotion">快递邮递</el-button>
       </div>
     </el-dialog>
     <!-- 选择用户弹框 -->
@@ -480,7 +480,8 @@ import {
   rivetEnd,
   tryOnRedo,
   tryOnAdmit,
-  deleteTryOnImage
+  deleteTryOnImage,
+  postExpress
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
 import { exportMethod, personnel, TimeDifference, province, city, site,hospital } from "../../utils/public";
@@ -560,6 +561,29 @@ export default {
     this.provinceList();
   },
   methods: {
+    express_func(id){
+        let data={
+          saleProductId:id
+        }
+        postExpress(data).then(res=>{
+          if (res.data.returnCode != 0) {
+                this.$message({
+                  type: "warning",
+                  message: res.data.returnMsg,
+                  center: true
+                });
+              } else {
+                this.detailsReturn();
+                this.pageList(this.pages.currentPage, this.pages.pageSize);
+                this.$message({
+                  type: "success",
+                  message: "操作成功!"
+                });
+              }
+        }).catch(err=>{
+           console.log(err);
+        })
+    },
     async rivetStart_function(siteId) {
       this.rivetingStaffList = await personnel(13,siteId);
       this.rivetingDialog = true;
