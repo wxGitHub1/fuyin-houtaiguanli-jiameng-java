@@ -45,8 +45,13 @@
         <span>站点名称</span>
       </el-col>
       <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" 
-          placeholder="请先选择城市" @change="listenKey()">
+        <el-select
+          clearable
+          size="small"
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="listenKey()"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -91,7 +96,7 @@
           @input="listenKey()"
         ></el-input>
       </el-col>
-      
+
       <!-- <el-col :span="2" class="input-title">
         <span>是否下单</span>
       </el-col>
@@ -105,7 +110,7 @@
           ></el-option>
         </el-select>
       </el-col>-->
-      
+
       <el-col :span="3">
         <el-button
           size="small"
@@ -309,7 +314,7 @@
             <el-form-item label="就读学校:">
               <el-input v-model="ruleForm.school" placeholder="请输入就读学校" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item prop="birthday" required label="出生日期">
+            <el-form-item prop="birthday" label="出生日期">
               <el-date-picker
                 type="date"
                 placeholder="选择日期"
@@ -364,7 +369,10 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="就诊类型" prop="memberType">
-              <el-radio-group v-model="ruleForm.memberType">
+              <el-radio-group
+                v-model="ruleForm.memberType"
+                :change="isRequired(ruleForm.memberType)"
+              >
                 <el-radio label="1">固定类</el-radio>
                 <el-radio label="2">矫形类</el-radio>
               </el-radio-group>
@@ -701,11 +709,11 @@
       <h3 class="b-b-p-1">订单信息</h3>
       <el-table :data="orders" border max-height="500">
         <el-table-column prop="orderNum" label="病单编号" min-width="100"></el-table-column>
-        <el-table-column prop="name" label="产品名"></el-table-column>
+        <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
+        <el-table-column prop="productOrderTypeCN" label="下单类型"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格"></el-table-column>
         <el-table-column prop="favorable" label="折扣金额"></el-table-column>
@@ -1024,18 +1032,23 @@
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="unit" label="产品规格"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格" min-width="100">
           <template slot-scope="scope">
-            <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" oninput="value=value.replace(/[^\d]/g,'')"/>
+            <input
+              class="input"
+              type="text"
+              v-model="scope.row.actual"
+              @change="changeMoney()"
+              oninput="value=value.replace(/[^\d]/g,'')"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
           <template slot-scope="scope">
             <el-date-picker
-              v-if="scope.row.process == 1 ? true : false"
+              v-if="scope.row.process < 6 ? true : false"
               v-model="scope.row.deliveryTime"
               @blur="deliveryTimeDate(scope.row,scope.$index)"
               style="width:100%"
@@ -1052,8 +1065,8 @@
         <el-table-column prop="qualification" label="产品资质"></el-table-column>
         <el-table-column prop="price" label="下单类型" min-width="100">
           <template slot-scope="scope">
-          <el-select
-          v-if="scope.row.productOrderType == 5 ? false : true"
+            <el-select
+              v-if="scope.row.productOrderType == 5 ? false : true"
               clearable
               v-model="scope.row.productOrderType"
               placeholder="请选择"
@@ -1079,7 +1092,7 @@
             >特殊要求</el-button>
             <el-button
               size="mini"
-              v-if="scope.row.process == 1 ? true : false "
+              v-if="scope.row.process < 3 ? true : false "
               @click="sizeEntry(scope)"
               type="primary"
             >尺寸录入</el-button>
@@ -1156,19 +1169,34 @@
           <span>产品名称</span>
         </el-col>
         <el-col :span="2">
-          <el-input v-model="seachProduct.name" size="mini" placeholder="请输入产品名称" autocomplete="off"></el-input>
+          <el-input
+            v-model="seachProduct.name"
+            size="mini"
+            placeholder="请输入产品名称"
+            autocomplete="off"
+          ></el-input>
         </el-col>
         <el-col :span="2" class="input-title">
           <span>产品昵称</span>
         </el-col>
         <el-col :span="2">
-          <el-input v-model="seachProduct.nickname" size="mini" placeholder="请输入产品昵称" autocomplete="off"></el-input>
+          <el-input
+            v-model="seachProduct.nickname"
+            size="mini"
+            placeholder="请输入产品昵称"
+            autocomplete="off"
+          ></el-input>
         </el-col>
         <el-col :span="2" class="input-title">
           <span>备案编号</span>
         </el-col>
         <el-col :span="2">
-          <el-input v-model="seachProduct.recordNumber" size="mini" placeholder="请输入备案编号" autocomplete="off"></el-input>
+          <el-input
+            v-model="seachProduct.recordNumber"
+            size="mini"
+            placeholder="请输入备案编号"
+            autocomplete="off"
+          ></el-input>
         </el-col>
         <el-col :span="2" class="input-title">
           <span>产品类型</span>
@@ -1234,11 +1262,11 @@
         <el-table-column type="selection"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
-        <el-table-column prop="nickname" label="产品昵称" ></el-table-column>
-        <el-table-column prop="unit" label="产品规格" ></el-table-column>
-        <el-table-column prop="model" label="产品型号" ></el-table-column>
-        <el-table-column prop="qualification" label="产品资质" ></el-table-column>
-        <el-table-column prop="price" label="标准价格" ></el-table-column>
+        <el-table-column prop="nickname" label="产品昵称"></el-table-column>
+        <el-table-column prop="unit" label="产品规格"></el-table-column>
+        <el-table-column prop="model" label="产品型号"></el-table-column>
+        <el-table-column prop="qualification" label="产品资质"></el-table-column>
+        <el-table-column prop="price" label="标准价格"></el-table-column>
       </el-table>
       <!-- Pagination 分页 -->
       <el-pagination
@@ -1289,7 +1317,12 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div>
         折扣价格：
-        <input type="text" class="input" v-model="zhekouyouhui.favorable" oninput="value=value.replace(/[^\d]/g,'')" />
+        <input
+          type="text"
+          class="input"
+          v-model="zhekouyouhui.favorable"
+          oninput="value=value.replace(/[^\d]/g,'')"
+        />
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
@@ -1315,7 +1348,13 @@
         <div v-for="item in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+            <el-input
+              v-model="item.value"
+              style="width：100%"
+              size="small"
+              placeholder="请输入"
+              oninput="value=value.replace(/[^\d]/g,'')"
+            ></el-input>
           </div>
         </div>
         <!-- <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
@@ -1335,8 +1374,8 @@
           <div class="div">
             <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
           </div>
-        </div> -->
-        <div class="cpSize" >
+        </div>-->
+        <div class="cpSize">
           <span class="span">是否有X光片：</span>
           <div class="div">
             <el-radio v-model="productSize.radio" label="1">是</el-radio>
@@ -1345,13 +1384,8 @@
         </div>
         <div class="cpSize">
           <span class="span">取型人：</span>
-           <div class="div">
-              <el-select
-              clearable
-              v-model="productSize.shapeUser"
-              placeholder="请选择"
-              size="mini"
-            >
+          <div class="div">
+            <el-select clearable v-model="productSize.shapeUser" placeholder="请选择" size="mini">
               <el-option
                 v-for="item in productSize.shapeUserList"
                 :key="item.id"
@@ -1359,7 +1393,7 @@
                 :value="item"
               ></el-option>
             </el-select>
-           </div>
+          </div>
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -1440,13 +1474,7 @@
       :close-on-click-modal="false"
       :before-close="cancelTransfer_func"
     >
-      <el-form
-        :model="transferSite"
-        ref="dialogForm"
-        :inline="true"
-        size="mini"
-        label-width="80px"
-      >
+      <el-form :model="transferSite" ref="dialogForm" :inline="true" size="mini" label-width="80px">
         <el-form-item label="省份">
           <el-select
             clearable
@@ -1463,7 +1491,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="城市">
-          <el-select clearable v-model="transferSite.citysValue" placeholder="请先选择省份" @change="siteList(transferSite.citysValue)">
+          <el-select
+            clearable
+            v-model="transferSite.citysValue"
+            placeholder="请先选择省份"
+            @change="siteList(transferSite.citysValue)"
+          >
             <el-option
               v-for="item in transferSite.cityIdList"
               :key="item.id"
@@ -1492,16 +1525,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button
-        @click="cancelTransfer_func()"
-          type="primary"
-          icon="el-icon-circle-close"
-        >取消</el-button>
-        <el-button
-        @click="confirmTransferSite_func()"
-          type="success"
-          icon="el-icon-circle-check"
-        >保存</el-button>
+        <el-button @click="cancelTransfer_func()" type="primary" icon="el-icon-circle-close">取消</el-button>
+        <el-button @click="confirmTransferSite_func()" type="success" icon="el-icon-circle-check">保存</el-button>
       </div>
     </el-dialog>
     <!-- dialog 打印检测报告-->
@@ -1545,7 +1570,16 @@ import {
   selectUserListByHospitalId
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod,province,city,site,allSite,hospital,getBase64Image,img_base64 } from "../../utils/public";
+import {
+  exportMethod,
+  province,
+  city,
+  site,
+  allSite,
+  hospital,
+  getBase64Image,
+  img_base64
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import Print from "../commonComponent/PrintTemplate";
@@ -1553,16 +1587,18 @@ import placeOrder from "./place_order";
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
-      if (!value) {
-        // callback();
-        callback(new Error("手机号不能为空"));
-      } else {
-        const reg = /^1[3|4|5|6|7|8|9][0-9]\d{8}$/;
-        if (reg.test(value)) {
-          callback();
+      if (this.isShowVal == 2) {
+        if (!value) {
+          // callback();
+          callback(new Error("手机号不能为空"));
         } else {
-          // this.ruleForm.phone = null;
-          return callback(new Error("请输入正确的手机号"));
+          const reg = /^1[3|4|5|6|7|8|9][0-9]\d{8}$/;
+          if (reg.test(value)) {
+            callback();
+          } else {
+            // this.ruleForm.phone = null;
+            return callback(new Error("请输入正确的手机号"));
+          }
         }
       }
     };
@@ -1589,16 +1625,16 @@ export default {
           { name: "矫形定制", id: 303 },
           { name: "矫形成品", id: 304 },
           { name: "低温板", id: 305 },
-          { name: "外购", id: 306 },
+          { name: "外购", id: 306 }
         ],
         qualificationList: [
           { name: "一类", id: 1 },
           { name: "二类", id: 2 },
-          { name: "默认", id: 3 },
+          { name: "默认", id: 3 }
         ],
-        origin:null,
-        recordNumber:null,
-        nickname:null,
+        origin: null,
+        recordNumber: null,
+        nickname: null,
         originList: [
           { name: "国产", id: 1 },
           { name: "进口", id: 2 }
@@ -1714,10 +1750,10 @@ export default {
         },
         siteLists: [],
         siteValue: null,
-        provinceId:null,
-        cityId:null,
-        provinceIdList:[],
-        cityIdList:[],
+        provinceId: null,
+        cityId: null,
+        provinceIdList: [],
+        cityIdList: []
       },
       clientData: [],
       //分页
@@ -1754,7 +1790,7 @@ export default {
         laiyuan: null,
         desc: null,
         memberId: null,
-        memberType:null
+        memberType: null
       },
       rules: {
         name: [{ required: true, message: "请输入客户姓名", trigger: "blur" }],
@@ -1773,7 +1809,9 @@ export default {
         zhouqi: [{ required: true, message: "请选择周期", trigger: "change" }],
         renzhi: [{ required: true, message: "请选择认知", trigger: "change" }],
         laiyuan: [{ required: true, message: "请选择来源", trigger: "change" }],
-        memberType: [{ required: true, message: "请选择来源", trigger: "change" }],
+        memberType: [
+          { required: true, message: "请选择来源", trigger: "change" }
+        ],
         sex: [{ required: true, message: "请选择性别", trigger: "change" }]
       },
       addData: [
@@ -1794,8 +1832,8 @@ export default {
           condition: null,
           obCondition: null,
           siteValue: null,
-          provinceId:null,
-          cityId:null,
+          provinceId: null,
+          cityId: null
         }
       ],
       //分页
@@ -1839,29 +1877,29 @@ export default {
         favorable: null
       },
       favorableRemark: null,
-        // wc: [],
-        // kd: [],
-        // gd: [],
-        // yq: [],
-        // zb: [],
+      // wc: [],
+      // kd: [],
+      // gd: [],
+      // yq: [],
+      // zb: [],
       productSize: {
-        list:[],
-        radio:"",
-        shapeUserList:[],
-        shapeUser:"",
+        list: [],
+        radio: "",
+        shapeUserList: [],
+        shapeUser: ""
       },
       loading: true,
-      dialogTransferSite:false,
-      transferSite:{
-        provinceValue:null,
-        provinceIdList:[],
-        citysValue:null,
-        cityIdList:[],
-        siteId:null,
-        siteLists:[],
-        sitePhone:null
+      dialogTransferSite: false,
+      transferSite: {
+        provinceValue: null,
+        provinceIdList: [],
+        citysValue: null,
+        cityIdList: [],
+        siteId: null,
+        siteLists: [],
+        sitePhone: null
       },
-      xd_siteId:null,
+      xd_siteId: null,
       //检测报告
       dialogTestReport: false,
       testReport: {},
@@ -1869,12 +1907,13 @@ export default {
       htmlTitle: "测评报告PDF",
       /**新增data */
       productOrderTypeList: [
-          { name: "处方产品", id: 1 },
-          { name: "新增产品", id: 2 },
-          { name: "更换产品", id: 3 },
-          { name: "赠送产品", id: 4 },
-        ],
-        overdueList:[]
+        { name: "处方产品", id: 1 },
+        { name: "新增产品", id: 2 },
+        { name: "更换产品", id: 3 },
+        { name: "赠送产品", id: 4 }
+      ],
+      overdueList: [],
+      isShowVal: null
     };
   },
   components: {
@@ -1886,6 +1925,18 @@ export default {
     this.provinceList();
   },
   methods: {
+    isRequired(val) {
+      this.isShowVal = val;
+      if (val == 1) {
+        this.rules.phone[0].required = false;
+        this.rules.birthday[0].required = false;
+        console.log("不用填");
+      } else {
+        this.rules.phone[0].required = true;
+        this.rules.birthday[0].required = true;
+        console.log("必须填");
+      }
+    },
     printpage() {
       this.$print2(this.$refs.print);
     },
@@ -1907,7 +1958,7 @@ export default {
             });
           } else {
             this.testReport = res.data.data;
-            img_base64(this,res.data.data)
+            img_base64(this, res.data.data);
             this.dialogTestReport = true;
           }
         })
@@ -1915,13 +1966,14 @@ export default {
           console.log(err);
         });
     },
-    confirmTransferSite_func(){
-        let data={
-          memberId:this.currentNamberId,
-          siteId:this.transferSite.siteId,
-          phone:this.transferSite.sitePhone,
-        }
-        changeSite(data).then(res=>{
+    confirmTransferSite_func() {
+      let data = {
+        memberId: this.currentNamberId,
+        siteId: this.transferSite.siteId,
+        phone: this.transferSite.sitePhone
+      };
+      changeSite(data)
+        .then(res => {
           if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
@@ -1932,26 +1984,27 @@ export default {
             this.cancelTransfer_func();
             this.pageList(this.pages.currentPage, this.pages.pageSize);
             this.$message({
-                type: "success",
-                message: "转移成功！",
-                center: true
-              });
+              type: "success",
+              message: "转移成功！",
+              center: true
+            });
           }
-        }).catch(err=>{
-          console.log(err)
         })
+        .catch(err => {
+          console.log(err);
+        });
     },
-    cancelTransfer_func(){
-      this.transferSite.provinceValue=null;
-      this.transferSite.citysValue=null;
-      this.transferSite.siteId=null;
-      this.transferSite.sitePhone=null;
-      this.dialogTransferSite=false;
+    cancelTransfer_func() {
+      this.transferSite.provinceValue = null;
+      this.transferSite.citysValue = null;
+      this.transferSite.siteId = null;
+      this.transferSite.sitePhone = null;
+      this.dialogTransferSite = false;
     },
     //转站点
-    transferSite_func(id){
+    transferSite_func(id) {
       this.currentNamberId = id;
-      this.dialogTransferSite=true;
+      this.dialogTransferSite = true;
     },
     //监听按键
     listenKey() {
@@ -1988,10 +2041,10 @@ export default {
     },
     sizeCancel() {
       this.dialogSizeDetails = false;
-      this.productSize.list=[]
-      this.productSize.shapeUserList=[]
-      this.productSize.radio=null
-      this.productSize.shapeUser=null
+      this.productSize.list = [];
+      this.productSize.shapeUserList = [];
+      this.productSize.radio = null;
+      this.productSize.shapeUser = null;
       // for (let key in data) {
       //   this.productSize[key] = [];
       // }
@@ -2044,7 +2097,7 @@ export default {
         }
       });
       // debugger
-      console.log(this.detailFormList)
+      console.log(this.detailFormList);
       this.sizeCancel();
     },
     deleteRow(index, rows) {
@@ -2104,7 +2157,7 @@ export default {
       console.log(value);
     },
     confirmProduct() {
-      placeOrder.choose_product(this)
+      placeOrder.choose_product(this);
       // if (this.detailFormList.length == 0) {
       //   // debugger;
       //   // this.multipleSelection.forEach(obj=>{})
@@ -2217,29 +2270,29 @@ export default {
       let data = {
         pageNum: pageIndex,
         pageSize: pageSize,
-        prescriptionNum:this.currentPrescriptions[0].prescriptionNum,
+        prescriptionNum: this.currentPrescriptions[0].prescriptionNum,
         qualification: this.seachProduct.qualification || null,
         name: this.seachProduct.name || null,
         nickname: this.seachProduct.nickname || null,
         source: this.seachProduct.productTypeValue || null,
         recordNumber: this.seachProduct.recordNumber || null,
-        origin: this.seachProduct.origin || null,
+        origin: this.seachProduct.origin || null
         // siteId:this.xd_siteId
       };
       sales(data)
         .then(res => {
-           console.log(res);
+          console.log(res);
           if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-          // debugger
-          this.productData = res.data.data.data;
-          this.pagesProduct.total = res.data.data.total;
-          this.dialogselectProduct = true;
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            // debugger
+            this.productData = res.data.data.data;
+            this.pagesProduct.total = res.data.data.total;
+            this.dialogselectProduct = true;
           }
         })
         .catch(err => {
@@ -2374,7 +2427,7 @@ export default {
       let jhrq = true;
       this.detailFormList.forEach(obj => {
         if (
-          obj.process == 1 
+          obj.process == 1
           // ||
           // obj.source == "定制产品" ||
           // obj.source == "试穿成品" ||
@@ -2401,57 +2454,57 @@ export default {
         });
       } else {
         // this.detailFormList.forEach(obj => {
-          // obj.salesId = obj.id;
-          // if (obj.size != undefined) {
-          //   if (
-          //     obj.size["取型"] == "" ||
-          //     obj.size["取型"] == undefined ||
-          //     obj.size["取型"] == null ||
-          //     JSON.stringify(obj.size) == "{}"
-          //   ) {
-          //     delete obj.size;
-          //     return;
-          //   } else {
-          //     let qxwc = obj.size["取型"]["围长"];
-          //     let qxkd = obj.size["取型"]["宽度"];
-          //     let qxgd = obj.size["取型"]["高度"];
-          //     let qxzb = obj.size["取型"]["足部"];
-          //     let qxyq = obj.size["取型"]["要求"];
-          //     for (var key in qxzb) {
-          //       if (!qxzb[key]) {
-          //         delete obj.size;
-          //         return;
-          //       }
-          //     }
-          //     for (var key in qxwc) {
-          //       if (!qxwc[key]) {
-          //         delete obj.size;
-          //         return;
-          //       }
-          //     }
-          //     for (var key in qxkd) {
-          //       if (!qxkd[key]) {
-          //         delete obj.size;
-          //         return;
-          //       }
-          //     }
-          //     for (var key in qxgd) {
-          //       if (!qxgd[key]) {
-          //         delete obj.size;
-          //         return;
-          //       }
-          //     }
-          //     for (var key in qxyq) {
-          //       if (!qxyq[key]) {
-          //         delete obj.size;
-          //         return;
-          //       }
-          //     }
-          //   }
-          // }
+        // obj.salesId = obj.id;
+        // if (obj.size != undefined) {
+        //   if (
+        //     obj.size["取型"] == "" ||
+        //     obj.size["取型"] == undefined ||
+        //     obj.size["取型"] == null ||
+        //     JSON.stringify(obj.size) == "{}"
+        //   ) {
+        //     delete obj.size;
+        //     return;
+        //   } else {
+        //     let qxwc = obj.size["取型"]["围长"];
+        //     let qxkd = obj.size["取型"]["宽度"];
+        //     let qxgd = obj.size["取型"]["高度"];
+        //     let qxzb = obj.size["取型"]["足部"];
+        //     let qxyq = obj.size["取型"]["要求"];
+        //     for (var key in qxzb) {
+        //       if (!qxzb[key]) {
+        //         delete obj.size;
+        //         return;
+        //       }
+        //     }
+        //     for (var key in qxwc) {
+        //       if (!qxwc[key]) {
+        //         delete obj.size;
+        //         return;
+        //       }
+        //     }
+        //     for (var key in qxkd) {
+        //       if (!qxkd[key]) {
+        //         delete obj.size;
+        //         return;
+        //       }
+        //     }
+        //     for (var key in qxgd) {
+        //       if (!qxgd[key]) {
+        //         delete obj.size;
+        //         return;
+        //       }
+        //     }
+        //     for (var key in qxyq) {
+        //       if (!qxyq[key]) {
+        //         delete obj.size;
+        //         return;
+        //       }
+        //     }
+        //   }
+        // }
         // });
         // data.detailFormList = this.detailFormList;
-        console.log(data)
+        console.log(data);
         orderInsert(data)
           .then(res => {
             if (res.data.returnCode != 0) {
@@ -2483,45 +2536,47 @@ export default {
     },
     sizeEntry(obj) {
       // if (!!obj.row.size && JSON.stringify(obj.row.size) != "{}") {
-        // let qxwc = obj.row.size["取型"]["围长"];
-        // let qxkd = obj.row.size["取型"]["宽度"];
-        // let qxgd = obj.row.size["取型"]["高度"];
-        // let qxzb = obj.row.size["取型"]["足部"];
-        // this.productSize.yq = obj.row.size["取型"]["要求"];
-        // for (let i in qxzb) {
-        //   this.productSize.zb.push({ name: i, value: qxzb[i] });
-        // }
-        // for (let i in qxwc) {
-        //   this.productSize.wc.push({ name: i, value: qxwc[i] });
-        // }
-        // for (let i in qxkd) {
-        //   this.productSize.kd.push({ name: i, value: qxkd[i] });
-        // }
-        // for (let i in qxgd) {
-        //   this.productSize.gd.push({ name: i, value: qxgd[i] });
-        // }
-        let data={
-          hospitalId:obj.row.hospitalId
-        }
-        selectUserListByHospitalId(data).then(res=>{
+      // let qxwc = obj.row.size["取型"]["围长"];
+      // let qxkd = obj.row.size["取型"]["宽度"];
+      // let qxgd = obj.row.size["取型"]["高度"];
+      // let qxzb = obj.row.size["取型"]["足部"];
+      // this.productSize.yq = obj.row.size["取型"]["要求"];
+      // for (let i in qxzb) {
+      //   this.productSize.zb.push({ name: i, value: qxzb[i] });
+      // }
+      // for (let i in qxwc) {
+      //   this.productSize.wc.push({ name: i, value: qxwc[i] });
+      // }
+      // for (let i in qxkd) {
+      //   this.productSize.kd.push({ name: i, value: qxkd[i] });
+      // }
+      // for (let i in qxgd) {
+      //   this.productSize.gd.push({ name: i, value: qxgd[i] });
+      // }
+      let data = {
+        hospitalId: obj.row.hospitalId
+      };
+      selectUserListByHospitalId(data)
+        .then(res => {
           if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-              console.log(res)
-              this.productSize.list = obj.row.sizeMapList;
-              this.productSize.radio = obj.row.xRay;
-              this.cpIndex = obj.$index;
-              this.dialogSizeDetails = true;
-              this.productSize.shapeUserList=res.data.data
-            }
-        }).catch(err=>{
-          console.log(err)
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            console.log(res);
+            this.productSize.list = obj.row.sizeMapList;
+            this.productSize.radio = obj.row.xRay;
+            this.cpIndex = obj.$index;
+            this.dialogSizeDetails = true;
+            this.productSize.shapeUserList = res.data.data;
+          }
         })
-        
+        .catch(err => {
+          console.log(err);
+        });
+
       // } else {
       //   this.$message({
       //     type: "warning",
@@ -2547,7 +2602,7 @@ export default {
           memberType: Number(this.ruleForm.memberType),
           siteId: this.addData[0].siteValue,
           provinceId: this.addData[0].provinceId,
-          cityId: this.addData[0].cityId,
+          cityId: this.addData[0].cityId
         };
         // console.log(data)
         updateMemberInfo(data)
@@ -2604,7 +2659,7 @@ export default {
           illness: obj[0].obCondition || "",
           siteId: obj[0].siteValue,
           provinceId: obj[0].provinceId,
-          cityId: obj[0].cityId,
+          cityId: obj[0].cityId
         };
         if (!!this.bianhao) {
           data.prescriptionNum = this.bianhao;
@@ -2677,11 +2732,11 @@ export default {
       this.addData[0].doctorValue = obj.doctorId;
       this.addData[0].hospitalValue = obj.hospitalId;
       this.addData[0].siteValue = obj.siteId;
-      this.hospitalList(obj.siteId)
+      this.hospitalList(obj.siteId);
       this.addData[0].provinceId = obj.provinceId;
-      this.cityList(obj.provinceId)
+      this.cityList(obj.provinceId);
       this.addData[0].cityId = obj.cityId;
-      this.siteList(obj.cityId)
+      this.siteList(obj.cityId);
       this.bianhao = obj.prescriptionNum;
     },
     xiangxifanhui() {
@@ -2780,7 +2835,7 @@ export default {
             illness: this.addData[0].obCondition || "",
             siteId: this.addData[0].siteValue,
             provinceId: this.addData[0].provinceId,
-            cityId: this.addData[0].cityId,
+            cityId: this.addData[0].cityId
           };
           // console.log(data)
           addMember(data)
@@ -2885,23 +2940,23 @@ export default {
       };
       queryMemberDetail(data)
         .then(res => {
-            if (res.data.returnCode != 0) {
+          if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
               message: res.data.returnMsg,
               center: true
             });
           } else {
-          // console.log("详情");
-          // console.log(res);
-          this.dialogDepartmentDetails = true;
-          this.Details = res.data.data.memberInfo;
-          this.overdueList = res.data.data.overdueList;
-          this.$set(this.memberCard, 0, res.data.data.memberCard);
-          // this.memberCard[0] = res.data.data.memberCard;
-          this.prescriptions = res.data.data.prescriptions;
-          this.evaluates = res.data.data.evaluates;
-          this.orders = res.data.data.orders;
+            // console.log("详情");
+            // console.log(res);
+            this.dialogDepartmentDetails = true;
+            this.Details = res.data.data.memberInfo;
+            this.overdueList = res.data.data.overdueList;
+            this.$set(this.memberCard, 0, res.data.data.memberCard);
+            // this.memberCard[0] = res.data.data.memberCard;
+            this.prescriptions = res.data.data.prescriptions;
+            this.evaluates = res.data.data.evaluates;
+            this.orders = res.data.data.orders;
           }
         })
         .catch(err => {
@@ -2927,7 +2982,7 @@ export default {
           this.seach.heimingdan.value == "0" ? 0 : this.seach.heimingdan.value,
         siteId: this.seach.siteValue,
         provinceId: this.seach.provinceId,
-        cityId: this.seach.cityId,
+        cityId: this.seach.cityId
       };
       const lsyObj = {
         method: "post",
@@ -2958,7 +3013,7 @@ export default {
           this.seach.heimingdan.value == "0" ? 0 : this.seach.heimingdan.value,
         siteId: this.seach.siteValue,
         provinceId: this.seach.provinceId,
-        cityId: this.seach.cityId,
+        cityId: this.seach.cityId
       };
       this.loading = true;
       queryMemberByPage(data)
@@ -3049,25 +3104,25 @@ export default {
     },
     //获取省
     async provinceList() {
-      let data = await province()
+      let data = await province();
       this.seach.provinceIdList = data;
       this.transferSite.provinceIdList = data;
     },
     //获取市
     async cityList(id) {
-      let data=await city(id)
-      this.seach.cityIdList =data ;
-      this.transferSite.cityIdList =data ;
+      let data = await city(id);
+      this.seach.cityIdList = data;
+      this.transferSite.cityIdList = data;
     },
     //根据市获取站点列表
     async siteList(id) {
-      let data=await allSite(null,id)
+      let data = await allSite(null, id);
       this.seach.siteLists = data;
       this.transferSite.siteLists = data;
     },
     //根据站点获取医院列表
     async hospitalList(id) {
-      let data=await hospital(id)
+      let data = await hospital(id);
       // this.seach.hospitalLists = data;
       this.addData[0].hospitals = data;
     },

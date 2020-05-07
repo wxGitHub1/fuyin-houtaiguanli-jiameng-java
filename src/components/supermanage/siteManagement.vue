@@ -92,6 +92,7 @@
           type="primary"
         >查询</el-button>
         <el-button
+          v-if="hasRole==1"
           type="primary"
           size="small"
           icon="el-icon-circle-plus-outline"
@@ -121,7 +122,7 @@
       <el-table-column align="center" prop="orderUserName" label="操作">
         <template slot-scope="scope">
           <el-button @click="modify_function(scope.row)" type="primary" size="small">修改</el-button>
-          <el-button @click="deletesite_function(scope.row.siteId)" type="danger" size="small">删除</el-button>
+          <el-button @click="deletesite_function(scope.row.siteId)" type="danger" v-if="hasRole == 1" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -158,6 +159,7 @@
             v-model="addSite.provinceValue"
             placeholder="请选择"
             @change="addCityList(addSite.provinceValue)"
+            :disabled="hasRole != 1"
           >
             <el-option
               v-for="item in add.provinceIdList"
@@ -168,7 +170,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="城市" prop="citysValue">
-          <el-select clearable v-model="addSite.citysValue" placeholder="请先选择省份">
+          <el-select :disabled="hasRole != 1" clearable v-model="addSite.citysValue" placeholder="请先选择省份">
             <el-option
               v-for="item in add.cityIdList"
               :key="item.id"
@@ -178,7 +180,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="站点类型" prop="siteType">
-          <el-select clearable v-model="addSite.siteType" placeholder="请选择">
+          <el-select clearable :disabled="hasRole != 1" v-model="addSite.siteType" placeholder="请选择">
             <el-option
               v-for="item in seach.siteTypeList"
               :key="item.id"
@@ -318,7 +320,8 @@ export default {
             type: "number"
           }
         ]
-      }
+      }, 
+      hasRole:2
     };
   },
   mounted() {
@@ -383,16 +386,16 @@ export default {
     addSite_fuc(formName, name) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (name == "modify") {
-            let data = {
-              siteId: this.rowSiteId,
-              provinceId: this.addSite.provinceValue, //省ID
+          let data={
+             provinceId: this.addSite.provinceValue, //省ID
               cityId: this.addSite.citysValue, //市ID
               siteName: this.addSite.siteName, //站点名
               siteType: this.addSite.siteType, //0-总部，1-独立，2-连锁
               sitePhone: this.addSite.sitePhone, //站点联系方式
               siteAddress: this.addSite.siteAddress //站点地址 address
-            };
+          }
+          if (name == "modify") {
+            data.siteId=this.rowSiteId,
             updateSite(data)
               .then(res => {
                 if (res.data.returnCode != 0) {
@@ -415,14 +418,6 @@ export default {
                 console.log(err);
               });
           } else {
-            let data = {
-              provinceId: this.addSite.provinceValue, //省ID
-              cityId: this.addSite.citysValue, //市ID
-              siteName: this.addSite.siteName, //站点名
-              siteType: this.addSite.siteType, //0-总部，1-独立，2-连锁
-              sitePhone: this.addSite.sitePhone, //站点联系方式
-              siteAddress: this.addSite.siteAddress //站点地址 address
-            };
             insertSite(data)
               .then(res => {
                 if (res.data.returnCode != 0) {
@@ -495,6 +490,7 @@ export default {
             // this.clientData = dataList.data;
             this.clientData = dataList.data.siteListDTOs;
             this.pages.total = dataList.total;
+            this.hasRole=dataList.data.hasRole
             this.loading = false;
           }
         })

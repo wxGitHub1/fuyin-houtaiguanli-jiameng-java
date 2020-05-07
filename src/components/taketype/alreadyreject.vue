@@ -10110,7 +10110,7 @@ export default {
             // debugger
             // this.product.product_3 = true;
             let myObj = fuyinProduct.fy_product;
-            let id = myObj[res.data.data.baseProductName] || myObj.isNo;
+            let id = myObj[res.data.data.recordNumber] || myObj.isNo;
             this.product["product_" + id] = true;
             this.printFormData = res.data.data.memberDetailDto;
             this.productTitle.baseProductModel = res.data.data.baseProductModel;

@@ -685,8 +685,7 @@
                 :key="index"
               >
                 <hr class="dashed" />
-                <div>{{item.name}}</div>
-                <div>{{item.nickname}}</div>
+                <div>{{item.name}}-{{item.nickname}}</div>
                 <div class="font-b">金额：{{item.price}}</div>
               </div>
               <hr />
@@ -957,7 +956,6 @@
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="unit" label="产品规格"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格" min-width="100">
@@ -968,7 +966,7 @@
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
           <template slot-scope="scope">
             <el-date-picker
-              v-if="scope.row.process == 1 ? true : false"
+              v-if="scope.row.process < 6 ? true : false"
               v-model="scope.row.deliveryTime"
               @blur="deliveryTimeDate(scope.row,scope.$index)"
               style="width:100%"
@@ -1012,7 +1010,7 @@
             >特殊要求</el-button>
             <el-button
               size="mini"
-              v-if="scope.row.process == 1 ? true : false "
+              v-if="scope.row.process < 3 ? true : false "
               @click="sizeEntry(scope)"
               type="primary"
             >尺寸录入</el-button>
@@ -11217,7 +11215,7 @@ export default {
             // debugger
             // this.product.product_3 = true;
             let myObj = fuyinProduct.fy_product;
-            let id = myObj[res.data.data.baseProductName] || myObj.isNo;
+            let id = myObj[res.data.data.recordNumber] || myObj.isNo;
             this.product["product_" + id] = true;
             this.printFormData = res.data.data.memberDetailDto;
             this.productTitle.baseProductModel = res.data.data.baseProductModel;

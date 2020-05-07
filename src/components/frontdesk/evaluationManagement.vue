@@ -300,7 +300,7 @@
         <el-table-column label="医院" align="center" prop="hospitalName"></el-table-column>
         <el-table-column label="科室" align="center" prop="departmentName"></el-table-column>
         <el-table-column label="医生" align="center" prop="doctorName"></el-table-column>
-        <el-table-column label="病单类型" align="center" prop="prescriptionType"></el-table-column>
+        <el-table-column label="病单类型" align="center" prop="prescriptionName"></el-table-column>
         <el-table-column label="处方病情" align="center" prop="condition"></el-table-column>
         <el-table-column label="观察病情" align="center" prop="illness"></el-table-column>
         <el-table-column label="创建时间" align="center" prop="updateTime"></el-table-column>
@@ -592,11 +592,11 @@
       <h3 class="b-b-p-1">订单信息</h3>
       <el-table :data="orders" border max-height="500">
         <el-table-column prop="orderNum" label="病单编号" min-width="100"></el-table-column>
-        <el-table-column prop="name" label="产品名"></el-table-column>
+        <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
+        <el-table-column prop="productOrderTypeCN" label="下单类型"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格"></el-table-column>
         <el-table-column prop="favorable" label="折扣金额"></el-table-column>
@@ -968,7 +968,6 @@
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="unit" label="产品规格"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格">

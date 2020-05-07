@@ -507,11 +507,11 @@
       <h3 class="b-b-p-1">订单信息</h3>
       <el-table :data="orders" border max-height="500">
         <el-table-column prop="orderNum" label="病单编号" min-width="100"></el-table-column>
-        <el-table-column prop="name" label="产品名"></el-table-column>
+        <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
+        <el-table-column prop="productOrderTypeCN" label="下单类型"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格"></el-table-column>
         <el-table-column prop="favorable" label="折扣金额"></el-table-column>
@@ -830,7 +830,6 @@
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="unit" label="产品规格"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格" min-width="100">
@@ -847,7 +846,7 @@
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
           <template slot-scope="scope">
             <el-date-picker
-              v-if="scope.row.process == 1 ? true : false"
+              v-if="scope.row.process < 6 ? true : false"
               v-model="scope.row.deliveryTime"
               @blur="deliveryTimeDate(scope.row,scope.$index)"
               style="width:100%"
@@ -891,7 +890,7 @@
             >特殊要求</el-button>
             <el-button
               size="mini"
-              v-if="scope.row.process == 1 ? true : false "
+              v-if="scope.row.process < 3 ? true : false "
               @click="sizeEntry(scope)"
               type="primary"
             >尺寸录入</el-button>

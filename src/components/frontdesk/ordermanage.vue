@@ -537,8 +537,7 @@
                 :key="index"
               >
                 <hr class="dashed" />
-                <div>{{item.name}}</div>
-                <div>{{item.nickname}}</div>
+                <div>{{item.name}}-{{item.nickname}}</div>
                 <div class="font-b">金额：{{item.price}}</div>
               </div>
               <hr />
@@ -722,7 +721,6 @@
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="unit" label="产品规格"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格">

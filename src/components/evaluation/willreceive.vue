@@ -492,11 +492,11 @@
       <h3 class="b-b-p-1">订单信息</h3>
       <el-table :data="orders" border max-height="500">
         <el-table-column prop="orderNum" label="病单编号" min-width="100"></el-table-column>
-        <el-table-column prop="name" label="产品名"></el-table-column>
+        <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
+        <el-table-column prop="productOrderTypeCN" label="下单类型"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格"></el-table-column>
         <el-table-column prop="favorable" label="折扣金额"></el-table-column>
@@ -814,7 +814,6 @@
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="unit" label="产品规格"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格"  min-width="100">
@@ -832,7 +831,7 @@
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
           <template slot-scope="scope">
             <el-date-picker
-              v-if="scope.row.process == 1 ? true : false"
+              v-if="scope.row.process < 6 ? true : false"
               v-model="scope.row.deliveryTime"
               @blur="deliveryTimeDate(scope.row,scope.$index)"
               style="width:100%"
@@ -876,7 +875,7 @@
             >特殊要求</el-button>
             <el-button
               size="mini"
-              v-if="scope.row.process == 1 ? true : false "
+              v-if="scope.row.process < 3 ? true : false "
               @click="sizeEntry(scope)"
               type="primary"
             >尺寸录入</el-button>
@@ -951,9 +950,6 @@
       <el-row class="search">
         <el-col :span="2" class="input-title">
           <span>产品名称</span>
-        </el-col>
-        <el-col :span="3">
-          <el-input v-model="seachProduct.name" size="mini" placeholder="请输入名称" autocomplete="off"></el-input>
         </el-col>
          <el-col :span="2">
           <el-input
@@ -1141,8 +1137,10 @@
         
         <div class="cpSize">
           <span class="span">是否有X光片：</span>
+          <div class="div">
           <el-radio v-model="productSize.radio" label="1">是</el-radio>
-          <el-radio v-model="productSize.radio" label="2">否</el-radio>
+          <el-radio v-model="productSize.radio" label="0">否</el-radio>
+          </div>
         </div>
          <div class="cpSize">
           <span class="span">取型人：</span>
@@ -1698,9 +1696,10 @@ export default {
         if (index == this.cpIndex) {
           obj.detailFormList = this.productSize.list;
           obj.xRay = this.productSize.radio;
+          obj.shapeUser = this.productSize.shapeUser;
         }
       });
-      this.dialogSizeDetails = false;
+      this.sizeCancel();
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);
