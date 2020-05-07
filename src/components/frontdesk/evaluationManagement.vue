@@ -1207,25 +1207,25 @@
         <div v-for="item in productSize.wc" :key="item.name" class="cpSize">
           <span class="span">{{item.name}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
           </div>
         </div>
         <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
           <span class="span">{{item.name}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
           </div>
         </div>
         <div v-for="item in productSize.gd" :key="item.name" class="cpSize">
           <span class="span">{{item.name}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
           </div>
         </div>
         <div v-for="item in productSize.zb" :key="item.name" class="cpSize">
           <span class="span">{{item.name}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
           </div>
         </div>
         <div class="cpSize">
@@ -1463,28 +1463,6 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
       </div>
-      <h3 class="b-b-p-1">测评详情</h3>
-      <div>接口待开发...</div>
-    </el-dialog>
-    <!-- dialog 测评详情-->
-    <el-dialog
-      title="测评信息详情"
-      :visible.sync="dialogEvaluationDetails"
-      center
-      :close-on-click-modal="false"
-      width="80%"
-    >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <div>
-        <span>客户姓名:</span>
-        <span class="margin-r-20">{{Details.memberName}}</span>
-        <span>出生日期:</span>
-        <span class="margin-r-20">{{Details.birthday}}</span>
-        <span>联系方式:</span>
-        <span class="margin-r-20">{{Details.phone}}</span>
-        <span>家庭住址:</span>
-        <span class="margin-r-20">{{Details.address}}</span>
-      </div>
       <h3 class="b-b-p-1">结果备注</h3>
       <div>{{examinationInfo.remark || "暂无数据"}}</div>
       <h3 class="b-b-p-1">复查日期</h3>
@@ -1578,7 +1556,7 @@ import {
   printMakeParam
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, province, city, site,getBase64Image,img_base64 } from "../../utils/public";
+import { exportMethod, province, city, site,allSite,getBase64Image,img_base64 } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import Print from "../commonComponent/PrintTemplate";
@@ -3072,7 +3050,7 @@ export default {
     },
     //根据市获取站点列表
     async siteList(id) {
-      this.seach.siteLists = await site(id);
+      this.seach.siteLists = await allSite(null,id);
     },
     isJiaJi() {
       this.paymentMethod.totalAmountReceivable = this.ysMoney();

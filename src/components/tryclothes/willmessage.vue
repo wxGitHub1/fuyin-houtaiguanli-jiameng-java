@@ -224,7 +224,7 @@ import {
   userListByDept,
   noticeWindow
 } from "../../api/javaApi";
-import { exportMethod,personnel, province, city, site,hospital } from "../../utils/public";
+import { exportMethod,personnel, province, city, site,hospital,allSite } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -397,7 +397,7 @@ export default {
     },
     //根据市获取站点列表
     async siteList(id) {
-      this.seach.siteLists = await site(id);
+      this.seach.siteLists = await allSite(null,id);
     },
     //根据站点获取医院列表
     async hospitalList(id) {

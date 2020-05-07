@@ -193,7 +193,7 @@
         <div v-for="item in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
           </div>
         </div>
         <!-- <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
@@ -294,7 +294,7 @@ import {
   shapeInsert,
   getShapeUser
 } from "../../api/javaApi";
-import { exportMethod, province, city, site } from "../../utils/public";
+import { exportMethod, province, city, site,allSite } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -587,7 +587,7 @@ export default {
     },
     //根据市获取站点列表
     async siteList(id) {
-      this.seach.siteLists = await site(id);
+      this.seach.siteLists = await allSite(null,id);
     }
   }
 };

@@ -484,7 +484,7 @@ import {
   postExpress
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, personnel, TimeDifference, province, city, site,hospital } from "../../utils/public";
+import { exportMethod, personnel, TimeDifference, province, city,allSite, site,hospital } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import axios from "../../utils/ajax";
@@ -1031,7 +1031,7 @@ export default {
     },
     //根据市获取站点列表
     async siteList(id) {
-      this.seach.siteLists = await site(id);
+      this.seach.siteLists = await allSite(null,id);
     },
     //根据站点获取医院列表
     async hospitalList(id) {

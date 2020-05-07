@@ -2881,7 +2881,7 @@ import {
   exportMethod,
   personnel,
   tips,
-  arrayDeduplication, province, city, site,hospital,getBase64Image,img_base64
+  arrayDeduplication, province, city, allSite,site,hospital,getBase64Image,img_base64
 } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
@@ -3588,7 +3588,7 @@ export default {
     },
     //根据市获取站点列表
     async siteList(id) {
-      this.seach.siteLists = await site(id);
+      this.seach.siteLists = await allSite(null,id);
     },
     //根据站点获取医院列表
     async hospitalList(id) {

@@ -9965,7 +9965,7 @@ import {
   printProduct,
   shapeRedo
 } from "../../api/javaApi";
-import { exportMethod, province, city, site } from "../../utils/public";
+import { exportMethod, province, city, site,allSite } from "../../utils/public";
 import fuyinProduct from "../../utils/fuyinProduct";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
@@ -10251,7 +10251,7 @@ export default {
     },
     //根据市获取站点列表
     async siteList(id) {
-      this.seach.siteLists = await site(id);
+      this.seach.siteLists = await allSite(null,id);
     }
   }
 };

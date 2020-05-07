@@ -71,10 +71,10 @@
       <el-table-column align="center" prop="username" label="用户姓名"></el-table-column>
       <el-table-column align="center" prop="telephone" label="用户电话" min-width="100"></el-table-column>
       <el-table-column align="center" prop="telephone" label="登录账户" min-width="100"></el-table-column>
-      <el-table-column align="center" prop="roleNameString" label="用户角色" min-width="160"></el-table-column>
+      <el-table-column align="center" prop="roleNameString" label="用户角色" show-overflow-tooltip min-width="160"></el-table-column>
       <el-table-column align="center" prop="deptName" label="部门" min-width="160"></el-table-column>
-      <el-table-column align="center" prop="deptChildName" label="分组" min-width="160"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
+      <el-table-column align="center" prop="deptChildName" label="分组" show-overflow-tooltip min-width="160"></el-table-column>
+      <el-table-column align="center" prop="siteName" label="站点" show-overflow-tooltip></el-table-column>
       <el-table-column align="center" label="操作" min-width="300">
         <template slot-scope="scope">
           <el-button

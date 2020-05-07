@@ -461,8 +461,8 @@
       </el-table>
       <!-- Pagination 分页 -->
       <el-pagination
-        @size-change="handleSizeChangeProduct"
-        @current-change="handleCurrentChangeProduct"
+        @size-change="handleSizeChangeProduct_two"
+        @current-change="handleCurrentChangeProduct_two"
         :current-page="pagesProduct_two.currentPage"
         :page-sizes="[10, 15, 20]"
         :page-size="pagesProduct_two.pageSize"
@@ -496,6 +496,7 @@ import {
   city,
   hospital,
   site,
+  allSite,
   batch,
   joinAllProvince,
   joinAllCity,
@@ -1052,14 +1053,28 @@ export default {
       this.pagesProduct.currentPage = num;
       let pageIndex = this.pagesProduct.currentPage;
       let pageSize = this.pagesProduct.pageSize;
-      this.next_fuc(pageIndex, pageSize);
+      this.next_product_fuc(pageIndex, pageSize);
     },
     //产品条数发生变化时
     handleSizeChangeProduct(val) {
       this.pagesProduct.pageSize = val;
       let pageIndex = this.pagesProduct.currentPage;
       let pageSize = this.pagesProduct.pageSize;
-      this.next_fuc(pageIndex, pageSize);
+      this.next_product_fuc(pageIndex, pageSize);
+    },
+    //全部产品页面变化时
+    handleCurrentChangeProduct_two(num) {
+      this.pagesProduct_two.currentPage = num;
+      let pageIndex = this.pagesProduct_two.currentPage;
+      let pageSize = this.pagesProduct_two.pageSize;
+      this.add_product_list(pageIndex, pageSize);
+    },
+    //全部产品条数发生变化时
+    handleSizeChangeProduct_two(val) {
+      this.pagesProduct_two.pageSize = val;
+      let pageIndex = this.pagesProduct_two.currentPage;
+      let pageSize = this.pagesProduct_two.pageSize;
+      this.add_product_list(pageIndex, pageSize);
     },
 
     //新增加盟获取省
@@ -1084,7 +1099,7 @@ export default {
     // },
     //站点
     async siteList(id) {
-      this.seach.siteIdList = await site(id);
+      this.seach.siteIdList = await allSite(null,id);
     },
     //站点id获取医院
     async hospitals(id) {

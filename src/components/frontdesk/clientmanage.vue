@@ -145,19 +145,19 @@
       element-loading-background="rgba(0, 0, 0, 0.8)"
     >
       <el-table-column width="60" align="center" prop="seq" label="序号"></el-table-column>
-      <el-table-column align="center" prop="memberName" label="客户姓名" min-width="30"></el-table-column>
+      <el-table-column align="center" prop="memberName" label="客户姓名" min-width="40"></el-table-column>
       <el-table-column align="center" prop="sex" label="性别" min-width="30"></el-table-column>
-      <el-table-column align="center" prop="phone" label="联系电话" min-width="50"></el-table-column>
-      <el-table-column align="center" prop="isVIP" label="是否会员" min-width="30"></el-table-column>
-      <el-table-column align="center" prop="isBlack" label="黑名单" min-width="30"></el-table-column>
+      <el-table-column align="center" prop="phone" label="联系电话" :show-overflow-tooltip="true" min-width="50"></el-table-column>
+      <el-table-column align="center" prop="isVIP" label="是否会员" min-width="50"></el-table-column>
+      <el-table-column align="center" prop="isBlack" label="黑名单" min-width="40"></el-table-column>
       <el-table-column align="center" prop="productName" label="产品昵称"></el-table-column>
-      <el-table-column align="center" prop="status" label="状态" min-width="50"></el-table-column>
+      <el-table-column align="center" prop="status" label="状态" :show-overflow-tooltip="true" min-width="50"></el-table-column>
       <el-table-column align="center" prop="orderNum" label="订单号"></el-table-column>
-      <el-table-column align="center" prop="oweMoney" label="下欠金额" min-width="30"></el-table-column>
-      <el-table-column align="center" prop="orderDate" label="下单时间"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
-      <el-table-column align="center" prop="visitFlagCN" label="到访状态"></el-table-column>
-      <el-table-column v-if="tryOnly_show" align="center" label="操作" min-width="350">
+      <el-table-column align="center" prop="oweMoney" label="下欠金额" min-width="50"></el-table-column>
+      <el-table-column align="center" prop="orderDate" label="下单时间" :show-overflow-tooltip="true" min-width="50"></el-table-column>
+      <el-table-column align="center" prop="siteName" label="站点" :show-overflow-tooltip="true" min-width="40"></el-table-column>
+      <el-table-column align="center" prop="visitFlagCN" label="到访状态" min-width="50"></el-table-column>
+      <el-table-column v-if="tryOnly_show" align="center" label="操作" min-width="280">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.phone == '***********' "
@@ -166,16 +166,15 @@
             plain
             @click="transferSite_func(scope.row.memberId)"
             size="small"
-          >转站点</el-button>
-          <el-button @click="cpjd(scope.row)" type="success" size="small">测评接待</el-button>
-          <el-button @click="qxjd(scope.row,310)" type="warning" size="small">取型接待</el-button>
-          <el-button @click="qxjd(scope.row,363)" type="success" size="small">试穿接待</el-button>
-          <el-button @click="qxjd(scope.row,366)" type="primary" size="small">维修接待</el-button>
-          <el-button @click="czpj(scope.row)" type="danger" size="small">初诊评价</el-button>
+          >转</el-button>
+          <el-button @click="cpjd(scope.row)" type="success" size="small">测评</el-button>
+          <el-button @click="qxjd(scope.row,310)" type="warning" size="small">取型</el-button>
+          <el-button @click="qxjd(scope.row,363)" type="success" size="small">试穿</el-button>
+          <el-button @click="qxjd(scope.row,366)" type="primary" size="small">维修</el-button>
+          <el-button @click="czpj(scope.row)" type="danger" size="small">初诊</el-button>
           <el-button
             @click="handleInfo(scope.row.memberId)"
             type="info"
-            icon="el-icon-document"
             size="small"
           >详情</el-button>
         </template>
@@ -185,7 +184,6 @@
               <el-button
                 @click="handleInfo(scope.row.memberId)"
                 type="info"
-                icon="el-icon-document"
                 size="small"
               >详情</el-button>
           </template>
@@ -1108,7 +1106,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              v-if="scope.row.source =='会员卡' || scope.row.source =='测评服务' ? true: false "
+              v-if="scope.row.source =='会员卡' || scope.row.source =='测评服务' ? false:true  "
               @click="tsyq(scope)"
               type="primary"
             >特殊要求</el-button>
@@ -1362,7 +1360,7 @@
         <div v-for="item in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
           </div>
         </div>
         <div class="cpSize">
@@ -1615,28 +1613,6 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
       </div>
-      <h3 class="b-b-p-1">测评详情</h3>
-      <div>接口待开发...</div>
-    </el-dialog>
-    <!-- dialog 测评详情-->
-    <el-dialog
-      title="测评信息详情"
-      :visible.sync="dialogEvaluationDetails"
-      center
-      :close-on-click-modal="false"
-      width="80%"
-    >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <div>
-        <span>客户姓名:</span>
-        <span class="margin-r-20">{{Details.memberName}}</span>
-        <span>出生日期:</span>
-        <span class="margin-r-20">{{Details.birthday}}</span>
-        <span>联系方式:</span>
-        <span class="margin-r-20">{{Details.phone}}</span>
-        <span>家庭住址:</span>
-        <span class="margin-r-20">{{Details.address}}</span>
-      </div>
       <h3 class="b-b-p-1">结果备注</h3>
       <div>{{examinationInfo.remark || "暂无数据"}}</div>
       <h3 class="b-b-p-1">复查日期</h3>
@@ -1833,6 +1809,7 @@ import {
   province,
   city,
   site,
+  allSite,
   hospital,
   getBase64Image,
   img_base64
@@ -3560,7 +3537,7 @@ export default {
     },
     //根据市获取站点列表
     async siteList(id) {
-      let data = await site(id);
+      let data = await allSite(null,id);
       this.seach.siteLists = data;
       this.transferSite.siteLists = data;
     },

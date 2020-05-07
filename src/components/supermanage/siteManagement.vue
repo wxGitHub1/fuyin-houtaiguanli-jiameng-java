@@ -235,6 +235,7 @@ import {
   province,
   city,
   site,
+  allSite,
   joinAllProvince,joinAllCity
 } from "../../utils/public";
 import { Promise, all, async } from "q";
@@ -491,7 +492,8 @@ export default {
             });
           } else {
             let dataList = res.data.data;
-            this.clientData = dataList.data;
+            // this.clientData = dataList.data;
+            this.clientData = dataList.data.siteListDTOs;
             this.pages.total = dataList.total;
             this.loading = false;
           }
@@ -533,7 +535,7 @@ export default {
     },
     //站点
     async siteList(id) {
-      this.seach.siteIdList = await site(id);
+      this.seach.siteIdList = await allSite(null,id);
     }
   }
 };

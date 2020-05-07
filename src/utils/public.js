@@ -102,10 +102,10 @@ export function getTime(sf) {     	//获取时间
  * 
  * @param {*} id 试穿对应id：试穿6、测评9、取型8、维修人员12
  */
-export function personnel(id,siteId=null) {
+export function personnel(id, siteId = null) {
   let data = {
     deptId: id,
-    siteId:siteId
+    siteId: siteId
   };
   if (id === 6) {
     return new Promise((resolve) => {
@@ -289,6 +289,11 @@ export function batch(id) {
 }
 //根据各个信息获取站点
 //siteId  siteName siteType  siteIdSelf   userId userName provinceId cityId
+/**
+ * 
+ * @param {*} pId 省份id
+ * @param {*} cId 城市id
+ */
 export function allSite(pId, cId) {
   let data = {
     provinceId: pId,
@@ -387,39 +392,39 @@ export function getBase64Image(img) {
  * @param {*} that vue对象
  * @param {*} res 数据
  */
-export function img_base64(that,res){
-            let img1 = res.zgRight;
-            let img2 = res.zgLeft;
-            let img3 = res.ggLeft;
-            let img4 = res.ggRight;
-            let image1 = new Image();
-            image1.crossOrigin = "";
-            image1.src = img1;
-            let image2 = new Image();
-            image2.crossOrigin = "";
-            image2.src = img2;
-            let image3 = new Image();
-            image3.crossOrigin = "";
-            image3.src = img3;
-            image1.onload = () => {
-              that.testReport.zgRight = getBase64Image(image1);
-            };
-            image2.onload = () => {
-              that.testReport.zgLeft = getBase64Image(image2);
-            };
-            image3.onload = () => {
-              that.testReport.ggLeft = getBase64Image(image3);
-            };
-            if (img4 != null || img4 != undefined) {
-              let image4 = new Image();
-              image4.crossOrigin = "";
-              image4.src = img4;
-              image4.onload = () => {
-                that.testReport.ggRight = getBase64Image(image4);
-              };
-              that.isTwo = true;
-            }else{
-              that.isTwo = false;
-            }
+export function img_base64(that, res) {
+  let img1 = res.zgRight;
+  let img2 = res.zgLeft;
+  let img3 = res.ggLeft;
+  let img4 = res.ggRight;
+  let image1 = new Image();
+  image1.crossOrigin = "";
+  image1.src = img1;
+  let image2 = new Image();
+  image2.crossOrigin = "";
+  image2.src = img2;
+  let image3 = new Image();
+  image3.crossOrigin = "";
+  image3.src = img3;
+  image1.onload = () => {
+    that.testReport.zgRight = getBase64Image(image1);
+  };
+  image2.onload = () => {
+    that.testReport.zgLeft = getBase64Image(image2);
+  };
+  image3.onload = () => {
+    that.testReport.ggLeft = getBase64Image(image3);
+  };
+  if (img4 != null || img4 != undefined) {
+    let image4 = new Image();
+    image4.crossOrigin = "";
+    image4.src = img4;
+    image4.onload = () => {
+      that.testReport.ggRight = getBase64Image(image4);
+    };
+    that.isTwo = true;
+  } else {
+    that.isTwo = false;
+  }
 
 } 

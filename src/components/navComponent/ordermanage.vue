@@ -1006,7 +1006,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              v-if="scope.row.source =='会员卡' || scope.row.source =='测评服务' ? true: false "
+              v-if="scope.row.source =='会员卡' || scope.row.source =='测评服务' ? false:true"
               @click="tsyq(scope)"
               type="primary"
             >特殊要求</el-button>
@@ -1223,7 +1223,7 @@
         <div v-for="item in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
           </div>
         </div>
         <div class="cpSize" >
@@ -10977,6 +10977,7 @@ import {
   province,
   city,
   site,
+  allSite,
   hospital
 } from "../../utils/public";
 import fuyinProduct from "../../utils/fuyinProduct";
@@ -12277,7 +12278,7 @@ if (res.data.returnCode != 0) {
     },
     //根据市获取站点列表
     async siteList(id) {
-      this.seach.siteLists = await site(id);
+      this.seach.siteLists = await allSite(null,id);
     },
     //根据站点获取医院列表
     async hospitalList(id) {

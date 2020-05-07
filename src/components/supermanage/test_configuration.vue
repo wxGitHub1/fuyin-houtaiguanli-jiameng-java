@@ -492,12 +492,12 @@ export default {
 
     //新增加盟获取省
     async addProvinceList() {
-      this.add.provinceIdList = await joinAllProvince();
+      this.add.provinceIdList = await province();
       this.seach.provinceIdList = this.add.provinceIdList;
     },
     //新增加盟获取市
     async addCityList(id) {
-      this.add.cityIdList = await joinAllCity(id);
+      this.add.cityIdList = await city(id);
       this.seach.cityIdList = this.add.cityIdList;
     },
     //获取省

@@ -490,7 +490,7 @@ import {
   exportExcel
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod,site,hospital } from "../../utils/public";
+import { exportMethod,site ,allSite,hospital } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -1300,7 +1300,7 @@ export default {
     },
     //站点
     async siteList(id) {
-      let resData = await site(id);
+      let resData = await allSite(null,id);
       this.seachFome.siteIdList = resData
       this.dialogForm.siteIdList = resData;
     },

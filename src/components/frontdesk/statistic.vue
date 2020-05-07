@@ -255,6 +255,7 @@ import {
   province,
   city,
   site,
+  allSite,
   hospital
 } from "../../utils/public";
 import { Promise, all, async } from "q";
@@ -456,7 +457,7 @@ export default {
     },
     //根据市获取站点列表
     async siteList(id) {
-      this.seach.siteLists = await site(id);
+      this.seach.siteLists = await allSite(null,id);
     },
     //根据站点获取医院列表
     async hospitalList(id) {

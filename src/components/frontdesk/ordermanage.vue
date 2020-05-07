@@ -439,7 +439,7 @@
         <div v-for="(item,index) in productSize" :key="index" class="cpSize">
           <span class="span">{{item.name}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
           </div>
         </div>
       </div>
