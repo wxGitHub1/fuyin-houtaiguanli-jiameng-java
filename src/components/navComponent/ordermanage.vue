@@ -359,7 +359,7 @@
         <el-table-column prop="doctorName" label="医生"></el-table-column>
         <el-table-column prop="prescriptionType" label="病单类型"></el-table-column>
         <el-table-column prop="condition" label="处方病情"></el-table-column>
-        <el-table-column prop="illness" label="观察病情"></el-table-column>
+        <el-table-column prop="illness" label="新增病情"></el-table-column>
         <el-table-column prop="pCreateTime" label="创建时间" min-width="100"></el-table-column>
       </el-table>
       <h3 class="b-b-p-1">
@@ -430,7 +430,7 @@
         <el-table-column prop="name" label="产品名" min-width="230"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称" min-width="100"></el-table-column>
         <el-table-column prop="type" label="产品分类"></el-table-column>
-        <el-table-column prop="productOrderType" label="下单类型"></el-table-column>
+        <el-table-column prop="productOrderTypeCN" label="下单类型"></el-table-column>
         <el-table-column prop="unit" label="产品规格"></el-table-column>
         <el-table-column prop="number" label="产品数量"></el-table-column>
         <el-table-column label="产品尺寸" align="center" min-width="90">
@@ -854,7 +854,7 @@
               <hr />
               <div>补交时间：{{bj_obj.addMoneyTime}}</div>
               <div>订单编号：{{bj_obj.orderNum}}</div>
-              <div>打印时间：{{realTime}}</div>
+              <div>打印时间：{{bj_obj.printTime}}</div>
               <hr />
               <div>该产品不在医保、合疗、商业保险报销范围内，如有需求可提供正式增值税发票</div>
               <hr />
@@ -919,7 +919,7 @@
         <el-table-column prop="doctorName" label="医生"></el-table-column>
         <el-table-column prop="prescriptionType" label="病单类型"></el-table-column>
         <el-table-column prop="condition" label="处方病情"></el-table-column>
-        <el-table-column prop="illness" label="观察病情"></el-table-column>
+        <el-table-column prop="illness" label="新增病情"></el-table-column>
         <el-table-column prop="pCreateTime" label="创建时间" min-width="100"></el-table-column>
       </el-table>
       <el-row class="margin-t-10">
@@ -1015,11 +1015,11 @@
               type="primary"
             >尺寸录入</el-button>
             <el-button size="mini" @click="zkyh(scope)" type="primary">折扣优惠</el-button>
-            <el-button
+            <!-- <el-button
               size="mini"
               @click.native.prevent="deleteRow(scope.$index,detailFormList)"
               type="danger"
-            >删除</el-button>
+            >删除</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -12332,11 +12332,11 @@ if (res.data.returnCode != 0) {
   .span {
     display: inline-block;
     margin-bottom: 10px;
-    width: 30%;
+     width: 30%;
   }
   .div {
     display: inline-block;
-    width: 79%;
+    width: 69%;
     .sizeInput {
       height: 30px;
       line-height: 30px;

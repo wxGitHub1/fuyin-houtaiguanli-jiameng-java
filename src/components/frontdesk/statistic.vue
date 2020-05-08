@@ -278,7 +278,7 @@ export default {
         orderDate: null,
         records: [
           { name: "成人", id: 1 },
-          { name: "儿童", id: 0 }
+          { name: "儿童", id: "0"}
         ],
         recordValue: null,
         hospitals: [],
@@ -333,7 +333,7 @@ export default {
         beginTime:
           this.seach.orderDate == null ? null : this.seach.orderDate[0],
         endTime: this.seach.orderDate == null ? null : this.seach.orderDate[1],
-        recordType: this.seach.recordvalue,
+        recordType: this.seach.recordValue == "0"? 0 :this.seach.recordValue,
         payType: this.seach.payValue,
         nickname: this.seach.nickname,
         source: this.seach.sourceValue,
@@ -342,7 +342,7 @@ export default {
         doctorId: this.seach.doctorValue || null,
         provinceId: this.seach.provinceId,
         cityId: this.seach.cityId,
-        siteId: this.seach.siteValue
+        siteId: this.seach.siteValue,
       };
       this.loading = true;
       assignStatistics(data)

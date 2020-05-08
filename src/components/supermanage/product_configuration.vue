@@ -1079,13 +1079,13 @@ export default {
 
     //新增加盟获取省
     async addProvinceList() {
-      let data = await joinAllProvince();
+      let data = await province();
       // this.add.provinceIdList = data;
       this.seach.provinceIdList = data;
     },
     //新增加盟获取市
     async addCityList(id) {
-      let data = await joinAllCity(id);
+      let data = await city(id);
       // this.add.cityIdList = data;
       this.seach.cityIdList = data;
     },

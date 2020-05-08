@@ -187,7 +187,7 @@
       <div>
         <span>处方病情:</span>
         <span class="margin-r-20">{{memberDetailDto.condition}}</span>
-        <span>观察病情:</span>
+        <span>新增病情:</span>
         <span class="margin-r-20">{{memberDetailDto.illness}}</span>
       </div>
       <h3 class="b-b-p-1">订单详情</h3>

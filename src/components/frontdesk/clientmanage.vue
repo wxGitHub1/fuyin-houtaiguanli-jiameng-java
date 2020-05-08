@@ -145,7 +145,7 @@
       element-loading-background="rgba(0, 0, 0, 0.8)"
     >
       <el-table-column width="60" align="center" prop="seq" label="序号"></el-table-column>
-      <el-table-column align="center" prop="memberName" label="客户姓名" min-width="40"></el-table-column>
+      <el-table-column align="center" prop="memberName" label="客户姓名" min-width="50"></el-table-column>
       <el-table-column align="center" prop="sex" label="性别" min-width="30"></el-table-column>
       <el-table-column align="center" prop="phone" label="联系电话" :show-overflow-tooltip="true" min-width="50"></el-table-column>
       <el-table-column align="center" prop="isVIP" label="是否会员" min-width="50"></el-table-column>
@@ -155,8 +155,8 @@
       <el-table-column align="center" prop="orderNum" label="订单号"></el-table-column>
       <el-table-column align="center" prop="oweMoney" label="下欠金额" min-width="50"></el-table-column>
       <el-table-column align="center" prop="orderDate" label="下单时间" :show-overflow-tooltip="true" min-width="50"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点" :show-overflow-tooltip="true" min-width="40"></el-table-column>
-      <el-table-column align="center" prop="visitFlagCN" label="到访状态" min-width="50"></el-table-column>
+      <!-- <el-table-column align="center" prop="siteName" label="站点" :show-overflow-tooltip="true" min-width="40"></el-table-column>
+      <el-table-column align="center" prop="visitFlagCN" label="到访状态" min-width="50"></el-table-column> -->
       <el-table-column v-if="tryOnly_show" align="center" label="操作" min-width="280">
         <template slot-scope="scope">
           <el-button
@@ -306,7 +306,7 @@
         <el-table-column label="医生" align="center" prop="doctorName"></el-table-column>
         <el-table-column label="病单类型" align="center" prop="prescriptionName"></el-table-column>
         <el-table-column label="处方病情" align="center" prop="condition"></el-table-column>
-        <el-table-column label="观察病情" align="center" prop="illness"></el-table-column>
+        <el-table-column label="新增病情" align="center" prop="illness"></el-table-column>
         <el-table-column label="创建时间" align="center" prop="updateTime"></el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -450,11 +450,11 @@
             ></el-input>
           </template>
         </el-table-column>
-        <el-table-column label="观察病情" align="center">
+        <el-table-column label="新增病情" align="center">
           <template slot-scope="scope">
             <el-input
               v-model="scope.row.obCondition"
-              placeholder="请输入观察病情"
+              placeholder="请输入新增病情"
               autocomplete="off"
               size="mini"
             ></el-input>
@@ -556,7 +556,7 @@
         <el-table-column prop="doctorName" label="医生"></el-table-column>
         <el-table-column prop="prescriptionType" label="病单类型"></el-table-column>
         <el-table-column prop="condition" label="处方病情"></el-table-column>
-        <el-table-column prop="illness" label="观察病情"></el-table-column>
+        <el-table-column prop="illness" label="新增病情"></el-table-column>
         <el-table-column prop="updateTime" label="创建时间" min-width="100"></el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -683,7 +683,7 @@
         <el-table-column prop="doctorName" label="医生"></el-table-column>
         <el-table-column prop="prescriptionType" label="病单类型"></el-table-column>
         <el-table-column prop="condition" label="处方病情"></el-table-column>
-        <el-table-column prop="illness" label="观察病情"></el-table-column>
+        <el-table-column prop="illness" label="新增病情"></el-table-column>
         <el-table-column prop="pCreateTime" label="创建时间" min-width="100"></el-table-column>
       </el-table>
       <h3 class="b-b-p-1">
@@ -933,11 +933,11 @@
             ></el-input>
           </template>
         </el-table-column>
-        <el-table-column label="观察病情" align="center">
+        <el-table-column label="新增病情" align="center">
           <template slot-scope="scope">
             <el-input
               v-model="scope.row.obCondition"
-              placeholder="请输入观察病情"
+              placeholder="请输入新增病情"
               autocomplete="off"
               size="mini"
             ></el-input>
@@ -1015,7 +1015,7 @@
         <el-table-column prop="doctorName" label="医生"></el-table-column>
         <el-table-column prop="prescriptionType" label="病单类型"></el-table-column>
         <el-table-column prop="condition" label="处方病情"></el-table-column>
-        <el-table-column prop="illness" label="观察病情"></el-table-column>
+        <el-table-column prop="illness" label="新增病情"></el-table-column>
         <el-table-column prop="updateTime" label="创建时间" min-width="100"></el-table-column>
       </el-table>
       <el-row class="margin-t-10">
@@ -1612,19 +1612,67 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
       </div>
-      <h3 class="b-b-p-1">结果备注</h3>
-      <div>{{examinationInfo.remark || "暂无数据"}}</div>
-      <h3 class="b-b-p-1">复查日期</h3>
-      <div>{{examinationInfo.repeatTime || "暂无数据"}}</div>
-      <h3 class="b-b-p-1">孩子配合程度</h3>
-      <div>{{examinationInfo.cooperate || "暂无数据"}}</div>
-      <h3 class="b-b-p-1">治疗周期</h3>
-      <div>{{examinationInfo.cycle || "暂无数据"}}</div>
+      <el-row>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">结果备注</h3>
+          <div>{{examinationInfo.remark || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">复查日期</h3>
+          <div>{{examinationInfo.repeatTime || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">孩子配合程度</h3>
+          <div>{{examinationInfo.cooperate || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">治疗周期</h3>
+          <div>{{examinationInfo.cycle || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">老带新</h3>
+          <div>{{examinationInfo.recommendCN || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">驼背</h3>
+          <div>{{examinationInfo.tuobeiCN || "暂无数据"}}</div>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">客户分析</h3>
+          <div>{{examinationInfo.memberAnalysisCN || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">客户类型</h3>
+          <div>{{examinationInfo.memberModeCN || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">是否全身测评</h3>
+          <div>{{examinationInfo.completeCN || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">未进行全身测评的原因</h3>
+          <div>{{examinationInfo.incompleteReason || "暂无数据"}}</div>
+        </el-col>
+        <el-col :span="4">
+          <h3 class="b-b-p-1">恢复情况</h3>
+          <div>{{examinationInfo.recoveryCN || "暂无数据"}}</div>
+        </el-col>
+      </el-row>
       <h3 class="b-b-p-1">测评详情</h3>
       <div v-for="(item,index) in detailList" :key="index" class="margin-t-20">
         <div>
           <span>测评项目:</span>
           <span class="margin-r-20">{{item.examinationName}}</span>
+          <el-button
+            class="right"
+            v-if="item.examinationName=='足部3D扫描测评'"
+            type="primary"
+            icon="el-icon-edit"
+            @click="threeD_show(item.detail)"
+            size="mini"
+          >修改</el-button>
         </div>
         <div class="margin-t-5">
           <span>测评数据:</span>
@@ -1635,7 +1683,7 @@
           >{{element.name}}:{{element.value}}</span>
         </div>
         <div class="margin-t-5">
-          <span>观察病情:</span>
+          <span>新增病情:</span>
           <span class="margin-r-20">{{item.normal}}</span>
         </div>
         <div class="margin-t-5">
@@ -1768,6 +1816,17 @@
         <el-button type="success" icon="el-icon-picture-outline" v-on:click="getPdf()">导出PDF</el-button>
       </div>
     </el-dialog>
+     <!-- dialog 足长足宽修改-->
+    <el-dialog title="足长足宽修改" :visible.sync="threeDDialg" :close-on-click-modal="false" width="30%">
+      <el-form :model="threeD_ObjFrom" :inline="true" size="mini" label-width="80px">
+        <el-form-item v-for="(item,index) in threeD_ObjFrom.list" :key="index" :label="item.name">
+          <el-input v-model="item.value" size="small" placeholder="请输入"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="threeD_func()" type="success" icon="el-icon-circle-check">提交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -1800,7 +1859,8 @@ import {
   selectAdvanceUser,
   changeSite,
   printMakeParam,
-  selectUserListByHospitalId
+  selectUserListByHospitalId,
+  examinePadZb3d
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
 import {
@@ -2192,7 +2252,12 @@ export default {
       ],
       overdueList: [],
       tryOnly_show:true,
-      isShowVal: null
+      isShowVal: null,
+      threeD_ObjFrom: {
+        list: []
+      },
+      threeDDialg: false,
+      only_recordId: null
     };
   },
   components: {
@@ -2209,6 +2274,44 @@ export default {
     this.init();
   },
   methods: {
+     threeD_func() {
+      let data = {
+        recordId: this.only_recordId,
+        footLength:
+          this.threeD_ObjFrom.list[1].name == "足长"
+            ? this.threeD_ObjFrom.list[1].value
+            : this.threeD_ObjFrom.list[0].value,
+        footWidth:
+          this.threeD_ObjFrom.list[0].name == "足宽"
+            ? this.threeD_ObjFrom.list[0].value
+            : this.threeD_ObjFrom.list[1].value
+      };
+      examinePadZb3d(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.threeDDialg = false;
+            this.dialogEvaluationDetails = false;
+            this.$message({
+              type: "success",
+              message: "下单成功！",
+              center: true
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    threeD_show(obj) {
+      this.threeD_ObjFrom.list = obj;
+      this.threeDDialg = true;
+    },
     isRequired(val) {
       this.isShowVal = val;
       if (val == 2) {
@@ -2473,6 +2576,7 @@ export default {
       }
     },
     evaluationDetails(id) {
+      this.only_recordId = id;
       let data = {
         recordId: id
       };
@@ -3640,11 +3744,11 @@ export default {
   .span {
     display: inline-block;
     margin-bottom: 10px;
-    width: 20%;
+     width: 30%;
   }
   .div {
     display: inline-block;
-    width: 79%;
+    width: 69%;
   }
 }
 .input-title {

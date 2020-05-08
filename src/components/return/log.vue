@@ -362,7 +362,7 @@
         <el-table-column prop="birthday" label="出生日期"></el-table-column>
         <el-table-column prop="vip" label="是否会员"></el-table-column>
         <el-table-column prop="condition" label="处方病情"></el-table-column>
-        <el-table-column prop="illness" label="观察病情"></el-table-column>
+        <el-table-column prop="illness" label="新增病情"></el-table-column>
       </el-table>
       <h3 class="b-b-p-1">产品信息</h3>
       <el-table :data="pickupServiceInformation" border max-height="220"  v-show="visitShow===1">

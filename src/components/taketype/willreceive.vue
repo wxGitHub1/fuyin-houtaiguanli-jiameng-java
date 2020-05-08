@@ -161,7 +161,7 @@
       <div>
         <span>处方病情:</span>
         <span class="margin-r-20">{{Details.condition}}</span>
-        <span>观察病情:</span>
+        <span>新增病情:</span>
         <span>{{Details.illness}}</span>
       </div>
       <h3 class="b-b-p-1">订单信息</h3>
@@ -253,7 +253,7 @@
           </div>
         </div>
         <div class="cpSize">
-          <span class="span">观察病情：</span>
+          <span class="span">新增病情：</span>
           <div class="div">
             <el-input
               v-model="productSize.textarea_illness"
@@ -628,11 +628,11 @@ export default {
   .span {
     display: inline-block;
     margin-bottom: 10px;
-    width: 20%;
+    width: 30%;
   }
   .div {
     display: inline-block;
-    width: 79%;
+    width: 69%;
   }
 }
 .jzfy {

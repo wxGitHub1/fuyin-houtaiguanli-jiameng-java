@@ -254,7 +254,7 @@
         <el-table-column prop="doctorName" label="医生"></el-table-column>
         <el-table-column prop="prescriptionType" label="病单类型"></el-table-column>
         <el-table-column prop="condition" label="处方病情"></el-table-column>
-        <el-table-column prop="illness" label="观察病情"></el-table-column>
+        <el-table-column prop="illness" label="新增病情"></el-table-column>
         <el-table-column prop="updateTime" label="创建时间" min-width="100"></el-table-column>
       </el-table>
       <h3 class="b-b-p-1">试穿信息</h3>

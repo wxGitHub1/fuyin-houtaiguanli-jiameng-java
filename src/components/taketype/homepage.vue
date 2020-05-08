@@ -115,12 +115,12 @@ export default {
                   nickname : this.search.nickname || null,
                   userId : this.search.userValue || null
                 };
-          const loading = this.$loading({
-            lock: true,
-            text: "加载中",
-            spinner: "el-icon-loading",
-            background: "rgba(0, 0, 0, 0.7)"
-          });
+          // const loading = this.$loading({
+          //   lock: true,
+          //   text: "加载中",
+          //   spinner: "el-icon-loading",
+          //   background: "rgba(0, 0, 0, 0.7)"
+          // });
       shapeHome(data)
         .then(res => {
           console.log(res);
@@ -133,7 +133,7 @@ export default {
             this.totalStatistic2[2] = res.data.data.shapeNum.shapes;
           
           setTimeout(() => {
-              loading.close();
+              // loading.close();
               this.drawLine();
             }, 1000);
         })

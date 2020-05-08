@@ -185,7 +185,7 @@
         <el-table-column label="医生" align="center" prop="doctorName"></el-table-column>
         <el-table-column label="病单类型" align="center" prop="prescriptionName"></el-table-column>
         <el-table-column label="处方病情" align="center" prop="condition"></el-table-column>
-        <el-table-column label="观察病情" align="center" prop="illness"></el-table-column>
+        <el-table-column label="新增病情" align="center" prop="illness"></el-table-column>
         <el-table-column label="创建时间" align="center" prop="updateTime"></el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -329,11 +329,11 @@
             ></el-input>
           </template>
         </el-table-column>
-        <el-table-column label="观察病情" align="center">
+        <el-table-column label="新增病情" align="center">
           <template slot-scope="scope">
             <el-input
               v-model="scope.row.obCondition"
-              placeholder="请输入观察病情"
+              placeholder="请输入新增病情"
               autocomplete="off"
               size="mini"
             ></el-input>
@@ -434,7 +434,7 @@
         <el-table-column prop="doctorName" label="医生"></el-table-column>
         <el-table-column prop="prescriptionType" label="病单类型"></el-table-column>
         <el-table-column prop="condition" label="处方病情"></el-table-column>
-        <el-table-column prop="illness" label="观察病情"></el-table-column>
+        <el-table-column prop="illness" label="新增病情"></el-table-column>
         <el-table-column prop="updateTime" label="创建时间" min-width="100"></el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -693,11 +693,11 @@
             ></el-input>
           </template>
         </el-table-column>
-        <el-table-column label="观察病情" align="center">
+        <el-table-column label="新增病情" align="center">
           <template slot-scope="scope">
             <el-input
               v-model="scope.row.obCondition"
-              placeholder="请输入观察病情"
+              placeholder="请输入新增病情"
               autocomplete="off"
               size="mini"
             ></el-input>
@@ -778,7 +778,7 @@
         <el-table-column prop="doctorName" label="医生"></el-table-column>
         <el-table-column prop="prescriptionType" label="病单类型"></el-table-column>
         <el-table-column prop="condition" label="处方病情"></el-table-column>
-        <el-table-column prop="illness" label="观察病情"></el-table-column>
+        <el-table-column prop="illness" label="新增病情"></el-table-column>
         <el-table-column prop="updateTime" label="创建时间" min-width="100"></el-table-column>
       </el-table>
       <el-row class="margin-t-10">
@@ -1252,7 +1252,7 @@
           >{{element.name}}:{{element.value}}</span>
         </div>
         <div class="margin-t-5">
-          <span>观察病情:</span>
+          <span>新增病情:</span>
           <span class="margin-r-20">{{item.normal}}</span>
         </div>
         <div class="margin-t-5">
@@ -2517,11 +2517,11 @@ export default {
   .span {
     display: inline-block;
     margin-bottom: 10px;
-    width: 20%;
+    width: 30%;
   }
   .div {
     display: inline-block;
-    width: 79%;
+    width: 69%;
   }
 }
 .input-title {
