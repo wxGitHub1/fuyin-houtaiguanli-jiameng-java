@@ -1041,7 +1041,7 @@
               type="text"
               v-model="scope.row.actual"
               @change="changeMoney()"
-              oninput="value=value.replace(/[^\d]/g,'')"
+              oninput="value=value.replace(/[^\d.]/g,'')"
             />
           </template>
         </el-table-column>
@@ -1260,13 +1260,15 @@
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
+        <el-table-column prop="batchNum" label="备案编号"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
-        <el-table-column prop="nickname" label="产品昵称"></el-table-column>
-        <el-table-column prop="unit" label="产品规格"></el-table-column>
-        <el-table-column prop="model" label="产品型号"></el-table-column>
-        <el-table-column prop="qualification" label="产品资质"></el-table-column>
-        <el-table-column prop="price" label="标准价格"></el-table-column>
+        <el-table-column prop="nickname" label="产品昵称" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="unit" label="产品规格" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="model" label="产品型号" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="qualification" label="产品资质" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="price" label="标准价格" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="origin" label="产地" show-overflow-tooltip></el-table-column>
       </el-table>
       <!-- Pagination 分页 -->
       <el-pagination
@@ -1321,7 +1323,7 @@
           type="text"
           class="input"
           v-model="zhekouyouhui.favorable"
-          oninput="value=value.replace(/[^\d]/g,'')"
+          oninput="value=value.replace(/[^\d.]/g,'')"
         />
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
@@ -1353,7 +1355,7 @@
               style="width：100%"
               size="small"
               placeholder="请输入"
-              oninput="value=value.replace(/[^\d]/g,'')"
+              oninput="value=value.replace(/[^\d.]/g,'')"
             ></el-input>
           </div>
         </div>
@@ -2753,8 +2755,8 @@ export default {
         obj[0].prescriptionValue != null &&
         obj[0].siteValue != null &&
         obj[0].provinceId != null &&
-        obj[0].cityId != null &&
-        obj[0].condition != null
+        obj[0].cityId != null
+        //  &&obj[0].condition != null
       ) {
         let data = {
           channel: 1,

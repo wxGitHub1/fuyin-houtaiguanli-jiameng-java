@@ -102,12 +102,12 @@ export function getTime(sf) {     	//获取时间
  * 
  * @param {*} id 试穿对应id：试穿6、测评9、取型8、维修人员12
  */
-export function personnel(id, siteId = null) {
+export function personnel(id = null, siteId = null) {
   let data = {
     deptId: id,
     siteId: siteId
   };
-  if (id === 6) {
+  if (id != null || siteId != null) {
     return new Promise((resolve) => {
       userListByDept(data)
         .then(res => {
@@ -118,9 +118,9 @@ export function personnel(id, siteId = null) {
           console.log(err);
         });
     })
-  } else if (id === 8) {
+  }else{
     return new Promise((resolve) => {
-      userListByDept(data)
+      userListByDept()
         .then(res => {
           const myData = res.data.data;
           resolve(myData)
@@ -128,40 +128,7 @@ export function personnel(id, siteId = null) {
         .catch(err => {
           console.log(err);
         });
-    })
-  } else if (id === 9) {
-    return new Promise((resolve) => {
-      userListByDept(data)
-        .then(res => {
-          const myData = res.data.data;
-          resolve(myData)
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    })
-  } else if (id === 12) {
-    return new Promise((resolve) => {
-      userListByDept(data)
-        .then(res => {
-          const myData = res.data.data;
-          resolve(myData)
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    })
-  } else if (id === 13) {
-    return new Promise((resolve) => {
-      userListByDept(data)
-        .then(res => {
-          const myData = res.data.data;
-          resolve(myData)
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    })
+      })
   }
 }
 //新增加盟获取全部省

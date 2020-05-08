@@ -557,13 +557,20 @@
         <el-table-column prop="actual" label="实际价格" min-width="100"></el-table-column>
         <el-table-column label="退款金额" min-width="150" align="center">
           <template slot-scope="scope">
-            <el-input-number
+            <!-- <el-input-number
               :min="0"
               @change="handleChange"
               style="width：100%"
               size="small"
               v-model="scope.row.amount"
-            ></el-input-number>
+            ></el-input-number> -->
+            <input
+              class="input"
+              type="text"
+              v-model="scope.row.amount"
+              @change="handleChange"
+              oninput="value=value.replace(/[^\d.]/g,'')"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -960,7 +967,7 @@
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格" min-width="100">
           <template slot-scope="scope">
-            <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" oninput="value=value.replace(/[^\d]/g,'')"/>
+            <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" oninput="value=value.replace(/[^\d.]/g,'')"/>
           </template>
         </el-table-column>
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
@@ -1195,7 +1202,7 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div>
         折扣价格：
-        <input type="text" class="input" v-model="zhekouyouhui.favorable" oninput="value=value.replace(/[^\d]/g,'')"/>
+        <input type="text" class="input" v-model="zhekouyouhui.favorable" oninput="value=value.replace(/[^\d.]/g,'')"/>
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
@@ -1221,7 +1228,7 @@
         <div v-for="item in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
           </div>
         </div>
         <div class="cpSize" >
@@ -11874,6 +11881,10 @@ export default {
       this.dialogRefund = false;
       this.refund.reason = null;
       this.refund.quickly = null;
+      // this.refundData.forEach((obj,index) => {
+      //   obj.amount = 0;
+      //   });
+
     },
     addRefund() {
       if (!!this.refund.reason) {

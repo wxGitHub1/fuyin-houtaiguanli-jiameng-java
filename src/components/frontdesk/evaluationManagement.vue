@@ -79,12 +79,26 @@
         <span>服务人员</span>
       </el-col>
       <el-col :span="2">
-        <el-input
+        <!-- <el-input
           size="small"
           style="width：100%"
           v-model="seach.servicePersonnel"
           placeholder="请输入名称"
-        ></el-input>
+        ></el-input> -->
+        <el-select
+          size="small"
+          clearable
+          style="width：100%"
+          v-model="seach.servicePersonnel"
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="item in userNameList"
+            :key="item.id"
+            :label="item.username"
+            :value="item.username"
+          ></el-option>
+        </el-select>
       </el-col>
       <el-col :span="2" id="input-title">
         <span class="time_style">省份:</span>
@@ -128,7 +142,7 @@
         <span class="time_style">站点名称:</span>
       </el-col>
       <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市">
+        <el-select clearable size="small" v-model="seach.siteValue" @change="userNameList_fuc(seach.siteValue)" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -972,7 +986,7 @@
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格">
           <template slot-scope="scope">
-            <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" oninput="value=value.replace(/[^\d]/g,'')"/>
+            <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" oninput="value=value.replace(/[^\d.]/g,'')"/>
           </template>
         </el-table-column>
         <el-table-column prop="deliveryTime" label="交货日期" min-width="100">
@@ -1131,6 +1145,7 @@
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
+        <el-table-column prop="batchNum" label="备案编号"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称" show-overflow-tooltip></el-table-column>
@@ -1138,6 +1153,7 @@
         <el-table-column prop="model" label="产品型号" show-overflow-tooltip></el-table-column>
         <el-table-column prop="qualification" label="产品资质" show-overflow-tooltip></el-table-column>
         <el-table-column prop="price" label="标准价格" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="origin" label="产地" show-overflow-tooltip></el-table-column>
       </el-table>
       <!-- Pagination 分页 -->
       <el-pagination
@@ -1181,7 +1197,7 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div>
         折扣价格：
-        <input type="text" class="input" v-model="zhekouyouhui.favorable" oninput="value=value.replace(/[^\d]/g,'')"/>
+        <input type="text" class="input" v-model="zhekouyouhui.favorable" oninput="value=value.replace(/[^\d.]/g,'')"/>
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
@@ -1206,25 +1222,25 @@
         <div v-for="item in productSize.wc" :key="item.name" class="cpSize">
           <span class="span">{{item.name}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
           </div>
         </div>
         <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
           <span class="span">{{item.name}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
           </div>
         </div>
         <div v-for="item in productSize.gd" :key="item.name" class="cpSize">
           <span class="span">{{item.name}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
           </div>
         </div>
         <div v-for="item in productSize.zb" :key="item.name" class="cpSize">
           <span class="span">{{item.name}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
           </div>
         </div>
         <div class="cpSize">
@@ -1615,7 +1631,7 @@ import {
   examinePadZb3d
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite,getBase64Image,img_base64 } from "../../utils/public";
+import { exportMethod, province, city, site,allSite,getBase64Image,img_base64,personnel } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import Print from "../commonComponent/PrintTemplate";
@@ -1887,7 +1903,8 @@ export default {
         list: []
       },
       threeDDialg: false,
-      only_recordId: null
+      only_recordId: null,
+      userNameList:[],
     };
   },
   components: {
@@ -1897,7 +1914,7 @@ export default {
     this.pageList();
     this.hospitals();
     this.provinceList();
-    // this.salesList();
+    this.userNameList_fuc();
     // this.personnel(8);
     // this.personnel(9);
     // this.personnel(6);
@@ -3174,6 +3191,11 @@ export default {
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
     },
+    //服务人员列表
+    async userNameList_fuc(id=null) {
+      this.userNameList = await personnel(null,id);
+    },
+    
     isJiaJi() {
       this.paymentMethod.totalAmountReceivable = this.ysMoney();
       this.paymentMethod.arrears = this.xqMoney();

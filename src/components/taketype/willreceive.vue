@@ -26,7 +26,21 @@
         <span>服务人员</span>
       </el-col>
       <el-col :span="2">
-        <el-input v-model="seach.servicePersonnel" size="small" placeholder="请输入姓名"></el-input>
+        <el-select
+          size="small"
+          clearable
+          style="width：100%"
+          v-model="seach.servicePersonnel"
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="item in userNameList"
+            :key="item.id"
+            :label="item.username"
+            :value="item.username"
+          ></el-option>
+        </el-select>
+        <!-- <el-input v-model="seach.servicePersonnel" size="small" placeholder="请输入姓名"></el-input> -->
       </el-col>
       <el-col :span="2">
         <el-button
@@ -193,7 +207,7 @@
         <div v-for="item in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
           </div>
         </div>
         <!-- <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
@@ -294,7 +308,7 @@ import {
   shapeInsert,
   getShapeUser
 } from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite } from "../../utils/public";
+import { exportMethod, province, city, site,allSite,personnel } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -345,12 +359,14 @@ export default {
         saleProductId: null,
         textarea_illness: null
       },
-      saleProductId: null
+      saleProductId: null,
+      userNameList:[],
     };
   },
   mounted() {
     this.pageList();
     this.provinceList();
+    this.userNameList_fuc();
     // this.userList();
   },
   methods: {
@@ -588,7 +604,11 @@ export default {
     //根据市获取站点列表
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
-    }
+    },
+    //服务人员列表
+    async userNameList_fuc() {
+      this.userNameList = await personnel();
+    },
   }
 };
 </script>

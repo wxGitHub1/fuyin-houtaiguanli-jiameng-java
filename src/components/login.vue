@@ -30,7 +30,7 @@
           </el-col>
         </el-row>
         <div class="version">
-          当前版本：1.0.2
+          当前版本：1.0.4
         </div>
       </el-col>
     </el-row>

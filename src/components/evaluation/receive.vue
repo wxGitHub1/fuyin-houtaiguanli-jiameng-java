@@ -27,7 +27,21 @@
         <span>服务人员</span>
       </el-col>
       <el-col :span="3">
-        <el-input v-model="seach.servicePersonnel" size="small" placeholder="请输入姓名"></el-input>
+      <el-select
+          size="small"
+          clearable
+          style="width：100%"
+          v-model="seach.servicePersonnel"
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="item in userNameList"
+            :key="item.id"
+            :label="item.username"
+            :value="item.username"
+          ></el-option>
+        </el-select>
+        <!-- <el-input v-model="seach.servicePersonnel" size="small" placeholder="请输入姓名"></el-input> -->
       </el-col>
       <el-col :span="2" style="width: 5.5%;line-height: 30px">
         <span class="time_style">接待日期</span>
@@ -839,7 +853,7 @@
               type="text"
               v-model="scope.row.actual"
               @change="changeMoney()"
-              oninput="value=value.replace(/[^\d]/g,'')"
+              oninput="value=value.replace(/[^\d.]/g,'')"
             />
           </template>
         </el-table-column>
@@ -1058,6 +1072,7 @@
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
+        <el-table-column prop="batchNum" label="备案编号"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称" show-overflow-tooltip></el-table-column>
@@ -1065,6 +1080,7 @@
         <el-table-column prop="model" label="产品型号" show-overflow-tooltip></el-table-column>
         <el-table-column prop="qualification" label="产品资质" show-overflow-tooltip></el-table-column>
         <el-table-column prop="price" label="标准价格" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="origin" label="产地" show-overflow-tooltip></el-table-column>
       </el-table>
       <!-- Pagination 分页 -->
       <el-pagination
@@ -1119,7 +1135,7 @@
           type="text"
           class="input"
           v-model="zhekouyouhui.favorable"
-          oninput="value=value.replace(/[^\d]/g,'')"
+          oninput="value=value.replace(/[^\d.]/g,'')"
         />
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
@@ -1146,7 +1162,7 @@
         <div v-for="item in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d]/g,'')"></el-input>
+            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
           </div>
         </div>
         <div class="cpSize">
@@ -1345,7 +1361,8 @@ import {
   allSite,
   hospital,
   getBase64Image,
-  img_base64
+  img_base64,
+  personnel
 } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
@@ -1589,7 +1606,8 @@ export default {
       },
       threeDDialg: false,
       only_recordId: null,
-      isShowVal: null
+      isShowVal: null,
+      userNameList:[],
     };
   },
   components: {
@@ -1599,6 +1617,7 @@ export default {
     this.pageList();
     // this.hospitals();
     this.provinceList();
+    this.userNameList_fuc();
     // this.salesList();
   },
   methods: {
@@ -2446,6 +2465,10 @@ export default {
       let data = await allSite(null,id);
       this.seach.siteLists = data;
       // this.transferSite.siteLists = data;
+    },
+    //服务人员列表
+    async userNameList_fuc() {
+      this.userNameList = await personnel();
     },
     isJiaJi() {
       // debugger
