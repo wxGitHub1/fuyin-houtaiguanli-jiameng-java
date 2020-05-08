@@ -273,7 +273,7 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="就诊类型" prop="memberType">
-              <el-radio-group v-model="ruleForm.memberType">
+              <el-radio-group v-model="ruleForm.memberType" @change="isRequired(ruleForm.memberType)">
                 <el-radio label="2">固定类</el-radio>
                 <el-radio label="1">矫形类</el-radio>
               </el-radio-group>
@@ -1562,16 +1562,21 @@ import Print from "../commonComponent/PrintTemplate";
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("手机号不能为空"));
-      } else {
-        const reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
-        if (reg.test(value)) {
-          callback();
+      if (this.isShowVal == 1) {
+        if (!value) {
+          // callback();
+          callback(new Error("手机号不能为空"));
         } else {
-          this.ruleForm.phone = null;
-          return callback(new Error("请输入正确的手机号"));
+          const reg = /^1[3|4|5|6|7|8|9][0-9]\d{8}$/;
+          if (reg.test(value)) {
+            callback();
+          } else {
+            // this.ruleForm.phone = null;
+            return callback(new Error("请输入正确的手机号"));
+          }
         }
+      } else {
+        return true;
       }
     };
     return {
@@ -1816,7 +1821,8 @@ export default {
       testReport: {},
       isTwo: true,
       htmlTitle: "测评报告PDF",
-      overdueList:[]
+      overdueList:[],
+      isShowVal: null
     };
   },
   components: {
@@ -1833,6 +1839,18 @@ export default {
     // this.personnel(12);
   },
   methods: {
+    isRequired(val) {
+      this.isShowVal = val;
+      if (val == 2) {
+        this.rules.phone[0].required = false;
+        this.rules.birthday[0].required = false;
+        console.log("不用填");
+      } else {
+        this.rules.phone[0].required = true;
+        this.rules.birthday[0].required = true;
+        console.log("必须填");
+      }
+    },
     printpage() {
       this.$print2(this.$refs.print);
     },
@@ -2604,7 +2622,7 @@ export default {
       }
     },
     submitModfiy(formName) {
-      this.$refs[formName].validate(valid => {
+      // this.$refs[formName].validate(valid => {
         let data = {
           channel: 0,
           memberName: this.ruleForm.name,
@@ -2641,7 +2659,7 @@ export default {
           .catch(err => {
             console.log(err);
           });
-      });
+      // });
     },
     cancelDd() {
       this.dialogAddbd = false;
@@ -2770,8 +2788,9 @@ export default {
       this.modefiy = false;
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        console.log(this.addData[0].prescriptionValue);
+      // this.$refs[formName].validate(valid => {
+      //   console.log(this.addData[0].prescriptionValue);
+      //     valid &&
         if (
           valid &&
           this.addData[0].prescriptionValue != null &&
@@ -2826,7 +2845,7 @@ export default {
             center: true
           });
         }
-      });
+      // });
     },
     resetForm(formName) {
       this.dialogFormVisible = false;

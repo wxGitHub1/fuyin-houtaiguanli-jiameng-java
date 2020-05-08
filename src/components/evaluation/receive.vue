@@ -171,7 +171,7 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="就诊类型" prop="memberType">
-              <el-radio-group v-model="ruleForm.memberType">
+              <el-radio-group v-model="ruleForm.memberType" @change="isRequired(ruleForm.memberType)">
                 <el-radio label="2">固定类</el-radio>
                 <el-radio label="1">矫形类</el-radio>
               </el-radio-group>
@@ -1354,17 +1354,21 @@ import placeOrder from "../navComponent/place_order";
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
-      if (!value) {
-        // callback();
-        callback(new Error("手机号不能为空"));
-      } else {
-        const reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
-        if (reg.test(value)) {
-          callback();
+      if (this.isShowVal == 1) {
+        if (!value) {
+          // callback();
+          callback(new Error("手机号不能为空"));
         } else {
-          // this.ruleForm.phone = null;
-          return callback(new Error("请输入正确的手机号"));
+          const reg = /^1[3|4|5|6|7|8|9][0-9]\d{8}$/;
+          if (reg.test(value)) {
+            callback();
+          } else {
+            // this.ruleForm.phone = null;
+            return callback(new Error("请输入正确的手机号"));
+          }
         }
+      } else {
+        return true;
       }
     };
     return {
@@ -1584,7 +1588,8 @@ export default {
         ]
       },
       threeDDialg: false,
-      only_recordId: null
+      only_recordId: null,
+      isShowVal: null
     };
   },
   components: {
@@ -1597,6 +1602,18 @@ export default {
     // this.salesList();
   },
   methods: {
+    isRequired(val) {
+      this.isShowVal = val;
+      if (val == 2) {
+        this.rules.phone[0].required = false;
+        this.rules.birthday[0].required = false;
+        console.log("不用填");
+      } else {
+        this.rules.phone[0].required = true;
+        this.rules.birthday[0].required = true;
+        console.log("必须填");
+      }
+    },
     threeD_func() {
       let data = {
         recordId: this.only_recordId,
@@ -1954,7 +1971,7 @@ export default {
         });
     },
     submitModfiy(formName) {
-      this.$refs[formName].validate(valid => {
+      // this.$refs[formName].validate(valid => {
         let data = {
           channel: 1,
           memberName: this.ruleForm.name,
@@ -1991,7 +2008,7 @@ export default {
           .catch(err => {
             console.log(err);
           });
-      });
+      // });
     },
     cancelDd() {
       this.dialogAddbd = false;
@@ -2167,8 +2184,9 @@ export default {
       this.modefiy = false;
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        console.log(this.addData[0].prescriptionValue);
+      // this.$refs[formName].validate(valid => {
+      //   console.log(this.addData[0].prescriptionValue);
+      //     valid &&
         if (
           valid &&
           this.addData[0].prescriptionValue != null &&
@@ -2220,11 +2238,11 @@ export default {
         } else {
           this.$message({
             type: "warning",
-            message: "请填写表格！",
+            message: "请填写病单信息！",
             center: true
           });
         }
-      });
+      // });
     },
     resetForm(formName) {
       this.dialogFormVisible = false;

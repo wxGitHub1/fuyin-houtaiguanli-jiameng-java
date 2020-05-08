@@ -1799,11 +1799,11 @@ export default {
         // school: [
         //   { required: true, message: "请输入学校名称", trigger: "blur" }
         // ],
-        phone: [{ required: false, validator: checkPhone, trigger: "blur" }],
+        phone: [{ required: true, validator: checkPhone, trigger: "blur" }],
         birthday: [
           {
             type: "string",
-            required: false,
+            required: true,
             message: "请选择日期",
             trigger: "change"
           }
