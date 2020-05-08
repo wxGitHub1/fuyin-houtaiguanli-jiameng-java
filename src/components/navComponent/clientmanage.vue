@@ -371,10 +371,10 @@
             <el-form-item label="就诊类型" prop="memberType">
               <el-radio-group
                 v-model="ruleForm.memberType"
-                :change="isRequired(ruleForm.memberType)"
+                @change="isRequired(ruleForm.memberType)"
               >
-                <el-radio label="1">固定类</el-radio>
-                <el-radio label="2">矫形类</el-radio>
+                <el-radio label="2">固定类</el-radio>
+                <el-radio label="1">矫形类</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -1587,7 +1587,7 @@ import placeOrder from "./place_order";
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
-      if (this.isShowVal == 2) {
+      if (this.isShowVal == 1) {
         if (!value) {
           // callback();
           callback(new Error("手机号不能为空"));
@@ -1600,6 +1600,8 @@ export default {
             return callback(new Error("请输入正确的手机号"));
           }
         }
+      } else {
+        return true;
       }
     };
     return {
@@ -1797,11 +1799,11 @@ export default {
         // school: [
         //   { required: true, message: "请输入学校名称", trigger: "blur" }
         // ],
-        phone: [{ required: true, validator: checkPhone, trigger: "blur" }],
+        phone: [{ required: false, validator: checkPhone, trigger: "blur" }],
         birthday: [
           {
             type: "string",
-            required: true,
+            required: false,
             message: "请选择日期",
             trigger: "change"
           }
@@ -1927,7 +1929,7 @@ export default {
   methods: {
     isRequired(val) {
       this.isShowVal = val;
-      if (val == 1) {
+      if (val == 2) {
         this.rules.phone[0].required = false;
         this.rules.birthday[0].required = false;
         console.log("不用填");
@@ -2586,7 +2588,7 @@ export default {
       // }
     },
     submitModfiy(formName) {
-      this.$refs[formName].validate(valid => {
+      // this.$refs[formName].validate(valid => {
         let data = {
           channel: 1,
           memberName: this.ruleForm.name,
@@ -2627,7 +2629,7 @@ export default {
           .catch(err => {
             console.log(err);
           });
-      });
+      // });
     },
     cancelDd() {
       this.dialogAddbd = false;
@@ -2804,69 +2806,69 @@ export default {
       this.modefiy = false;
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        console.log(this.addData[0].prescriptionValue);
-        if (
-          valid &&
-          this.addData[0].prescriptionValue != null &&
-          this.addData[0].departmentValue != null &&
-          this.addData[0].doctorValue != null &&
-          this.addData[0].hospitalValue != null &&
-          this.addData[0].siteValue != null &&
-          this.addData[0].provinceId != null &&
-          this.addData[0].cityId != null &&
-          !!this.addData[0].condition
-        ) {
-          let data = {
-            channel: 1,
-            memberName: this.ruleForm.name,
-            phone: this.ruleForm.phone,
-            school: this.ruleForm.school || "",
-            sex: Number(this.ruleForm.sex),
-            birthday: this.ruleForm.birthday,
-            address: this.ruleForm.desc || "",
-            treatmentCycle: Number(this.ruleForm.zhouqi),
-            cognition: this.ruleForm.renzhi,
-            source: Number(this.ruleForm.laiyuan),
-            source: Number(this.ruleForm.memberType),
-            doctorId: this.addData[0].doctorValue,
-            prescriptionType: this.addData[0].prescriptionValue,
-            condition: this.addData[0].condition,
-            illness: this.addData[0].obCondition || "",
-            siteId: this.addData[0].siteValue,
-            provinceId: this.addData[0].provinceId,
-            cityId: this.addData[0].cityId
-          };
-          // console.log(data)
-          addMember(data)
-            .then(res => {
-              if (res.data.returnCode != 0) {
-                this.$message({
-                  type: "warning",
-                  message: res.data.returnMsg,
-                  center: true
-                });
-              } else {
-                this.$message({
-                  type: "success",
-                  message: "新增成功！",
-                  center: true
-                });
-                this.resetForm("ruleForm");
-                this.pageList(this.pages.currentPage, this.pages.pageSize);
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } else {
-          this.$message({
-            type: "warning",
-            message: "请填写表格！",
-            center: true
+      // this.$refs[formName].validate(valid => {
+      // console.log(this.addData[0].prescriptionValue);
+      // valid &&
+      if (
+        this.addData[0].prescriptionValue != null &&
+        this.addData[0].departmentValue != null &&
+        this.addData[0].doctorValue != null &&
+        this.addData[0].hospitalValue != null &&
+        this.addData[0].siteValue != null &&
+        this.addData[0].provinceId != null &&
+        this.addData[0].cityId != null &&
+        !!this.addData[0].condition
+      ) {
+        let data = {
+          channel: 1,
+          memberName: this.ruleForm.name,
+          phone: this.ruleForm.phone,
+          school: this.ruleForm.school || "",
+          sex: Number(this.ruleForm.sex),
+          birthday: this.ruleForm.birthday,
+          address: this.ruleForm.desc || "",
+          treatmentCycle: Number(this.ruleForm.zhouqi),
+          cognition: this.ruleForm.renzhi,
+          source: Number(this.ruleForm.laiyuan),
+          memberType: Number(this.ruleForm.memberType),
+          doctorId: this.addData[0].doctorValue,
+          prescriptionType: this.addData[0].prescriptionValue,
+          condition: this.addData[0].condition,
+          illness: this.addData[0].obCondition || "",
+          siteId: this.addData[0].siteValue,
+          provinceId: this.addData[0].provinceId,
+          cityId: this.addData[0].cityId
+        };
+        // console.log(data)
+        addMember(data)
+          .then(res => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                type: "warning",
+                message: res.data.returnMsg,
+                center: true
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "新增成功！",
+                center: true
+              });
+              this.resetForm("ruleForm");
+              this.pageList(this.pages.currentPage, this.pages.pageSize);
+            }
+          })
+          .catch(err => {
+            console.log(err);
           });
-        }
-      });
+      } else {
+        this.$message({
+          type: "warning",
+          message: "请填写病单信息！",
+          center: true
+        });
+      }
+      // });
     },
     resetForm(formName) {
       this.dialogFormVisible = false;

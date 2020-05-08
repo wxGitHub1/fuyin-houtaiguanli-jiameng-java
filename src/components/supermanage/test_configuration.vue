@@ -245,6 +245,7 @@ import {
   province,
   city,
   site,
+  allSite,
   evaluation,
   evaluationList,
   joinAllProvince,
@@ -510,7 +511,7 @@ export default {
     // },
     //站点
     async siteList(id, xz) {
-      let data = await site(id);
+      let data = await allSite(null,id);
       if (xz == "新增") {
         this.add.siteIdList = data;
       } else {

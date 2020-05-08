@@ -158,7 +158,6 @@ const fy_product = {
   "FYKF-S-XZ-AO-010": 8,
   "FYKF-S-XZ-AO-007": 8,
   "FYKF-S-XZ-AO-006": 8,
-  "FYKF-S-XZ-AO-006": 8,
   "FYKF-T-S-AO-D-Ⅰ": 8,
   "FYKF-G-S-AO-D": 8,
   "FYKF-S-XZ-KO-010": 8,
@@ -210,10 +209,7 @@ const fy_product = {
   "FYKF-S-XZ-HO-010": 27,
   "FYKF-G-Y-HKAO-D": 27,
   "FYKF-R-XZ-FO-009": 29,
-  "FYKF-J-Y-AFO-D-Ⅳ": 29,
   "FYKF-S-JZ-CO-007": 30,
-  "FYKF-S-JZ-CO-007": 30,
-  "FYKF-R-XZ-FO-009": 31,
   "FYKF-J-Y-AFO-D-Ⅳ": 31
 }
 export default {

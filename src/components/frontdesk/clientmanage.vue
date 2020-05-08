@@ -278,8 +278,8 @@
             </el-form-item>
             <el-form-item label="就诊类型" prop="memberType">
               <el-radio-group v-model="ruleForm.memberType">
-                <el-radio label="1">固定类</el-radio>
-                <el-radio label="2">矫形类</el-radio>
+                <el-radio label="2">固定类</el-radio>
+                <el-radio label="1">矫形类</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
