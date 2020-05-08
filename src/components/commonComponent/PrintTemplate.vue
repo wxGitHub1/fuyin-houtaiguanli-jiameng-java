@@ -12,10 +12,18 @@
             <el-col :span="6">
               <div>性别：{{testReport.sex}}</div>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <div>出生日期：{{testReport.birthday}}</div>
             </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="6">
+              <div>身高：{{testReport.height}}cm</div>
+            </el-col>
+            <el-col :span="6">
+              <div>体重：{{testReport.weight}}kg</div>
+            </el-col>
+            <el-col :span="12">
               <div>血型：</div>
             </el-col>
           </el-row>
@@ -111,24 +119,24 @@
         <div id="development_information">
           <el-row>
             <el-col :span="6">
-              <div class="font-italic">右足弓指数：{{testReport.rightProportion || "暂无数据"}}</div>
+              <div >右足弓指数：{{testReport.rightProportion || "暂无数据"}}</div>
             </el-col>
             <el-col :span="6">
-              <div class="font-italic">左足弓指数：{{testReport.leftProportion || "暂无数据"}}</div>
+              <div >左足弓指数：{{testReport.leftProportion || "暂无数据"}}</div>
             </el-col>
             <el-col :span="6">
-              <div class="font-italic">左跟骨外翻：{{testReport.leftAbroadCalcaneus || "暂无数据"}}</div>
+              <div >左跟骨外翻：{{testReport.leftAbroadCalcaneus || "暂无数据"}}</div>
             </el-col>
             <el-col :span="6">
-              <div class="font-italic">右跟骨外翻：{{testReport.rightAbroadCalcaneus || "暂无数据"}}</div>
+              <div >右跟骨外翻：{{testReport.rightAbroadCalcaneus || "暂无数据"}}</div>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="6" :offset="12">
-              <div class="font-italic">左跟骨内翻：{{testReport.leftWithinCalcaneus || "暂无数据"}}</div>
+              <div >左跟骨内翻：{{testReport.leftWithinCalcaneus || "暂无数据"}}</div>
             </el-col>
             <el-col :span="6">
-              <div class="font-italic">右跟骨内翻：{{testReport.rightWithinCalcaneus || "暂无数据"}}</div>
+              <div >右跟骨内翻：{{testReport.rightWithinCalcaneus || "暂无数据"}}</div>
             </el-col>
           </el-row>
         </div>
@@ -138,17 +146,17 @@
         <div id="development_information">
           <el-row>
             <el-col :span="24">
-              <div class="font-italic">产品名称：发育型防护气垫</div>
+              <div >产品名称：发育型防护气垫</div>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
-              <div class="font-italic">产品特点：亲肤面料、柔软随行、贴合足部曲线、U型根杯保护跟骨部位，前掌设计更适合脚型</div>
+              <div >产品特点：亲肤面料、柔软随行、贴合足部曲线、U型根杯保护跟骨部位，前掌设计更适合脚型</div>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
-              <div class="font-italic">产品说明：数字化定制的发育型防护气垫，营造出更适合足部的发育环境</div>
+              <div >产品说明：数字化定制的发育型防护气垫，营造出更适合足部的发育环境</div>
             </el-col>
           </el-row>
           <h3>注意事项</h3>
@@ -168,8 +176,8 @@
             </el-col>
           </el-row>
         </div>
-        <div class="text-c margin-t-30 font-italic">服务电话：029-89353690</div>
-        <div class="text-c margin-t-20 font-italic">服务地址：陕西省西安市未央区经开万科中心15楼福音康复</div>
+        <div class="text-c margin-t-30 ">服务电话：029-68882888</div>
+        <div class="text-c margin-t-20 ">服务地址：陕西省西安市未央区经开万科中心15楼福音康复</div>
       </div>
     </div>
   </div>

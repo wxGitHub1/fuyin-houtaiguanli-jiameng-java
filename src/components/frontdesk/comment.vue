@@ -31,7 +31,21 @@
         <span class="time_style">服务人员</span>
       </el-col>
       <el-col :span="2">
-        <el-input size="small" style="width：100%" v-model="seach.userName" placeholder="请输入名称"></el-input>
+        <el-select
+          size="small"
+          clearable
+          style="width：100%"
+          v-model="seach.userName"
+          placeholder="请选择"
+        >
+          <el-option
+            v-for="item in userNameList"
+            :key="item.id"
+            :label="item.username"
+            :value="item.username"
+          ></el-option>
+        </el-select>
+        <!-- <el-input size="small" style="width：100%" v-model="seach.userName" placeholder="请输入名称"></el-input> -->
       </el-col>
       <el-col :span="2" class="input-title">
         <span class="time_style">分配日期：</span>
@@ -101,7 +115,7 @@
         <span class="time_style">站点名称:</span>
       </el-col>
       <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市">
+        <el-select clearable size="small"  @change="userNameList_fuc(seach.siteValue)" v-model="seach.siteValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -270,7 +284,7 @@ import {
   assignAppraisal,
   endAdmit
 } from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite } from "../../utils/public";
+import { exportMethod, province, city, site,allSite,personnel } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -349,12 +363,14 @@ export default {
         title: null,
         imgUrl: null
       },
-      myType: null
+      myType: null,
+      userNameList:[],
     };
   },
   mounted() {
     this.pageList();
     this.provinceList();
+    this.userNameList_fuc();
     // this.personnel();
   },
   methods: {
@@ -715,7 +731,11 @@ export default {
     //根据市获取站点列表
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
-    }
+    },
+    //服务人员列表
+    async userNameList_fuc(id=null) {
+      this.userNameList = await personnel(null,id);
+    },
   }
 };
 </script>

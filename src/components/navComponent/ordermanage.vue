@@ -346,7 +346,11 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
         <span>就读学校:</span>
-        <span>{{Details.school||"暂无数据"}}</span>
+        <span class="margin-r-20">{{Details.school}}</span>
+        <span>客户当前类型:</span>
+        <span class="margin-r-20">{{Details.memberModeCN}}</span>
+        <span>就诊类型:</span>
+        <span>{{Details.memberTypeCN}}</span>
       </div>
       <h3 class="b-b-p-1">病单信息</h3>
       <el-table :data="PatientInformation" border style="width: 100%">
@@ -432,7 +436,7 @@
         <el-table-column prop="type" label="产品分类"></el-table-column>
         <el-table-column prop="productOrderTypeCN" label="下单类型"></el-table-column>
         <el-table-column prop="unit" label="产品规格"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
+        <!-- <el-table-column prop="number" label="产品数量"></el-table-column> -->
         <el-table-column label="产品尺寸" align="center" min-width="90">
           <template slot-scope="scope">
             <el-button
@@ -12275,7 +12279,7 @@ if (res.data.returnCode != 0) {
     xqMoney() {
       let s =
         this.paymentMethod.totalAmountReceivable - this.paymentMethod.total;
-      return s;
+      return s.toFixed(2);
     },
     //获取省
     async provinceList() {

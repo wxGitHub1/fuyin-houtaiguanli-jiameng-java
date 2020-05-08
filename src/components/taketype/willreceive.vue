@@ -169,7 +169,11 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
         <span>就读学校:</span>
-        <span>{{Details.school}}</span>
+        <span class="margin-r-20">{{Details.school}}</span>
+        <span>客户当前类型:</span>
+        <span class="margin-r-20">{{Details.memberModeCN}}</span>
+        <span>就诊类型:</span>
+        <span>{{Details.memberTypeCN}}</span>
       </div>
       <h3 class="b-b-p-1">病情信息</h3>
       <div>

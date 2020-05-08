@@ -614,7 +614,11 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
         <span>就读学校:</span>
-        <span>{{Details.school||"暂无数据"}}</span>
+        <span class="margin-r-20">{{Details.school}}</span>
+        <span>客户当前类型:</span>
+        <span class="margin-r-20">{{Details.memberModeCN}}</span>
+        <span>就诊类型:</span>
+        <span>{{Details.memberTypeCN}}</span>
       </div>
 
       <h3 class="b-b-p-1">会员信息</h3>
@@ -954,7 +958,11 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
         <span>就读学校:</span>
-        <span>{{Details.school||"暂无数据"}}</span>
+        <span class="margin-r-20">{{Details.school}}</span>
+        <span>客户当前类型:</span>
+        <span class="margin-r-20">{{Details.memberModeCN}}</span>
+        <span>就诊类型:</span>
+        <span>{{Details.memberTypeCN}}</span>
       </div>
       <h3 class="b-b-p-1">黑名单详细</h3>
       <el-table :data="blacklistDetails" border>
@@ -1492,10 +1500,10 @@
             :key="index"
           >{{element.name}}:{{element.value}}</span>
         </div>
-        <div class="margin-t-5">
+        <!-- <div class="margin-t-5">
           <span>新增病情:</span>
           <span class="margin-r-20">{{item.normal}}</span>
-        </div>
+        </div> -->
         <div class="margin-t-5">
           <span>测评结果:</span>
           <span class="margin-r-20">{{item.result}}</span>
@@ -3252,7 +3260,7 @@ export default {
     xqMoney() {
       let s =
         this.paymentMethod.totalAmountReceivable - this.paymentMethod.total;
-      return s;
+      return s.toFixed(2);
     }
   }
 };

@@ -511,7 +511,11 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
         <span>就读学校:</span>
-        <span>{{Details.school||"暂无数据"}}</span>
+        <span class="margin-r-20">{{Details.school}}</span>
+        <span>客户当前类型:</span>
+        <span class="margin-r-20">{{Details.memberModeCN}}</span>
+        <span>就诊类型:</span>
+        <span>{{Details.memberTypeCN}}</span>
       </div>
       <h3 class="b-b-p-1">会员信息</h3>
       <el-table :data="memberCard" border>
@@ -663,7 +667,11 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
         <span>就读学校:</span>
-        <span>{{Details.school||"暂无数据"}}</span>
+        <span class="margin-r-20">{{Details.school}}</span>
+        <span>客户当前类型:</span>
+        <span class="margin-r-20">{{Details.memberModeCN}}</span>
+        <span>就诊类型:</span>
+        <span>{{Details.memberTypeCN}}</span>
       </div>
       <h3 class="b-b-p-1">病单信息</h3>
       <el-table :data="PatientInformation" border style="width: 100%">
@@ -735,7 +743,7 @@
         <el-table-column prop="nickname" label="产品昵称" min-width="100"></el-table-column>
         <el-table-column prop="type" label="产品分类"></el-table-column>
         <el-table-column prop="unit" label="产品规格"></el-table-column>
-        <el-table-column prop="number" label="产品数量"></el-table-column>
+        <!-- <el-table-column prop="number" label="产品数量"></el-table-column> -->
         <!-- <el-table-column label="产品尺寸" align="center" min-width="90">
           <template slot-scope="scope">
             <el-button
@@ -912,7 +920,11 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
         <span>就读学校:</span>
-        <span>{{Details.school ||"暂无数据"}}</span>
+        <span class="margin-r-20">{{Details.school}}</span>
+        <span>客户当前类型:</span>
+        <span class="margin-r-20">{{Details.memberModeCN}}</span>
+        <span>就诊类型:</span>
+        <span>{{Details.memberTypeCN}}</span>
       </div>
       <h3 class="b-b-p-1">黑名单详细</h3>
       <el-table :data="blacklistDetails" border>
@@ -1548,10 +1560,10 @@
             :key="index"
           >{{element.name}}:{{element.value}}</span>
         </div>
-        <div class="margin-t-5">
+        <!-- <div class="margin-t-5">
           <span>新增病情:</span>
           <span class="margin-r-20">{{item.normal}}</span>
-        </div>
+        </div> -->
         <div class="margin-t-5">
           <span>测评结果:</span>
           <span class="margin-r-20">{{item.result}}</span>
@@ -2800,8 +2812,9 @@ export default {
         obj[0].prescriptionValue != null &&
         obj[0].siteValue != null &&
         obj[0].provinceId != null &&
-        obj[0].cityId != null &&
-        obj[0].condition != null
+        obj[0].cityId != null 
+        // &&
+        // obj[0].condition != null
       ) {
         let data = {
           channel: 1,
@@ -3213,7 +3226,7 @@ export default {
     xqMoney() {
       let s =
         this.paymentMethod.totalAmountReceivable - this.paymentMethod.total;
-      return s;
+      return s.toFixed(2);
     }
   }
 };

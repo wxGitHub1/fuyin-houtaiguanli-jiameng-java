@@ -448,7 +448,7 @@
           >查询</el-button>
         </el-col>
       </el-row>
-      <el-table :data="productData_two" @selection-change="handleSelectionChange" max-height="500">
+      <el-table ref="multipleTable" :data="productData_two" @selection-change="handleSelectionChange" max-height="500">
         <el-table-column type="selection"></el-table-column>
         <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
@@ -473,6 +473,22 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="product_comeBack_two()" type="success">取消</el-button>
         <el-button @click="add_product_list_two()" type="primary">提交</el-button>
+      </div>
+    </el-dialog>
+    <!-- dialog 去重弹框-->
+    <el-dialog
+      title="以下产品已存在，请勿重复添加"
+      :visible.sync="deduplicationDialog"
+      :close-on-click-modal="false"
+      :before-close="comeBack_deduplication"
+    >
+      <el-table :data="deduplication_data" center>
+        <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
+        <el-table-column prop="name" label="产品名称"></el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="comeBack_deduplication()" type="success">取消</el-button>
+        <el-button @click="next_deduplication_fuc()" type="primary">一键去重</el-button>
       </div>
     </el-dialog>
   </div>
@@ -618,7 +634,10 @@ export default {
       only_batchNum: null,
       only_hospitalId: null,
       productlonding_two: false,
-      multipleSelection: []
+      multipleSelection: [],
+      deduplicationDialog:false,
+      deduplication_data:[],
+      deduplication_data_tab:[],
     };
   },
   mounted() {
@@ -627,6 +646,21 @@ export default {
     this.addProvinceList();
   },
   methods: {
+    comeBack_deduplication(){
+      this.deduplicationDialog=false
+    },
+    next_deduplication_fuc(){
+      // debugger
+      this.multipleSelection.forEach((obj,index)=>{
+        this.deduplication_data_tab.forEach(item=>{
+          if(obj.id==item){
+            this.$refs.multipleTable.toggleRowSelection(obj);
+            this.multipleSelection.splice(index, 1);
+          }
+        })
+      })
+      this.comeBack_deduplication()
+    },
     sbmint_fuc(){
       let saleBasesForm=[]
       this.productData.forEach(obj=>{
@@ -678,9 +712,16 @@ export default {
               center: true
             });
           } else {
-            this.product_comeBack_two()
-            tips(this, "添加成功!", "success");
-            this.next_product_fuc(this.pagesProduct.currentPage,this.pagesProduct.pageSize)
+            console.log(res)
+            if(res.data.data.baseIds.length == 0 ){
+                  this.product_comeBack_two()
+                  tips(this, "添加成功!", "success");
+                  this.next_product_fuc(this.pagesProduct.currentPage,this.pagesProduct.pageSize)
+            }else{
+              this.deduplicationDialog=true;
+              this.deduplication_data=res.data.data.dtos
+              this.deduplication_data_tab=res.data.data.baseIds
+            }
           }
         })
         .catch(err => {

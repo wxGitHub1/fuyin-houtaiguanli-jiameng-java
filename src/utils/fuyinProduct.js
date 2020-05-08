@@ -131,10 +131,14 @@ const fy_product = {
   "FYKF-S-XZ-KO-006": 1,
   "FYKF-S-JZ-CO-006": 2,
   "FYKF-J-Y-CTLO-D": 2,
+  "FYKF-S-JZ-TLSO-006": 3,//新增
+  "FYKF-S-JZ-TLSO-007": 3,//新增
+  "FYKF-S-JZ-TLSO-009": 3,//新增
   "FYKF-S-JZ-TLSO-008": 3,
   "FYKF-J-Y-TLSO-D-Ⅰ": 3,
   "FYKF-J-Y-TLSO-D-Ⅳ": 3,
   "FYKF-S-JZ-TLSO-013": 3,
+  "FYKF-S-JZ-TLSO-014": 3,
   "FYKF-S-XZ-KO-012": 4,
   "FYKF-S-XZ-KO-013": 4,
   "FYKF-J-Y-KO-D-Ⅱ": 4,
@@ -170,7 +174,6 @@ const fy_product = {
   "FYKF-G-Y-KAFO-D": 11,
   "FYKF-S-XZ-KAFO-011": 12,
   "FYKF-T-Y-KAFO-D-Ⅲ": 12,
-  "FYKF-S-XZ-KAFO-013": 12,
   "FYKF-S-XZ-KO-005": 13,
   "FYKF-G-Y-HO-D": 13,
   "FYKF-S-XZ-KO-007": 13,
@@ -184,6 +187,7 @@ const fy_product = {
   "FYKF-S-XZ-KAFO-003": 16,
   "FYKF-J-Y-HKAFO-D": 16,
   "FYKF-S-XZ-KAFO-013": 17,
+  "FYKF-S-XZ-KAFO-001": 17,
   "FYKF-J-Y-LSHKAFO-D": 17,
   "FYKF-S-XZ-GPO-003": 18,
   "FYKF-G-Y-HO-D": 18,
@@ -210,7 +214,8 @@ const fy_product = {
   "FYKF-G-Y-HKAO-D": 27,
   "FYKF-R-XZ-FO-009": 29,
   "FYKF-S-JZ-CO-007": 30,
-  "FYKF-J-Y-AFO-D-Ⅳ": 31
+  "FYKF-J-Y-AFO-D-Ⅳ": 31,
+  isNo: "kaifa"
 }
 export default {
   isShow,

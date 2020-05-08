@@ -67,19 +67,7 @@
       </el-col>
     </el-row>
     <el-row class="office_performance">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评项</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.examinationId" placeholder="请选择">
-          <el-option
-            v-for="item in seach.examinationIdList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
-        </el-select>
-      </el-col>
+      
       <el-col :span="2" id="input-title">
         <span class="time_style">省份:</span>
       </el-col>
@@ -122,12 +110,25 @@
         <span class="time_style">站点名称:</span>
       </el-col>
       <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市">
+        <el-select clearable size="small" @change="evaluation_fuc(seach.siteValue)"  v-model="seach.siteValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
             :label="item.name"
             :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="2" id="input-title">
+        <span class="time_style">测评项</span>
+      </el-col>
+      <el-col :span="2">
+        <el-select clearable size="small" v-model="seach.examinationId" placeholder="请选择">
+          <el-option
+            v-for="item in seach.examinationIdList"
+            :key="item.baseId"
+            :label="item.baseName"
+            :value="item.baseId"
           ></el-option>
         </el-select>
       </el-col>
@@ -198,7 +199,7 @@
 <script>
 import { examineJoinStatistics, userListByDept } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite } from "../../utils/public";
+import { exportMethod, province, city, site,allSite,evaluation } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -225,23 +226,23 @@ export default {
         ],
         examinationId: null,
         examinationIdList: [
-          { name: "体格测量", id: 1 },
-          { name: "足弓发育测评", id: 2 },
-          { name: "跟骨发育测评", id: 3 },
-          { name: "足底压力分析", id: 4 },
-          { name: "膝关节矢状面测评", id: 5 },
-          { name: "膝关节冠状面测评", id: 6 },
-          { name: "下肢发育测评", id: 7 },
-          { name: "足部3D扫描测评", id: 8 },
-          { name: "足行进角", id: 9 },
-          { name: "肩胛骨测评", id: 10 },
-          { name: "颈部活动度测评", id: 11 },
-          { name: "骨盆测评", id: 12 },
-          { name: "脊柱发育测评", id: 13 },
-          { name: "3D全身扫描", id: 14 },
-          { name: "胸部测评", id: 15 },
-          { name: "脊柱活动趋势测评", id: 16 },
-          { name: "骨密度测评", id: 17 }
+        //   { name: "体格测量", id: 1 },
+        //   { name: "足弓发育测评", id: 2 },
+        //   { name: "跟骨发育测评", id: 3 },
+        //   { name: "足底压力分析", id: 4 },
+        //   { name: "膝关节矢状面测评", id: 5 },
+        //   { name: "膝关节冠状面测评", id: 6 },
+        //   { name: "下肢发育测评", id: 7 },
+        //   { name: "足部3D扫描测评", id: 8 },
+        //   { name: "足行进角", id: 9 },
+        //   { name: "肩胛骨测评", id: 10 },
+        //   { name: "颈部活动度测评", id: 11 },
+        //   { name: "骨盆测评", id: 12 },
+        //   { name: "脊柱发育测评", id: 13 },
+        //   { name: "3D全身扫描", id: 14 },
+        //   { name: "胸部测评", id: 15 },
+        //   { name: "脊柱活动趋势测评", id: 16 },
+        //   { name: "骨密度测评", id: 17 }
         ],
         siteLists: [],
         siteValue: null,
@@ -359,6 +360,10 @@ export default {
     //根据市获取站点列表
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
+    },
+    //根据站点获取测评项
+    async evaluation_fuc(id) {
+      this.seach.examinationIdList = await evaluation(id);
     }
   }
 };
