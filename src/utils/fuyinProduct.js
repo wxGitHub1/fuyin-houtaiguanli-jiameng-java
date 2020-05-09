@@ -130,15 +130,24 @@ const fy_product = {
   "FYKF-T-Y-HO-D-Ⅰ": 1,
   "FYKF-S-XZ-KO-006": 1,
   "FYKF-S-JZ-CO-006": 2,
+  "FYKF-S-JZ-CO-005": 2,//新增
+  "FYKF-G-Y-CTLSO-D": 2,//新增
   "FYKF-J-Y-CTLO-D": 2,
   "FYKF-S-JZ-TLSO-006": 3,//新增
+  "FYKF-G-S-TLSO-D": 3,//新增
   "FYKF-S-JZ-TLSO-007": 3,//新增
+  "FYKF-T-S-TLSO-FD": 3,//新增
   "FYKF-S-JZ-TLSO-009": 3,//新增
+  "FYKF-S-JZ-TLSO-012": 3,//新增
+  "FYKF-J-Y-CTLSO-D": 3,//新增
   "FYKF-S-JZ-TLSO-008": 3,
   "FYKF-J-Y-TLSO-D-Ⅰ": 3,
   "FYKF-J-Y-TLSO-D-Ⅳ": 3,
+  "FYKF-S-JZ-TLSO-011": 3,//新增
+  "FYKF-J-Y-TLSO-D-Ⅲ": 3,//新增
   "FYKF-S-JZ-TLSO-013": 3,
   "FYKF-S-JZ-TLSO-014": 3,
+  "FYKF-J-Y-TLSO-D-Ⅴ": 3,//新增
   "FYKF-S-XZ-KO-012": 4,
   "FYKF-S-XZ-KO-013": 4,
   "FYKF-J-Y-KO-D-Ⅱ": 4,
@@ -188,13 +197,19 @@ const fy_product = {
   "FYKF-J-Y-HKAFO-D": 16,
   "FYKF-S-XZ-KAFO-013": 17,
   "FYKF-S-XZ-KAFO-001": 17,
+  "FYKF-J-Y-KAFO-D-Ⅱ": 17,//新增
   "FYKF-J-Y-LSHKAFO-D": 17,
   "FYKF-S-XZ-GPO-003": 18,
   "FYKF-G-Y-HO-D": 18,
   "FYKF-S-XZ-HO-003": 19,
   "FYKF-J-Y-HO-D-Ⅰ": 19,
   "FYKF-S-XZ-HO-012": 20,
+  "FYKF-S-XZ-HO-011": 20,//新增
+  "FYKF-T-Y-HKAO-D-Ⅰ": 20,//新增
   "FYKF-T-Y-HKAO-D-Ⅱ": 20,
+  "FYKF-S-XZ-HO-016": 20,//新增
+  "FYKF-T-Y-HKAO-D-Ⅲ": 20,//新增
+  "FYKF-S-XZ-HO-017": 20,//新增
   "FYKF-S-XZ-HO-015": 20,
   "FYKF-T-Y-HKAFO-D-Ⅱ": 20,
   "FYKF-S-XZ-HO-013": 21,
