@@ -217,7 +217,7 @@
             </template>
           </el-table-column>
         </el-table>-->
-        <el-form-item label="负责站点" prop="allSiteValue">
+        <el-form-item label="所在站点" prop="allSiteValue">
           <el-select
             clearable
             size="small"
