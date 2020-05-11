@@ -39,6 +39,7 @@
             <td :colspan="4" class="border-b">检验-(签字)</td>
             <td :colspan="4" class="border-b"></td>
           </tr>
+
           <tr v-for="(obj,index) in item.value" :key="index">
             <td class="border-b first-tr background-y">{{obj.key}}</td>
             <td :colspan="12/obj.value.length" v-for="(list,index) in obj.value" :key="index">
@@ -48,6 +49,7 @@
               <span v-else>{{list}}</span>
             </td>
           </tr>
+
         </table>
         <table class="border margin-t-20">
           <tr>
@@ -91,9 +93,9 @@ export default {
     printFormData: {
       type: Object
     },
-    printFormDataMap: {
-      type: Object
-    }
+    // printFormDataMap: {
+    //   type: Object
+    // }
   }
 };
 </script>
