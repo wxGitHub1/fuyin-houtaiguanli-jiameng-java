@@ -272,7 +272,7 @@
       width="80%"
       :before-close="cancelPrinting"
     >
-      <fuyinProduct-html :productTitle="productTitle" :printFormData="printFormData" :printFormDataMap="printFormDataMap"></fuyinProduct-html>
+      <fuyinProduct-html :productTitle="productTitle" :printFormData="printFormData" :sizeMapList="sizeMapList"></fuyinProduct-html>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelPrinting()" type="success">取消</el-button>
         <el-button v-print="'#printTest'" type="primary">立即打印</el-button>
@@ -290,22 +290,19 @@ import {
   shapeRedo
 } from "../../api/javaApi";
 import { exportMethod, province, city, site,allSite } from "../../utils/public";
-import fuyinProduct from "../../utils/fuyinProduct";
+// import fuyinProduct from "../../utils/fuyinProduct";
 import fuyinProduct_html from "../commonComponent/fuyinProduct";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
   data() {
     return {
-      product: fuyinProduct.isShow,
+      // product: fuyinProduct.isShow,
       dialogOrderFrom: false,
-      productTitle: {
-        baseProductModel: null, //"静踝"
-        baseProductName: null, //"骨科保护支具（FYKF-J-Y-KO-D-Ⅱ）"
-        baseProductNickname: null //"长腿膝内翻"
-      },
+      productTitle: {},
       printFormData: {},
-      printFormDataMap: null,
+      // printFormDataMap: null,
+      sizeMapList: [],
       //
       isRowSpId: null,
       clientData: [],
@@ -411,10 +408,10 @@ export default {
     },
     cancelPrinting() {
       this.dialogOrderFrom = false;
-      this.product.product_kaifa = false;
-      for (let key in this.product) {
-        this.product[key] = false;
-      }
+      // this.product.product_kaifa = false;
+      // for (let key in this.product) {
+      //   this.product[key] = false;
+      // }
     },
     printFormDatas(id) {
       let data = {
@@ -431,15 +428,15 @@ export default {
           } else {
             // debugger
             // this.product.product_3 = true;
-            let myObj = fuyinProduct.fy_product;
-            let id = myObj[res.data.data.recordNumber] || myObj.isNo;
-            this.product["product_" + id] = true;
+            // let myObj = fuyinProduct.fy_product;
+            // let id = myObj[res.data.data.recordNumber] || myObj.isNo;
+            // this.product["product_" + id] = true;
             this.printFormData = res.data.data.memberDetailDto;
-            this.productTitle.baseProductModel = res.data.data.baseProductModel;
-            this.productTitle.baseProductName = res.data.data.baseProductName;
-            this.productTitle.baseProductNickname =
-              res.data.data.baseProductNickname;
-            this.printFormDataMap = res.data.data.map["取型"];
+            this.productTitle = res.data.data;
+            // this.productTitle.baseProductName = res.data.data.baseProductName;
+            // this.productTitle.baseProductNickname =res.data.data.baseProductNickname;
+            // this.printFormDataMap = res.data.data.map["取型"];
+            this.sizeMapList = res.data.data.sizeMapList;
             this.dialogOrderFrom = true;
             console.log(res);
           }
