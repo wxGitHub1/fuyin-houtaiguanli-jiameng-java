@@ -1481,7 +1481,7 @@
           filterable
           filter-placeholder="请输入人员"
           :titles="['待选择人员', '被选择人员']"
-          :data="nameList6"
+          :data="nameList12"
         ></el-transfer>
       </div>
       <span slot="footer">
