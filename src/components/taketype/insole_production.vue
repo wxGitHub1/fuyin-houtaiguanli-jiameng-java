@@ -236,6 +236,7 @@ export default {
         deliveryTimeEnd: this.seach.deliveryTime == null ? null : this.seach.deliveryTime[1],
         baseId:this.seach.baseId  || null,
         hospitalId:this.seach.hospitalId  || null,
+        productOrderType:this.seach.productOrderType  || null,
       };
       const lsyObj = {
         method: "post",

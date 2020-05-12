@@ -29,7 +29,7 @@
             <div class="user_login" @click="userLogin()">登陆</div>
           </el-col>
         </el-row>
-        <div class="version">当前版本：1.1.1</div>
+        <div class="version">当前版本：2.0.0</div>
       </el-col>
     </el-row>
   </div>
