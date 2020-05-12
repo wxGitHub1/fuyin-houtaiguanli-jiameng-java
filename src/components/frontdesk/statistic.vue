@@ -92,7 +92,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" id="input-title">
-        <span class="time_style">站点名称:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select
@@ -119,7 +119,7 @@
           @change="departmentList(seach.hospitalValue)"
           size="small"
           v-model="seach.hospitalValue"
-          placeholder="请先选择站点"
+          placeholder="请先选择测评中心"
         >
           <el-option
             v-for="item in seach.hospitals"
@@ -455,11 +455,11 @@ export default {
     async cityList(id) {
       this.seach.cityIdList = await city(id);
     },
-    //根据市获取站点列表
+    //根据市获取测评中心列表
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
     },
-    //根据站点获取医院列表
+    //根据测评中心获取医院列表
     async hospitalList(id) {
       this.seach.hospitals = await hospital(id);
     }

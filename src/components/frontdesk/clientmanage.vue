@@ -120,7 +120,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" id="input-title">
-        <span class="time_style">站点名称:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市">
@@ -155,7 +155,7 @@
       <el-table-column align="center" prop="orderNum" label="订单号"></el-table-column>
       <el-table-column align="center" prop="oweMoney" label="下欠金额" min-width="50"></el-table-column>
       <el-table-column align="center" prop="orderDate" label="下单时间" :show-overflow-tooltip="true" min-width="50"></el-table-column>
-      <!-- <el-table-column align="center" prop="siteName" label="站点" :show-overflow-tooltip="true" min-width="40"></el-table-column>
+      <!-- <el-table-column align="center" prop="siteName" label="测评中心" :show-overflow-tooltip="true" min-width="40"></el-table-column>
       <el-table-column align="center" prop="visitFlagCN" label="到访状态" min-width="50"></el-table-column> -->
       <el-table-column v-if="tryOnly_show" align="center" label="操作" min-width="280">
         <template slot-scope="scope">
@@ -299,7 +299,7 @@
         <el-table-column label="病单编号" align="center" prop="prescriptionNum"></el-table-column>
         <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
-        <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
+        <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
         <el-table-column label="医院" align="center" prop="hospitalName"></el-table-column>
         <el-table-column label="科室" align="center" prop="departmentName"></el-table-column>
         <el-table-column label="医生" align="center" prop="doctorName"></el-table-column>
@@ -356,7 +356,7 @@
             </el-select>
           </template>
         </el-table-column>
-        <el-table-column label="站点" align="center">
+        <el-table-column label="测评中心" align="center">
           <template slot-scope="scope">
             <el-select
               clearable
@@ -553,7 +553,7 @@
         <el-table-column prop="prescriptionNum" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="pCityName" label="城市"></el-table-column>
-        <el-table-column align="center" prop="prescriptionSiteName" label="站点"></el-table-column>
+        <el-table-column align="center" prop="prescriptionSiteName" label="测评中心"></el-table-column>
         <el-table-column prop="hospitalName" label="医院"></el-table-column>
         <el-table-column prop="departmentName" label="科室"></el-table-column>
         <el-table-column prop="doctorName" label="医生"></el-table-column>
@@ -847,7 +847,7 @@
             </el-select>
           </template>
         </el-table-column>
-        <el-table-column label="站点" align="center">
+        <el-table-column label="测评中心" align="center">
           <template slot-scope="scope">
             <el-select
               clearable
@@ -1020,7 +1020,7 @@
         <el-table-column prop="prescriptionNum" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="pCityName" label="城市"></el-table-column>
-        <el-table-column align="center" prop="prescriptionSiteName" label="站点"></el-table-column>
+        <el-table-column align="center" prop="prescriptionSiteName" label="测评中心"></el-table-column>
         <el-table-column prop="hospitalName" label="医院"></el-table-column>
         <el-table-column prop="departmentName" label="科室"></el-table-column>
         <el-table-column prop="doctorName" label="医生"></el-table-column>
@@ -1751,9 +1751,9 @@
         >确认移出</el-button>
       </div>
     </el-dialog>
-    <!-- dialog 转移站点-->
+    <!-- dialog 转移测评中心-->
     <el-dialog
-      title="转移站点"
+      title="转移测评中心"
       :visible.sync="dialogTransferSite"
       center
       :close-on-click-modal="false"
@@ -1790,8 +1790,8 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="站点名称">
-          <el-select clearable v-model="transferSite.siteId" placeholder="请先选择站点">
+        <el-form-item label="测评中心">
+          <el-select clearable v-model="transferSite.siteId" placeholder="请先选择测评中心">
             <el-option
               v-for="item in transferSite.siteLists"
               :key="item.id"
@@ -2408,7 +2408,7 @@ export default {
       this.transferSite.sitePhone = null;
       this.dialogTransferSite = false;
     },
-    //转站点
+    //转测评中心
     transferSite_func(id) {
       this.currentNamberId = id;
       this.dialogTransferSite = true;
@@ -3671,13 +3671,13 @@ export default {
       this.seach.cityIdList = data;
       this.transferSite.cityIdList = data;
     },
-    //根据市获取站点列表
+    //根据市获取测评中心列表
     async siteList(id) {
       let data = await allSite(null,id);
       this.seach.siteLists = data;
       this.transferSite.siteLists = data;
     },
-    //根据站点获取医院列表
+    //根据测评中心获取医院列表
     async hospitalList(id) {
       let data = await hospital(id);
       // this.seach.hospitalLists = data;

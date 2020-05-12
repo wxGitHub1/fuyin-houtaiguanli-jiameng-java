@@ -45,7 +45,7 @@ export default {
         },
         {
           name: "testConfiguration",
-          title: "站点测评配置"
+          title: "测评配置"
         },
         // {
         //   name: "role",
@@ -61,7 +61,7 @@ export default {
         },
         {
           name: "siteManagement",
-          title: "站点管理"
+          title: "测评中心管理"
         },
         {
           name: "log",
@@ -131,7 +131,7 @@ export default {
             break;
           case "siteManagement":
             _this.tables.push({
-              title: "站点管理",
+              title: "测评中心管理",
               name: "siteManagement",
               content: "sys-siteManagement",
               isClose: true
@@ -158,7 +158,7 @@ export default {
             break;
           case "testConfiguration":
             _this.tables.push({
-              title: "站点测评配置",
+              title: "测评配置",
               name: "testConfiguration",
               content: "test-configuration",
               isClose: true

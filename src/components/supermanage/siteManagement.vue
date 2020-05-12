@@ -41,7 +41,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" class="input-title">
-        <span class="time_style">站点名称:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select
@@ -60,7 +60,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" class="input-title">
-        <span class="time_style">站点类型:</span>
+        <span class="time_style">测评中心类型:</span>
       </el-col>
       <el-col :span="2">
         <el-select
@@ -97,7 +97,7 @@
           size="small"
           icon="el-icon-circle-plus-outline"
           @click="addSite_function()"
-        >新增站点</el-button>
+        >新增测评中心</el-button>
       </el-col>
     </el-row>
     <!-- table -->
@@ -111,12 +111,12 @@
       element-loading-background="rgba(0, 0, 0, 0.8)"
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点名称"></el-table-column>
+      <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
       <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
       <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
-      <el-table-column align="center" prop="siteType" label="站点类型"></el-table-column>
+      <el-table-column align="center" prop="siteType" label="测评中心类型"></el-table-column>
       <el-table-column align="center" prop="sitePhone" label="联系电话"></el-table-column>
-      <el-table-column align="center" prop="siteAddress" label="站点地址"></el-table-column>
+      <el-table-column align="center" prop="siteAddress" label="测评中心地址"></el-table-column>
       <el-table-column align="center" prop="siteUsers" label="负责人"></el-table-column>
       <el-table-column align="center" prop="siteCreateTime" label="创建时间"></el-table-column>
       <el-table-column align="center" prop="orderUserName" label="操作">
@@ -137,7 +137,7 @@
       :total="pages.total"
       class="pagination"
     ></el-pagination>
-    <!-- dialog 新增站点-->
+    <!-- dialog 新增测评中心-->
     <el-dialog
       :title="isShowAddTitle"
       :visible.sync="addSiteDialog"
@@ -151,7 +151,6 @@
         :inline="true"
         size="mini"
         :rules="rules"
-        label-width="80px"
       >
         <el-form-item label="省份" prop="provinceValue">
           <el-select
@@ -179,7 +178,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="站点类型" prop="siteType">
+        <el-form-item label="测评中心类型" prop="siteType">
           <el-select clearable :disabled="hasRole != 1" v-model="addSite.siteType" placeholder="请选择">
             <el-option
               v-for="item in seach.siteTypeList"
@@ -189,27 +188,27 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="站点名称" prop="siteName">
+        <el-form-item label="测评中心" prop="siteName">
           <el-input
             v-model="addSite.siteName"
             autocomplete="off"
-            placeholder="请输入站点名称"
+            placeholder="请输入测评中心"
             style="width:193px"
           ></el-input>
         </el-form-item>
-        <el-form-item label="站点地址" prop="siteAddress">
+        <el-form-item label="测评中心地址" prop="siteAddress">
           <el-input
             v-model="addSite.siteAddress"
             autocomplete="off"
-            placeholder="请输入站点地址"
+            placeholder="请输入测评中心地址"
             style="width:193px"
           ></el-input>
         </el-form-item>
-        <el-form-item label="站点电话" prop="sitePhone">
+        <el-form-item label="测评中心电话" prop="sitePhone">
           <el-input
             v-model="addSite.sitePhone"
             autocomplete="off"
-            placeholder="请输入站点电话"
+            placeholder="请输入测评中心电话"
             style="width:193px"
           ></el-input>
         </el-form-item>
@@ -283,18 +282,18 @@ export default {
         sitePhone: null
       },
       isShowAdd: true,
-      isShowAddTitle: "新增站点信息",
+      isShowAddTitle: "新增测评中心信息",
       rowSiteId: null,
       //表单验证
       rules: {
         siteName: [
-          { required: true, message: "请输入站点名称", trigger: "blur" }
+          { required: true, message: "请输入测评中心", trigger: "blur" }
         ],
         siteAddress: [
-          { required: true, message: "请输入站点地址", trigger: "blur" }
+          { required: true, message: "请输入测评中心地址", trigger: "blur" }
         ],
         sitePhone: [
-          { required: true, message: "请输入站点电话", trigger: "blur" }
+          { required: true, message: "请输入测评中心电话", trigger: "blur" }
         ],
         provinceValue: [
           {
@@ -315,7 +314,7 @@ export default {
         siteType: [
           {
             required: true,
-            message: "请选择站点类型",
+            message: "请选择测评中心类型",
             trigger: "change",
             type: "number"
           }
@@ -334,7 +333,7 @@ export default {
   methods: {
     modify_function(obj) {
       this.isShowAdd = false;
-      this.isShowAddTitle = "修改站点信息";
+      this.isShowAddTitle = "修改测评中心信息";
       this.rowSiteId = obj.siteId;
       this.addSite.provinceValue = obj.provinceId;
       this.addCityList(obj.provinceId);
@@ -389,10 +388,10 @@ export default {
           let data={
              provinceId: this.addSite.provinceValue, //省ID
               cityId: this.addSite.citysValue, //市ID
-              siteName: this.addSite.siteName, //站点名
+              siteName: this.addSite.siteName, //测评中心名
               siteType: this.addSite.siteType, //0-总部，1-独立，2-连锁
-              sitePhone: this.addSite.sitePhone, //站点联系方式
-              siteAddress: this.addSite.siteAddress //站点地址 address
+              sitePhone: this.addSite.sitePhone, //测评中心联系方式
+              siteAddress: this.addSite.siteAddress //测评中心地址 address
           }
           if (name == "modify") {
             data.siteId=this.rowSiteId,
@@ -452,7 +451,7 @@ export default {
     },
     addSite_function() {
       this.isShowAdd = true;
-      this.isShowAddTitle = "新增站点信息";
+      this.isShowAddTitle = "新增测评中心信息";
       this.addSiteDialog = true;
     },
     comeBack() {
@@ -529,7 +528,7 @@ export default {
     async cityList(id) {
       this.seach.cityIdList = await city(id);
     },
-    //站点
+    //测评中心
     async siteList(id) {
       this.seach.siteIdList = await allSite(null,id);
     }

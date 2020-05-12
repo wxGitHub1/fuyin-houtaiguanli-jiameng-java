@@ -30,7 +30,7 @@
           size="small"
           clearable
           v-model="seach.cityId"
-          placeholder="请先选择省份"
+          placeholder="请选择"
           @change="siteList(seach.cityId)"
         >
           <el-option
@@ -42,7 +42,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" class="input-title">
-        <span class="time_style">站点:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select
@@ -50,7 +50,7 @@
           size="small"
           clearable
           v-model="seach.siteId"
-          placeholder="请先选择城市"
+          placeholder="请选择"
           @change="hospitals(seach.siteId)"
         >
           <el-option
@@ -70,7 +70,7 @@
           size="small"
           clearable
           v-model="seach.hospitalId"
-          placeholder="请先选择站点"
+          placeholder="请先选择"
         >
           <el-option
             v-for="item in seach.hospitalList"
@@ -115,7 +115,7 @@
       <el-table-column align="center" prop="batchNum" label="产品清单编号"></el-table-column>
       <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
       <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
+      <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
       <el-table-column align="center" prop="hospitalName" label="医院名称"></el-table-column>
       <el-table-column align="center" prop="saleBaseNumber" label="产品数量"></el-table-column>
       <el-table-column align="center" prop="createTime" label="创建时间"></el-table-column>
@@ -138,7 +138,7 @@
       :total="pages.total"
       class="pagination"
     ></el-pagination>
-    <!-- dialog 新增站点-->
+    <!-- dialog 新增测评中心-->
     <el-dialog
       :title="isShowAddTitle"
       :visible.sync="addSiteDialog"
@@ -177,7 +177,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="站点名称">
+        <el-form-item label="测评中心">
           <el-select
             clearable
             v-model="addSite.siteId"
@@ -193,7 +193,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="医院名称">
-          <el-select clearable v-model="addSite.hospitalId" placeholder="请先选择站点">
+          <el-select clearable v-model="addSite.hospitalId" placeholder="请先选择测评中心">
             <el-option
               v-for="item in seach.hospitalList"
               :key="item.id"
@@ -571,7 +571,7 @@ export default {
         batch: null
       },
       isShowAdd: true,
-      isShowAddTitle: "新增站点信息",
+      isShowAddTitle: "新增测评中心信息",
       rowSiteId: null,
       //新增data
       batchList: [],
@@ -780,7 +780,7 @@ export default {
     },
     // modify_function(obj) {
     //   this.isShowAdd = false;
-    //   this.isShowAddTitle = "修改站点信息";
+    //   this.isShowAddTitle = "修改测评中心信息";
     //   this.rowSiteId = obj.siteId;
     //   this.addSite.provinceValue = obj.provinceId;
     //   this.addCityList(obj.provinceId);
@@ -943,10 +943,10 @@ export default {
     //       siteId: this.rowSiteId,
     //       provinceId: this.addSite.provinceValue, //省ID
     //       cityId: this.addSite.citysValue, //市ID
-    //       siteName: this.addSite.siteName, //站点名
+    //       siteName: this.addSite.siteName, //测评中心名
     //       siteType: this.addSite.siteType, //0-总部，1-独立，2-连锁
-    //       sitePhone: this.addSite.sitePhone, //站点联系方式
-    //       siteAddress: this.addSite.siteAddress //站点地址 address
+    //       sitePhone: this.addSite.sitePhone, //测评中心联系方式
+    //       siteAddress: this.addSite.siteAddress //测评中心地址 address
     //     };
     //     updateSite(data)
     //       .then(res => {
@@ -973,10 +973,10 @@ export default {
     //     let data = {
     //       provinceId: this.addSite.provinceValue, //省ID
     //       cityId: this.addSite.citysValue, //市ID
-    //       siteName: this.addSite.siteName, //站点名
+    //       siteName: this.addSite.siteName, //测评中心名
     //       siteType: this.addSite.siteType, //0-总部，1-独立，2-连锁
-    //       sitePhone: this.addSite.sitePhone, //站点联系方式
-    //       siteAddress: this.addSite.siteAddress //站点地址 address
+    //       sitePhone: this.addSite.sitePhone, //测评中心联系方式
+    //       siteAddress: this.addSite.siteAddress //测评中心地址 address
     //     };
     //     insertSite(data)
     //       .then(res => {
@@ -1138,11 +1138,11 @@ export default {
     // async cityList(id) {
     //   this.seach.cityIdList = await city(id);
     // },
-    //站点
+    //测评中心
     async siteList(id) {
       this.seach.siteIdList = await allSite(null,id);
     },
-    //站点id获取医院
+    //测评中心id获取医院
     async hospitals(id) {
       this.seach.hospitalList = await hospital(id);
       this.batchList = await batch(id);

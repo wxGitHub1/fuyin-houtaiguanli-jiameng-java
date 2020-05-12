@@ -107,7 +107,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" id="input-title">
-        <span class="time_style">站点名称:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select clearable size="small" @change="evaluation_fuc(seach.siteValue)"  v-model="seach.siteValue" placeholder="请先选择城市">
@@ -160,7 +160,7 @@
       <el-table-column align="center" prop="examinationTime" label="测评时间"></el-table-column>
       <el-table-column align="center" prop="baseName" label="测评项"></el-table-column>
       <el-table-column align="center" prop="isVip" label="是否会员"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点名称"></el-table-column>
+      <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
       <el-table-column align="center" prop="prescriptionType" label="病单类型"></el-table-column>
     </el-table>
     <div class="total">
@@ -357,11 +357,11 @@ export default {
     async cityList(id) {
       this.seach.cityIdList = await city(id);
     },
-    //根据市获取站点列表
+    //根据市获取测评中心列表
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
     },
-    //根据站点获取测评项
+    //根据测评中心获取测评项
     async evaluation_fuc(id) {
       this.seach.examinationIdList = await evaluation(id);
     }

@@ -120,7 +120,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" id="input-title">
-        <span class="time_style">站点名称:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市">
@@ -361,6 +361,25 @@
           </div>
         </div>
         <div class="cpSize">
+          <span class="span">辅助取型人：</span>
+          <div class="div">
+            <el-select
+              style="width:100%"
+              size="small"
+              clearable
+              v-model="productSize.helpUserIds"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in fz_userList"
+                :key="item.id"
+                :label="item.username"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="cpSize">
           <span class="span">交货日期：</span>
           <div class="div">
             <el-date-picker
@@ -420,7 +439,7 @@ import {
   shapeUpdate,
   goUpdateShape
 } from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite } from "../../utils/public";
+import { exportMethod, province, city, site,allSite,personnel } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -511,9 +530,12 @@ export default {
         userList: [],
         saleBaseId: null,
         saleProductId: null,
-        textarea_illness:null
+        textarea_illness:null,
+        helpUserIds:null
       },
-      productShapeDt0Id: null
+      productShapeDt0Id: null,
+      fz_userList:[],
+      // only_siteId:null
     };
   },
   mounted() {
@@ -577,7 +599,7 @@ export default {
         checkedCount > 0 && checkedCount < this.cities.length;
     },
     xiangxifanhui() {
-      debugger;
+      // debugger;
       this.dialogDepartmentDetails = false;
       this.productShapeDt0Id = null;
       // this.productSize.wc = [];
@@ -650,7 +672,8 @@ export default {
             : null,
         deliveryTime: this.productSize.time,
         reflect: this.productSize.fy,
-        illness: this.productSize.textarea_illness
+        illness: this.productSize.textarea_illness,
+        helpUserIds: this.productSize.helpUserIds
       };
       // debugger;
       shapeUpdate(data)
@@ -699,6 +722,7 @@ export default {
             }            
             this.productSize.radio = objData.xRay;
             this.productSize.fy = objData.reflectList; //后端没有选择家长反应时为无没传过来
+            this.productSize.helpUserIds = objData.helpUsers;
             this.productSize.time = obj[0].deliveryTime;
             this.productSize.textarea_illness = this.memberDetailDto.illness;
             this.dialogSizeDetails = true;
@@ -723,7 +747,8 @@ export default {
           this.saleProductDto[0] = res.data.data.saleProductDto;
           this.productShapeDto[0] = res.data.data.productShapeDto;
           this.productShapeDt0Id = res.data.data.productShapeDto.id;
-          this.productSize.list=res.data.data.productShapeDto.sizeMaps
+          this.productSize.list=res.data.data.productShapeDto.sizeMaps;
+          this.fz_userList_fuc(res.data.data.saleProductDto.siteId)
           // if (!!res.data.data.productShapeDto.size) {
           //   let qxwc = res.data.data.productShapeDto.size["取型"]["围长"];
           //   let qxkd = res.data.data.productShapeDto.size["取型"]["宽度"];
@@ -833,10 +858,14 @@ export default {
     async cityList(id) {
       this.seach.cityIdList = await city(id);
     },
-    //根据市获取站点列表
+    //根据市获取测评中心列表
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
-    }
+    },
+    //辅助取型人员列表
+    async fz_userList_fuc(id) {
+      this.fz_userList = await personnel(8,id);
+    },
   }
 };
 </script>

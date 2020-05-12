@@ -139,7 +139,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" id="input-title">
-        <span class="time_style">站点名称:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select clearable size="small" v-model="seach.siteValue" @change="userNameList_fuc(seach.siteValue)" placeholder="请先选择城市">
@@ -310,7 +310,7 @@
         <el-table-column label="病单编号" align="center" prop="prescriptionNum"></el-table-column>
         <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
-        <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
+        <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
         <el-table-column label="医院" align="center" prop="hospitalName"></el-table-column>
         <el-table-column label="科室" align="center" prop="departmentName"></el-table-column>
         <el-table-column label="医生" align="center" prop="doctorName"></el-table-column>
@@ -367,7 +367,7 @@
             </el-select>
           </template>
         </el-table-column>
-        <el-table-column label="站点" align="center">
+        <el-table-column label="测评中心" align="center">
           <template slot-scope="scope">
             <el-select clearable v-model="scope.row.siteValue" placeholder="请选择" size="mini">
               <el-option
@@ -546,7 +546,7 @@
         <el-table-column prop="prescriptionNum" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="pCityName" label="城市"></el-table-column>
-        <el-table-column align="center" prop="prescriptionSiteName" label="站点"></el-table-column>
+        <el-table-column align="center" prop="prescriptionSiteName" label="测评中心"></el-table-column>
         <el-table-column prop="hospitalName" label="医院"></el-table-column>
         <el-table-column prop="departmentName" label="科室"></el-table-column>
         <el-table-column prop="doctorName" label="医生"></el-table-column>
@@ -3200,7 +3200,7 @@ export default {
     async cityList(id) {
       this.seach.cityIdList = await city(id);
     },
-    //根据市获取站点列表
+    //根据市获取测评中心列表
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
     },

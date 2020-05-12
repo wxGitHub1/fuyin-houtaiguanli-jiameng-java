@@ -91,7 +91,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" id="input-title">
-        <span class="time_style">站点名称:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市">
@@ -124,7 +124,7 @@
       <el-table-column align="center" prop="vip" label="是否会员"></el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" @click="details(scope.row.productId)" size="small">接待</el-button>
+          <el-button type="primary" @click="details(scope.row)" size="small">接待</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -259,6 +259,27 @@
           </div>
         </div>
         <div class="cpSize">
+          <span class="span">辅助取型人：</span>
+          <div class="div">
+            <el-select
+              style="width:100%"
+              size="small"
+              clearable
+              multiple
+              collapse-tags
+              v-model="productSize.helpUserIds"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in fz_userList"
+                :key="item.id"
+                :label="item.username"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+          </div>
+        </div>
+        <div class="cpSize">
           <span class="span">交货日期：</span>
           <div class="div">
             <el-date-picker
@@ -361,10 +382,13 @@ export default {
         userList: null,
         saleBaseId: null,
         saleProductId: null,
-        textarea_illness: null
+        textarea_illness: null,
+        helpUserIds: [],
       },
       saleProductId: null,
       userNameList:[],
+      // only_siteId:null,
+      fz_userList:[]
     };
   },
   mounted() {
@@ -456,7 +480,8 @@ export default {
             : null,
         deliveryTime: this.productSize.time,
         reflect: this.productSize.fy,
-        illness: this.productSize.textarea_illness
+        illness: this.productSize.textarea_illness,
+        helpUserIds: this.productSize.helpUserIds
       };
       // console.log(data.user)
       // debugger;
@@ -518,16 +543,18 @@ export default {
             this.productSize.textarea_illness = this.Details.illness;
             this.dialogSizeDetails = true;
             this.userList(obj.id);
+            this.fz_userList_fuc(obj.siteId)
           }
         })
         .catch(err => {
           console.log(err);
         });
     },
-    details(id) {
-      this.saleProductId = id;
+    details(obj) {
+      this.saleProductId = obj.productId;
+      // this.only_siteId = obj.siteId;
       let data = {
-        saleProductId: id
+        saleProductId: obj.productId
       };
       memberShapeProduct(data)
         .then(res => {
@@ -605,13 +632,19 @@ export default {
     async cityList(id) {
       this.seach.cityIdList = await city(id);
     },
-    //根据市获取站点列表
+    //根据市获取测评中心列表
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
     },
     //服务人员列表
     async userNameList_fuc() {
       this.userNameList = await personnel();
+
+    },
+    //辅助取型人员列表
+    async fz_userList_fuc(id) {
+      this.fz_userList = await personnel(8,id);
+
     },
   }
 };

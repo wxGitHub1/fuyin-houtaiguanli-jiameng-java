@@ -193,7 +193,7 @@
         <el-table-column label="病单编号" align="center" prop="prescriptionNum"></el-table-column>
         <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
-        <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
+        <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
         <el-table-column label="医院" align="center" prop="hospitalName"></el-table-column>
         <el-table-column label="科室" align="center" prop="departmentName"></el-table-column>
         <el-table-column label="医生" align="center" prop="doctorName"></el-table-column>
@@ -250,7 +250,7 @@
             </el-select>
           </template>
         </el-table-column>
-        <el-table-column label="站点" align="center">
+        <el-table-column label="测评中心" align="center">
           <template slot-scope="scope">
             <el-select
               clearable
@@ -446,7 +446,7 @@
         <el-table-column prop="prescriptionNum" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="pCityName" label="城市"></el-table-column>
-        <el-table-column align="center" prop="prescriptionSiteName" label="站点"></el-table-column>
+        <el-table-column align="center" prop="prescriptionSiteName" label="测评中心"></el-table-column>
         <el-table-column prop="hospitalName" label="医院"></el-table-column>
         <el-table-column prop="departmentName" label="科室"></el-table-column>
         <el-table-column prop="doctorName" label="医生"></el-table-column>
@@ -618,7 +618,7 @@
             </el-select>
           </template>
         </el-table-column>
-        <el-table-column label="站点" align="center">
+        <el-table-column label="测评中心" align="center">
           <template slot-scope="scope">
             <el-select
               clearable
@@ -794,7 +794,7 @@
         <el-table-column prop="prescriptionNum" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="pCityName" label="城市"></el-table-column>
-        <el-table-column align="center" prop="prescriptionSiteName" label="站点"></el-table-column>
+        <el-table-column align="center" prop="prescriptionSiteName" label="测评中心"></el-table-column>
         <el-table-column prop="hospitalName" label="医院"></el-table-column>
         <el-table-column prop="departmentName" label="科室"></el-table-column>
         <el-table-column prop="doctorName" label="医生"></el-table-column>
@@ -2413,7 +2413,7 @@ export default {
     //       console.log(err);
     //     });
     // },
-    //根据站点获取医院列表
+    //根据测评中心获取医院列表
     async hospitalList(id) {
       let data = await hospital(id);
       // this.seach.hospitalLists = data;
@@ -2459,7 +2459,7 @@ export default {
       this.seach.cityIdList = data;
       // this.transferSite.cityIdList = data;
     },
-    //根据市获取站点列表
+    //根据市获取测评中心列表
     async siteList(id) {
       let data = await allSite(null,id);
       this.seach.siteLists = data;

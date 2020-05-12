@@ -33,7 +33,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="站点名称">
+      <el-form-item label="测评中心">
         <el-select
           clearable
           v-model="seachFome.siteIdValue"
@@ -123,7 +123,7 @@
       <el-table-column align="center" prop="departmentCount" label="科室数量" min-width="20"></el-table-column>
       <el-table-column align="center" prop="doctorCount" label="医生数量" min-width="20"></el-table-column>
       <el-table-column align="center" prop="address" label="医院地址"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点名称"></el-table-column>
+      <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
       <el-table-column align="center" label="操作" min-width="150">
         <template slot-scope="scope">
           <el-button
@@ -198,7 +198,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="站点" prop="siteIdValue">
+        <el-form-item label="测评中心" prop="siteIdValue">
           <el-select clearable v-model="dialogForm.siteIdValue" placeholder="请先选择城市">
             <el-option
               v-for="item in dialogForm.siteIdList"
@@ -629,7 +629,7 @@ export default {
         siteIdValue: [
           {
             required: true,
-            message: "请选择站点",
+            message: "请选择测评中心",
             trigger: "change",
             type: "number"
           }
@@ -1298,13 +1298,13 @@ export default {
         });
         this.siteList(id)
     },
-    //站点
+    //测评中心
     async siteList(id) {
       let resData = await allSite(null,id);
       this.seachFome.siteIdList = resData
       this.dialogForm.siteIdList = resData;
     },
-     //根据站点获取医院列表
+     //根据测评中心获取医院列表
     // async hospitalList(id) {
     //   this.seach.hospitalLists = await hospital(id);
     // },

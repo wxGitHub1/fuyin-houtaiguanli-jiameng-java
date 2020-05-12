@@ -238,7 +238,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" class="input-title">
-        <span>站点名称</span>
+        <span>测评中心</span>
       </el-col>
       <el-col :span="2">
         <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
@@ -254,7 +254,7 @@
         <span>医院名称</span>
       </el-col>
       <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.hospitalId" placeholder="请先选择站点"  @change="listenKey()">
+        <el-select clearable size="small" v-model="seach.hospitalId" placeholder="请先选择测评中心"  @change="listenKey()">
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -281,7 +281,7 @@
       <el-table-column align="center" prop="status" label="订单状态"></el-table-column>
       <el-table-column align="center" prop="createOrderTime" label="下单时间"></el-table-column>
       <el-table-column align="center" prop="createUserName" label="下单人"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
+      <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
       <el-table-column align="center" prop="hospitalName" label="医院"></el-table-column>
       <el-table-column align="center" prop="type" label="订单类型"></el-table-column>
       <el-table-column align="center" prop="payType" label="付款类型"></el-table-column>
@@ -357,7 +357,7 @@
         <el-table-column prop="prescriptionId" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="pCityName" label="城市"></el-table-column>
-        <el-table-column align="center" prop="prescriptionSiteName" label="站点"></el-table-column>
+        <el-table-column align="center" prop="prescriptionSiteName" label="测评中心"></el-table-column>
         <el-table-column prop="hospitalNmae" label="医院"></el-table-column>
         <el-table-column prop="departmentName" label="科室"></el-table-column>
         <el-table-column prop="doctorName" label="医生"></el-table-column>
@@ -1287,6 +1287,7 @@
 <script>
 import {
   orderList,
+  cp_orderList,
   orderDetail,
   addMoney,
   refundMoney,
@@ -1312,6 +1313,7 @@ import {
 import fuyinProduct_html from "../commonComponent/fuyinProduct";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
+import {viewPage_function} from "../../router/path";
 export default {
   data() {
     return {
@@ -1510,15 +1512,18 @@ export default {
           { name: "新增产品", id: 2 },
           { name: "更换产品", id: 3 },
           { name: "赠送产品", id: 4 },
-        ]
+        ],
+      cpOnly_show:false
     };
   },
   components: {
     "fuyinProduct-html": fuyinProduct_html
   },
   mounted() {
+    this.init();
     this.pageList();
     this.provinceList();
+    
   },
   methods: {
     // 取消打印
@@ -2501,6 +2506,7 @@ if (res.data.returnCode != 0) {
         hospitalId: this.seach.hospitalId,
       };
       this.loading = true;
+    if(this.cpOnly_show){
       orderList(data)
         .then(res => {
           if (res.data.returnCode != 0) {
@@ -2519,6 +2525,26 @@ if (res.data.returnCode != 0) {
         .catch(err => {
           console.log(err);
         });
+    }else{
+      cp_orderList(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            let dataList = res.data;
+            this.loading = false;
+            this.clientData = dataList.data;
+            this.pages.total = dataList.total;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
     },
     //导出excel
     exportExcels() {
@@ -2549,9 +2575,14 @@ if (res.data.returnCode != 0) {
       const lsyObj = {
         method: "post",
         fileName: "订单信息",
-        url: javaApi.dd_ExportUrl,
+        // url: javaApi.dd_ExportUrl,
         data: data
       };
+      if(this.cpOnly_show){
+        lsyObj.url=javaApi.dd_ExportUrl
+      }else{
+        lsyObj.url=javaApi.cp_ExportUrl
+      }
       exportMethod(this, lsyObj);
     },
     //当前页面变化时
@@ -2609,14 +2640,21 @@ if (res.data.returnCode != 0) {
     async cityList(id) {
       this.seach.cityIdList = await city(id);
     },
-    //根据市获取站点列表
+    //根据市获取测评中心列表
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
     },
-    //根据站点获取医院列表
+    //根据测评中心获取医院列表
     async hospitalList(id) {
       this.seach.hospitalLists = await hospital(id);
-    }
+    },
+    init() {
+      if (viewPage_function(String(window.location.href)) == "测评") {
+        this.cpOnly_show = false;
+      } else {
+        this.cpOnly_show = true;
+      }
+    },
   }
 };
 </script>

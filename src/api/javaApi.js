@@ -5,9 +5,9 @@ import axios from '../utils/ajax';
  * baseUrl  接口路径
  */
 // const baseUrl  = 'http://117.34.105.87:8088';//服务器IP
-const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
+// const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
 // const baseUrl  = 'http://117.34.105.87:8086';//测试服务器IP
-// const baseUrl  = 'http://192.168.1.108:8088';//杨腾飞加盟IP
+const baseUrl  = 'http://192.168.1.109:8088';//杨腾飞加盟IP
 // const baseUrl  = 'http://192.168.1.108:8087';//杨腾飞IP
 // const baseUrl  = 'http://192.168.1.108:8080';//杨腾飞IP
 // const baseUrl  = 'http://192.168.1.155:8088';//李思雨IP
@@ -119,6 +119,7 @@ export const orderList = async params => axios.post(baseUrl  + '/sale/order/orde
 export const orderDetail = async params => axios.get(baseUrl  + '/sale/order/orderDetail', params);//订单详情
 export const addMoney = async params => axios.post(baseUrl  + '/sale/money/addMoney', params);//补交欠款
 export const refundMoney = async params => axios.post(baseUrl  + '/sale/money/refundMoney', params);//退款
+export const cp_orderList = async params => axios.post(baseUrl  + '/sale/order/examination/orderList', params);//测评订单查询
 // export const orderUpdate = async params => axios.post(baseUrl  + '/sale/order/orderUpdate', params);//取消订单 && 修改订单 修改前↓
 export const orderUpdateNew = async params => axios.post(baseUrl  + '/sale/order/orderUpdateNew', params);//取消订单 && 修改订单 修改后
 export const productShape = async params => axios.get(baseUrl  + '/sale/order/productShape', params);//订单取型尺寸
@@ -302,6 +303,7 @@ export const selectOrderDetailByMemberId = async params => axios.post(baseUrl  +
 const ExportUrl = baseUrl +"/files/"
 const kh_ExportUrl = baseUrl +"/member/exportExcel"
 const dd_ExportUrl = baseUrl +"/sale/order/orderListExcel"
+const cp_ExportUrl = baseUrl +"/sale/order/examination/orderListExcel"
 const qt_ExportUrl = baseUrl +"/member/assign/assignStatisticsExcel"
 const czrz_ExportUrl = baseUrl +"/sale/order/log/logListExcel"
 const tjbb_ExportUrl = baseUrl +"/sale/order/exportStatistics"
@@ -330,6 +332,7 @@ export default{
     ExportUrl,
     kh_ExportUrl,
     dd_ExportUrl,
+    cp_ExportUrl,
     qt_ExportUrl,
     czrz_ExportUrl,
     tjbb_ExportUrl,

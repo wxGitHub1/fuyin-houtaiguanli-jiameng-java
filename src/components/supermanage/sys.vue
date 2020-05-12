@@ -2,11 +2,11 @@
 <template>  
   <div id="sys">
         <el-form :inline="true" :model="formInline" size="small" class="margin-l-p1">
-          <el-form-item label="站点名称">
+          <el-form-item label="测评中心">
             <el-select
               clearable
               v-model="formInline.siteIdValue"
-              placeholder="请先选择城市"
+              placeholder="请选择"
             >
               <el-option
                 v-for="item in formInline2.allSiteList"
@@ -74,7 +74,7 @@
       <el-table-column align="center" prop="roleNameString" label="用户角色" show-overflow-tooltip min-width="160"></el-table-column>
       <el-table-column align="center" prop="deptName" label="部门" min-width="160"></el-table-column>
       <el-table-column align="center" prop="deptChildName" label="分组" show-overflow-tooltip min-width="160"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点" show-overflow-tooltip></el-table-column>
+      <el-table-column align="center" prop="siteName" label="测评中心" show-overflow-tooltip></el-table-column>
       <el-table-column align="center" label="操作" min-width="300">
         <template slot-scope="scope">
           <el-button
@@ -217,7 +217,7 @@
             </template>
           </el-table-column>
         </el-table>-->
-        <el-form-item label="所在站点" prop="allSiteValue">
+        <el-form-item label="测评中心" prop="allSiteValue">
           <el-select
             clearable
             size="small"
@@ -238,7 +238,7 @@
             type="primary"
             icon="el-icon-s-grid"
             size="small"
-          >选择全部站点</el-button> -->
+          >选择全部测评中心</el-button> -->
         </el-form-item>
         <!-- <el-form-item label="负责医院" prop="regionHospital">
           <el-select
@@ -386,7 +386,7 @@ export default {
     };
     var allSiteRule = (rule, value, callback) => {
       if (value.length === 0) {
-        callback(new Error("请选择站点!"));
+        callback(new Error("请选择测评中心!"));
       } else {
         callback();
       }
@@ -1207,7 +1207,7 @@ export default {
           console.log(err);
         });
     },
-    //获取站点列表
+    //获取测评中心列表
     async siteList() {
       this.formInline2.allSiteList = await allSite();
     }

@@ -41,7 +41,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" id="input-title">
-        <span class="time_style">站点名称:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select
@@ -63,7 +63,7 @@
         <span>医院：</span>
       </el-col>
       <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.hospitalValue" placeholder="请先选择站点">
+        <el-select clearable size="small" v-model="seach.hospitalValue" placeholder="请先选择测评中心">
           <el-option
             v-for="item in seach.hospitals"
             :key="item.id"
@@ -202,7 +202,7 @@
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
       <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
+      <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
       <el-table-column align="center" prop="memberName" label="客户名"></el-table-column>
       <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
       <el-table-column align="center" prop="reVip" label="是否续会员"></el-table-column>
@@ -457,11 +457,11 @@ export default {
     async cityList(id) {
       this.seach.cityIdList = await city(id);
     },
-    //根据市获取站点列表
+    //根据市获取测评中心列表
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
     },
-    //根据站点获取医院列表
+    //根据测评中心获取医院列表
     async hospitalList(id) {
       this.seach.hospitals = await hospital(id);
     }

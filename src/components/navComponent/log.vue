@@ -40,7 +40,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" id="input-title">
-        <span class="time_style">站点名称:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市">
@@ -118,7 +118,7 @@
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
       <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
+      <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
       <el-table-column align="center" prop="createUserName" label="用户姓名"></el-table-column>
       <el-table-column align="center" prop="createUserRoleName" label="用户角色"></el-table-column>
       <el-table-column align="center" prop="name" label="操作类型"></el-table-column>
@@ -389,7 +389,7 @@ export default {
     async cityList(id) {
       this.seach.cityIdList = await city(id);
     },
-    //根据市获取站点列表
+    //根据市获取测评中心列表
     async siteList(id) {
       this.seach.siteLists = await allSite(null,id);
     }

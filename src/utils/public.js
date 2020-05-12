@@ -185,7 +185,7 @@ export function city(id) {
       });
   })
 }
-//根据市获取站点
+//根据市获取测评中心
 export function site(id) {
   let data = { cityId: id };
   return new Promise((resolve) => {
@@ -199,7 +199,7 @@ export function site(id) {
       });
   })
 }
-//根据站点获取测评项
+//根据测评中心获取测评项
 export function evaluation(id) {
   let data = { siteId: id };
   return new Promise((resolve) => {
@@ -226,7 +226,7 @@ export function evaluationList() {
       });
   })
 }
-//根据站点获取医院
+//根据测评中心获取医院
 export function hospital(id) {
   let data = { siteId: id };
   return new Promise((resolve) => {
@@ -240,7 +240,7 @@ export function hospital(id) {
       });
   })
 }
-//根据站点获取医院
+//根据测评中心获取医院
 export function batch(id) {
   let data = { siteId: id };
   return new Promise((resolve) => {
@@ -254,7 +254,7 @@ export function batch(id) {
       });
   })
 }
-//根据各个信息获取站点
+//根据各个信息获取测评中心
 //siteId  siteName siteType  siteIdSelf   userId userName provinceId cityId
 /**
  * 

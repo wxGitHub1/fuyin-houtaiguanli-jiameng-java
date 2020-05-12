@@ -1,4 +1,4 @@
-// 站点测评项目
+//测评项目
 <template>
   <div>
     <!-- seach -->
@@ -42,7 +42,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" class="input-title">
-        <span class="time_style">站点:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select
@@ -50,7 +50,7 @@
           size="small"
           clearable
           v-model="seach.siteId"
-          placeholder="请先选择站点"
+          placeholder="请先选择城市"
         >
           <el-option
             v-for="item in seach.siteIdList"
@@ -80,7 +80,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" class="input-title">
-        <span class="time_style">站点类型:</span>
+        <span class="time_style">测评中心类型:</span>
       </el-col>
       <el-col :span="2">
         <el-select
@@ -88,7 +88,7 @@
           size="small"
           clearable
           v-model="seach.siteType"
-          placeholder="请先选择站点"
+          placeholder="请先选择测评中心"
         >
           <el-option
             v-for="item in seach.siteTypeList"
@@ -132,8 +132,8 @@
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
       <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
-      <el-table-column align="center" prop="siteName" label="站点"></el-table-column>
-      <el-table-column align="center" prop="siteType" label="站点类型"></el-table-column>
+      <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
+      <el-table-column align="center" prop="siteType" label="测评中心类型"></el-table-column>
       <el-table-column align="center" prop="sitePhone" label="联系电话"></el-table-column>
       <el-table-column align="center" prop="examinationCount" label="测评项目数"></el-table-column>
       <el-table-column align="center" prop="examinations" label="测评项目" min-width="250"></el-table-column>
@@ -156,7 +156,7 @@
       :total="pages.total"
       class="pagination"
     ></el-pagination>
-    <!-- dialog 新增站点-->
+    <!-- dialog 新增测评中心-->
     <el-dialog
       :title="isShowAddTitle"
       :visible.sync="addSiteDialog"
@@ -202,7 +202,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="站点名称" prop="siteName">
+        <el-form-item label="测评中心" prop="siteName">
           <el-select clearable v-model="addSite.siteId" placeholder="请先选择省份">
             <el-option
               v-for="item in add.siteIdList"
@@ -294,7 +294,7 @@ export default {
         siteId: null
       },
       isShowAdd: true,
-      isShowAddTitle: "新增站点信息",
+      isShowAddTitle: "新增测评中心信息",
       rowSiteId: null,
       //新增data
       isShowForm: true,
@@ -319,7 +319,7 @@ export default {
       this.addSiteDialog = true;
       this.myValue=obj.examinationIds
     },
-    //删除站点配置测评 √
+    //删除测评中心配置测评 √
     deletesite_function(id) {
       this.$confirm("此操作将永久删除该信息, 是否继续？", "提示", {
         confirmButtonText: "确定",
@@ -509,7 +509,7 @@ export default {
     // async cityList(id) {
     //   this.seach.cityIdList = await city(id);
     // },
-    //站点
+    //测评中心
     async siteList(id, xz) {
       let data = await allSite(null,id);
       if (xz == "新增") {
@@ -518,7 +518,7 @@ export default {
         this.seach.siteIdList = data;
       }
     },
-    //站点id查询配置的测评
+    //测评中心id查询配置的测评
     // async evaluations(id) {
     //   this.myValue = await evaluation(id);
     // },

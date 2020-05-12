@@ -82,7 +82,7 @@
         </el-select>
       </el-col>
       <el-col :span="2" id="input-title">
-        <span class="time_style">站点名称:</span>
+        <span class="time_style">测评中心:</span>
       </el-col>
       <el-col :span="2">
         <el-select clearable size="small" v-model="search.siteValue" placeholder="请先选择城市" @change="userList(search.siteValue)">
@@ -305,7 +305,7 @@ export default {
     async cityList(id) {
       this.search.cityIdList = await city(id);
     },
-    //根据市获取站点列表
+    //根据市获取测评中心列表
     async siteList(id) {
       this.search.siteLists = await allSite(null,id);
     }
