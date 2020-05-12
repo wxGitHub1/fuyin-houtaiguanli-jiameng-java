@@ -34,6 +34,14 @@
           end-placeholder="结束日期"
         ></el-date-picker>
       </el-col>
+      <el-col :span="2" class="input-title">
+        <span>下单类型</span>
+      </el-col>
+      <el-col :span="2">
+        <el-select clearable size="small" v-model="seach.productOrderType" placeholder="请选择">
+          <el-option v-for="item in seach.productOrderTypeList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        </el-select>
+      </el-col>
       <el-col :span="2">
         <el-button
           @click="pageList(pages.currentPage,pages.pageSize)"
@@ -111,6 +119,10 @@
       <el-table-column align="center" prop="footWidth" label="足宽"></el-table-column>
       <el-table-column align="center" prop="height" label="身高"></el-table-column>
       <el-table-column align="center" prop="weight" label="体重"></el-table-column>
+      <el-table-column align="center" prop="productOrderTypeCN" label="下单类型"></el-table-column>
+      <el-table-column align="center" prop="actual" label="实际价格"></el-table-column>
+      <el-table-column align="center" prop="refund" label="退款金额"></el-table-column>
+      <el-table-column align="center" prop="orderNum" label="订单编号"></el-table-column>
     </el-table>
     <!-- Pagination 分页 -->
     <el-pagination
@@ -152,11 +164,19 @@ export default {
         deliveryTime:null,
         baseId:null,
         hospitalId:null,
+        productOrderType:null,
         hospitalLists:[],
         baseList:[
            { name:"防护气垫C3",id:978},
            { name:"防护气垫C2",id:982},
            { name:"F1发育性防护气垫",id:1401}
+        ],
+        productOrderTypeList:[
+           { name:"处方产品",id:1},
+           { name:"新增产品",id:2},
+           { name:"更换产品",id:3},
+           { name:"赠送产品",id:4},
+           { name:"服务产品",id:5},
         ]
       },
       loading: true
@@ -182,6 +202,7 @@ export default {
         deliveryTimeEnd: this.seach.deliveryTime == null ? null : this.seach.deliveryTime[1],
         baseId:this.seach.baseId  || null,
         hospitalId:this.seach.hospitalId  || null,
+        productOrderType:this.seach.productOrderType  || null,
       };
       this.loading = true;
       makeInsole(data)

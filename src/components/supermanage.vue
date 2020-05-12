@@ -2,7 +2,7 @@
   <div style="height:100%">
     <my-header :navTables="navTable" v-on:acceptTitle="newTitle"></my-header>
     <div class="child_page">
-      <el-tabs  v-model="tableNav" type="card" @tab-remove="removeTab">
+      <el-tabs v-model="tableNav" type="card" @tab-remove="removeTab" @tab-click="handleClick">
         <el-tab-pane
           class="home_table"
           v-for="(item) in tables"
@@ -11,7 +11,7 @@
           :label="item.title"
           :name="item.name"
         >
-          <component :is="item.content"></component>
+          <component ref="component" :is="item.content"></component>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -87,6 +87,10 @@ export default {
   methods: {
     // 增加标签
     newTitle(prop) {
+        //点击加载测评中心列表
+        if(prop=='sys'){
+          this.$refs.component[0].siteList()
+        }
       let _this = this;
       let newTabName = prop + "";
       this.tableNav = newTabName;
@@ -168,6 +172,16 @@ export default {
       } else {
         return;
       }
+    },
+    /**
+     * tab, event
+     */
+    handleClick(tab, event) {
+      //点击加载测评中心列表
+      if(tab.index == 0){
+          this.$refs.component[0].siteList()
+        }
+      // console.log(tab, event);
     },
 
     //移除标签

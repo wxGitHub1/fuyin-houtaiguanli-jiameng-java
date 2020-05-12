@@ -1209,6 +1209,7 @@ export default {
     },
     //获取测评中心列表
     async siteList() {
+      console.log("调用成功")
       this.formInline2.allSiteList = await allSite();
     }
   }
