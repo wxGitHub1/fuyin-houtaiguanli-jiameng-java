@@ -5,9 +5,9 @@ import axios from '../utils/ajax';
  * baseUrl  接口路径
  */
 // const baseUrl  = 'http://117.34.105.87:8088';//服务器IP
-const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
+// const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
 // const baseUrl  = 'http://117.34.105.87:8086';//测试服务器IP
-// const baseUrl  = 'http://192.168.1.109:8088';//杨腾飞加盟IP
+const baseUrl  = 'http://192.168.1.109:8088';//杨腾飞加盟IP
 // const baseUrl  = 'http://192.168.1.108:8087';//杨腾飞IP
 // const baseUrl  = 'http://192.168.1.108:8080';//杨腾飞IP
 // const baseUrl  = 'http://192.168.1.155:8088';//李思雨IP
@@ -18,7 +18,9 @@ const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
 *用户登录 
 *
 */
-export const login = async params => axios.post(baseUrl  + '/login/login', params);
+export const login = async params => axios.post(baseUrl  + '/login/login', params); //登录
+export const logout = async params => axios.post(baseUrl  + '/login/logout', params); //退出
+export const checkLogine = async params => axios.get(baseUrl  + '/login/checkLogin', params); //验证是否登录
 /*
 *
 *系统管理 

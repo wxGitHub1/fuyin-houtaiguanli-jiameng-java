@@ -367,6 +367,8 @@
               style="width:100%"
               size="small"
               clearable
+              multiple
+              collapse-tags
               v-model="productSize.helpUserIds"
               placeholder="请选择"
             >
@@ -721,7 +723,7 @@ export default {
                this.productSize.user = null
             }            
             this.productSize.radio = objData.xRay;
-            this.productSize.fy = objData.reflectList; //后端没有选择家长反应时为无没传过来
+            this.productSize.fy = objData.reflectList;
             this.productSize.helpUserIds = objData.helpUsers;
             this.productSize.time = obj[0].deliveryTime;
             this.productSize.textarea_illness = this.memberDetailDto.illness;

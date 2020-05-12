@@ -79,7 +79,7 @@
           @change="listenKey()"
         ></el-date-picker>
       </el-col>
-      <el-col :span="2" >
+      <el-col :span="2">
         <el-button
           size="small"
           @click="pageList(pages.currentPage,pages.pageSize)"
@@ -241,7 +241,13 @@
         <span>测评中心</span>
       </el-col>
       <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
+        <el-select
+          clearable
+          size="small"
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="hospitalList(seach.siteValue)"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -254,7 +260,13 @@
         <span>医院名称</span>
       </el-col>
       <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.hospitalId" placeholder="请先选择测评中心"  @change="listenKey()">
+        <el-select
+          clearable
+          size="small"
+          v-model="seach.hospitalId"
+          placeholder="请先选择测评中心"
+          @change="listenKey()"
+        >
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -483,7 +495,7 @@
           @click="printTicket(paymentMethod.orderNum)"
         >打印小票</el-button>
         <el-button type="warning" @click="dialogRefund=true" icon="el-icon-bank-card">退款</el-button>
-        <el-button type="primary" icon="el-icon-circle-close" @click="cancelOrder">取消订单</el-button>
+        <el-button type="primary" :disabled="Details.updateOrder === 0"  icon="el-icon-circle-close" @click="cancelOrder">取消订单</el-button>
         <el-button :disabled="Details.updateOrder === 0" type="warning" @click="changeOrder()">修改订单</el-button>
       </div>
     </el-dialog>
@@ -567,7 +579,7 @@
               style="width：100%"
               size="small"
               v-model="scope.row.amount"
-            ></el-input-number> -->
+            ></el-input-number>-->
             <input
               class="input"
               type="text"
@@ -675,7 +687,7 @@
                   <div slot="error" class="image-slot">
                     <i class="el-icon-picture-outline"></i>
                   </div>
-                </el-image> -->
+                </el-image>-->
               </div>
             </div>
             <div class="xiaopiao margin-t-20" v-if="dyxp.cp">
@@ -733,7 +745,7 @@
                   <div slot="error" class="image-slot">
                     <i class="el-icon-picture-outline"></i>
                   </div>
-                </el-image> -->
+                </el-image>-->
               </div>
             </div>
             <div class="xiaopiao margin-t-20" v-if="dyxp.jj">
@@ -789,7 +801,7 @@
                   <div slot="error" class="image-slot">
                     <i class="el-icon-picture-outline"></i>
                   </div>
-                </el-image> -->
+                </el-image>-->
               </div>
             </div>
           </div>
@@ -875,7 +887,7 @@
                   <div slot="error" class="image-slot">
                     <i class="el-icon-picture-outline"></i>
                   </div>
-                </el-image> -->
+                </el-image>-->
               </div>
             </div>
           </div>
@@ -971,7 +983,13 @@
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格" min-width="100">
           <template slot-scope="scope">
-            <input class="input" type="text" v-model="scope.row.actual" @change="changeMoney()" oninput="value=value.replace(/[^\d.]/g,'')"/>
+            <input
+              class="input"
+              type="text"
+              v-model="scope.row.actual"
+              @change="changeMoney()"
+              oninput="value=value.replace(/[^\d.]/g,'')"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
@@ -994,8 +1012,8 @@
         <el-table-column prop="qualification" label="产品资质"></el-table-column>
         <el-table-column prop="price" label="下单类型" min-width="100">
           <template slot-scope="scope">
-          <el-select
-          v-if="scope.row.productOrderType == 5 ? false : true"
+            <el-select
+              v-if="scope.row.productOrderType == 5 ? false : true"
               clearable
               v-model="scope.row.productOrderType"
               placeholder="请选择"
@@ -1030,7 +1048,7 @@
               size="mini"
               @click.native.prevent="deleteRow(scope.$index,detailFormList)"
               type="danger"
-            >删除</el-button> -->
+            >删除</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -1091,9 +1109,9 @@
       :close-on-click-modal="false"
       width="70%"
       :before-close="cancelSelection"
-    > -->
-      <!-- seach product-->
-      <!-- <el-row class="search">
+    >-->
+    <!-- seach product-->
+    <!-- <el-row class="search">
         <el-col :span="2" class="input-title">
           <span>选择产品</span>
         </el-col>
@@ -1156,9 +1174,9 @@
         <el-table-column prop="model" label="产品型号" show-overflow-tooltip></el-table-column>
         <el-table-column prop="qualification" label="产品资质" show-overflow-tooltip></el-table-column>
         <el-table-column prop="price" label="标准价格" show-overflow-tooltip></el-table-column>
-      </el-table> -->
-      <!-- Pagination 分页 -->
-      <!-- <el-pagination
+    </el-table>-->
+    <!-- Pagination 分页 -->
+    <!-- <el-pagination
         @size-change="handleSizeChangeProduct"
         @current-change="handleCurrentChangeProduct"
         :current-page="pagesProduct.currentPage"
@@ -1167,11 +1185,11 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="pagesProduct.total"
         class="pagination"
-      ></el-pagination> -->
-      <!-- <div slot="footer" class="dialog-footer">
+    ></el-pagination>-->
+    <!-- <div slot="footer" class="dialog-footer">
         <el-button @click="cancelSelection()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button @click="confirmProduct()" type="success" icon="el-icon-circle-check">选择</el-button>
-      </div> -->
+    </div>-->
     <!-- </el-dialog> -->
     <!-- dialog 特殊要求-->
     <el-dialog
@@ -1206,7 +1224,12 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div>
         折扣价格：
-        <input type="text" class="input" v-model="zhekouyouhui.favorable" oninput="value=value.replace(/[^\d.]/g,'')"/>
+        <input
+          type="text"
+          class="input"
+          v-model="zhekouyouhui.favorable"
+          oninput="value=value.replace(/[^\d.]/g,'')"
+        />
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
@@ -1232,10 +1255,16 @@
         <div v-for="item in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
+            <el-input
+              v-model="item.value"
+              style="width：100%"
+              size="small"
+              placeholder="请输入"
+              oninput="value=value.replace(/[^\d.]/g,'')"
+            ></el-input>
           </div>
         </div>
-        <div class="cpSize" >
+        <div class="cpSize">
           <span class="span">是否有X光片：</span>
           <div class="div">
             <el-radio v-model="productSize.radio" label="1">是</el-radio>
@@ -1244,13 +1273,8 @@
         </div>
         <div class="cpSize">
           <span class="span">取型人：</span>
-           <div class="div">
-              <el-select
-              clearable
-              v-model="productSize.shapeUser"
-              placeholder="请选择"
-              size="mini"
-            >
+          <div class="div">
+            <el-select clearable v-model="productSize.shapeUser" placeholder="请选择" size="mini">
               <el-option
                 v-for="item in productSize.shapeUserList"
                 :key="item.id"
@@ -1258,7 +1282,7 @@
                 :value="item"
               ></el-option>
             </el-select>
-           </div>
+          </div>
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -1275,7 +1299,11 @@
       width="80%"
       :before-close="cancelPrinting"
     >
-      <fuyinProduct-html :productTitle="productTitle" :printFormData="printFormData" :sizeMapList="sizeMapList"></fuyinProduct-html>
+      <fuyinProduct-html
+        :productTitle="productTitle"
+        :printFormData="printFormData"
+        :sizeMapList="sizeMapList"
+      ></fuyinProduct-html>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelPrinting()" type="success">取消</el-button>
         <el-button v-print="'#printTest'" type="primary">立即打印</el-button>
@@ -1313,7 +1341,7 @@ import {
 import fuyinProduct_html from "../commonComponent/fuyinProduct";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
-import {viewPage_function} from "../../router/path";
+import { viewPage_function } from "../../router/path";
 export default {
   data() {
     return {
@@ -1439,8 +1467,8 @@ export default {
         cityId: null,
         provinceIdList: [],
         cityIdList: [],
-        hospitalId:null,
-        hospitalLists:[],
+        hospitalId: null,
+        hospitalLists: []
       },
       //分页
       pages: {
@@ -1489,10 +1517,10 @@ export default {
       //   zb: []
       // },
       productSize: {
-        list:[],
-        radio:"",
-        shapeUserList:[],
-        shapeUser:"",
+        list: [],
+        radio: "",
+        shapeUserList: [],
+        shapeUser: ""
       },
       loading: true,
       //打印订货单
@@ -1501,19 +1529,19 @@ export default {
       productTitle: {},
       printFormData: {},
       // printFormDataMap: null,
-      sizeMapList:[],
+      sizeMapList: [],
       bj_obj: {},
       transactionType_jj: null,
       transactionType_cp: null,
       transactionType_fw: null,
       /**新增data */
       productOrderTypeList: [
-          { name: "处方产品", id: 1 },
-          { name: "新增产品", id: 2 },
-          { name: "更换产品", id: 3 },
-          { name: "赠送产品", id: 4 },
-        ],
-      cpOnly_show:false
+        { name: "处方产品", id: 1 },
+        { name: "新增产品", id: 2 },
+        { name: "更换产品", id: 3 },
+        { name: "赠送产品", id: 4 }
+      ],
+      cpOnly_show: false
     };
   },
   components: {
@@ -1523,7 +1551,6 @@ export default {
     this.init();
     this.pageList();
     this.provinceList();
-    
   },
   methods: {
     // 取消打印
@@ -1553,7 +1580,7 @@ export default {
             // let myObj = fuyinProduct.fy_product;
             // let id = myObj[res.data.data.recordNumber] || myObj.isNo;
             // this.product["product_" + id] = true;
-           this.printFormData = res.data.data.memberDetailDto;
+            this.printFormData = res.data.data.memberDetailDto;
             this.productTitle = res.data.data;
             // this.productTitle.baseProductName = res.data.data.baseProductName;
             // this.productTitle.baseProductNickname =res.data.data.baseProductNickname;
@@ -1623,7 +1650,7 @@ export default {
           obj.shapeUser = this.productSize.shapeUser;
         }
       });
-      console.log(this.detailFormList)
+      console.log(this.detailFormList);
       this.sizeCancel();
       // this.sizeCancel();
       // this.dialogSizeDetails = false;
@@ -1633,10 +1660,10 @@ export default {
     },
     sizeCancel() {
       this.dialogSizeDetails = false;
-      this.productSize.list=[]
-      this.productSize.shapeUserList=[]
-      this.productSize.radio=null
-      this.productSize.shapeUser=null
+      this.productSize.list = [];
+      this.productSize.shapeUserList = [];
+      this.productSize.radio = null;
+      this.productSize.shapeUser = null;
       // for (let key in this.productSize) {
       //   this.productSize[key] = [];
       // }
@@ -1711,28 +1738,30 @@ export default {
       //     center: true
       //   });
       // }
-      let data={
-          hospitalId:obj.row.hospitalId
-        }
-        selectUserListByHospitalId(data).then(res=>{
+      let data = {
+        hospitalId: obj.row.hospitalId
+      };
+      selectUserListByHospitalId(data)
+        .then(res => {
           if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-              console.log(res)
-              this.productSize.list = obj.row.sizeMapList;
-              this.productSize.shapeUser = obj.row.shapeUser;
-              this.productSize.radio = obj.row.xRay;
-              this.cpIndex = obj.$index;
-              this.dialogSizeDetails = true;
-              this.productSize.shapeUserList=res.data.data
-            }
-        }).catch(err=>{
-          console.log(err)
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            console.log(res);
+            this.productSize.list = obj.row.sizeMapList;
+            this.productSize.shapeUser = obj.row.shapeUser;
+            this.productSize.radio = obj.row.xRay;
+            this.cpIndex = obj.$index;
+            this.dialogSizeDetails = true;
+            this.productSize.shapeUserList = res.data.data;
+          }
         })
+        .catch(err => {
+          console.log(err);
+        });
     },
     tsyq(obj) {
       this.dialogSpecialRequirements = true;
@@ -1963,7 +1992,7 @@ export default {
       let jhrq = true;
       this.detailFormList.forEach(obj => {
         if (
-           obj.process == 1 
+          obj.process == 1
           // obj.source == "自制产品" ||
           // obj.source == "定制产品" ||
           // obj.source == "试穿成品" ||
@@ -2213,7 +2242,6 @@ export default {
       // this.refundData.forEach((obj,index) => {
       //   obj.amount = 0;
       //   });
-
     },
     addRefund() {
       if (!!this.refund.reason) {
@@ -2435,42 +2463,42 @@ export default {
       orderDetail(data)
         .then(res => {
           console.log(res);
-if (res.data.returnCode != 0) {
+          if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
               message: res.data.returnMsg,
               center: true
             });
           } else {
-          this.Details = res.data.data.orderDetailDto;
-          // this.Details.address = res.data.data.orderDetailDto.address;
-          // this.Details.birthday = res.data.data.orderDetailDto.birthday;
-          // this.Details.isBlack = res.data.data.orderDetailDto.black;
-          // this.Details.phone = res.data.data.orderDetailDto.phone;
-          // this.Details.sex = res.data.data.orderDetailDto.sex;
-          // this.Details.school = res.data.data.orderDetailDto.school;
-          // this.Details.source = res.data.data.orderDetailDto.source;
-          this.prescriptions = res.data.data.saleDetailDtos;
-          this.refundData = res.data.data.saleDetailDtos;
-          this.PatientInformation.push(res.data.data.orderDetailDto);
-          this.orderInformation = res.data.data.orderDetailDto;
-          this.favorableDto = res.data.data.favorableDtos;
-          this.refundRecordDto = res.data.data.refundDetails;
-          this.paymentMethod.orderId = res.data.data.orderDetailDto.orderId;
-          this.imgUrl = javaApi.ExportUrl + res.data.data.orderDetailDto.url;
-          console.log(this.imgUrl);
-          this.refundData.forEach(obj => {
-            obj.amount = 0;
-          });
-          if (
-            this.orderInformation.oStatus == "已取消" ||
-            this.orderInformation.oStatus == "已结单"
-          ) {
-            this.isCancel = true;
-          } else {
-            this.isCancel = false;
-          }
-          this.dialogDepartmentDetails = true;
+            this.Details = res.data.data.orderDetailDto;
+            // this.Details.address = res.data.data.orderDetailDto.address;
+            // this.Details.birthday = res.data.data.orderDetailDto.birthday;
+            // this.Details.isBlack = res.data.data.orderDetailDto.black;
+            // this.Details.phone = res.data.data.orderDetailDto.phone;
+            // this.Details.sex = res.data.data.orderDetailDto.sex;
+            // this.Details.school = res.data.data.orderDetailDto.school;
+            // this.Details.source = res.data.data.orderDetailDto.source;
+            this.prescriptions = res.data.data.saleDetailDtos;
+            this.refundData = res.data.data.saleDetailDtos;
+            this.PatientInformation.push(res.data.data.orderDetailDto);
+            this.orderInformation = res.data.data.orderDetailDto;
+            this.favorableDto = res.data.data.favorableDtos;
+            this.refundRecordDto = res.data.data.refundDetails;
+            this.paymentMethod.orderId = res.data.data.orderDetailDto.orderId;
+            this.imgUrl = javaApi.ExportUrl + res.data.data.orderDetailDto.url;
+            console.log(this.imgUrl);
+            this.refundData.forEach(obj => {
+              obj.amount = 0;
+            });
+            if (
+              this.orderInformation.oStatus == "已取消" ||
+              this.orderInformation.oStatus == "已结单"
+            ) {
+              this.isCancel = true;
+            } else {
+              this.isCancel = false;
+            }
+            this.dialogDepartmentDetails = true;
           }
         })
         .catch(err => {
@@ -2503,48 +2531,48 @@ if (res.data.returnCode != 0) {
         siteId: this.seach.siteValue,
         provinceId: this.seach.provinceId,
         cityId: this.seach.cityId,
-        hospitalId: this.seach.hospitalId,
+        hospitalId: this.seach.hospitalId
       };
       this.loading = true;
-    if(this.cpOnly_show){
-      orderList(data)
-        .then(res => {
-          if (res.data.returnCode != 0) {
-            this.$message({
-              type: "warning",
-              message: res.data.returnMsg,
-              center: true
-            });
-          } else {
-            let dataList = res.data;
-            this.loading = false;
-            this.clientData = dataList.data;
-            this.pages.total = dataList.total;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }else{
-      cp_orderList(data)
-        .then(res => {
-          if (res.data.returnCode != 0) {
-            this.$message({
-              type: "warning",
-              message: res.data.returnMsg,
-              center: true
-            });
-          } else {
-            let dataList = res.data;
-            this.loading = false;
-            this.clientData = dataList.data;
-            this.pages.total = dataList.total;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+      if (this.cpOnly_show) {
+        orderList(data)
+          .then(res => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                type: "warning",
+                message: res.data.returnMsg,
+                center: true
+              });
+            } else {
+              let dataList = res.data;
+              this.loading = false;
+              this.clientData = dataList.data;
+              this.pages.total = dataList.total;
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        cp_orderList(data)
+          .then(res => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                type: "warning",
+                message: res.data.returnMsg,
+                center: true
+              });
+            } else {
+              let dataList = res.data;
+              this.loading = false;
+              this.clientData = dataList.data;
+              this.pages.total = dataList.total;
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     },
     //导出excel
     exportExcels() {
@@ -2570,7 +2598,7 @@ if (res.data.returnCode != 0) {
         siteId: this.seach.siteValue,
         provinceId: this.seach.provinceId,
         cityId: this.seach.cityId,
-        hospitalId: this.seach.hospitalId,
+        hospitalId: this.seach.hospitalId
       };
       const lsyObj = {
         method: "post",
@@ -2578,10 +2606,10 @@ if (res.data.returnCode != 0) {
         // url: javaApi.dd_ExportUrl,
         data: data
       };
-      if(this.cpOnly_show){
-        lsyObj.url=javaApi.dd_ExportUrl
-      }else{
-        lsyObj.url=javaApi.cp_ExportUrl
+      if (this.cpOnly_show) {
+        lsyObj.url = javaApi.dd_ExportUrl;
+      } else {
+        lsyObj.url = javaApi.cp_ExportUrl;
       }
       exportMethod(this, lsyObj);
     },
@@ -2642,7 +2670,7 @@ if (res.data.returnCode != 0) {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //根据测评中心获取医院列表
     async hospitalList(id) {
@@ -2654,7 +2682,7 @@ if (res.data.returnCode != 0) {
       } else {
         this.cpOnly_show = true;
       }
-    },
+    }
   }
 };
 </script>
@@ -2683,8 +2711,8 @@ if (res.data.returnCode != 0) {
     letter-spacing: 1px;
   }
 }
-#border-none{
-  border-bottom:none;
+#border-none {
+  border-bottom: none;
 }
 .pagination {
   margin-top: 10px;
@@ -2705,7 +2733,7 @@ if (res.data.returnCode != 0) {
   .span {
     display: inline-block;
     margin-bottom: 10px;
-     width: 30%;
+    width: 30%;
   }
   .div {
     display: inline-block;

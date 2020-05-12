@@ -124,7 +124,7 @@
       <el-table-column align="center" prop="vip" label="是否会员"></el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" @click="details(scope.row)" size="small">接待</el-button>
+          <el-button type="primary" @click="details(scope.row.productId)" size="small">接待</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -550,11 +550,11 @@ export default {
           console.log(err);
         });
     },
-    details(obj) {
-      this.saleProductId = obj.productId;
+    details(id) {
+      this.saleProductId = id;
       // this.only_siteId = obj.siteId;
       let data = {
-        saleProductId: obj.productId
+        saleProductId: id
       };
       memberShapeProduct(data)
         .then(res => {

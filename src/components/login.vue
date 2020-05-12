@@ -29,9 +29,7 @@
             <div class="user_login" @click="userLogin()">登陆</div>
           </el-col>
         </el-row>
-        <div class="version">
-          当前版本：1.1.0
-        </div>
+        <div class="version">当前版本：1.1.0</div>
       </el-col>
     </el-row>
   </div>
@@ -40,7 +38,8 @@
 <script>
 import $axios from "axios";
 import session from "../utils/session";
-import {actions_data} from "../router/path";
+import { actions_data } from "../router/path";
+import { checkLogine } from "../api/javaApi";
 export default {
   name: "HelloWorld",
   data() {
@@ -50,7 +49,7 @@ export default {
       userPassword: null
     };
   },
-  //添加监听回车按键
+
   created() {},
   updated() {},
   beforeRouteLeave(to, form, next) {
@@ -58,7 +57,9 @@ export default {
     next();
   },
   mounted() {
+    //添加监听回车按键
     this.listenKey();
+    this.isint();
   },
   // computed: {
   //通过session获取vuex islogin属性
@@ -77,6 +78,31 @@ export default {
   // }
   // },
   methods: {
+    // 判断是否登录
+    isint() {
+      //加载完毕
+      checkLogine()
+        .then(res => {
+          if (res.data.returnCode == 0) {
+            session.setUser(res.data.data.name); //保存用户id
+            session.setItem("username", res.data.data.name); //保存用户名
+            session.setItem("menu", res.data.data.roleName); //保存用户菜单
+            // commit('USER_STATUS', res.data.data);
+            let menu = session.getItem("menu");
+            let actions = actions_data;
+            let action = actions[menu[0].name] || actions["404"];
+            this.$router.push(action);
+            // this.$message({
+            //   message: "用户已登录",
+            //   type: "warning",
+            //   center: true
+            // });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     //监听按键
     listenKey() {
       let _self = this;
@@ -113,7 +139,7 @@ export default {
           });
         } else {
           let menu = session.getItem("menu");
-          let actions =actions_data
+          let actions = actions_data;
           //  {
           //   超级管理员: "/supermanage",
           //   大客户: "/bigclient",
@@ -200,7 +226,7 @@ export default {
       font-weight: bold;
       cursor: pointer;
     }
-    .version{
+    .version {
       color: #59a4f2;
       font-size: 12px;
       text-align: right;

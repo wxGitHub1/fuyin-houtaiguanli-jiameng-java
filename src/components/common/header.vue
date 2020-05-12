@@ -50,7 +50,8 @@
 
 <script>
 import session from "../../utils/session";
-import {viewPage_function,actions_data} from "../../router/path";
+import{logout}from "../../api/javaApi";
+import { viewPage_function, actions_data } from "../../router/path";
 export default {
   name: "HelloWorld",
   props: {
@@ -71,32 +72,32 @@ export default {
     };
   },
   created() {
-    this.creat()
+    this.creat();
   },
   mounted() {
-    this.init()
+    this.init();
   },
   methods: {
-    creat(){
+    creat() {
       let name = session.getItem("username");
       let menu = session.getItem("menu");
-      if(!!name && !!menu){
-        this.user.name=name;
-        this.menu=menu
-      }else{
+      if (!!name && !!menu) {
+        this.user.name = name;
+        this.menu = menu;
+      } else {
         this.$router.push("/login");
-          session.removeItem("user");
-          session.removeItem("username");
-          session.removeItem("menu");
-          this.$message({
-            type: "error",
-            message: "登录过期！请重新登录！"
-          });
+        session.removeItem("user");
+        session.removeItem("username");
+        session.removeItem("menu");
+        // this.$message({
+        //   type: "error",
+        //   message: "登录过期！请重新登录！"
+        // });
       }
     },
     init() {
       // this.viewPage(String(window.location.href));
-      this.witchPage = viewPage_function(String(window.location.href))
+      this.witchPage = viewPage_function(String(window.location.href));
       if (this.$store.state.login.username) {
         this.user.name = this.$store.state.login.username;
         this.menu = this.$store.state.login.menu;
@@ -111,7 +112,7 @@ export default {
       this.$emit("acceptTitle", item);
       this.cur = index;
     },
-    //切换账户
+    //退出账户
     changePerson() {
       this.$confirm("是否退出并更改账号？", "确认信息", {
         distinguishCancelAndClose: true,
@@ -120,14 +121,28 @@ export default {
         center: true
       })
         .then(() => {
-          this.$router.push("/login");
-          session.removeItem("user");
-          session.removeItem("username");
-          session.removeItem("menu");
-          this.$message({
-            type: "info",
-            message: "已退出系统"
-          });
+          logout()
+            .then(res => {
+              if (res.data.returnCode != 0) {
+              this.$message({
+                type: "warning",
+                message: res.data.returnMsg,
+                center: true
+              });
+            } else {
+              this.$router.push("/login");
+              session.removeItem("user");
+              session.removeItem("username");
+              session.removeItem("menu");
+              this.$message({
+                type: "info",
+                message: "已退出系统"
+              });
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
         })
         .catch(action => {
           this.$message({
@@ -138,7 +153,7 @@ export default {
     },
     //跳转页面
     gotoBigClient(adress) {
-      let actions = actions_data
+      let actions = actions_data;
       let action = actions[adress] || actions["404"];
       this.$router.push(action);
     }
