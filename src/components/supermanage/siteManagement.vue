@@ -117,7 +117,8 @@
       <el-table-column align="center" prop="siteType" label="测评中心类型"></el-table-column>
       <el-table-column align="center" prop="sitePhone" label="联系电话"></el-table-column>
       <el-table-column align="center" prop="siteAddress" label="测评中心地址"></el-table-column>
-      <el-table-column align="center" prop="siteUsers" label="负责人"></el-table-column>
+      <el-table-column align="center" prop="siteLeaders" label="负责人"></el-table-column>
+      <el-table-column align="center" prop="siteUsers" label="员工"></el-table-column>
       <el-table-column align="center" prop="siteCreateTime" label="创建时间"></el-table-column>
       <el-table-column align="center" prop="orderUserName" label="操作">
         <template slot-scope="scope">
@@ -142,6 +143,7 @@
       :title="isShowAddTitle"
       :visible.sync="addSiteDialog"
       center
+      width="80%"
       :close-on-click-modal="false"
       :before-close="comeBack"
     >
@@ -184,6 +186,16 @@
               v-for="item in seach.siteTypeList"
               :key="item.id"
               :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="测评中心负责人" v-if="isShowAddTitle == '修改测评中心信息'" >
+          <el-select clearable multiple collapse-tags v-model="addSite.leaderIds" placeholder="请选择">
+            <el-option
+              v-for="item in leaderIdsList"
+              :key="item.id"
+              :label="item.username"
               :value="item.id"
             ></el-option>
           </el-select>
@@ -279,7 +291,8 @@ export default {
         siteType: null,
         siteName: null,
         siteAddress: null,
-        sitePhone: null
+        sitePhone: null,
+        leaderIds:[]
       },
       isShowAdd: true,
       isShowAddTitle: "新增测评中心信息",
@@ -335,6 +348,7 @@ export default {
       this.isShowAdd = false;
       this.isShowAddTitle = "修改测评中心信息";
       this.rowSiteId = obj.siteId;
+      this.addSite.leaderIds = obj.siteLeaderIds;
       this.addSite.provinceValue = obj.provinceId;
       this.addCityList(obj.provinceId);
       this.addSite.citysValue = obj.cityId;
@@ -343,6 +357,7 @@ export default {
       this.addSite.siteAddress = obj.siteAddress;
       this.addSite.sitePhone = obj.sitePhone;
       this.addSiteDialog = true;
+      this.leaderIdsList_fuc(obj.siteId)
     },
     deletesite_function(id) {
       this.$confirm("此操作将永久删除该信息, 是否继续？", "提示", {
@@ -395,6 +410,7 @@ export default {
           }
           if (name == "modify") {
             data.siteId=this.rowSiteId,
+            data.leaderIds=this.addSite.leaderIds,
             updateSite(data)
               .then(res => {
                 if (res.data.returnCode != 0) {
@@ -531,6 +547,10 @@ export default {
     //测评中心
     async siteList(id) {
       this.seach.siteIdList = await allSite(null,id);
+    },
+    //测评中心
+    async leaderIdsList_fuc(id) {
+      this.leaderIdsList = await personnel(null,id);
     }
   }
 };
