@@ -391,6 +391,7 @@
           class="right"
         >新增病单</el-button>
       </h3>
+      <!-- 修改列表 -->
       <el-table v-if="modefiy" :data="DataList" key="DataList" max-height="190">
         <el-table-column label="病单编号" align="center" prop="prescriptionNum"></el-table-column>
         <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
@@ -415,6 +416,7 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 新增列表 -->
       <el-table v-else :data="addData" key="addData">
         <el-table-column label="省份" align="center">
           <template slot-scope="scope">
@@ -1503,7 +1505,7 @@
         <!-- <div class="margin-t-5">
           <span>新增病情:</span>
           <span class="margin-r-20">{{item.normal}}</span>
-        </div> -->
+        </div>-->
         <div class="margin-t-5">
           <span>测评结果:</span>
           <span class="margin-r-20">{{item.result}}</span>
@@ -1602,7 +1604,7 @@
         <el-button type="success" icon="el-icon-picture-outline" v-on:click="getPdf()">导出PDF</el-button>
       </div>
     </el-dialog>
-     <!-- dialog 足长足宽修改-->
+    <!-- dialog 足长足宽修改-->
     <el-dialog title="足长足宽修改" :visible.sync="threeDDialg" :close-on-click-modal="false" width="30%">
       <el-form :model="threeD_ObjFrom" :inline="true" size="mini" label-width="80px">
         <el-form-item v-for="(item,index) in threeD_ObjFrom.list" :key="index" :label="item.name">
@@ -1654,6 +1656,8 @@ import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import Print from "../commonComponent/PrintTemplate";
 import placeOrder from "./place_order";
+import naVComponent from "./page";
+import naVComponent_variable from "./page_variable";
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
@@ -1685,33 +1689,7 @@ export default {
       productData: [],
       multipleSelection: [],
       detailFormList: [],
-      seachProduct: {
-        name: null,
-        productTypeValue: null,
-        qualification: null,
-        productTypes: [
-          { name: "会员卡", id: 1 },
-          { name: "测评服务", id: 2 },
-          { name: "固定定制", id: 301 },
-          { name: "固定成品", id: 302 },
-          { name: "矫形定制", id: 303 },
-          { name: "矫形成品", id: 304 },
-          { name: "低温板", id: 305 },
-          { name: "外购", id: 306 }
-        ],
-        qualificationList: [
-          { name: "一类", id: 1 },
-          { name: "二类", id: 2 },
-          { name: "默认", id: 3 }
-        ],
-        origin: null,
-        recordNumber: null,
-        nickname: null,
-        originList: [
-          { name: "国产", id: 1 },
-          { name: "进口", id: 2 }
-        ]
-      },
+      seachProduct:naVComponent_variable.seachProduct,
       jjChecked: false,
       orderingPerson: null,
       paymentMethod: {
@@ -1726,107 +1704,7 @@ export default {
       },
       isBlackBut: null,
       currentPrescriptions: [],
-      seach: {
-        name: "",
-        phone: "",
-        createTime: null,
-        createName: null,
-        daofang: {
-          select: [
-            {
-              type: 1,
-              name: "已到访"
-            },
-            {
-              type: 0,
-              name: "未到访"
-            }
-          ],
-          value: ""
-        },
-        xiadan: {
-          select: [
-            {
-              type: 1,
-              name: "下单"
-            },
-            {
-              type: "0",
-              name: "未下单"
-            }
-          ],
-          value: ""
-        },
-        renzhi: {
-          select: [
-            {
-              type: 0,
-              name: "全部"
-            },
-            {
-              type: 1,
-              name: "AA"
-            },
-            {
-              type: 2,
-              name: "AB"
-            },
-            {
-              type: 3,
-              name: "BA"
-            },
-            {
-              type: 4,
-              name: "BB"
-            }
-          ],
-          value: ""
-        },
-        laiyuan: {
-          select: [
-            {
-              type: "0",
-              name: "自然发病"
-            },
-            {
-              type: 1,
-              name: "体检"
-            },
-            {
-              type: 2,
-              name: "调研"
-            },
-            {
-              type: 3,
-              name: "其他"
-            },
-            {
-              type: 4,
-              name: "儿保"
-            }
-          ],
-          value: ""
-        },
-        heimingdan: {
-          select: [
-            {
-              type: 1,
-              name: "是"
-            },
-            {
-              type: "0",
-              name: "否"
-            }
-          ],
-          value: ""
-        },
-        siteLists: [],
-        siteValue: null,
-        provinceId: null,
-        cityId: null,
-        provinceIdList: [],
-        cityIdList: []
-      },
+      seach:naVComponent_variable.seach,
       clientData: [],
       //分页
       pages: {
@@ -2002,55 +1880,15 @@ export default {
     this.provinceList();
   },
   methods: {
-     threeD_func() {
-      let data = {
-        recordId: this.only_recordId,
-        footLength:
-          this.threeD_ObjFrom.list[1].name == "足长"
-            ? this.threeD_ObjFrom.list[1].value
-            : this.threeD_ObjFrom.list[0].value,
-        footWidth:
-          this.threeD_ObjFrom.list[0].name == "足宽"
-            ? this.threeD_ObjFrom.list[0].value
-            : this.threeD_ObjFrom.list[1].value
-      };
-      examinePadZb3d(data)
-        .then(res => {
-          if (res.data.returnCode != 0) {
-            this.$message({
-              type: "warning",
-              message: res.data.returnMsg,
-              center: true
-            });
-          } else {
-            this.threeDDialg = false;
-            this.dialogEvaluationDetails = false;
-            this.$message({
-              type: "success",
-              message: "下单成功！",
-              center: true
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    threeD_func() {
+     naVComponent.threeD_func(this)
     },
     threeD_show(obj) {
       this.threeD_ObjFrom.list = obj;
       this.threeDDialg = true;
     },
     isRequired(val) {
-      this.isShowVal = val;
-      if (val == 2) {
-        this.rules.phone[0].required = false;
-        this.rules.birthday[0].required = false;
-        console.log("不用填");
-      } else {
-        this.rules.phone[0].required = true;
-        this.rules.birthday[0].required = true;
-        console.log("必须填");
-      }
+      naVComponent.isRequired(this,val)
     },
     printpage() {
       this.$print2(this.$refs.print);
@@ -2082,32 +1920,7 @@ export default {
         });
     },
     confirmTransferSite_func() {
-      let data = {
-        memberId: this.currentNamberId,
-        siteId: this.transferSite.siteId,
-        phone: this.transferSite.sitePhone
-      };
-      changeSite(data)
-        .then(res => {
-          if (res.data.returnCode != 0) {
-            this.$message({
-              type: "warning",
-              message: res.data.returnMsg,
-              center: true
-            });
-          } else {
-            this.cancelTransfer_func();
-            this.pageList(this.pages.currentPage, this.pages.pageSize);
-            this.$message({
-              type: "success",
-              message: "转移成功！",
-              center: true
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      naVComponent.confirmTransferSite_func(this)
     },
     cancelTransfer_func() {
       this.transferSite.provinceValue = null;
@@ -2127,7 +1940,7 @@ export default {
         let key = window.event.keyCode;
         if (key === 13) {
           this.pageList(this.pages.currentPage, this.pages.pageSize);
-          console.log("客户管理的查询！");
+          // console.log("客户管理的查询！");
           document.onkeydown = undefined;
         }
       };
@@ -2175,35 +1988,6 @@ export default {
       this.multipleSelection = [];
     },
     entrySize() {
-      // let wc = this.productSize.wc;
-      // let wcList = {};
-      // for (let i in wc) {
-      //   wcList[wc[i].name] = wc[i].value;
-      // }
-      // let kd = this.productSize.kd;
-      // let kdList = {};
-      // for (let i in kd) {
-      //   kdList[kd[i].name] = kd[i].value;
-      // }
-      // let gd = this.productSize.gd;
-      // let gdList = {};
-      // for (let i in gd) {
-      //   gdList[gd[i].name] = gd[i].value;
-      // }
-      // let zb = this.productSize.zb;
-      // let zbList = {};
-      // for (let i in zb) {
-      //   zbList[zb[i].name] = zb[i].value;
-      // }
-      // let cpxq = {
-      //   取型: {
-      //     围长: wcList,
-      //     宽度: kdList,
-      //     高度: gdList,
-      //     足部: zbList,
-      //     要求: this.productSize.yq
-      //   }
-      // };
       this.detailFormList.forEach((obj, index) => {
         if (index == this.cpIndex) {
           // obj.size = cpxq;
@@ -2212,8 +1996,6 @@ export default {
           obj.shapeUser = this.productSize.shapeUser;
         }
       });
-      // debugger
-      console.log(this.detailFormList);
       this.sizeCancel();
     },
     deleteRow(index, rows) {
@@ -2235,7 +2017,7 @@ export default {
         }
       });
       this.specialRequirementsCancel();
-      console.log(this.detailFormList[0]);
+      // console.log(this.detailFormList[0]);
     },
     discountConfirm() {
       this.detailFormList.forEach((obj, index) => {
@@ -2274,109 +2056,6 @@ export default {
     },
     confirmProduct() {
       placeOrder.choose_product(this);
-      // if (this.detailFormList.length == 0) {
-      //   // debugger;
-      //   // this.multipleSelection.forEach(obj=>{})
-      //   if (this.multipleSelection.length >= 2) {
-      //     let isTrue;
-      //     for (let index = 0; index < this.multipleSelection.length; index++) {
-      //       const element = this.multipleSelection[index];
-      //       const element2 =
-      //         this.multipleSelection[index + 1] ||
-      //         this.multipleSelection[this.multipleSelection.length - 1];
-      //       if (element.sourceType != element2.sourceType) {
-      //         // debugger;
-      //         isTrue = false;
-      //         break;
-      //       } else {
-      //         isTrue = true;
-      //       }
-      //     }
-      //     if (isTrue) {
-      //       this.multipleSelection.forEach(obj => {
-      //         this.detailFormList.push(obj);
-      //       });
-      //       this.detailFormList.forEach(obj => {
-      //         obj.deliveryTime = null;
-      //         obj.number = 1;
-      //         obj.actual = obj.price;
-      //         obj.demand = null;
-      //         // obj.favorable = null;
-      //         obj.favorableRemark = null;
-      //       });
-      //       // this.dialogselectProduct = false;
-      //       this.paymentMethod.totalAmountReceivable = this.ysMoney();
-      //       this.paymentMethod.arrears = this.xqMoney();
-      //       this.cancelSelection();
-      //     }
-      //   } else {
-      //     this.multipleSelection.forEach(obj => {
-      //       this.detailFormList.push(obj);
-      //     });
-      //     this.detailFormList.forEach(obj => {
-      //       obj.deliveryTime = null;
-      //       obj.number = 1;
-      //       obj.actual = obj.price;
-      //       obj.demand = null;
-      //       // obj.favorable = null;
-      //       obj.favorableRemark = null;
-      //     });
-      //     // this.dialogselectProduct = false;
-      //     this.paymentMethod.totalAmountReceivable = this.ysMoney();
-      //     this.paymentMethod.arrears = this.xqMoney();
-      //     this.cancelSelection();
-      //   }
-      // } else {
-      //   let isTrue;
-      //   let id;
-      //   let tishi;
-      //   for (let index = 0; index < this.multipleSelection.length; index++) {
-      //     const element = this.multipleSelection[index];
-      //     const element2 =
-      //       this.multipleSelection[index + 1] ||
-      //       this.multipleSelection[this.multipleSelection.length - 1];
-      //     if (element.sourceType != element2.sourceType) {
-      //       isTrue = false;
-      //       break;
-      //     } else {
-      //       isTrue = true;
-      //       id = element.sourceType;
-      //     }
-      //   }
-      //   for (let index = 0; index < this.detailFormList.length; index++) {
-      //     const element = this.detailFormList[index];
-      //     if (element.sourceType != id) {
-      //       tishi = true;
-      //       break;
-      //     } else {
-      //       tishi = false;
-      //     }
-      //   }
-      //   if (tishi) {
-      //     this.$message({
-      //       type: "warning",
-      //       message: "不支持同时选择两种类型的产品！",
-      //       center: true
-      //     });
-      //   } else {
-      //     this.multipleSelection.forEach(obj => {
-      //       this.detailFormList.push(obj);
-      //     });
-      //     this.detailFormList.forEach(obj => {
-      //       obj.deliveryTime = null;
-      //       obj.number = 1;
-      //       obj.actual = obj.price;
-      //       obj.demand = null;
-      //       // obj.favorable = null;
-      //       obj.favorableRemark = null;
-      //     });
-      //     // this.dialogselectProduct = false;
-      //     this.paymentMethod.totalAmountReceivable = this.ysMoney();
-      //     this.paymentMethod.arrears = this.xqMoney();
-      //     this.cancelSelection();
-      //     console.log(this.detailFormList);
-      //   }
-      // }
     },
     handleSelectionChange(val) {
       console.log(val);
@@ -2416,37 +2095,7 @@ export default {
         });
     },
     calculation() {
-      this.paymentMethod.total =
-        Number(this.paymentMethod.xj || 0) +
-        Number(this.paymentMethod.zz || 0) +
-        Number(this.paymentMethod.lkl || 0);
-      this.paymentMethod.arrears = this.xqMoney();
-      debugger;
-      if (this.paymentMethod.total > this.paymentMethod.totalAmountReceivable) {
-        this.$message({
-          type: "warning",
-          message: "实收金额大于应收金额！请重新输入金额!",
-          center: true
-        });
-        this.paymentMethod.arrears = this.ysMoney();
-        this.paymentMethod.total = 0;
-      }
-
-      if (this.paymentMethod.xj > 0 && this.paymentMethod.zz > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.xj > 0 && this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.zz > 0 && this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.zz > 0) {
-        this.paymentMethod.lx = 3;
-      } else if (this.paymentMethod.xj > 0) {
-        this.paymentMethod.lx = 2;
-      } else if (this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 1;
-      } else {
-        this.paymentMethod.lx = null;
-      }
+     naVComponent.calculation(this)
     },
     readyOrderCancel() {
       this.dialogreadyOrder = false;
@@ -2461,188 +2110,7 @@ export default {
       this.paymentMethod.xj = 0;
     },
     orderingStart() {
-      let priceTatol = [];
-      for (let index = 0; index < this.detailFormList.length; index++) {
-        const element = this.detailFormList[index];
-        priceTatol.push(element.price);
-      }
-      let price = eval(priceTatol.join("+"));
-      // let shouldTatol = [];
-      // for (let index = 0; index < this.detailFormList.length; index++) {
-      //   const element = this.detailFormList[index];
-      //   shouldTatol.push(element.actual);
-      // }
-      // let should = eval(shouldTatol.join("+"));
-      // this.detailFormList.forEach(obj => {
-      //   obj.salesId = obj.id;
-      //   if (obj.size != undefined) {
-      //     if (
-      //       obj.size["取型"] == "" ||
-      //       obj.size["取型"] == undefined ||
-      //       obj.size["取型"] == null ||
-      //       JSON.stringify(obj.size) == "{}"
-      //     ) {
-      //       delete obj.size;
-      //       return;
-      //     } else {
-      //       let qxwc = obj.size["取型"]["围长"];
-      //       let qxkd = obj.size["取型"]["宽度"];
-      //       let qxgd = obj.size["取型"]["高度"];
-      //       let qxzb = obj.size["取型"]["足部"];
-      //       let qxyq = obj.size["取型"]["要求"];
-      //       for (var key in qxzb) {
-      //         if (!qxzb[key]) {
-      //           delete obj.size;
-      //           return;
-      //         }
-      //       }
-      //       for (var key in qxwc) {
-      //         if (!qxwc[key]) {
-      //           delete obj.size;
-      //           return;
-      //         }
-      //       }
-      //       for (var key in qxkd) {
-      //         if (!qxkd[key]) {
-      //           delete obj.size;
-      //           return;
-      //         }
-      //       }
-      //       for (var key in qxgd) {
-      //         if (!qxgd[key]) {
-      //           delete obj.size;
-      //           return;
-      //         }
-      //       }
-      //       for (var key in qxyq) {
-      //         if (!qxyq[key]) {
-      //           delete obj.size;
-      //           return;
-      //         }
-      //       }
-      //     }
-      //   }
-      // });
-
-      let data = {
-        customerId: this.currentNamberId,
-        prescriptionId: this.currentPrescriptions[0].prescriptionId,
-        quickly: this.jjChecked == true ? 1 : 0,
-        price: price,
-        should: this.paymentMethod.totalAmountReceivable,
-        actual: this.paymentMethod.total,
-        lakala: this.paymentMethod.lkl,
-        cash: this.paymentMethod.xj,
-        transfer: this.paymentMethod.zz,
-        payType: this.paymentMethod.lx,
-        hospital: 1,
-        orderUserName: this.orderingPerson,
-        detailFormList: this.detailFormList
-      };
-      //判断交货日期必填
-      let jhrq = true;
-      this.detailFormList.forEach(obj => {
-        if (
-          obj.process == 1
-          // ||
-          // obj.source == "定制产品" ||
-          // obj.source == "试穿成品" ||
-          // obj.source == "外购产品"
-        ) {
-          if (!obj.deliveryTime) {
-            jhrq = false;
-            return jhrq;
-          }
-        }
-      });
-      // debugger;
-      if (data.actual < data.lakala + data.cash + data.transfer) {
-        this.$message({
-          type: "warning",
-          message: "支付金额大于应收金额请从新输入！",
-          center: true
-        });
-      } else if (jhrq === false) {
-        this.$message({
-          type: "warning",
-          message: "请填写交货日期！",
-          center: true
-        });
-      } else {
-        // this.detailFormList.forEach(obj => {
-        // obj.salesId = obj.id;
-        // if (obj.size != undefined) {
-        //   if (
-        //     obj.size["取型"] == "" ||
-        //     obj.size["取型"] == undefined ||
-        //     obj.size["取型"] == null ||
-        //     JSON.stringify(obj.size) == "{}"
-        //   ) {
-        //     delete obj.size;
-        //     return;
-        //   } else {
-        //     let qxwc = obj.size["取型"]["围长"];
-        //     let qxkd = obj.size["取型"]["宽度"];
-        //     let qxgd = obj.size["取型"]["高度"];
-        //     let qxzb = obj.size["取型"]["足部"];
-        //     let qxyq = obj.size["取型"]["要求"];
-        //     for (var key in qxzb) {
-        //       if (!qxzb[key]) {
-        //         delete obj.size;
-        //         return;
-        //       }
-        //     }
-        //     for (var key in qxwc) {
-        //       if (!qxwc[key]) {
-        //         delete obj.size;
-        //         return;
-        //       }
-        //     }
-        //     for (var key in qxkd) {
-        //       if (!qxkd[key]) {
-        //         delete obj.size;
-        //         return;
-        //       }
-        //     }
-        //     for (var key in qxgd) {
-        //       if (!qxgd[key]) {
-        //         delete obj.size;
-        //         return;
-        //       }
-        //     }
-        //     for (var key in qxyq) {
-        //       if (!qxyq[key]) {
-        //         delete obj.size;
-        //         return;
-        //       }
-        //     }
-        //   }
-        // }
-        // });
-        // data.detailFormList = this.detailFormList;
-        console.log(data);
-        orderInsert(data)
-          .then(res => {
-            if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-              this.readyOrderCancel();
-              this.handleInfo(this.currentNamberId);
-              this.$message({
-                type: "success",
-                message: "下单成功！",
-                center: true
-              });
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
+      naVComponent.orderingStart(this)
     },
     readyOrder(obj) {
       this.dialogreadyOrder = true;
@@ -2703,46 +2171,46 @@ export default {
     },
     submitModfiy(formName) {
       // this.$refs[formName].validate(valid => {
-        let data = {
-          channel: 1,
-          memberName: this.ruleForm.name,
-          memberId: this.ruleForm.memberId,
-          phone: this.ruleForm.phone,
-          school: this.ruleForm.school || "",
-          sex: Number(this.ruleForm.sex),
-          birthday: this.ruleForm.birthday,
-          address: this.ruleForm.desc || "",
-          treatmentCycle: Number(this.ruleForm.zhouqi),
-          cognition: this.ruleForm.renzhi,
-          source: Number(this.ruleForm.laiyuan),
-          memberType: Number(this.ruleForm.memberType),
-          siteId: this.addData[0].siteValue,
-          provinceId: this.addData[0].provinceId,
-          cityId: this.addData[0].cityId
-        };
-        // console.log(data)
-        updateMemberInfo(data)
-          .then(res => {
-            if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-              this.$message({
-                type: "success",
-                message: "修改成功！",
-                center: true
-              });
-              this.resetForm("ruleForm");
-              this.xiangxifanhui();
-              this.pageList(this.pages.currentPage, this.pages.pageSize);
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
+      let data = {
+        channel: 1,
+        memberName: this.ruleForm.name,
+        memberId: this.ruleForm.memberId,
+        phone: this.ruleForm.phone,
+        school: this.ruleForm.school || "",
+        sex: Number(this.ruleForm.sex),
+        birthday: this.ruleForm.birthday,
+        address: this.ruleForm.desc || "",
+        treatmentCycle: Number(this.ruleForm.zhouqi),
+        cognition: this.ruleForm.renzhi,
+        source: Number(this.ruleForm.laiyuan),
+        memberType: Number(this.ruleForm.memberType),
+        siteId: this.addData[0].siteValue,
+        provinceId: this.addData[0].provinceId,
+        cityId: this.addData[0].cityId
+      };
+      // console.log(data)
+      updateMemberInfo(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.$message({
+              type: "success",
+              message: "修改成功！",
+              center: true
+            });
+            this.resetForm("ruleForm");
+            this.xiangxifanhui();
+            this.pageList(this.pages.currentPage, this.pages.pageSize);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
       // });
     },
     cancelDd() {
@@ -2758,6 +2226,7 @@ export default {
       this.addData[0].cityId = null;
     },
     addDd(obj) {
+      alert(1)
       if (
         obj[0].doctorValue != null &&
         obj[0].prescriptionValue != null &&
@@ -2918,6 +2387,7 @@ export default {
       this.dialogFormVisible = true;
       this.addKeHuTitle = "新增客户";
       this.modefiy = false;
+      naVComponent.default_PCSH(this);
     },
     submitForm(formName) {
       // this.$refs[formName].validate(valid => {
@@ -3031,7 +2501,7 @@ export default {
           this.addKeHuTitle = "修改客户信息";
           this.modefiy = true;
           // console.log("修改");
-          console.log(res);
+          // console.log(res);
           this.ruleForm.name = res.data.data[0].memberName;
           this.ruleForm.memberId = res.data.data[0].memberId;
           this.ruleForm.phone = res.data.data[0].phone;
@@ -3320,7 +2790,7 @@ export default {
   .span {
     display: inline-block;
     margin-bottom: 10px;
-     width: 30%;
+    width: 30%;
   }
   .div {
     display: inline-block;

@@ -1891,6 +1891,9 @@ import session from "../../utils/session";
 import Print from "../commonComponent/PrintTemplate";
 import placeOrder from "../navComponent/place_order";
 import {viewPage_function} from "../../router/path";
+import naVComponent from "../navComponent/page";
+import naVComponent_variable from "../navComponent/page_variable";
+import frontDesk_variable from "./frontDesk_variable";
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
@@ -1921,33 +1924,7 @@ export default {
       productData: [],
       multipleSelection: [],
       detailFormList: [],
-      seachProduct: {
-        name: null,
-        productTypeValue: null,
-        qualification: null,
-        productTypes: [
-          { name: "会员卡", id: 1 },
-          { name: "测评服务", id: 2 },
-          { name: "固定定制", id: 301 },
-          { name: "固定成品", id: 302 },
-          { name: "矫形定制", id: 303 },
-          { name: "矫形成品", id: 304 },
-          { name: "低温板", id: 305 },
-          { name: "外购", id: 306 }
-        ],
-        qualificationList: [
-          { name: "一类", id: 1 },
-          { name: "二类", id: 2 },
-          { name: "默认", id: 3 }
-        ],
-        origin: null,
-        recordNumber: null,
-        nickname: null,
-        originList: [
-          { name: "国产", id: 1 },
-          { name: "进口", id: 2 }
-        ]
-      },
+      seachProduct: naVComponent_variable.seachProduct,
       jjChecked: false,
       orderingPerson: null,
       paymentMethod: {
@@ -1962,113 +1939,7 @@ export default {
       },
       isBlackBut: null,
       currentPrescriptions: [],
-      seach: {
-        siteLists: [],
-        siteValue: null,
-        provinceId: null,
-        cityId: null,
-        provinceIdList: [],
-        cityIdList: [],
-        name: "",
-        phone: "",
-        createTime: null,
-        createName: null,
-        daofang: {
-          select: [
-            {
-              type: 1,
-              name: "已到访"
-            },
-            {
-              type: 0,
-              name: "未到访"
-            }
-          ],
-          value: ""
-        },
-        xiadan: {
-          select: [
-            {
-              type: 1,
-              name: "下单"
-            },
-            {
-              type: 0,
-              name: "未下单"
-            }
-          ],
-          value: ""
-        },
-        renzhi: {
-          select: [
-            {
-              type: 0,
-              name: "全部"
-            },
-            {
-              type: 1,
-              name: "AA"
-            },
-            {
-              type: 2,
-              name: "AB"
-            },
-            {
-              type: 3,
-              name: "BA"
-            },
-            {
-              type: 4,
-              name: "BB"
-            }
-          ],
-          value: ""
-        },
-        laiyuan: {
-          select: [
-            {
-              type: 0,
-              name: "全部"
-            },
-            {
-              type: 1,
-              name: "自然发病"
-            },
-            {
-              type: 2,
-              name: "入托"
-            },
-            {
-              type: 3,
-              name: "入园"
-            },
-            {
-              type: 4,
-              name: "调研"
-            },
-            {
-              type: 5,
-              name: "体检"
-            },
-            {
-              type: 6,
-              name: "其他"
-            }
-          ],
-          value: ""
-        },
-        heimingdans: [
-          {
-            type: 1,
-            name: "是"
-          },
-          {
-            type: "0",
-            name: "否"
-          }
-        ],
-        heimingdanValue: null
-      },
+      seach:frontDesk_variable.seach,
       clientData: [],
       //分页
       pages: {
@@ -2288,54 +2159,14 @@ export default {
   },
   methods: {
      threeD_func() {
-      let data = {
-        recordId: this.only_recordId,
-        footLength:
-          this.threeD_ObjFrom.list[1].name == "足长"
-            ? this.threeD_ObjFrom.list[1].value
-            : this.threeD_ObjFrom.list[0].value,
-        footWidth:
-          this.threeD_ObjFrom.list[0].name == "足宽"
-            ? this.threeD_ObjFrom.list[0].value
-            : this.threeD_ObjFrom.list[1].value
-      };
-      examinePadZb3d(data)
-        .then(res => {
-          if (res.data.returnCode != 0) {
-            this.$message({
-              type: "warning",
-              message: res.data.returnMsg,
-              center: true
-            });
-          } else {
-            this.threeDDialg = false;
-            this.dialogEvaluationDetails = false;
-            this.$message({
-              type: "success",
-              message: "下单成功！",
-              center: true
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+       naVComponent.threeD_func(this)
     },
     threeD_show(obj) {
       this.threeD_ObjFrom.list = obj;
       this.threeDDialg = true;
     },
     isRequired(val) {
-      this.isShowVal = val;
-      if (val == 2) {
-        this.rules.phone[0].required = false;
-        this.rules.birthday[0].required = false;
-        console.log("不用填");
-      } else {
-        this.rules.phone[0].required = true;
-        this.rules.birthday[0].required = true;
-        console.log("必须填");
-      }
+      naVComponent.isRequired(this,val)
     },
     init() {
       if (viewPage_function(String(window.location.href)) == "试穿") {
@@ -2374,32 +2205,7 @@ export default {
         });
     },
     confirmTransferSite_func() {
-      let data = {
-        memberId: this.currentNamberId,
-        siteId: this.transferSite.siteId,
-        phone: this.transferSite.sitePhone
-      };
-      changeSite(data)
-        .then(res => {
-          if (res.data.returnCode != 0) {
-            this.$message({
-              type: "warning",
-              message: res.data.returnMsg,
-              center: true
-            });
-          } else {
-            this.cancelTransfer_func();
-            this.pageList(this.pages.currentPage, this.pages.pageSize);
-            this.$message({
-              type: "success",
-              message: "转移成功！",
-              center: true
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      naVComponent.confirmTransferSite_func(this)
     },
     cancelTransfer_func() {
       this.transferSite.provinceValue = null;
@@ -3029,39 +2835,8 @@ export default {
           console.log(err);
         });
     },
-    calculation(currentValue, oldValue) {
-      // console.log(currentValue, oldValue);
-      this.paymentMethod.total =
-        Number(this.paymentMethod.xj || 0) +
-        Number(this.paymentMethod.zz || 0) +
-        Number(this.paymentMethod.lkl || 0);
-      this.paymentMethod.arrears = this.xqMoney();
-      //debugger;
-      if (this.paymentMethod.total > this.paymentMethod.totalAmountReceivable) {
-        this.$message({
-          type: "warning",
-          message: "实收金额大于应收金额！请重新输入金额!",
-          center: true
-        });
-        this.paymentMethod.arrears = this.ysMoney();
-        this.paymentMethod.total = 0;
-      }
-
-      if (this.paymentMethod.xj > 0 && this.paymentMethod.zz > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.xj > 0 && this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.zz > 0 && this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.zz > 0) {
-        this.paymentMethod.lx = 3;
-      } else if (this.paymentMethod.xj > 0) {
-        this.paymentMethod.lx = 2;
-      } else if (this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 1;
-      } else {
-        this.paymentMethod.lx = null;
-      }
+    calculation() {
+      naVComponent.calculation(this)
     },
     readyOrderCancel() {
       this.dialogreadyOrder = false;
@@ -3076,75 +2851,7 @@ export default {
       this.paymentMethod.xj = 0;
     },
     orderingStart() {
-      let priceTatol = [];
-      for (let index = 0; index < this.detailFormList.length; index++) {
-        const element = this.detailFormList[index];
-        priceTatol.push(element.price);
-      }
-      let price = eval(priceTatol.join("+"));
-
-      let data = {
-        customerId: this.currentNamberId,
-        prescriptionId: this.currentPrescriptions[0].prescriptionId,
-        quickly: this.jjChecked == true ? 1 : 0,
-        price: price,
-        should: this.paymentMethod.totalAmountReceivable,
-        actual: this.paymentMethod.total,
-        lakala: this.paymentMethod.lkl,
-        cash: this.paymentMethod.xj,
-        transfer: this.paymentMethod.zz,
-        payType: this.paymentMethod.lx,
-        hospital: 1,
-        orderUserName: this.orderingPerson,
-        detailFormList: this.detailFormList
-      };
-      //判断交货日期必填
-      let jhrq = true;
-      this.detailFormList.forEach(obj => {
-        if (obj.process == 1) {
-          if (!obj.deliveryTime) {
-            jhrq = false;
-            return jhrq;
-          }
-        }
-      });
-      // debugger;
-      if (data.actual < data.lakala + data.cash + data.transfer) {
-        this.$message({
-          type: "warning",
-          message: "支付金额大于应收金额请从新输入！",
-          center: true
-        });
-      } else if (jhrq === false) {
-        this.$message({
-          type: "warning",
-          message: "请填写交货日期！",
-          center: true
-        });
-      } else {
-        console.log(data);
-        orderInsert(data)
-          .then(res => {
-            if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-              this.readyOrderCancel();
-              this.handleInfo(this.currentNamberId);
-              this.$message({
-                type: "success",
-                message: "下单成功！",
-                center: true
-              });
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
+      naVComponent.orderingStart(this)
     },
     readyOrder(obj) {
       this.dialogreadyOrder = true;
@@ -3353,6 +3060,7 @@ export default {
       this.dialogFormVisible = true;
       this.modefiy = false;
       this.addClientTitle = "新增客户";
+      naVComponent.default_PCSH(this);
     },
     submitForm(formName) {
       // this.$refs[formName].validate(valid => {
