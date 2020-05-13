@@ -733,7 +733,7 @@ export default {
         pageNum: pageIndex,
         pageSize: pageSize,
         recordNumber: this.seachProduct_two.recordNumber || null,
-        name: this.seachProduct.name_two || null,
+        name: this.seachProduct_two.name || null,
         nickname: this.seachProduct_two.nickname || null,
         source: this.seachProduct_two.productTypeValue || null,
         qualification: this.seachProduct_two.qualification || null,

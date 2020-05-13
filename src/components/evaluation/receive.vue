@@ -2369,6 +2369,9 @@ export default {
         phone: this.seach.phone || null,
         vip: this.seach.vipValue == "0" ? 0 : this.seach.vipValue,
         userName: this.seach.servicePersonnel || null,
+        beginTime:
+          this.seach.receptionTime == null ? null : this.seach.receptionTime[0],
+        endTime: this.seach.receptionTime == null ? null : this.seach.receptionTime[1],
         type: 201,
         status: 0
       };
