@@ -386,7 +386,7 @@
           v-if="modefiy"
           type="warning"
           icon="el-icon-circle-plus-outline"
-          @click="dialogAddbd = true"
+          @click="Adddis_fuc()"
           size="mini"
           class="right"
         >新增病单</el-button>
@@ -1270,7 +1270,7 @@
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
-        <el-table-column prop="batchNum" label="备案编号"></el-table-column>
+        <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称" show-overflow-tooltip></el-table-column>
@@ -1369,24 +1369,6 @@
             ></el-input>
           </div>
         </div>
-        <!-- <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
-          <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
-          </div>
-        </div>
-        <div v-for="item in productSize.gd" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
-          <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
-          </div>
-        </div>
-        <div v-for="item in productSize.zb" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
-          <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
-          </div>
-        </div>-->
         <div class="cpSize">
           <span class="span">是否有X光片：</span>
           <div class="div">
@@ -1402,7 +1384,7 @@
                 v-for="item in productSize.shapeUserList"
                 :key="item.id"
                 :label="item.username"
-                :value="item"
+                :value="item.id"
               ></el-option>
             </el-select>
           </div>
@@ -1880,6 +1862,10 @@ export default {
     this.provinceList();
   },
   methods: {
+     Adddis_fuc(){
+       this.dialogAddbd = true
+       naVComponent.default_PCSH(this)
+     },
     threeD_func() {
      naVComponent.threeD_func(this)
     },
@@ -1974,9 +1960,6 @@ export default {
       this.productSize.shapeUserList = [];
       this.productSize.radio = null;
       this.productSize.shapeUser = null;
-      // for (let key in data) {
-      //   this.productSize[key] = [];
-      // }
     },
     //修改实际价格改变价格
     changeMoney() {
@@ -1988,15 +1971,7 @@ export default {
       this.multipleSelection = [];
     },
     entrySize() {
-      this.detailFormList.forEach((obj, index) => {
-        if (index == this.cpIndex) {
-          // obj.size = cpxq;
-          obj.detailFormList = this.productSize.list;
-          obj.xRay = this.productSize.radio;
-          obj.shapeUser = this.productSize.shapeUser;
-        }
-      });
-      this.sizeCancel();
+      naVComponent.entrySize(this)
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);

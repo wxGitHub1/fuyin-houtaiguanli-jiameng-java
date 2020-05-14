@@ -2,39 +2,70 @@
   <div class="wscn-http404-container">
     <div class="wscn-http404">
       <div class="pic-404">
-        <img class="pic-404__parent" src="../images/404_img/404.png" alt="404">
-        <img class="pic-404__child left" src="../images/404_img/404_cloud.png" alt="404">
-        <img class="pic-404__child mid" src="../images/404_img/404_cloud.png" alt="404">
-        <img class="pic-404__child right" src="../images/404_img/404_cloud.png" alt="404">
+        <img class="pic-404__parent" src="../images/404_img/404.png" alt="404" />
+        <img class="pic-404__child left" src="../images/404_img/404_cloud.png" alt="404" />
+        <img class="pic-404__child mid" src="../images/404_img/404_cloud.png" alt="404" />
+        <img class="pic-404__child right" src="../images/404_img/404_cloud.png" alt="404" />
       </div>
       <div class="bullshit">
         <div class="bullshit__oops">OOPS!</div>
-        <div class="bullshit__info">All rights reserved
-          <a style="color:#20a0ff" href="https://wallstreetcn.com" target="_blank">wallstreetcn</a>
+        <div class="bullshit__info">
+          All rights reserved
+          <a
+            style="color:#20a0ff"
+            href="https://wallstreetcn.com"
+            target="_blank"
+          >wallstreetcn</a>
         </div>
         <div class="bullshit__headline">{{ message }}</div>
         <div class="bullshit__info">请检查您输入的URL是否正确，或单击下面的按钮返回首页。</div>
-        <a href="" class="bullshit__return-home">返回首页</a>
+        <a @click="logout_fuc" class="bullshit__return-home">返回首页</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
+import { logout } from "../api/javaApi";
 export default {
-  name: 'Page404',
+  name: "Page404",
   computed: {
     message() {
-      return 'The webmaster said that you can not enter this page...'
+      return "The webmaster said that you can not enter this page...";
+    }
+  },
+  methods: {
+    logout_fuc() {
+      logout()
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.$router.push("/login");
+            session.removeItem("user");
+            session.removeItem("username");
+            session.removeItem("menu");
+            this.$message({
+              type: "info",
+              message: "已退出系统"
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-.wscn-http404-container{
-  transform: translate(-50%,-50%);
+.wscn-http404-container {
+  transform: translate(-50%, -50%);
   position: absolute;
   top: 40%;
   left: 50%;

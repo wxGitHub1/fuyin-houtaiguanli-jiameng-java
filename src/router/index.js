@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import { Support, LoginPage, Modify, Front, TakeType, Evaluation, BigClient, OutWork, Process, Quality, TryClothes, Fiance, Warehouse, Return, Theory, SuperManage,Error } from './path';
+import { Support, LoginPage, Modify, Front, FrontUser,TakeType, Evaluation, BigClient, OutWork, Process, Quality, TryClothes, Fiance, Warehouse, Return, Theory, SuperManage,Error } from './path';
 import { Main } from 'element-ui';
 
 Vue.use(Router);
@@ -52,6 +52,11 @@ export default new Router({
       path: '/front',
       name: 'frontdesk',
       component: Front,
+    },
+    {
+      path: '/specialUser',
+      name: 'specialUser',
+      component: FrontUser,
     },
     {
       path: '/bigclient',

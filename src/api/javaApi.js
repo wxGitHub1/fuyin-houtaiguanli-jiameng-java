@@ -4,14 +4,14 @@ import axios from '../utils/ajax';
  * @param {*} params {}
  * baseUrl  接口路径
  */
-const baseUrl  = 'http://117.34.105.87:8088';//服务器IP
-// const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
+// const baseUrl  = 'http://117.34.105.87:8088';//服务器IP
+const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
 // const baseUrl  = 'http://117.34.105.87:8086';//测试服务器IP
 // const baseUrl  = 'http://192.168.1.109:8088';//杨腾飞加盟IP
 // const baseUrl  = 'http://192.168.1.108:8087';//杨腾飞IP
 // const baseUrl  = 'http://192.168.1.108:8080';//杨腾飞IP
 // const baseUrl  = 'http://192.168.1.155:8088';//李思雨IP
-// const baseUrl  = 'http://192.168.1.112:8088';//李思雨IP
+// const baseUrl  = 'http://192.168.1.113:8088';//李思雨IP
 // const baseUrl  = 'http://192.168.1.155:8087';//李思雨IP
 /*
 *

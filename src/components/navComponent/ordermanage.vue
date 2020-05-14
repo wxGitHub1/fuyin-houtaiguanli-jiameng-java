@@ -1,5 +1,5 @@
+<!-- 订单管理 -->
 <template>
-  <!-- 订单管理 -->
   <div>
     <el-row class="search">
       <el-col :span="2" id="input-title">
@@ -1279,7 +1279,7 @@
                 v-for="item in productSize.shapeUserList"
                 :key="item.id"
                 :label="item.username"
-                :value="item"
+                :value="item.id"
               ></el-option>
             </el-select>
           </div>
@@ -1342,6 +1342,7 @@ import fuyinProduct_html from "../commonComponent/fuyinProduct";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import { viewPage_function } from "../../router/path";
+import naVComponent from "./page";
 export default {
   data() {
     return {
@@ -1611,52 +1612,15 @@ export default {
       this.paymentMethod.arrears = this.xqMoney();
     },
     entrySize() {
-      // console.log(this.productSize);
-      // let wc = this.productSize.wc;
-      // let wcList = {};
-      // for (let i in wc) {
-      //   wcList[wc[i].name] = wc[i].value;
-      // }
-      // let kd = this.productSize.kd;
-      // let kdList = {};
-      // for (let i in kd) {
-      //   kdList[kd[i].name] = kd[i].value;
-      // }
-      // let gd = this.productSize.gd;
-      // let gdList = {};
-      // for (let i in gd) {
-      //   gdList[gd[i].name] = gd[i].value;
-      // }
-      // let zb = this.productSize.zb;
-      // let zbList = {};
-      // for (let i in zb) {
-      //   zbList[zb[i].name] = zb[i].value;
-      // }
-      // let cpxq = {
-      //   取型: {
-      //     围长: wcList,
-      //     宽度: kdList,
-      //     高度: gdList,
-      //     足部: zbList,
-      //     要求: this.productSize.yq
+      naVComponent.entrySize(this)
+      // this.detailFormList.forEach((obj, index) => {
+      //   if (index == this.cpIndex) {
+      //     obj.detailFormList = this.productSize.list;
+      //     obj.xRay = this.productSize.radio;
+      //     obj.shapeUser = this.productSize.shapeUser;
       //   }
-      // };
-      // // console.log(cpxq);
-      this.detailFormList.forEach((obj, index) => {
-        if (index == this.cpIndex) {
-          // obj.size = cpxq;
-          obj.detailFormList = this.productSize.list;
-          obj.xRay = this.productSize.radio;
-          obj.shapeUser = this.productSize.shapeUser;
-        }
-      });
-      console.log(this.detailFormList);
-      this.sizeCancel();
+      // });
       // this.sizeCancel();
-      // this.dialogSizeDetails = false;
-      // console.log(this.detailFormList);
-      // console.log(this.productSize);
-      // console.log(this.detailFormList);
     },
     sizeCancel() {
       this.dialogSizeDetails = false;

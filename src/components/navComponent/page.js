@@ -2,6 +2,7 @@ import {
     getProvinceList,
     getCityList,
     selectSiteListByCity,
+    selectSiteListByCityAndUser,
     getHospitalList,
     examinePadZb3d,
     changeSite,
@@ -31,7 +32,7 @@ function default_PCSH(that) {
                     addDataList[0].cityId = data2[0].id;
                     // console.log(addDataList[0])
                     let data_b = { cityId: data2[0].id };
-                    selectSiteListByCity(data_b)
+                    selectSiteListByCityAndUser(data_b)
                         .then(res => {
                             let data3 = res.data.data;
                             that.seach.siteLists = data3;
@@ -253,11 +254,33 @@ function threeD_func(that){
         });
     }
   }
+  /**
+   * 保存尺寸录入信息
+   * @param {*} that 
+   */
+ function entrySize(that) {
+    let userObj={}
+    that.productSize.shapeUserList.forEach(obj=>{
+        if(obj.id == that.productSize.shapeUser){
+             userObj.id= obj.id;
+             userObj.userName= obj.username;
+        }
+    })
+    that.detailFormList.forEach((obj, index) => {
+      if (index == that.cpIndex) {
+        obj.detailFormList = that.productSize.list;
+        obj.xRay = that.productSize.radio;
+        obj.shapeUser = userObj;
+      }
+    });
+    that.sizeCancel();
+  }
 export default{
     default_PCSH,
     threeD_func,
     isRequired,
     confirmTransferSite_func,
     calculation,
-    orderingStart
+    orderingStart,
+    entrySize
 }

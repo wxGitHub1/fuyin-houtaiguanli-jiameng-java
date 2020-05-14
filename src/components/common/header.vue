@@ -28,7 +28,8 @@
                   @click.native="gotoBigClient(item.name)"
                   v-for="(item,index) in menu "
                   :key="index"
-                >{{item.name}}</el-dropdown-item>
+                >{{item.name}}
+                </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-col>
@@ -50,7 +51,7 @@
 
 <script>
 import session from "../../utils/session";
-import{logout}from "../../api/javaApi";
+import { logout } from "../../api/javaApi";
 import { viewPage_function, actions_data } from "../../router/path";
 export default {
   name: "HelloWorld",
@@ -124,20 +125,20 @@ export default {
           logout()
             .then(res => {
               if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-              this.$router.push("/login");
-              session.removeItem("user");
-              session.removeItem("username");
-              session.removeItem("menu");
-              this.$message({
-                type: "info",
-                message: "已退出系统"
-              });
+                this.$message({
+                  type: "warning",
+                  message: res.data.returnMsg,
+                  center: true
+                });
+              } else {
+                this.$router.push("/login");
+                session.removeItem("user");
+                session.removeItem("username");
+                session.removeItem("menu");
+                this.$message({
+                  type: "info",
+                  message: "已退出系统"
+                });
               }
             })
             .catch(err => {

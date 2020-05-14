@@ -105,6 +105,36 @@ const seach={
     ],
     heimingdanValue: null
   }
+const seach_PJ={
+    memberName: null,
+    phone: null,
+    appraisalTime: null,
+    serviceTime: null,
+    evaluationValue: null,
+    evaluations: [
+      { name: "取型评价", id: 310 },
+      { name: "测评评价", id: 201 },
+      { name: "试穿评价", id: 360 },
+      { name: "维修评价", id: 370 },
+    ],
+    servicePersonnel: null,
+    EvaluationResultValue: null,
+    EvaluationResults: [
+      { name: "十分满意", id: 1 },
+      { name: "满意", id: 2 },
+      { name: "一般", id: 3 },
+      { name: "不满意", id: 4 },
+      { name: "十分不满意", id: 5 }
+    ],
+    siteLists: [],
+    siteValue: null,
+    provinceId: null,
+    cityId: null,
+    provinceIdList: [],
+    cityIdList: [],
+    userNameList:[],
+}
 export default{
-    seach
+    seach,
+    seach_PJ
 }

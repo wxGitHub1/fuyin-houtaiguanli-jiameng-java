@@ -290,7 +290,7 @@
           v-if="modefiy"
           type="warning"
           icon="el-icon-circle-plus-outline"
-          @click="dialogAddbd = true"
+          @click="Adddis_fuc()"
           size="mini"
           class="right"
         >新增病单</el-button>
@@ -1290,7 +1290,7 @@
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
-        <el-table-column prop="batchNum" label="备案编号"></el-table-column>
+        <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称" show-overflow-tooltip></el-table-column>
@@ -1390,7 +1390,7 @@
                 v-for="item in productSize.shapeUserList"
                 :key="item.id"
                 :label="item.username"
-                :value="item"
+                :value="item.id"
               ></el-option>
             </el-select>
           </div>
@@ -1894,6 +1894,7 @@ import {viewPage_function} from "../../router/path";
 import naVComponent from "../navComponent/page";
 import naVComponent_variable from "../navComponent/page_variable";
 import frontDesk_variable from "./frontDesk_variable";
+import frontDesk from "./page";
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
@@ -2158,6 +2159,10 @@ export default {
     this.init();
   },
   methods: {
+    Adddis_fuc(){
+       this.dialogAddbd = true
+       naVComponent.default_PCSH(this)
+     },
      threeD_func() {
        naVComponent.threeD_func(this)
     },
@@ -2276,123 +2281,10 @@ export default {
       };
     },
     rowspan() {
-      this.clientData.forEach((item, index) => {
-        if (index === 0) {
-          this.spanArr.push(1);
-          this.position = 0;
-          this.spanArr2.push(1);
-          this.position2 = 0;
-        } else {
-          if (
-            this.clientData[index].memberId ===
-            this.clientData[index - 1].memberId
-          ) {
-            this.spanArr[this.position] += 1;
-            this.spanArr.push(0);
-          } else {
-            this.spanArr.push(1);
-            this.position = index;
-          }
-          if (
-            this.clientData[index].orderNum ===
-              this.clientData[index - 1].orderNum &&
-            !!this.clientData[index - 1].orderNum &&
-            !!this.clientData[index].orderNum
-          ) {
-            this.spanArr2[this.position2] += 1;
-            this.spanArr2.push(0);
-          } else {
-            this.spanArr2.push(1);
-            this.position2 = index;
-          }
-        }
-      });
-      // console.log(this.spanArr+"-------"+this.position)
+      frontDesk.rowspan(this)
     },
     objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      //表格合并行
-      // //debugger
-      if (columnIndex === 0) {
-        const _row = this.spanArr[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
-      if (columnIndex === 1) {
-        const _row = this.spanArr[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
-      if (columnIndex === 2) {
-        const _row = this.spanArr[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
-      if (columnIndex === 3) {
-        const _row = this.spanArr[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
-      if (columnIndex === 4) {
-        const _row = this.spanArr[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
-
-      if (columnIndex === 5) {
-        const _row = this.spanArr[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
-      if (columnIndex === 8) {
-        const _row = this.spanArr2[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
-      if (columnIndex === 9) {
-        const _row = this.spanArr2[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
-      if (columnIndex === 10) {
-        const _row = this.spanArr2[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
-      if (columnIndex === 11) {
-        const _row = this.spanArr[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
+        frontDesk.objectSpanMethod(this,rowIndex, columnIndex)
     },
     evaluationDetails(id) {
       this.only_recordId = id;
@@ -2724,14 +2616,7 @@ export default {
       this.personnel(9, obj.siteId);
     },
     entrySize() {
-      this.detailFormList.forEach((obj, index) => {
-        if (index == this.cpIndex) {
-          obj.detailFormList = this.productSize.list;
-          obj.xRay = this.productSize.radio;
-          obj.shapeUser = this.productSize.shapeUser;
-        }
-      });
-      this.sizeCancel();
+      naVComponent.entrySize(this)
     },
     sizeCancel() {
       this.dialogSizeDetails = false;
