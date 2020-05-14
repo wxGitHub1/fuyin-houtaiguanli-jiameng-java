@@ -1,21 +1,21 @@
-// 已接待复制页面
+// 待接待复制页面
 <template>
   <div>
     <!-- seach -->
     <el-row class="search">
-      <el-col :span="2" style="width: 5.5%;line-height: 30px">
+      <el-col :span="2" id="input-title">
         <span>客户姓名</span>
       </el-col>
       <el-col :span="3">
         <el-input v-model="seach.memberName" size="small" placeholder="请输入姓名"></el-input>
       </el-col>
-      <el-col :span="2" style="width: 5.5%;line-height: 30px">
+      <el-col :span="2" id="input-title">
         <span>联系方式</span>
       </el-col>
       <el-col :span="3">
         <el-input size="small" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
       </el-col>
-      <el-col :span="2" style="width: 5.5%;line-height: 30px">
+      <el-col :span="2" id="input-title">
         <span>是否会员</span>
       </el-col>
       <el-col :span="2">
@@ -23,11 +23,11 @@
           <el-option v-for="item in seach.vips" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-col>
-      <el-col :span="2" style="width: 5.5%;line-height: 30px">
+      <el-col :span="2" id="input-title">
         <span>服务人员</span>
       </el-col>
       <el-col :span="3">
-      <el-select
+        <el-select
           size="small"
           clearable
           style="width：100%"
@@ -35,7 +35,7 @@
           placeholder="请选择"
         >
           <el-option
-            v-for="item in seach.userNameList"
+            v-for="item in userNameList"
             :key="item.id"
             :label="item.username"
             :value="item.username"
@@ -43,23 +43,7 @@
         </el-select>
         <!-- <el-input v-model="seach.servicePersonnel" size="small" placeholder="请输入姓名"></el-input> -->
       </el-col>
-      <el-col :span="2" style="width: 5.5%;line-height: 30px">
-        <span class="time_style">接待日期</span>
-      </el-col>
-      <el-col :span="4">
-        <el-date-picker
-          style="width: 100%"
-          size="small"
-          v-model="seach.receptionTime"
-          type="daterange"
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
-      </el-col>
-      <el-col :span="1" style="width: 4.8%">
+      <el-col :span="2">
         <el-button
           size="small"
           type="warning"
@@ -70,7 +54,7 @@
     </el-row>
     <!-- table -->
     <el-table
-      border
+      :border="true"
       :data="clientData"
       max-height="650"
       v-loading="loading"
@@ -82,11 +66,12 @@
       <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
       <el-table-column align="center" prop="phone" label="联系电话"></el-table-column>
       <el-table-column align="center" prop="sex" label="性别"></el-table-column>
+      <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+      <!-- <el-table-column align="center" prop="nickname" label="产品昵称"></el-table-column> -->
       <el-table-column align="center" prop="userName" label="服务人员"></el-table-column>
-      <el-table-column align="center" prop="beginTime" label="接待时间"></el-table-column>
-      <el-table-column align="center" prop="assignTime" label="接待时长"></el-table-column>
+      <el-table-column align="center" prop="createTime" label="分配时间"></el-table-column>
       <el-table-column align="center" prop="vip" label="是否会员"></el-table-column>
-      <el-table-column align="center" label="操作">
+      <el-table-column align="center" prop="operation" label="操作">
         <template slot-scope="scope">
           <el-button
             @click="handleInfo(scope.row.memberId)"
@@ -97,13 +82,6 @@
         </template>
       </el-table-column>
     </el-table>
-
-
-
-
-
-
-
     <!-- Pagination 分页 -->
     <el-pagination
       @size-change="handleSizeChange"
@@ -793,7 +771,6 @@
         <el-button @click="dialogBlacklistDetails=false" type="success">取消</el-button>
       </div>-->
     </el-dialog>
-
     <!-- dialog 下单详情-->
     <el-dialog
       title="下单详情"
@@ -861,7 +838,7 @@
         <el-table-column prop="unit" label="产品规格"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
-        <el-table-column prop="actual" label="实际价格" min-width="100">
+        <el-table-column prop="actual" label="实际价格"  min-width="100">
           <template slot-scope="scope">
             <input
               class="input"
@@ -870,6 +847,7 @@
               @change="changeMoney()"
               oninput="value=value.replace(/[^\d.]/g,'')"
             />
+           
           </template>
         </el-table-column>
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
@@ -890,7 +868,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="qualification" label="产品资质"></el-table-column>
-        <el-table-column prop="price" label="下单类型" min-width="100">
+         <el-table-column prop="price" label="下单类型" min-width="100">
           <template slot-scope="scope">
             <el-select
               v-if="scope.row.productOrderType == 5 ? false : true"
@@ -913,7 +891,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              v-if="scope.row.source =='会员卡' || scope.row.source =='测评服务' ? false:true "
+              v-if="scope.row.source =='会员卡' || scope.row.source =='测评服务' ? false:true  "
               @click="tsyq(scope)"
               type="primary"
             >特殊要求</el-button>
@@ -995,7 +973,7 @@
         <el-col :span="2" class="input-title">
           <span>产品名称</span>
         </el-col>
-        <el-col :span="2">
+         <el-col :span="2">
           <el-input
             v-model="seachProduct.name"
             size="mini"
@@ -1024,7 +1002,7 @@
             placeholder="请输入备案编号"
             autocomplete="off"
           ></el-input>
-        </el-col>
+          </el-col>
         <el-col :span="2" class="input-title">
           <span>产品类型</span>
         </el-col>
@@ -1180,12 +1158,15 @@
             <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
           </div>
         </div>
+        
         <div class="cpSize">
           <span class="span">是否有X光片：</span>
+          <div class="div">
           <el-radio v-model="productSize.radio" label="1">是</el-radio>
-          <el-radio v-model="productSize.radio" label="2">否</el-radio>
+          <el-radio v-model="productSize.radio" label="0">否</el-radio>
+          </div>
         </div>
-        <div class="cpSize">
+         <div class="cpSize">
           <span class="span">取型人：</span>
           <div class="div">
             <el-select clearable v-model="productSize.shapeUser" placeholder="请选择" size="mini">
@@ -1199,6 +1180,7 @@
           </div>
         </div>
       </div>
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="sizeCancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button type="success" icon="el-icon-circle-check" @click="entrySize()">确认</el-button>
@@ -1348,7 +1330,7 @@
 
 <script>
 import {
-  examineAdmit,
+  assignList,
   getHospitalList,
   selectDepartmentByHospitalId,
   queryDoctorByDepartmentId,
@@ -1419,7 +1401,7 @@ export default {
         productTypeValue: null,
         qualification: null,
         productTypes: [
-          { name: "会员卡", id: 1 },
+           { name: "会员卡", id: 1 },
           { name: "测评服务", id: 2 },
           { name: "固定定制", id: 301 },
           { name: "固定成品", id: 302 },
@@ -1605,7 +1587,7 @@ export default {
       dialogTestReport: false,
       testReport: {},
       isTwo: true,
-      htmlTitle: "测评报告PDF",
+      htmlTitle: "测评报告PDF", 
       productOrderTypeList: [
         { name: "处方产品", id: 1 },
         { name: "新增产品", id: 2 },
@@ -1758,9 +1740,10 @@ export default {
         if (index == this.cpIndex) {
           obj.detailFormList = this.productSize.list;
           obj.xRay = this.productSize.radio;
+          obj.shapeUser = this.productSize.shapeUser;
         }
       });
-      this.dialogSizeDetails = false;
+      this.sizeCancel();
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);
@@ -1826,7 +1809,7 @@ export default {
       console.log(value);
     },
     confirmProduct() {
-      placeOrder.choose_product(this);
+       placeOrder.choose_product(this);
     },
     handleSelectionChange(val) {
       console.log(val);
@@ -1836,7 +1819,7 @@ export default {
       let data = {
         pageNum: pageIndex,
         pageSize: pageSize,
-        prescriptionNum: this.currentPrescriptions[0].prescriptionNum,
+         prescriptionNum: this.currentPrescriptions[0].prescriptionNum,
         qualification: this.seachProduct.qualification || null,
         name: this.seachProduct.name || null,
         nickname: this.seachProduct.nickname || null,
@@ -1846,7 +1829,7 @@ export default {
       };
       sales(data)
         .then(res => {
-          if (res.data.returnCode != 0) {
+           if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
               message: res.data.returnMsg,
@@ -1910,6 +1893,7 @@ export default {
         priceTatol.push(element.price);
       }
       let price = eval(priceTatol.join("+"));
+
       let data = {
         customerId: this.currentNamberId,
         prescriptionId: this.currentPrescriptions[0].prescriptionId,
@@ -1926,7 +1910,7 @@ export default {
         detailFormList: this.detailFormList
       };
       // debugger;
-      let jhrq = true;
+       let jhrq = true;
       this.detailFormList.forEach(obj => {
         if (
           obj.process == 1
@@ -1943,7 +1927,7 @@ export default {
           message: "支付金额大于应收金额请从新输入！",
           center: true
         });
-      } else if (jhrq === false) {
+         } else if (jhrq === false) {
         this.$message({
           type: "warning",
           message: "请填写交货日期！",
@@ -1980,7 +1964,7 @@ export default {
       this.orderingPerson = session.getItem("username");
     },
     sizeEntry(obj) {
-      let data = {
+       let data = {
         hospitalId: obj.row.hospitalId
       };
       selectUserListByHospitalId(data)
@@ -2263,7 +2247,6 @@ export default {
                   center: true
                 });
                 this.resetForm("ruleForm");
-                this.xiangxifanhui();
                 this.pageList(this.pages.currentPage, this.pages.pageSize);
               }
             })
@@ -2273,7 +2256,7 @@ export default {
         } else {
           this.$message({
             type: "warning",
-            message: "请填写病单信息！",
+            message: "请填写表格！",
             center: true
           });
         }
@@ -2347,7 +2330,7 @@ export default {
       };
       queryMemberDetail(data)
         .then(res => {
-          if (res.data.returnCode != 0) {
+           if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
               message: res.data.returnMsg,
@@ -2376,18 +2359,15 @@ export default {
         phone: this.seach.phone || null,
         vip: this.seach.vipValue == "0" ? 0 : this.seach.vipValue,
         userName: this.seach.servicePersonnel || null,
-        beginTime:
-          this.seach.receptionTime == null ? null : this.seach.receptionTime[0],
-        endTime: this.seach.receptionTime == null ? null : this.seach.receptionTime[1],
         type: 201,
         status: 0
       };
       this.loading = true;
-      examineAdmit(data)
+      assignList(data)
         .then(res => {
           this.loading = false;
           let dataList = res.data;
-          this.clientData = dataList.data.dataList;
+          this.clientData = dataList.data;
           this.pages.total = dataList.total;
         })
         .catch(err => {
@@ -2487,7 +2467,7 @@ export default {
     },
     //服务人员列表
     async userNameList_fuc() {
-      this.seach.userNameList = await personnel();
+      this.userNameList = await personnel();
     },
     isJiaJi() {
       // debugger
@@ -2527,6 +2507,7 @@ export default {
   span {
     font-size: 14px;
     letter-spacing: 1px;
+    color: #606266;
   }
 }
 .client_info {
@@ -2590,6 +2571,3 @@ export default {
   margin-top: 5px;
 }
 </style>
-
-
-

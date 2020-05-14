@@ -126,7 +126,30 @@ const seach={
     provinceIdList: [],
     cityIdList: []
   }
+ const addData=[
+    {
+      number: "自动生成",
+      hospitals: null,
+      hospitalValue: null,
+      doctors: null,
+      doctorValue: null,
+      departments: null,
+      departmentValue: null,
+      prescriptionValue: null,
+      prescriptions: [
+        { id: 0, name: "儿保" },
+        { id: 1, name: "住院" },
+        { id: 2, name: "门诊" }
+      ],
+      condition: null,
+      obCondition: null,
+      siteValue: null,
+      provinceId: null,
+      cityId: null
+    }
+  ]
 export default{
     seachProduct,
-    seach
+    seach,
+    addData
 }

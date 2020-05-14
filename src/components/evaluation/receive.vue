@@ -4,19 +4,19 @@
   <div>
     <!-- seach -->
     <el-row class="search">
-      <el-col :span="2" style="width: 5.5%;line-height: 30px">
+      <el-col :span="2" id="input-title">
         <span>客户姓名</span>
       </el-col>
       <el-col :span="3">
         <el-input v-model="seach.memberName" size="small" placeholder="请输入姓名"></el-input>
       </el-col>
-      <el-col :span="2" style="width: 5.5%;line-height: 30px">
+      <el-col :span="2" id="input-title">
         <span>联系方式</span>
       </el-col>
       <el-col :span="3">
         <el-input size="small" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
       </el-col>
-      <el-col :span="2" style="width: 5.5%;line-height: 30px">
+      <el-col :span="2" id="input-title">
         <span>是否会员</span>
       </el-col>
       <el-col :span="2">
@@ -24,7 +24,7 @@
           <el-option v-for="item in seach.vips" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-col>
-      <el-col :span="2" style="width: 5.5%;line-height: 30px">
+      <el-col :span="2" id="input-title">
         <span>服务人员</span>
       </el-col>
       <el-col :span="3">
@@ -44,7 +44,7 @@
         </el-select>
         <!-- <el-input v-model="seach.servicePersonnel" size="small" placeholder="请输入姓名"></el-input> -->
       </el-col>
-      <el-col :span="2" style="width: 5.5%;line-height: 30px">
+      <el-col :span="2" id="input-title">
         <span class="time_style">接待日期</span>
       </el-col>
       <el-col :span="4">
@@ -1554,28 +1554,7 @@ export default {
         ],
         sex: [{ required: true, message: "请选择性别", trigger: "change" }]
       },
-      addData: [
-        {
-          number: "自动生成",
-          hospitals: null,
-          hospitalValue: null,
-          doctors: null,
-          doctorValue: null,
-          departments: null,
-          departmentValue: null,
-          prescriptionValue: null,
-          prescriptions: [
-            { id: 0, name: "儿保" },
-            { id: 1, name: "住院" },
-            { id: 2, name: "门诊" }
-          ],
-          condition: null,
-          obCondition: null,
-          siteValue: null,
-          provinceId: null,
-          cityId: null
-        }
-      ],
+      addData: naVComponent_variable.addData,
       //分页
       pages: {
         total: 30,

@@ -1994,28 +1994,7 @@ export default {
         ],
         sex: [{ required: true, message: "请选择性别", trigger: "change" }]
       },
-      addData: [
-        {
-          number: "自动生成",
-          hospitals: null,
-          hospitalValue: null,
-          doctors: null,
-          doctorValue: null,
-          departments: null,
-          departmentValue: null,
-          prescriptionValue: null,
-          prescriptions: [
-            { id: 0, name: "儿保" },
-            { id: 1, name: "住院" },
-            { id: 2, name: "门诊" }
-          ],
-          condition: null,
-          obCondition: null,
-          siteValue: null,
-          provinceId: null,
-          cityId: null
-        }
-      ],
+      addData: naVComponent_variable.addData,
       //分页
       pages: {
         total: 30,

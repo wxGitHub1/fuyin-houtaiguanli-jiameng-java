@@ -452,7 +452,7 @@
         <el-table-column label="产品尺寸" align="center" min-width="90">
           <template slot-scope="scope">
             <el-button
-              v-if="scope.row.type =='自制产品' || scope.row.type =='定制产品' ? true : false "
+              v-if="scope.row.print === 1 ? true : false "
               @click="orderDetails(scope.row)"
               size="mini"
               type="info"
@@ -612,7 +612,7 @@
     >
       <div class="clearfix">
         <div v-for="(item,index) in productSizeList" :key="index" class="cpSize">
-          <span class="span">{{item.name}}：</span>
+          <span class="span">{{item.key}}：</span>
           <span class="span">{{item.value || "暂无数据"}}</span>
         </div>
       </div>
@@ -1098,99 +1098,9 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="readyOrderCancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
-        <el-button @click="orderingStart()" type="success" icon="el-icon-circle-check">确认</el-button>
+        <el-button @click="modefiy_orderingStart()" type="success" icon="el-icon-circle-check">确认</el-button>
       </div>
     </el-dialog>
-    <!-- dialog 选择产品-->
-    <!-- <el-dialog
-      title="选择产品"
-      :visible.sync="dialogselectProduct"
-      center
-      :close-on-click-modal="false"
-      width="70%"
-      :before-close="cancelSelection"
-    >-->
-    <!-- seach product-->
-    <!-- <el-row class="search">
-        <el-col :span="2" class="input-title">
-          <span>选择产品</span>
-        </el-col>
-        <el-col :span="3">
-          <el-input v-model="seachProduct.name" size="mini" placeholder="请输入名称" autocomplete="off"></el-input>
-        </el-col>
-        <el-col :span="2" class="input-title">
-          <span>产品类型</span>
-        </el-col>
-        <el-col :span="2">
-          <el-select
-            clearable
-            size="mini"
-            v-model="seachProduct.productTypeValue"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in seachProduct.productTypes"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="2" class="input-title">
-          <span>产品资质</span>
-        </el-col>
-        <el-col :span="2">
-          <el-select clearable size="mini" v-model="seachProduct.qualification" placeholder="请选择">
-            <el-option
-              v-for="item in seachProduct.qualificationList"
-              :key="item.id"
-              :label="item.name"
-              :value="item.name"
-            ></el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="2">
-          <el-button
-            size="mini"
-            @click="salesList()"
-            icon="el-icon-search"
-            type="warning"
-            class="btns"
-          >查询</el-button>
-        </el-col>
-      </el-row>
-      <el-table
-        ref="multipleTable"
-        :data="productData"
-        tooltip-effect="dark"
-        @selection-change="handleSelectionChange"
-        max-height="500"
-      >
-        <el-table-column type="selection"></el-table-column>
-        <el-table-column prop="source" label="产品分类"></el-table-column>
-        <el-table-column prop="name" label="产品名称"></el-table-column>
-        <el-table-column prop="nickname" label="产品昵称" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="unit" label="产品规格" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="model" label="产品型号" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="qualification" label="产品资质" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="price" label="标准价格" show-overflow-tooltip></el-table-column>
-    </el-table>-->
-    <!-- Pagination 分页 -->
-    <!-- <el-pagination
-        @size-change="handleSizeChangeProduct"
-        @current-change="handleCurrentChangeProduct"
-        :current-page="pagesProduct.currentPage"
-        :page-sizes="[10, 15, 20]"
-        :page-size="pagesProduct.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="pagesProduct.total"
-        class="pagination"
-    ></el-pagination>-->
-    <!-- <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelSelection()" type="primary" icon="el-icon-circle-close">取消</el-button>
-        <el-button @click="confirmProduct()" type="success" icon="el-icon-circle-check">选择</el-button>
-    </div>-->
-    <!-- </el-dialog> -->
     <!-- dialog 特殊要求-->
     <el-dialog
       title="特殊要求"
@@ -1666,34 +1576,6 @@ export default {
       this.cpIndex = null;
     },
     sizeEntry(obj) {
-      // if (!!obj.row.size && JSON.stringify(obj.row.size) != "{}") {
-      //   let qxwc = obj.row.size["取型"]["围长"];
-      //   let qxkd = obj.row.size["取型"]["宽度"];
-      //   let qxgd = obj.row.size["取型"]["高度"];
-      //   let qxzb = obj.row.size["取型"]["足部"];
-      //   this.productSize.yq = obj.row.size["取型"]["要求"];
-      //   for (let i in qxzb) {
-      //     this.productSize.zb.push({ name: i, value: qxzb[i] });
-      //   }
-      //   for (let i in qxwc) {
-      //     this.productSize.wc.push({ name: i, value: qxwc[i] });
-      //   }
-      //   for (let i in qxkd) {
-      //     this.productSize.kd.push({ name: i, value: qxkd[i] });
-      //   }
-      //   for (let i in qxgd) {
-      //     this.productSize.gd.push({ name: i, value: qxgd[i] });
-      //   }
-      //   this.productSize.radio = obj.row.xRay;
-      //   this.dialogSizeDetails = true;
-      //   this.cpIndex = obj.$index;
-      // } else {
-      //   this.$message({
-      //     type: "warning",
-      //     message: "暂无尺寸信息！",
-      //     center: true
-      //   });
-      // }
       let data = {
         hospitalId: obj.row.hospitalId
       };
@@ -1741,117 +1623,6 @@ export default {
       console.log(val);
       this.multipleSelection = val;
     },
-    // cancelSelection() {
-    //   this.dialogselectProduct = false;
-    //   this.multipleSelection = [];
-    // },
-    // confirmProduct() {
-    //   debugger;
-    //   if (this.detailFormList.length == 0) {
-    //     // debugger;
-    //     // this.multipleSelection.forEach(obj=>{})
-    //     if (this.multipleSelection.length >= 2) {
-    //       let isTrue;
-    //       for (let index = 0; index < this.multipleSelection.length; index++) {
-    //         const element = this.multipleSelection[index];
-    //         const element2 =
-    //           this.multipleSelection[index + 1] ||
-    //           this.multipleSelection[this.multipleSelection.length - 1];
-    //         if (element.sourceType != element2.sourceType) {
-    //           debugger;
-    //           isTrue = false;
-    //           break;
-    //         } else {
-    //           isTrue = true;
-    //         }
-    //       }
-    //       if (isTrue) {
-    //         this.multipleSelection.forEach(obj => {
-    //           this.detailFormList.push(obj);
-    //         });
-    //         this.detailFormList.forEach(obj => {
-    //           obj.deliveryTime = null;
-    //           obj.number = 1;
-    //           obj.actual = obj.price;
-    //           obj.demand = null;
-    //           obj.favorable = null;
-    //           obj.favorableRemark = null;
-    //         });
-    //         // this.dialogselectProduct = false;
-    //         this.paymentMethod.totalAmountReceivable = this.ysMoney();
-    //         this.paymentMethod.arrears = this.xqMoney();
-    //         this.cancelSelection();
-    //         // console.log(this.paymentMethod.arrears)
-    //       }
-    //     } else {
-    //       this.multipleSelection.forEach(obj => {
-    //         this.detailFormList.push(obj);
-    //       });
-    //       this.detailFormList.forEach(obj => {
-    //         obj.deliveryTime = null;
-    //         obj.number = 1;
-    //         obj.actual = obj.price;
-    //         obj.demand = null;
-    //         obj.favorable = null;
-    //         obj.favorableRemark = null;
-    //       });
-    //       // this.dialogselectProduct = false;
-    //       this.paymentMethod.totalAmountReceivable = this.ysMoney();
-    //       this.paymentMethod.arrears = this.xqMoney();
-    //       this.cancelSelection();
-    //     }
-    //   } else {
-    //     let isTrue;
-    //     let id;
-    //     let tishi;
-    //     for (let index = 0; index < this.multipleSelection.length; index++) {
-    //       const element = this.multipleSelection[index];
-    //       const element2 =
-    //         this.multipleSelection[index + 1] ||
-    //         this.multipleSelection[this.multipleSelection.length - 1];
-    //       if (element.sourceType != element2.sourceType) {
-    //         isTrue = false;
-    //         break;
-    //       } else {
-    //         isTrue = true;
-    //         id = element.sourceType;
-    //       }
-    //     }
-    //     for (let index = 0; index < this.detailFormList.length; index++) {
-    //       const element = this.detailFormList[index];
-    //       if (element.sourceType != id) {
-    //         tishi = true;
-    //         break;
-    //       } else {
-    //         tishi = false;
-    //       }
-    //     }
-    //     if (tishi) {
-    //       this.$message({
-    //         type: "warning",
-    //         message: "不支持同时选择两种类型的产品！",
-    //         center: true
-    //       });
-    //     } else {
-    //       this.multipleSelection.forEach(obj => {
-    //         this.detailFormList.push(obj);
-    //       });
-    //       this.detailFormList.forEach(obj => {
-    //         obj.deliveryTime = null;
-    //         obj.number = 1;
-    //         obj.actual = obj.price;
-    //         obj.demand = null;
-    //         obj.favorable = null;
-    //         obj.favorableRemark = null;
-    //       });
-    //       // this.dialogselectProduct = false;
-    //       this.paymentMethod.totalAmountReceivable = this.ysMoney();
-    //       this.paymentMethod.arrears = this.xqMoney();
-    //       this.cancelSelection();
-    //       // console.log(this.detailFormList);
-    //     }
-    //   }
-    // },
     readyOrderCancel() {
       this.dialogreadyOrder = false;
       this.currentPrescriptions = [];
@@ -1864,190 +1635,8 @@ export default {
       this.paymentMethod.zz = 0;
       this.paymentMethod.lkl = 0;
     },
-    orderingStart() {
-      // let priceTatol = [];
-      // for (let index = 0; index < this.detailFormList.length; index++) {
-      //   const element = this.detailFormList[index];
-      //   priceTatol.push(element.price);
-      // }
-      // let price = eval(priceTatol.join("+"));
-      // let shouldTatol = [];
-      // for (let index = 0; index < this.detailFormList.length; index++) {
-      //   const element = this.detailFormList[index];
-      //   shouldTatol.push(element.actual);
-      // }
-      // let should = eval(shouldTatol.join("+"));
-      // this.detailFormList.forEach(obj => {
-      //   obj.salesId = obj.id;
-      //   if (obj.size != undefined) {
-      //     if (
-      //       obj.size["取型"] == "" ||
-      //       obj.size["取型"] == undefined ||
-      //       obj.size["取型"] == null ||
-      //       JSON.stringify(obj.size) == "{}"
-      //     ) {
-      //       delete obj.size;
-      //       return;
-      //     } else {
-      //       let qxwc = obj.size["取型"]["围长"];
-      //       let qxkd = obj.size["取型"]["宽度"];
-      //       let qxgd = obj.size["取型"]["高度"];
-      //       let qxyq = obj.size["取型"]["要求"];
-      //       let qxzb = obj.size["取型"]["足部"];
-
-      //       for (var key in qxzb) {
-      //         if (!qxzb[key]) {
-      //           delete obj.size;
-      //           return;
-      //         }
-      //       }
-      //       for (var key in qxwc) {
-      //         if (!qxwc[key]) {
-      //           delete obj.size;
-      //           return;
-      //         }
-      //       }
-      //       for (var key in qxkd) {
-      //         if (!qxkd[key]) {
-      //           delete obj.size;
-      //           return;
-      //         }
-      //       }
-      //       for (var key in qxgd) {
-      //         if (!qxgd[key]) {
-      //           delete obj.size;
-      //           return;
-      //         }
-      //       }
-      //       for (var key in qxyq) {
-      //         if (!qxyq[key]) {
-      //           delete obj.size;
-      //           return;
-      //         }
-      //       }
-      //     }
-      //   }
-      // });
-
-      let data = {
-        id: this.currentNamberId,
-        // prescriptionId: this.currentPrescriptions[0].prescriptionId,
-        quickly: this.jjChecked === true ? 1 : 0,
-        // price: price,
-        should: this.paymentMethod.totalAmountReceivable,
-        actual: this.paymentMethod.total,
-        lakala: this.paymentMethod.lkl,
-        cash: this.paymentMethod.xj,
-        transfer: this.paymentMethod.zz,
-        payType: this.paymentMethod.lx,
-        // hospital: 1,
-        orderUserName: this.orderingPerson
-        // detailFormList: this.detailFormList
-      };
-      //判断交货日期必填
-      let jhrq = true;
-      this.detailFormList.forEach(obj => {
-        if (
-          obj.process == 1
-          // obj.source == "自制产品" ||
-          // obj.source == "定制产品" ||
-          // obj.source == "试穿成品" ||
-          // obj.source == "外购产品"
-        ) {
-          if (!obj.deliveryTime) {
-            jhrq = false;
-            return jhrq;
-          }
-        }
-      });
-      if (data.actual < data.lakala + data.cash + data.transfer) {
-        this.$message({
-          type: "warning",
-          message: "支付金额大于应收金额请从新输入！",
-          center: true
-        });
-      } else if (jhrq === false) {
-        this.$message({
-          type: "warning",
-          message: "请填写交货日期！",
-          center: true
-        });
-      } else {
-        // this.detailFormList.forEach(obj => {
-        //   obj.salesId = obj.id;
-        //   if (obj.size != undefined) {
-        //     if (
-        //       obj.size["取型"] == "" ||
-        //       obj.size["取型"] == undefined ||
-        //       obj.size["取型"] == null ||
-        //       JSON.stringify(obj.size) == "{}"
-        //     ) {
-        //       delete obj.size;
-        //       return;
-        //     } else {
-        //       let qxwc = obj.size["取型"]["围长"];
-        //       let qxkd = obj.size["取型"]["宽度"];
-        //       let qxgd = obj.size["取型"]["高度"];
-        //       let qxzb = obj.size["取型"]["足部"];
-        //       let qxyq = obj.size["取型"]["要求"];
-        //       for (var key in qxzb) {
-        //         if (!qxzb[key]) {
-        //           delete obj.size;
-        //           return;
-        //         }
-        //       }
-        //       for (var key in qxwc) {
-        //         if (!qxwc[key]) {
-        //           delete obj.size;
-        //           return;
-        //         }
-        //       }
-        //       for (var key in qxkd) {
-        //         if (!qxkd[key]) {
-        //           delete obj.size;
-        //           return;
-        //         }
-        //       }
-        //       for (var key in qxgd) {
-        //         if (!qxgd[key]) {
-        //           delete obj.size;
-        //           return;
-        //         }
-        //       }
-        //       for (var key in qxyq) {
-        //         if (!qxyq[key]) {
-        //           delete obj.size;
-        //           return;
-        //         }
-        //       }
-        //     }
-        //   }
-        // });
-        data.detailFormList = this.detailFormList;
-        // debugger;
-        orderUpdateNew(data)
-          .then(res => {
-            if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-              this.readyOrderCancel();
-              this.returnOn();
-              this.details(this.paymentMethod.orderNum);
-              this.$message({
-                type: "success",
-                message: "修改订单成功！",
-                center: true
-              });
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
+    modefiy_orderingStart() {
+      naVComponent.modefiy_orderingStart(this)
     },
     changeOrder() {
       // debugger;
@@ -2117,10 +1706,7 @@ export default {
     // },
     orderDetails(obj) {
       if (
-        obj.size === "" ||
-        obj.size === undefined ||
-        obj.size === null ||
-        JSON.stringify(obj.size) === "{}"
+        obj.sizeMapList==[]
       ) {
         this.$message({
           type: "warning",
@@ -2128,26 +1714,7 @@ export default {
           center: true
         });
       } else {
-        console.log(obj.size["取型"]);
-        let list = [];
-        let wc = obj.size["取型"]["围长"];
-        let kd = obj.size["取型"]["宽度"];
-        let zb = obj.size["取型"]["足部"];
-        let gd = obj.size["取型"]["高度"];
-        for (let i in wc) {
-          list.push({ name: i, value: wc[i] });
-        }
-        for (let i in kd) {
-          list.push({ name: i, value: kd[i] });
-        }
-        for (let i in zb) {
-          list.push({ name: i, value: zb[i] });
-        }
-        for (let i in gd) {
-          list.push({ name: i, value: gd[i] });
-        }
-        console.log(list);
-        this.productSizeList = list;
+        this.productSizeList = obj.sizeMapList;
         this.dialogSizeDetailsView = true;
       }
     },
@@ -2200,50 +1767,7 @@ export default {
       //   });
     },
     addRefund() {
-      if (!!this.refund.reason) {
-        let detailForms = [];
-        let totalSum = 0;
-        this.refundData.forEach(obj => {
-          detailForms.push({ saleId: obj.id, price: obj.amount });
-          totalSum += obj.amount;
-        });
-        this.refund.sum = totalSum;
-        let data = {
-          orderNum: this.paymentMethod.orderNum,
-          sum: this.refund.sum,
-          reason: this.refund.reason,
-          quickly: this.refund.quickly,
-          detailForms: detailForms
-        };
-        refundMoney(data)
-          .then(res => {
-            if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-              this.cancelRefund();
-              this.returnOn();
-              this.details(this.paymentMethod.orderNum);
-              this.$message({
-                type: "success",
-                message: "退款成功！",
-                center: true
-              });
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      } else {
-        this.$message({
-          type: "warning",
-          message: "请填写表格",
-          center: true
-        });
-      }
+     naVComponent.addRefund(this)
     },
     cancelMakeUp() {
       this.dialogMakeUpTheArrears = false;
@@ -2286,35 +1810,7 @@ export default {
       }
     },
     calculation() {
-      this.paymentMethod.total =
-        this.paymentMethod.xj + this.paymentMethod.zz + this.paymentMethod.lkl;
-      this.paymentMethod.arrears = this.xqMoney();
-      // debugger;
-      if (this.paymentMethod.total > this.paymentMethod.totalAmountReceivable) {
-        this.$message({
-          type: "warning",
-          message: "实收金额大于应收金额！请重新输入金额!",
-          center: true
-        });
-        this.paymentMethod.arrears = this.ysMoney();
-        this.paymentMethod.total = 0;
-      }
-
-      if (this.paymentMethod.xj > 0 && this.paymentMethod.zz > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.xj > 0 && this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.zz > 0 && this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.zz > 0) {
-        this.paymentMethod.lx = 3;
-      } else if (this.paymentMethod.xj > 0) {
-        this.paymentMethod.lx = 2;
-      } else if (this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 1;
-      } else {
-        this.paymentMethod.lx = null;
-      }
+     naVComponent.calculation(this)
     },
     printTicket_bj(num) {
       this.realTime = getTime();

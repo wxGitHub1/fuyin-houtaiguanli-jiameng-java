@@ -1,7 +1,8 @@
-// 待接待
+//待接待
 <template>
+  <!-- 客户管理 -->
   <div>
-    <!-- seach -->
+  <!-- seach -->
     <el-row class="search">
       <el-col :span="2" id="input-title">
         <span>客户姓名</span>
@@ -35,7 +36,7 @@
           placeholder="请选择"
         >
           <el-option
-            v-for="item in userNameList"
+            v-for="item in seach.userNameList"
             :key="item.id"
             :label="item.username"
             :value="item.username"
@@ -115,7 +116,7 @@
             <el-form-item label="就读学校:">
               <el-input v-model="ruleForm.school" placeholder="请输入就读学校" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item prop="birthday" required label="出生日期">
+            <el-form-item prop="birthday" label="出生日期">
               <el-date-picker
                 type="date"
                 placeholder="选择日期"
@@ -170,7 +171,10 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="就诊类型" prop="memberType">
-              <el-radio-group v-model="ruleForm.memberType" @change="isRequired(ruleForm.memberType)">
+              <el-radio-group
+                v-model="ruleForm.memberType"
+                @change="isRequired(ruleForm.memberType)"
+              >
                 <el-radio label="2">固定类</el-radio>
                 <el-radio label="1">矫形类</el-radio>
               </el-radio-group>
@@ -184,11 +188,12 @@
           v-if="modefiy"
           type="warning"
           icon="el-icon-circle-plus-outline"
-          @click="dialogAddbd = true"
+          @click="Adddis_fuc()"
           size="mini"
           class="right"
         >新增病单</el-button>
       </h3>
+      <!-- 修改列表 -->
       <el-table v-if="modefiy" :data="DataList" key="DataList" max-height="190">
         <el-table-column label="病单编号" align="center" prop="prescriptionNum"></el-table-column>
         <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
@@ -213,6 +218,7 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 新增列表 -->
       <el-table v-else :data="addData" key="addData">
         <el-table-column label="省份" align="center">
           <template slot-scope="scope">
@@ -224,7 +230,7 @@
               size="mini"
             >
               <el-option
-                v-for="item in seach.provinceIdList"
+                v-for="item in transferSite.provinceIdList"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
@@ -255,9 +261,9 @@
             <el-select
               clearable
               v-model="scope.row.siteValue"
-              @change="hospitalList(scope.row.siteValue)"
               placeholder="请选择"
               size="mini"
+              @change="hospitalList(scope.row.siteValue)"
             >
               <el-option
                 v-for="item in seach.siteLists"
@@ -458,6 +464,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
+              v-if="scope.row.addOrder==1"
               @click="readyOrder(scope.row)"
               type="primary"
               plain
@@ -471,7 +478,7 @@
         <el-table-column prop="evaluateUserName" label="测评人" min-width="100"></el-table-column>
         <el-table-column prop="createTime" label="测评时间"></el-table-column>
         <el-table-column prop="recoveryCN" label="恢复情况"></el-table-column>
-        <el-table-column label="操作" min-width="100">
+        <el-table-column label="操作" min-width="101">
           <template slot-scope="scope">
             <el-button
               @click="evaluationDetails(scope.row.evaluateId)"
@@ -532,6 +539,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="xiangxifanhui()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button
+          v-if="Details.phone != '***********' "
           type="primary"
           icon="el-icon-edit"
           plain
@@ -592,7 +600,7 @@
               size="mini"
             >
               <el-option
-                v-for="item in seach.provinceIdList"
+                v-for="item in transferSite.provinceIdList"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
@@ -623,9 +631,9 @@
             <el-select
               clearable
               v-model="scope.row.siteValue"
-              @change="hospitalList(scope.row.siteValue)"
               placeholder="请选择"
               size="mini"
+              @change="hospitalList(scope.row.siteValue)"
             >
               <el-option
                 v-for="item in seach.siteLists"
@@ -838,7 +846,7 @@
         <el-table-column prop="unit" label="产品规格"></el-table-column>
         <el-table-column prop="model" label="产品型号"></el-table-column>
         <el-table-column prop="price" label="标准价格"></el-table-column>
-        <el-table-column prop="actual" label="实际价格"  min-width="100">
+        <el-table-column prop="actual" label="实际价格" min-width="100">
           <template slot-scope="scope">
             <input
               class="input"
@@ -847,7 +855,6 @@
               @change="changeMoney()"
               oninput="value=value.replace(/[^\d.]/g,'')"
             />
-           
           </template>
         </el-table-column>
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
@@ -868,7 +875,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="qualification" label="产品资质"></el-table-column>
-         <el-table-column prop="price" label="下单类型" min-width="100">
+        <el-table-column prop="price" label="下单类型" min-width="100">
           <template slot-scope="scope">
             <el-select
               v-if="scope.row.productOrderType == 5 ? false : true"
@@ -891,7 +898,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              v-if="scope.row.source =='会员卡' || scope.row.source =='测评服务' ? false:true  "
+              v-if="scope.row.source =='会员卡' || scope.row.source =='测评服务' ? false:true "
               @click="tsyq(scope)"
               type="primary"
             >特殊要求</el-button>
@@ -973,7 +980,7 @@
         <el-col :span="2" class="input-title">
           <span>产品名称</span>
         </el-col>
-         <el-col :span="2">
+        <el-col :span="2">
           <el-input
             v-model="seachProduct.name"
             size="mini"
@@ -1002,7 +1009,7 @@
             placeholder="请输入备案编号"
             autocomplete="off"
           ></el-input>
-          </el-col>
+        </el-col>
         <el-col :span="2" class="input-title">
           <span>产品类型</span>
         </el-col>
@@ -1065,7 +1072,7 @@
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
-        <el-table-column prop="batchNum" label="备案编号"></el-table-column>
+        <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称" show-overflow-tooltip></el-table-column>
@@ -1155,18 +1162,23 @@
         <div v-for="item in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
+            <el-input
+              v-model="item.value"
+              style="width：100%"
+              size="small"
+              placeholder="请输入"
+              oninput="value=value.replace(/[^\d.]/g,'')"
+            ></el-input>
           </div>
         </div>
-        
         <div class="cpSize">
           <span class="span">是否有X光片：</span>
           <div class="div">
-          <el-radio v-model="productSize.radio" label="1">是</el-radio>
-          <el-radio v-model="productSize.radio" label="0">否</el-radio>
+            <el-radio v-model="productSize.radio" label="1">是</el-radio>
+            <el-radio v-model="productSize.radio" label="0">否</el-radio>
           </div>
         </div>
-         <div class="cpSize">
+        <div class="cpSize">
           <span class="span">取型人：</span>
           <div class="div">
             <el-select clearable v-model="productSize.shapeUser" placeholder="请选择" size="mini">
@@ -1174,13 +1186,12 @@
                 v-for="item in productSize.shapeUserList"
                 :key="item.id"
                 :label="item.username"
-                :value="item"
+                :value="item.id"
               ></el-option>
             </el-select>
           </div>
         </div>
       </div>
-
       <div slot="footer" class="dialog-footer">
         <el-button @click="sizeCancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button type="success" icon="el-icon-circle-check" @click="entrySize()">确认</el-button>
@@ -1278,7 +1289,7 @@
         <!-- <div class="margin-t-5">
           <span>新增病情:</span>
           <span class="margin-r-20">{{item.normal}}</span>
-        </div> -->
+        </div>-->
         <div class="margin-t-5">
           <span>测评结果:</span>
           <span class="margin-r-20">{{item.result}}</span>
@@ -1297,6 +1308,69 @@
           </div>
         </div>
         <hr class="border-dashed" />
+      </div>
+    </el-dialog>
+    <!-- dialog 转移测评中心-->
+    <el-dialog
+      title="转移测评中心"
+      :visible.sync="dialogTransferSite"
+      center
+      :close-on-click-modal="false"
+      :before-close="cancelTransfer_func"
+    >
+      <el-form :model="transferSite" ref="dialogForm" :inline="true" size="mini" label-width="80px">
+        <el-form-item label="省份">
+          <el-select
+            clearable
+            v-model="transferSite.provinceValue"
+            placeholder="请选择"
+            @change="cityList(transferSite.provinceValue)"
+          >
+            <el-option
+              v-for="item in transferSite.provinceIdList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="城市">
+          <el-select
+            clearable
+            v-model="transferSite.citysValue"
+            placeholder="请先选择省份"
+            @change="siteList(transferSite.citysValue)"
+          >
+            <el-option
+              v-for="item in transferSite.cityIdList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="测评中心">
+          <el-select clearable v-model="transferSite.siteId" placeholder="请先选择测评中心">
+            <el-option
+              v-for="item in transferSite.siteLists"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="联系电话">
+          <el-input
+            v-model="transferSite.sitePhone"
+            autocomplete="off"
+            placeholder="请输入客户电话"
+            style="width:193px"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelTransfer_func()" type="primary" icon="el-icon-circle-close">取消</el-button>
+        <el-button @click="confirmTransferSite_func()" type="success" icon="el-icon-circle-check">保存</el-button>
       </div>
     </el-dialog>
     <!-- dialog 打印检测报告-->
@@ -1334,6 +1408,7 @@ import {
   getHospitalList,
   selectDepartmentByHospitalId,
   queryDoctorByDepartmentId,
+  queryMemberByPage,
   addMember,
   updateMemberInfo,
   queryForUpdate,
@@ -1342,29 +1417,22 @@ import {
   queryBlackHistory,
   addPrescription,
   updatePrescription,
-  orderInsert,
+  selectUserListByHospitalId,
+  product,
   sales,
-  deleteUser,
   queryExamineDetail,
   printMakeParam,
-  examinePadZb3d,
-  selectUserListByHospitalId
+  examinePadZb3d
 } from "../../api/javaApi";
-import {
-  exportMethod,
-  province,
-  city,
-  site,
-  allSite,
-  hospital,
-  getBase64Image,
-  img_base64,
-  personnel
-} from "../../utils/public";
+import javaApi from "../../api/javaApi";
+import { exportMethod, province, city, site,allSite,getBase64Image,img_base64,personnel } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import Print from "../commonComponent/PrintTemplate";
+import naVComponent from "../navComponent/page";
 import placeOrder from "../navComponent/place_order";
+import naVComponent_variable from "../navComponent/page_variable";
+import evaluation_variable from "./evaluation_variable";
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
@@ -1396,33 +1464,7 @@ export default {
       productData: [],
       multipleSelection: [],
       detailFormList: [],
-      seachProduct: {
-        name: null,
-        productTypeValue: null,
-        qualification: null,
-        productTypes: [
-           { name: "会员卡", id: 1 },
-          { name: "测评服务", id: 2 },
-          { name: "固定定制", id: 301 },
-          { name: "固定成品", id: 302 },
-          { name: "矫形定制", id: 303 },
-          { name: "矫形成品", id: 304 },
-          { name: "低温板", id: 305 },
-          { name: "外购", id: 306 }
-        ],
-        qualificationList: [
-          { name: "一类", id: 1 },
-          { name: "二类", id: 2 },
-          { name: "默认", id: 3 }
-        ],
-        origin: null,
-        recordNumber: null,
-        nickname: null,
-        originList: [
-          { name: "国产", id: 1 },
-          { name: "进口", id: 2 }
-        ]
-      },
+      seachProduct:naVComponent_variable.seachProduct,
       jjChecked: false,
       orderingPerson: null,
       paymentMethod: {
@@ -1437,22 +1479,7 @@ export default {
       },
       isBlackBut: null,
       currentPrescriptions: [],
-      seach: {
-        memberName: null,
-        phone: null,
-        vipValue: null,
-        servicePersonnel: null,
-        vips: [
-          { name: "是", id: 1 },
-          { name: "否", id: "0" }
-        ],
-        siteLists: [],
-        siteValue: null,
-        provinceId: null,
-        cityId: null,
-        provinceIdList: [],
-        cityIdList: []
-      },
+      seach:evaluation_variable.seach,
       clientData: [],
       //分页
       pages: {
@@ -1486,9 +1513,9 @@ export default {
         zhouqi: null,
         renzhi: null,
         laiyuan: null,
-        memberType: null,
         desc: null,
-        memberId: null
+        memberId: null,
+        memberType: null
       },
       rules: {
         name: [{ required: true, message: "请输入客户姓名", trigger: "blur" }],
@@ -1512,28 +1539,7 @@ export default {
         ],
         sex: [{ required: true, message: "请选择性别", trigger: "change" }]
       },
-      addData: [
-        {
-          number: "自动生成",
-          hospitals: null,
-          hospitalValue: null,
-          doctors: null,
-          doctorValue: null,
-          departments: null,
-          departmentValue: null,
-          prescriptionValue: null,
-          prescriptions: [
-            { id: 0, name: "儿保" },
-            { id: 1, name: "住院" },
-            { id: 2, name: "门诊" }
-          ],
-          condition: null,
-          obCondition: null,
-          siteValue: null,
-          provinceId: null,
-          cityId: null
-        }
-      ],
+      addData: naVComponent_variable.addData,
       //分页
       pages: {
         total: 30,
@@ -1575,6 +1581,11 @@ export default {
         favorable: null
       },
       favorableRemark: null,
+      // wc: [],
+      // kd: [],
+      // gd: [],
+      // yq: [],
+      // zb: [],
       productSize: {
         list: [],
         radio: "",
@@ -1582,12 +1593,23 @@ export default {
         shapeUser: ""
       },
       loading: true,
+      dialogTransferSite: false,
+      transferSite: {
+        provinceValue: null,
+        provinceIdList: [],
+        citysValue: null,
+        cityIdList: [],
+        siteId: null,
+        siteLists: [],
+        sitePhone: null
+      },
       xd_siteId: null,
       //检测报告
       dialogTestReport: false,
       testReport: {},
       isTwo: true,
-      htmlTitle: "测评报告PDF", 
+      htmlTitle: "测评报告PDF",
+      /**新增data */
       productOrderTypeList: [
         { name: "处方产品", id: 1 },
         { name: "新增产品", id: 2 },
@@ -1595,16 +1617,12 @@ export default {
         { name: "赠送产品", id: 4 }
       ],
       overdueList: [],
+      isShowVal: null,
       threeD_ObjFrom: {
-        list: [
-          { name: "足长", value: null },
-          { name: "足宽", value: null }
-        ]
+        list: []
       },
       threeDDialg: false,
-      only_recordId: null,
-      isShowVal: null,
-      userNameList:[],
+      only_recordId: null
     };
   },
   components: {
@@ -1612,61 +1630,24 @@ export default {
   },
   mounted() {
     this.pageList();
-    // this.hospitals();
+    this.hospitals();
     this.provinceList();
     this.userNameList_fuc();
-    // this.salesList();
   },
   methods: {
-    isRequired(val) {
-      this.isShowVal = val;
-      if (val == 2) {
-        this.rules.phone[0].required = false;
-        this.rules.birthday[0].required = false;
-        console.log("不用填");
-      } else {
-        this.rules.phone[0].required = true;
-        this.rules.birthday[0].required = true;
-        console.log("必须填");
-      }
-    },
+     Adddis_fuc(){
+       this.dialogAddbd = true
+       naVComponent.default_PCSH(this)
+     },
     threeD_func() {
-      let data = {
-        recordId: this.only_recordId,
-        footLength:
-          this.threeD_ObjFrom.list[1].name == "足长"
-            ? this.threeD_ObjFrom.list[1].value
-            : this.threeD_ObjFrom.list[0].value,
-        footWidth:
-          this.threeD_ObjFrom.list[0].name == "足宽"
-            ? this.threeD_ObjFrom.list[0].value
-            : this.threeD_ObjFrom.list[1].value
-      };
-      examinePadZb3d(data)
-        .then(res => {
-          if (res.data.returnCode != 0) {
-            this.$message({
-              type: "warning",
-              message: res.data.returnMsg,
-              center: true
-            });
-          } else {
-            this.threeDDialg = false;
-            this.dialogEvaluationDetails = false;
-            this.$message({
-              type: "success",
-              message: "下单成功！",
-              center: true
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+     naVComponent.threeD_func(this)
     },
     threeD_show(obj) {
       this.threeD_ObjFrom.list = obj;
       this.threeDDialg = true;
+    },
+    isRequired(val) {
+      naVComponent.isRequired(this,val)
     },
     printpage() {
       this.$print2(this.$refs.print);
@@ -1696,6 +1677,32 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    confirmTransferSite_func() {
+      naVComponent.confirmTransferSite_func(this)
+    },
+    cancelTransfer_func() {
+      this.transferSite.provinceValue = null;
+      this.transferSite.citysValue = null;
+      this.transferSite.siteId = null;
+      this.transferSite.sitePhone = null;
+      this.dialogTransferSite = false;
+    },
+    //转测评中心
+    transferSite_func(id) {
+      this.currentNamberId = id;
+      this.dialogTransferSite = true;
+    },
+    //监听按键
+    listenKey() {
+      document.onkeydown = e => {
+        let key = window.event.keyCode;
+        if (key === 13) {
+          this.pageList(this.pages.currentPage, this.pages.pageSize);
+          // console.log("客户管理的查询！");
+          document.onkeydown = undefined;
+        }
+      };
     },
     evaluationDetails(id) {
       this.only_recordId = id;
@@ -1727,6 +1734,7 @@ export default {
       this.productSize.radio = null;
       this.productSize.shapeUser = null;
     },
+    //修改实际价格改变价格
     changeMoney() {
       this.paymentMethod.totalAmountReceivable = this.ysMoney();
       this.paymentMethod.arrears = this.xqMoney();
@@ -1736,14 +1744,7 @@ export default {
       this.multipleSelection = [];
     },
     entrySize() {
-      this.detailFormList.forEach((obj, index) => {
-        if (index == this.cpIndex) {
-          obj.detailFormList = this.productSize.list;
-          obj.xRay = this.productSize.radio;
-          obj.shapeUser = this.productSize.shapeUser;
-        }
-      });
-      this.sizeCancel();
+      naVComponent.entrySize(this)
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);
@@ -1754,6 +1755,8 @@ export default {
       this.dialogSpecialRequirements = false;
       this.dialogDiscount = false;
       this.cpIndex = null;
+      this.favorableRemark = null;
+      // this.specialRequirements = null;
     },
     specialRequirementsConfirm() {
       this.detailFormList.forEach((obj, index) => {
@@ -1762,7 +1765,7 @@ export default {
         }
       });
       this.specialRequirementsCancel();
-      console.log(this.detailFormList[0]);
+      // console.log(this.detailFormList[0]);
     },
     discountConfirm() {
       this.detailFormList.forEach((obj, index) => {
@@ -1772,7 +1775,7 @@ export default {
           obj.actual = obj.price - this.zhekouyouhui.favorable;
         }
       });
-      debugger;
+      // debugger;
       this.$set(
         this.detailFormList,
         this.cpIndex,
@@ -1786,30 +1789,21 @@ export default {
     tsyq(obj) {
       this.dialogSpecialRequirements = true;
       this.cpIndex = obj.$index;
-      console.log(obj.$index);
       this.specialRequirements = obj.row.demand;
     },
     zkyh(obj) {
-      this.dialogDiscount = true;
       this.cpIndex = obj.$index;
       this.zhekouyouhui = obj.row;
-      console.log(obj.$index);
+      this.favorableRemark = obj.row.favorableRemark;
+      this.dialogDiscount = true;
     },
     deliveryTimeDate(value, index) {
-      // var regexp = /^([1][7-9][0-9][0-9]|[2][0][0-9][0-9])(\-)([0][1-9]|[1][0-2])(\-)([0-2][1-9]|[3][0-1])$/g; /// 日期范围：1700-01-01 ----2099-01-01
-      // if (regexp.test(value) == 0) {
-      //   this.$message({
-      //     type: "warning",
-      //     message: "格式错误！日期范围：1700-01-01 ----2099-01-01",
-      //     center: true
-      //   });
-      // }
       // debugger
       this.$set(this.detailFormList, index, value);
       console.log(value);
     },
     confirmProduct() {
-       placeOrder.choose_product(this);
+      placeOrder.choose_product(this);
     },
     handleSelectionChange(val) {
       console.log(val);
@@ -1819,17 +1813,19 @@ export default {
       let data = {
         pageNum: pageIndex,
         pageSize: pageSize,
-         prescriptionNum: this.currentPrescriptions[0].prescriptionNum,
+        prescriptionNum: this.currentPrescriptions[0].prescriptionNum,
         qualification: this.seachProduct.qualification || null,
         name: this.seachProduct.name || null,
         nickname: this.seachProduct.nickname || null,
         source: this.seachProduct.productTypeValue || null,
         recordNumber: this.seachProduct.recordNumber || null,
         origin: this.seachProduct.origin || null
+        // siteId:this.xd_siteId
       };
       sales(data)
         .then(res => {
-           if (res.data.returnCode != 0) {
+          console.log(res);
+          if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
               message: res.data.returnMsg,
@@ -1847,35 +1843,7 @@ export default {
         });
     },
     calculation() {
-      this.paymentMethod.total =
-        this.paymentMethod.xj + this.paymentMethod.zz + this.paymentMethod.lkl;
-      this.paymentMethod.arrears = this.xqMoney();
-      debugger;
-      if (this.paymentMethod.total > this.paymentMethod.totalAmountReceivable) {
-        this.$message({
-          type: "warning",
-          message: "实收金额大于应收金额！请重新输入金额!",
-          center: true
-        });
-        this.paymentMethod.arrears = this.ysMoney();
-        this.paymentMethod.total = 0;
-      }
-
-      if (this.paymentMethod.xj > 0 && this.paymentMethod.zz > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.xj > 0 && this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.zz > 0 && this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 0;
-      } else if (this.paymentMethod.zz > 0) {
-        this.paymentMethod.lx = 3;
-      } else if (this.paymentMethod.xj > 0) {
-        this.paymentMethod.lx = 2;
-      } else if (this.paymentMethod.lkl > 0) {
-        this.paymentMethod.lx = 1;
-      } else {
-        this.paymentMethod.lx = null;
-      }
+     naVComponent.calculation(this)
     },
     readyOrderCancel() {
       this.dialogreadyOrder = false;
@@ -1885,77 +1853,12 @@ export default {
       this.paymentMethod.total = 0;
       this.paymentMethod.totalAmountReceivable = 0;
       this.paymentMethod.arrears = 0;
+      this.paymentMethod.lkl = 0;
+      this.paymentMethod.zz = 0;
+      this.paymentMethod.xj = 0;
     },
     orderingStart() {
-      let priceTatol = [];
-      for (let index = 0; index < this.detailFormList.length; index++) {
-        const element = this.detailFormList[index];
-        priceTatol.push(element.price);
-      }
-      let price = eval(priceTatol.join("+"));
-
-      let data = {
-        customerId: this.currentNamberId,
-        prescriptionId: this.currentPrescriptions[0].prescriptionId,
-        quickly: this.jjChecked == true ? 1 : 0,
-        price: price,
-        should: this.paymentMethod.totalAmountReceivable,
-        actual: this.paymentMethod.total,
-        lakala: this.paymentMethod.lkl,
-        cash: this.paymentMethod.xj,
-        transfer: this.paymentMethod.zz,
-        payType: this.paymentMethod.lx,
-        hospital: 1,
-        orderUserName: this.orderingPerson,
-        detailFormList: this.detailFormList
-      };
-      // debugger;
-       let jhrq = true;
-      this.detailFormList.forEach(obj => {
-        if (
-          obj.process == 1
-        ) {
-          if (!obj.deliveryTime) {
-            jhrq = false;
-            return jhrq;
-          }
-        }
-      });
-      if (data.actual < data.lakala + data.cash + data.transfer) {
-        this.$message({
-          type: "warning",
-          message: "支付金额大于应收金额请从新输入！",
-          center: true
-        });
-         } else if (jhrq === false) {
-        this.$message({
-          type: "warning",
-          message: "请填写交货日期！",
-          center: true
-        });
-      } else {
-        orderInsert(data)
-          .then(res => {
-            if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-              this.readyOrderCancel();
-              this.handleInfo(this.currentNamberId);
-              this.$message({
-                type: "success",
-                message: "下单成功！",
-                center: true
-              });
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
+      naVComponent.orderingStart(this)
     },
     readyOrder(obj) {
       this.dialogreadyOrder = true;
@@ -1964,7 +1867,25 @@ export default {
       this.orderingPerson = session.getItem("username");
     },
     sizeEntry(obj) {
-       let data = {
+      // if (!!obj.row.size && JSON.stringify(obj.row.size) != "{}") {
+      // let qxwc = obj.row.size["取型"]["围长"];
+      // let qxkd = obj.row.size["取型"]["宽度"];
+      // let qxgd = obj.row.size["取型"]["高度"];
+      // let qxzb = obj.row.size["取型"]["足部"];
+      // this.productSize.yq = obj.row.size["取型"]["要求"];
+      // for (let i in qxzb) {
+      //   this.productSize.zb.push({ name: i, value: qxzb[i] });
+      // }
+      // for (let i in qxwc) {
+      //   this.productSize.wc.push({ name: i, value: qxwc[i] });
+      // }
+      // for (let i in qxkd) {
+      //   this.productSize.kd.push({ name: i, value: qxkd[i] });
+      // }
+      // for (let i in qxgd) {
+      //   this.productSize.gd.push({ name: i, value: qxgd[i] });
+      // }
+      let data = {
         hospitalId: obj.row.hospitalId
       };
       selectUserListByHospitalId(data)
@@ -1987,45 +1908,57 @@ export default {
         .catch(err => {
           console.log(err);
         });
+
+      // } else {
+      //   this.$message({
+      //     type: "warning",
+      //     message: "暂无尺寸信息！",
+      //     center: true
+      //   });
+      // }
     },
     submitModfiy(formName) {
       // this.$refs[formName].validate(valid => {
-        let data = {
-          channel: 1,
-          memberName: this.ruleForm.name,
-          memberId: this.ruleForm.memberId,
-          phone: this.ruleForm.phone,
-          school: this.ruleForm.school || "",
-          sex: Number(this.ruleForm.sex),
-          birthday: this.ruleForm.birthday,
-          address: this.ruleForm.desc || "",
-          treatmentCycle: Number(this.ruleForm.zhouqi),
-          cognition: this.ruleForm.renzhi,
-          source: Number(this.ruleForm.laiyuan),
-          memberType: Number(this.ruleForm.memberType)
-        };
-        // console.log(data)
-        updateMemberInfo(data)
-          .then(res => {
-            if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-              this.$message({
-                type: "success",
-                message: "修改成功！",
-                center: true
-              });
-              this.resetForm("ruleForm");
-              this.pageList(this.pages.currentPage, this.pages.pageSize);
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
+      let data = {
+        channel: 1,
+        memberName: this.ruleForm.name,
+        memberId: this.ruleForm.memberId,
+        phone: this.ruleForm.phone,
+        school: this.ruleForm.school || "",
+        sex: Number(this.ruleForm.sex),
+        birthday: this.ruleForm.birthday,
+        address: this.ruleForm.desc || "",
+        treatmentCycle: Number(this.ruleForm.zhouqi),
+        cognition: this.ruleForm.renzhi,
+        source: Number(this.ruleForm.laiyuan),
+        memberType: Number(this.ruleForm.memberType),
+        siteId: this.addData[0].siteValue,
+        provinceId: this.addData[0].provinceId,
+        cityId: this.addData[0].cityId
+      };
+      // console.log(data)
+      updateMemberInfo(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.$message({
+              type: "success",
+              message: "修改成功！",
+              center: true
+            });
+            this.resetForm("ruleForm");
+            this.xiangxifanhui();
+            this.pageList(this.pages.currentPage, this.pages.pageSize);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
       // });
     },
     cancelDd() {
@@ -2041,14 +1974,14 @@ export default {
       this.addData[0].cityId = null;
     },
     addDd(obj) {
+      alert(1)
       if (
         obj[0].doctorValue != null &&
         obj[0].prescriptionValue != null &&
         obj[0].siteValue != null &&
         obj[0].provinceId != null &&
-        obj[0].cityId != null 
-        // &&
-        // obj[0].condition != null
+        obj[0].cityId != null
+        //  &&obj[0].condition != null
       ) {
         let data = {
           channel: 1,
@@ -2079,7 +2012,9 @@ export default {
                   center: true
                 });
                 this.cancelDd();
-                this.handleModify(this.currentNamberId);
+                // this.handleModify(this.currentNamberId);
+                this.resetForm("ruleForm");
+                this.xiangxifanhui();
               }
             })
             .catch(err => {
@@ -2102,7 +2037,9 @@ export default {
                   center: true
                 });
                 this.cancelDd();
-                this.handleModify(this.currentNamberId);
+                // this.handleModify(this.currentNamberId);
+                this.resetForm("ruleForm");
+                this.xiangxifanhui();
               }
             })
             .catch(err => {
@@ -2118,9 +2055,6 @@ export default {
       }
     },
     ddModfiy(obj) {
-      this.departmentList(obj.departmentId);
-      this.doctorList(obj.doctorId);
-      console.log(obj);
       this.dialogAddbd = true;
       this.departmentList(obj.hospitalId);
       this.doctorList(obj.departmentId);
@@ -2201,74 +2135,84 @@ export default {
       this.dialogFormVisible = true;
       this.addKeHuTitle = "新增客户";
       this.modefiy = false;
+      naVComponent.default_PCSH(this);
     },
     submitForm(formName) {
       // this.$refs[formName].validate(valid => {
-      //   console.log(this.addData[0].prescriptionValue);
-      //     valid &&
-        if (
-          valid &&
-          this.addData[0].prescriptionValue != null &&
-          this.addData[0].departmentValue != null &&
-          this.addData[0].doctorValue != null &&
-          this.addData[0].hospitalValue != null &&
-          !!this.addData[0].condition
-        ) {
-          let data = {
-            channel: 1,
-            memberName: this.ruleForm.name,
-            phone: this.ruleForm.phone,
-            school: this.ruleForm.school || "",
-            sex: Number(this.ruleForm.sex),
-            birthday: this.ruleForm.birthday,
-            address: this.ruleForm.desc || "",
-            treatmentCycle: Number(this.ruleForm.zhouqi),
-            cognition: this.ruleForm.renzhi,
-            source: Number(this.ruleForm.laiyuan),
-            memberType: Number(this.ruleForm.memberType),
-            doctorId: this.addData[0].doctorValue,
-            prescriptionType: this.addData[0].prescriptionValue,
-            condition: this.addData[0].condition,
-            illness: this.addData[0].obCondition || ""
-          };
-          // console.log(data)
-          addMember(data)
-            .then(res => {
-              if (res.data.returnCode != 0) {
-                this.$message({
-                  type: "warning",
-                  message: res.data.returnMsg,
-                  center: true
-                });
-              } else {
-                this.$message({
-                  type: "success",
-                  message: "新增成功！",
-                  center: true
-                });
-                this.resetForm("ruleForm");
-                this.pageList(this.pages.currentPage, this.pages.pageSize);
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } else {
-          this.$message({
-            type: "warning",
-            message: "请填写表格！",
-            center: true
+      // console.log(this.addData[0].prescriptionValue);
+      // valid &&
+      if (
+        this.addData[0].prescriptionValue != null &&
+        this.addData[0].departmentValue != null &&
+        this.addData[0].doctorValue != null &&
+        this.addData[0].hospitalValue != null &&
+        this.addData[0].siteValue != null &&
+        this.addData[0].provinceId != null &&
+        this.addData[0].cityId != null &&
+        !!this.addData[0].condition
+      ) {
+        let data = {
+          channel: 1,
+          memberName: this.ruleForm.name,
+          phone: this.ruleForm.phone,
+          school: this.ruleForm.school || "",
+          sex: Number(this.ruleForm.sex),
+          birthday: this.ruleForm.birthday,
+          address: this.ruleForm.desc || "",
+          treatmentCycle: Number(this.ruleForm.zhouqi),
+          cognition: this.ruleForm.renzhi,
+          source: Number(this.ruleForm.laiyuan),
+          memberType: Number(this.ruleForm.memberType),
+          doctorId: this.addData[0].doctorValue,
+          prescriptionType: this.addData[0].prescriptionValue,
+          condition: this.addData[0].condition,
+          illness: this.addData[0].obCondition || "",
+          siteId: this.addData[0].siteValue,
+          provinceId: this.addData[0].provinceId,
+          cityId: this.addData[0].cityId
+        };
+        // console.log(data)
+        addMember(data)
+          .then(res => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                type: "warning",
+                message: res.data.returnMsg,
+                center: true
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "新增成功！",
+                center: true
+              });
+              this.resetForm("ruleForm");
+              this.pageList(this.pages.currentPage, this.pages.pageSize);
+            }
+          })
+          .catch(err => {
+            console.log(err);
           });
-        }
+      } else {
+        this.$message({
+          type: "warning",
+          message: "请填写病单信息！",
+          center: true
+        });
+      }
       // });
     },
     resetForm(formName) {
       this.dialogFormVisible = false;
       this.addData[0].condition = null;
+      this.addData[0].obCondition = null;
       this.addData[0].prescriptionValue = null;
       this.addData[0].departmentValue = null;
       this.addData[0].doctorValue = null;
       this.addData[0].hospitalValue = null;
+      this.addData[0].siteValue = null;
+      this.addData[0].provinceId = null;
+      this.addData[0].cityId = null;
       this.$refs["ruleForm"].resetFields();
       this.ruleForm.name = null;
       this.ruleForm.memberId = null;
@@ -2282,14 +2226,13 @@ export default {
       this.ruleForm.memberType = null;
       this.ruleForm.desc = null;
       this.modefiy = false;
-      this.currentNamberId = null;
+      // this.currentNamberId = null;
       this.isBlackBut = null;
     },
     goBlack() {
       this.addBlack = true;
     },
     handleModify(id, isBlack) {
-      this.addKeHuTitle = "修改客户信息";
       this.currentNamberId = id;
       if (isBlack == "是") {
         this.isBlackBut = 2;
@@ -2303,6 +2246,7 @@ export default {
       queryForUpdate(data)
         .then(res => {
           this.dialogFormVisible = true;
+          this.addKeHuTitle = "修改客户信息";
           this.modefiy = true;
           // console.log("修改");
           // console.log(res);
@@ -2330,17 +2274,20 @@ export default {
       };
       queryMemberDetail(data)
         .then(res => {
-           if (res.data.returnCode != 0) {
+          if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
               message: res.data.returnMsg,
               center: true
             });
           } else {
+            // console.log("详情");
+            // console.log(res);
             this.dialogDepartmentDetails = true;
             this.Details = res.data.data.memberInfo;
             this.overdueList = res.data.data.overdueList;
-            this.memberCard[0] = res.data.data.memberCard;
+            this.$set(this.memberCard, 0, res.data.data.memberCard);
+            // this.memberCard[0] = res.data.data.memberCard;
             this.prescriptions = res.data.data.prescriptions;
             this.evaluates = res.data.data.evaluates;
             this.orders = res.data.data.orders;
@@ -2350,7 +2297,7 @@ export default {
           console.log(err);
         });
     },
-    //列表 //查询
+   //列表 //查询
     async pageList(pageIndex = 1, pageSize = 10) {
       let data = {
         pageNum: pageIndex,
@@ -2388,14 +2335,14 @@ export default {
       let pageSize = this.pages.pageSize;
       this.pageList(pageIndex, pageSize);
     },
-    //当前页面变化时
+    //产品页面变化时
     handleCurrentChangeProduct(num) {
       this.pagesProduct.currentPage = num;
       let pageIndex = this.pagesProduct.currentPage;
       let pageSize = this.pagesProduct.pageSize;
       this.salesList(pageIndex, pageSize);
     },
-    //页面条数发生变化时
+    //产品条数发生变化时
     handleSizeChangeProduct(val) {
       this.pagesProduct.pageSize = val;
       let pageIndex = this.pagesProduct.currentPage;
@@ -2403,21 +2350,15 @@ export default {
       this.salesList(pageIndex, pageSize);
     },
     //医院
-    // hospitals() {
-    //   getHospitalList()
-    //     .then(res => {
-    //       // console.log(res);
-    //       this.addData[0].hospitals = res.data.data;
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    // },
-    //根据测评中心获取医院列表
-    async hospitalList(id) {
-      let data = await hospital(id);
-      // this.seach.hospitalLists = data;
-      this.addData[0].hospitals = data;
+    hospitals() {
+      getHospitalList()
+        .then(res => {
+          // console.log(res);
+          this.addData[0].hospitals = res.data.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     //科室
     departmentList(id) {
@@ -2451,23 +2392,29 @@ export default {
     async provinceList() {
       let data = await province();
       this.seach.provinceIdList = data;
-      // this.transferSite.provinceIdList = data;
+      this.transferSite.provinceIdList = data;
     },
     //获取市
     async cityList(id) {
       let data = await city(id);
       this.seach.cityIdList = data;
-      // this.transferSite.cityIdList = data;
+      this.transferSite.cityIdList = data;
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      let data = await allSite(null,id);
+      let data = await allSite(null, id);
       this.seach.siteLists = data;
-      // this.transferSite.siteLists = data;
+      this.transferSite.siteLists = data;
+    },
+    //根据测评中心获取医院列表
+    async hospitalList(id) {
+      let data = await hospital(id);
+      // this.seach.hospitalLists = data;
+      this.addData[0].hospitals = data;
     },
     //服务人员列表
-    async userNameList_fuc() {
-      this.userNameList = await personnel();
+    async userNameList_fuc(id=null) {
+      this.seach.userNameList = await personnel(null,id);
     },
     isJiaJi() {
       // debugger
@@ -2475,7 +2422,6 @@ export default {
       this.paymentMethod.arrears = this.xqMoney();
     },
     ysMoney() {
-      // debugger
       let s = 0;
       this.detailFormList.forEach(val => {
         s += Number(val.actual);
@@ -2503,11 +2449,10 @@ export default {
   text-align: center;
   // margin-top: 10px;
   padding-bottom: 8px;
-  // border-bottom: 1px solid #e4e7ed;
+  border-bottom: 1px solid #e4e7ed;
   span {
     font-size: 14px;
     letter-spacing: 1px;
-    color: #606266;
   }
 }
 .client_info {
@@ -2559,6 +2504,9 @@ export default {
 .input-title {
   width: 5.5%;
   line-height: 30px;
+}
+.margin-t-20 {
+  margin-top: 20px;
 }
 .margin-t-5 {
   margin-top: 5px;

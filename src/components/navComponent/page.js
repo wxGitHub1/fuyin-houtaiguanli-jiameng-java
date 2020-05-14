@@ -7,7 +7,9 @@ import {
     getHospitalListByUser,
     examinePadZb3d,
     changeSite,
-    orderInsert
+    orderInsert,
+    orderUpdateNew,
+  refundMoney,
 } from "../../api/javaApi";
 // 下单默认选择第一项
 /**
@@ -205,18 +207,18 @@ function threeD_func(that){
     //判断交货日期必填
     let jhrq = true;
     that.detailFormList.forEach(obj => {
-      if (
-        obj.process == 1
-        // ||
-        // obj.source == "定制产品" ||
-        // obj.source == "试穿成品" ||
-        // obj.source == "外购产品"
-      ) {
+      // if (
+      //   obj.process < 6
+      //   // ||
+      //   // obj.source == "定制产品" ||
+      //   // obj.source == "试穿成品" ||
+      //   // obj.source == "外购产品"
+      // ) {
         if (!obj.deliveryTime) {
           jhrq = false;
           return jhrq;
         }
-      }
+      // }
     });
     // debugger;
     if (data.actual < data.lakala + data.cash + data.transfer) {
@@ -256,6 +258,81 @@ function threeD_func(that){
     }
   }
   /**
+   * 修改订单提交
+   * @param {*} that 
+   */
+ function modefiy_orderingStart(that) {
+    let data = {
+      id: that.currentNamberId,
+      // prescriptionId: that.currentPrescriptions[0].prescriptionId,
+      quickly: that.jjChecked === true ? 1 : 0,
+      // price: price,
+      should: that.paymentMethod.totalAmountReceivable,
+      actual: that.paymentMethod.total,
+      lakala: that.paymentMethod.lkl,
+      cash: that.paymentMethod.xj,
+      transfer: that.paymentMethod.zz,
+      payType: that.paymentMethod.lx,
+      // hospital: 1,
+      orderUserName: that.orderingPerson
+      // detailFormList: that.detailFormList
+    };
+    //判断交货日期必填
+    let jhrq = true;
+    that.detailFormList.forEach(obj => {
+      // if (
+      //   obj.process == 1
+      //   // obj.source == "自制产品" ||
+      //   // obj.source == "定制产品" ||
+      //   // obj.source == "试穿成品" ||
+      //   // obj.source == "外购产品"
+      // ) {
+        if (!obj.deliveryTime) {
+          jhrq = false;
+          return jhrq;
+        }
+      // }
+    });
+    if (data.actual < data.lakala + data.cash + data.transfer) {
+      that.$message({
+        type: "warning",
+        message: "支付金额大于应收金额请从新输入！",
+        center: true
+      });
+    } else if (jhrq === false) {
+      that.$message({
+        type: "warning",
+        message: "请填写交货日期！",
+        center: true
+      });
+    } else {
+      data.detailFormList = that.detailFormList;
+      // debugger;
+      orderUpdateNew(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            that.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            that.readyOrderCancel();
+            that.returnOn();
+            that.details(that.paymentMethod.orderNum);
+            that.$message({
+              type: "success",
+              message: "修改订单成功！",
+              center: true
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
+  /**
    * 保存尺寸录入信息
    * @param {*} that 
    */
@@ -276,6 +353,56 @@ function threeD_func(that){
     });
     that.sizeCancel();
   }
+/**
+ * 退款
+ * @param {*} that 
+ */
+ function addRefund(that) {
+    if (!!that.refund.reason) {
+      let detailForms = [];
+      let totalSum = 0;
+      that.refundData.forEach(obj => {
+        detailForms.push({ saleId: obj.id, price: obj.amount });
+        totalSum += Number(obj.amount);
+      });
+      that.refund.sum = totalSum;
+      let data = {
+        orderNum: that.paymentMethod.orderNum,
+        sum: that.refund.sum,
+        reason: that.refund.reason,
+        quickly: that.refund.quickly,
+        detailForms: detailForms
+      };
+      refundMoney(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            that.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            that.cancelRefund();
+            that.returnOn();
+            that.details(that.paymentMethod.orderNum);
+            that.$message({
+              type: "success",
+              message: "退款成功！",
+              center: true
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      that.$message({
+        type: "warning",
+        message: "请填写表格",
+        center: true
+      });
+    }
+  }
 export default{
     default_PCSH,
     threeD_func,
@@ -283,5 +410,7 @@ export default{
     confirmTransferSite_func,
     calculation,
     orderingStart,
-    entrySize
+    entrySize,
+    modefiy_orderingStart,
+    addRefund
 }
