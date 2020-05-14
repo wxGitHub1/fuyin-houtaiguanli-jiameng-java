@@ -5,13 +5,13 @@ import axios from '../utils/ajax';
  * baseUrl  接口路径
  */
 // const baseUrl  = 'http://117.34.105.87:8088';//服务器IP
-const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
+// const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
 // const baseUrl  = 'http://117.34.105.87:8086';//测试服务器IP
 // const baseUrl  = 'http://192.168.1.109:8088';//杨腾飞加盟IP
 // const baseUrl  = 'http://192.168.1.108:8087';//杨腾飞IP
 // const baseUrl  = 'http://192.168.1.108:8080';//杨腾飞IP
 // const baseUrl  = 'http://192.168.1.155:8088';//李思雨IP
-// const baseUrl  = 'http://192.168.1.113:8088';//李思雨IP
+const baseUrl  = 'http://192.168.1.113:8088';//李思雨IP
 // const baseUrl  = 'http://192.168.1.155:8087';//李思雨IP
 /*
 *
@@ -39,6 +39,7 @@ export const updateSite = async params => axios.post(baseUrl  + '/sys/site/updat
 export const selectSiteListByCityAndUser = async params => axios.post(baseUrl  + '/sys/site/selectSiteListByCityAndUser', params);//根据省市和当前登录人查询站点列表
 export const getCityList = async params => axios.get(baseUrl  + '/common/getCityList', params);//查询城清单
 export const getHospitalList = async params => axios.get(baseUrl  + '/hospital/getHospitalList', params);//查询医院清单
+export const getHospitalListByUser = async params => axios.get(baseUrl  + '/hospital/getHospitalListByUser', params);//根据站点查询医院清单
 export const getTechnicalList = async params => axios.get(baseUrl  + '/doctor/getTechnicalList', params);//查询职称清单
 export const GetHospitalTypeList = async params => axios.get(baseUrl  + '/hospital/getHospitalTypeList', params);//查询医院类型清单
 export const selectByPage = async params => axios.get(baseUrl  + '/hospital/selectByPage', params);//查询医院管理列表

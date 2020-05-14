@@ -4,6 +4,7 @@ import {
     selectSiteListByCity,
     selectSiteListByCityAndUser,
     getHospitalList,
+    getHospitalListByUser,
     examinePadZb3d,
     changeSite,
     orderInsert
@@ -38,7 +39,7 @@ function default_PCSH(that) {
                             that.seach.siteLists = data3;
                             addDataList[0].siteValue = data3[0].id;
                             let data_c = { siteId: data3[0].id };
-                            getHospitalList(data_c)
+                            getHospitalListByUser(data_c)
                                 .then(res => {
                                     let data4 = res.data.data;
                                     addDataList[0].hospitals = data4;

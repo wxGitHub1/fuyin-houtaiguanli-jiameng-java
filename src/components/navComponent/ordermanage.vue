@@ -1613,14 +1613,6 @@ export default {
     },
     entrySize() {
       naVComponent.entrySize(this)
-      // this.detailFormList.forEach((obj, index) => {
-      //   if (index == this.cpIndex) {
-      //     obj.detailFormList = this.productSize.list;
-      //     obj.xRay = this.productSize.radio;
-      //     obj.shapeUser = this.productSize.shapeUser;
-      //   }
-      // });
-      // this.sizeCancel();
     },
     sizeCancel() {
       this.dialogSizeDetails = false;

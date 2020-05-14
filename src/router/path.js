@@ -41,7 +41,6 @@ const FrontUser = resolve => require(['../components/frontUser'], resolve)
 export { Support, LoginPage, Evaluation, Front, TakeType, Modify, BigClient, OutWork, Process, Quality, TryClothes, Fiance, Warehouse, Return, Theory, SuperManage, Error, FrontUser };
 //根据当前链接地址 显示界面信息
 export function viewPage_function(arg) {
-  debugger
   let outworks = new RegExp("outwork");
   let bigclients = new RegExp("bigclient");
   let supermanage = new RegExp("supermanage");
