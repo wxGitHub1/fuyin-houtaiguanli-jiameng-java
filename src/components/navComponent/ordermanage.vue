@@ -995,7 +995,7 @@
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
           <template slot-scope="scope">
             <el-date-picker
-              v-if="scope.row.process < 6 ? true : false"
+              v-if="scope.row.orderType  == 3 ? true : false"
               v-model="scope.row.deliveryTime"
               @blur="deliveryTimeDate(scope.row,scope.$index)"
               style="width:100%"
@@ -1576,30 +1576,7 @@ export default {
       this.cpIndex = null;
     },
     sizeEntry(obj) {
-      let data = {
-        hospitalId: obj.row.hospitalId
-      };
-      selectUserListByHospitalId(data)
-        .then(res => {
-          if (res.data.returnCode != 0) {
-            this.$message({
-              type: "warning",
-              message: res.data.returnMsg,
-              center: true
-            });
-          } else {
-            console.log(res);
-            this.productSize.list = obj.row.sizeMapList;
-            this.productSize.shapeUser = obj.row.shapeUser;
-            this.productSize.radio = obj.row.xRay;
-            this.cpIndex = obj.$index;
-            this.dialogSizeDetails = true;
-            this.productSize.shapeUserList = res.data.data;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+     naVComponent.sizeEntry(this,obj)
     },
     tsyq(obj) {
       this.dialogSpecialRequirements = true;

@@ -10,6 +10,7 @@ import {
     orderInsert,
     orderUpdateNew,
   refundMoney,
+  selectUserListByHospitalId
 } from "../../api/javaApi";
 // 下单默认选择第一项
 /**
@@ -207,18 +208,18 @@ function threeD_func(that){
     //判断交货日期必填
     let jhrq = true;
     that.detailFormList.forEach(obj => {
-      // if (
-      //   obj.process < 6
-      //   // ||
-      //   // obj.source == "定制产品" ||
-      //   // obj.source == "试穿成品" ||
-      //   // obj.source == "外购产品"
-      // ) {
+      if (
+        obj.orderType == 3
+        // ||
+        // obj.source == "定制产品" ||
+        // obj.source == "试穿成品" ||
+        // obj.source == "外购产品"
+      ) {
         if (!obj.deliveryTime) {
           jhrq = false;
           return jhrq;
         }
-      // }
+      }
     });
     // debugger;
     if (data.actual < data.lakala + data.cash + data.transfer) {
@@ -280,18 +281,18 @@ function threeD_func(that){
     //判断交货日期必填
     let jhrq = true;
     that.detailFormList.forEach(obj => {
-      // if (
-      //   obj.process == 1
-      //   // obj.source == "自制产品" ||
-      //   // obj.source == "定制产品" ||
-      //   // obj.source == "试穿成品" ||
-      //   // obj.source == "外购产品"
-      // ) {
+      if (
+        obj.orderType == 3
+        // ||
+        // obj.source == "定制产品" ||
+        // obj.source == "试穿成品" ||
+        // obj.source == "外购产品"
+      ) {
         if (!obj.deliveryTime) {
           jhrq = false;
           return jhrq;
         }
-      // }
+      }
     });
     if (data.actual < data.lakala + data.cash + data.transfer) {
       that.$message({
@@ -403,6 +404,37 @@ function threeD_func(that){
       });
     }
   }
+  /**
+   * 尺寸录入并查询取型人
+   * @param {*} that 
+   * @param {*} obj 
+   */
+ function sizeEntry(that,obj) {
+    let data = {
+      hospitalId: obj.row.hospitalId
+    };
+    selectUserListByHospitalId(data)
+      .then(res => {
+        if (res.data.returnCode != 0) {
+          that.$message({
+            type: "warning",
+            message: res.data.returnMsg,
+            center: true
+          });
+        } else {
+          console.log(res);
+          that.productSize.list = obj.row.sizeMapList;
+          that.productSize.shapeUser = obj.row.shapeUser;
+          that.productSize.radio = obj.row.xRay;
+          that.cpIndex = obj.$index;
+          that.dialogSizeDetails = true;
+          that.productSize.shapeUserList = res.data.data;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 export default{
     default_PCSH,
     threeD_func,
@@ -412,5 +444,6 @@ export default{
     orderingStart,
     entrySize,
     modefiy_orderingStart,
-    addRefund
+    addRefund,
+    sizeEntry
 }

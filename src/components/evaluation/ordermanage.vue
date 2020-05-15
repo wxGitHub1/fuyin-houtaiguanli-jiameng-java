@@ -853,7 +853,7 @@
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
           <template slot-scope="scope">
             <el-date-picker
-              v-if="scope.row.process < 6 ? true : false"
+              v-if="scope.row.process == 3 ? true : false"
               v-model="scope.row.deliveryTime"
               @blur="deliveryTimeDate(scope.row,scope.$index)"
               style="width:100%"

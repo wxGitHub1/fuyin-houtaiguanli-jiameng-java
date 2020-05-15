@@ -63,7 +63,7 @@
       </el-col>
       <el-col :span="3">
         <el-button
-        v-if="tryOnly_show"
+          v-if="tryOnly_show"
           class="margin-l-p1"
           type="primary"
           size="small"
@@ -147,16 +147,34 @@
       <el-table-column width="60" align="center" prop="seq" label="序号"></el-table-column>
       <el-table-column align="center" prop="memberName" label="客户姓名" min-width="50"></el-table-column>
       <el-table-column align="center" prop="sex" label="性别" min-width="30"></el-table-column>
-      <el-table-column align="center" prop="phone" label="联系电话" :show-overflow-tooltip="true" min-width="50"></el-table-column>
+      <el-table-column
+        align="center"
+        prop="phone"
+        label="联系电话"
+        :show-overflow-tooltip="true"
+        min-width="50"
+      ></el-table-column>
       <el-table-column align="center" prop="isVIP" label="是否会员" min-width="50"></el-table-column>
       <el-table-column align="center" prop="isBlack" label="黑名单" min-width="40"></el-table-column>
       <el-table-column align="center" prop="productName" label="产品昵称"></el-table-column>
-      <el-table-column align="center" prop="status" label="状态" :show-overflow-tooltip="true" min-width="50"></el-table-column>
+      <el-table-column
+        align="center"
+        prop="status"
+        label="状态"
+        :show-overflow-tooltip="true"
+        min-width="50"
+      ></el-table-column>
       <el-table-column align="center" prop="orderNum" label="订单号"></el-table-column>
       <el-table-column align="center" prop="oweMoney" label="下欠金额" min-width="50"></el-table-column>
-      <el-table-column align="center" prop="orderDate" label="下单时间" :show-overflow-tooltip="true" min-width="50"></el-table-column>
+      <el-table-column
+        align="center"
+        prop="orderDate"
+        label="下单时间"
+        :show-overflow-tooltip="true"
+        min-width="50"
+      ></el-table-column>
       <!-- <el-table-column align="center" prop="siteName" label="测评中心" :show-overflow-tooltip="true" min-width="40"></el-table-column>
-      <el-table-column align="center" prop="visitFlagCN" label="到访状态" min-width="50"></el-table-column> -->
+      <el-table-column align="center" prop="visitFlagCN" label="到访状态" min-width="50"></el-table-column>-->
       <el-table-column v-if="tryOnly_show" align="center" label="操作" min-width="280">
         <template slot-scope="scope">
           <el-button
@@ -170,22 +188,19 @@
           <el-button @click="qxjd(scope.row,310)" type="warning" size="small">取型</el-button>
           <el-button @click="qxjd(scope.row,363)" type="success" size="small">试穿</el-button>
           <el-button @click="qxjd(scope.row,366)" type="primary" size="small">维修</el-button>
-          <el-button @click="czpj(scope.row)" v-if="scope.row.firstCognitionFlag == 0" type="danger" size="small">初诊</el-button>
           <el-button
-            @click="handleInfo(scope.row.memberId)"
-            type="info"
+            @click="czpj(scope.row)"
+            v-if="scope.row.firstCognitionFlag == 0"
+            type="danger"
             size="small"
-          >详情</el-button>
+          >初诊</el-button>
+          <el-button @click="handleInfo(scope.row.memberId)" type="info" size="small">详情</el-button>
         </template>
       </el-table-column>
       <el-table-column v-else align="center" label="操作">
-          <template slot-scope="scope">
-              <el-button
-                @click="handleInfo(scope.row.memberId)"
-                type="info"
-                size="small"
-              >详情</el-button>
-          </template>
+        <template slot-scope="scope">
+          <el-button @click="handleInfo(scope.row.memberId)" type="info" size="small">详情</el-button>
+        </template>
       </el-table-column>
     </el-table>
     <!-- Pagination 分页 -->
@@ -276,7 +291,10 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="就诊类型" prop="memberType">
-              <el-radio-group v-model="ruleForm.memberType" @change="isRequired(ruleForm.memberType)">
+              <el-radio-group
+                v-model="ruleForm.memberType"
+                @change="isRequired(ruleForm.memberType)"
+              >
                 <el-radio label="2">固定类</el-radio>
                 <el-radio label="1">矫形类</el-radio>
               </el-radio-group>
@@ -1078,7 +1096,7 @@
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
           <template slot-scope="scope">
             <el-date-picker
-              v-if="scope.row.process < 6 ? true : false"
+              v-if="scope.row.orderType  == 3 ? true : false"
               v-model="scope.row.deliveryTime"
               @blur="deliveryTimeDate(scope.row,scope.$index)"
               style="width:100%"
@@ -1372,7 +1390,13 @@
         <div v-for="item in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
+            <el-input
+              v-model="item.value"
+              style="width：100%"
+              size="small"
+              placeholder="请输入"
+              oninput="value=value.replace(/[^\d.]/g,'')"
+            ></el-input>
           </div>
         </div>
         <div class="cpSize">
@@ -1698,7 +1722,7 @@
         <!-- <div class="margin-t-5">
           <span>新增病情:</span>
           <span class="margin-r-20">{{item.normal}}</span>
-        </div> -->
+        </div>-->
         <div class="margin-t-5">
           <span>测评结果:</span>
           <span class="margin-r-20">{{item.result}}</span>
@@ -1829,7 +1853,7 @@
         <el-button type="success" icon="el-icon-picture-outline" v-on:click="getPdf()">导出PDF</el-button>
       </div>
     </el-dialog>
-     <!-- dialog 足长足宽修改-->
+    <!-- dialog 足长足宽修改-->
     <el-dialog title="足长足宽修改" :visible.sync="threeDDialg" :close-on-click-modal="false" width="30%">
       <el-form :model="threeD_ObjFrom" :inline="true" size="mini" label-width="80px">
         <el-form-item v-for="(item,index) in threeD_ObjFrom.list" :key="index" :label="item.name">
@@ -1890,7 +1914,7 @@ import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import Print from "../commonComponent/PrintTemplate";
 import placeOrder from "../navComponent/place_order";
-import {viewPage_function} from "../../router/path";
+import { viewPage_function } from "../../router/path";
 import naVComponent from "../navComponent/page";
 import naVComponent_variable from "../navComponent/page_variable";
 import frontDesk_variable from "./frontDesk_variable";
@@ -1940,7 +1964,7 @@ export default {
       },
       isBlackBut: null,
       currentPrescriptions: [],
-      seach:frontDesk_variable.seach,
+      seach: frontDesk_variable.seach,
       clientData: [],
       //分页
       pages: {
@@ -2115,7 +2139,7 @@ export default {
         { name: "赠送产品", id: 4 }
       ],
       overdueList: [],
-      tryOnly_show:true,
+      tryOnly_show: true,
       isShowVal: null,
       threeD_ObjFrom: {
         list: []
@@ -2138,19 +2162,19 @@ export default {
     this.init();
   },
   methods: {
-    Adddis_fuc(){
-       this.dialogAddbd = true
-       naVComponent.default_PCSH(this)
-     },
-     threeD_func() {
-       naVComponent.threeD_func(this)
+    Adddis_fuc() {
+      this.dialogAddbd = true;
+      naVComponent.default_PCSH(this);
+    },
+    threeD_func() {
+      naVComponent.threeD_func(this);
     },
     threeD_show(obj) {
       this.threeD_ObjFrom.list = obj;
       this.threeDDialg = true;
     },
     isRequired(val) {
-      naVComponent.isRequired(this,val)
+      naVComponent.isRequired(this, val);
     },
     init() {
       if (viewPage_function(String(window.location.href)) == "试穿") {
@@ -2189,7 +2213,7 @@ export default {
         });
     },
     confirmTransferSite_func() {
-      naVComponent.confirmTransferSite_func(this)
+      naVComponent.confirmTransferSite_func(this);
     },
     cancelTransfer_func() {
       this.transferSite.provinceValue = null;
@@ -2260,10 +2284,90 @@ export default {
       };
     },
     rowspan() {
-      frontDesk.rowspan(this)
+      frontDesk.rowspan(this);
     },
     objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-        frontDesk.objectSpanMethod(this,rowIndex, columnIndex)
+      if (columnIndex === 0) {
+        const _row = this.spanArr[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
+      if (columnIndex === 1) {
+        const _row = this.spanArr[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
+      if (columnIndex === 2) {
+        const _row = this.spanArr[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
+      if (columnIndex === 3) {
+        const _row = this.spanArr[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
+      if (columnIndex === 4) {
+        const _row = this.spanArr[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
+
+      if (columnIndex === 5) {
+        const _row = this.spanArr[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
+      if (columnIndex === 8) {
+        const _row = this.spanArr2[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
+      if (columnIndex === 9) {
+        const _row = this.spanArr2[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
+      if (columnIndex === 10) {
+        const _row = this.spanArr2[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
+      if (columnIndex === 11) {
+        const _row = this.spanArr[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
     },
     evaluationDetails(id) {
       this.only_recordId = id;
@@ -2595,7 +2699,7 @@ export default {
       this.personnel(9, obj.siteId);
     },
     entrySize() {
-      naVComponent.entrySize(this)
+      naVComponent.entrySize(this);
     },
     sizeCancel() {
       this.dialogSizeDetails = false;
@@ -2700,7 +2804,7 @@ export default {
         });
     },
     calculation() {
-      naVComponent.calculation(this)
+      naVComponent.calculation(this);
     },
     readyOrderCancel() {
       this.dialogreadyOrder = false;
@@ -2715,7 +2819,7 @@ export default {
       this.paymentMethod.xj = 0;
     },
     orderingStart() {
-      naVComponent.orderingStart(this)
+      naVComponent.orderingStart(this);
     },
     readyOrder(obj) {
       this.dialogreadyOrder = true;
@@ -2724,10 +2828,29 @@ export default {
       this.orderingPerson = session.getItem("username");
     },
     sizeEntry(obj) {
+      naVComponent.sizeEntry(this, obj);
+    },
+    submitModfiy(formName) {
+      // this.$refs[formName].validate(valid => {
       let data = {
-        hospitalId: obj.row.hospitalId
+        channel: 0,
+        memberName: this.ruleForm.name,
+        memberId: this.ruleForm.memberId,
+        phone: this.ruleForm.phone,
+        school: this.ruleForm.school || "",
+        sex: Number(this.ruleForm.sex),
+        birthday: this.ruleForm.birthday,
+        address: this.ruleForm.desc || "",
+        treatmentCycle: Number(this.ruleForm.zhouqi),
+        cognition: this.ruleForm.renzhi,
+        source: Number(this.ruleForm.laiyuan),
+        memberType: Number(this.ruleForm.memberType),
+        siteId: this.addData[0].siteValue,
+        provinceId: this.addData[0].provinceId,
+        cityId: this.addData[0].cityId
       };
-      selectUserListByHospitalId(data)
+      // console.log(data)
+      updateMemberInfo(data)
         .then(res => {
           if (res.data.returnCode != 0) {
             this.$message({
@@ -2736,60 +2859,19 @@ export default {
               center: true
             });
           } else {
-            console.log(res);
-            this.productSize.list = obj.row.sizeMapList;
-            this.productSize.radio = obj.row.xRay;
-            this.cpIndex = obj.$index;
-            this.dialogSizeDetails = true;
-            this.productSize.shapeUserList = res.data.data;
+            this.$message({
+              type: "success",
+              message: "修改成功！",
+              center: true
+            });
+            this.resetForm("ruleForm");
+            this.xiangxifanhui();
+            this.pageList(this.pages.currentPage, this.pages.pageSize);
           }
         })
         .catch(err => {
           console.log(err);
         });
-    },
-    submitModfiy(formName) {
-      // this.$refs[formName].validate(valid => {
-        let data = {
-          channel: 0,
-          memberName: this.ruleForm.name,
-          memberId: this.ruleForm.memberId,
-          phone: this.ruleForm.phone,
-          school: this.ruleForm.school || "",
-          sex: Number(this.ruleForm.sex),
-          birthday: this.ruleForm.birthday,
-          address: this.ruleForm.desc || "",
-          treatmentCycle: Number(this.ruleForm.zhouqi),
-          cognition: this.ruleForm.renzhi,
-          source: Number(this.ruleForm.laiyuan),
-          memberType: Number(this.ruleForm.memberType),
-          siteId: this.addData[0].siteValue,
-          provinceId: this.addData[0].provinceId,
-          cityId: this.addData[0].cityId
-        };
-        // console.log(data)
-        updateMemberInfo(data)
-          .then(res => {
-            if (res.data.returnCode != 0) {
-              this.$message({
-                type: "warning",
-                message: res.data.returnMsg,
-                center: true
-              });
-            } else {
-              this.$message({
-                type: "success",
-                message: "修改成功！",
-                center: true
-              });
-              this.resetForm("ruleForm");
-              this.xiangxifanhui();
-              this.pageList(this.pages.currentPage, this.pages.pageSize);
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
       // });
     },
     cancelDd() {
@@ -2810,7 +2892,7 @@ export default {
         obj[0].prescriptionValue != null &&
         obj[0].siteValue != null &&
         obj[0].provinceId != null &&
-        obj[0].cityId != null 
+        obj[0].cityId != null
         // &&
         // obj[0].condition != null
       ) {
@@ -2930,65 +3012,65 @@ export default {
       // this.$refs[formName].validate(valid => {
       //   // console.log(this.addData[0].prescriptionValue);
       //     valid &&
-        if (
-          this.addData[0].prescriptionValue != null &&
-          this.addData[0].departmentValue != null &&
-          this.addData[0].doctorValue != null &&
-          this.addData[0].hospitalValue != null &&
-          this.addData[0].siteValue != null &&
-          this.addData[0].provinceId != null &&
-          this.addData[0].cityId != null &&
-          !!this.addData[0].condition
-        ) {
-          let data = {
-            channel: 0,
-            memberName: this.ruleForm.name,
-            phone: this.ruleForm.phone,
-            school: this.ruleForm.school || "",
-            sex: Number(this.ruleForm.sex),
-            birthday: this.ruleForm.birthday,
-            address: this.ruleForm.desc || "",
-            treatmentCycle: Number(this.ruleForm.zhouqi),
-            cognition: this.ruleForm.renzhi,
-            source: Number(this.ruleForm.laiyuan),
-            memberType: Number(this.ruleForm.memberType),
-            doctorId: this.addData[0].doctorValue,
-            prescriptionType: this.addData[0].prescriptionValue,
-            condition: this.addData[0].condition,
-            illness: this.addData[0].obCondition || "",
-            siteId: this.addData[0].siteValue,
-            provinceId: this.addData[0].provinceId,
-            cityId: this.addData[0].cityId
-          };
-          // console.log(data)
-          addMember(data)
-            .then(res => {
-              if (res.data.returnCode != 0) {
-                this.$message({
-                  type: "warning",
-                  message: res.data.returnMsg,
-                  center: true
-                });
-              } else {
-                this.$message({
-                  type: "success",
-                  message: "新增成功！",
-                  center: true
-                });
-                this.resetForm("ruleForm");
-                this.pageList(this.pages.currentPage, this.pages.pageSize);
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } else {
-          this.$message({
-            type: "warning",
-            message: "请填写表格！",
-            center: true
+      if (
+        this.addData[0].prescriptionValue != null &&
+        this.addData[0].departmentValue != null &&
+        this.addData[0].doctorValue != null &&
+        this.addData[0].hospitalValue != null &&
+        this.addData[0].siteValue != null &&
+        this.addData[0].provinceId != null &&
+        this.addData[0].cityId != null &&
+        !!this.addData[0].condition
+      ) {
+        let data = {
+          channel: 0,
+          memberName: this.ruleForm.name,
+          phone: this.ruleForm.phone,
+          school: this.ruleForm.school || "",
+          sex: Number(this.ruleForm.sex),
+          birthday: this.ruleForm.birthday,
+          address: this.ruleForm.desc || "",
+          treatmentCycle: Number(this.ruleForm.zhouqi),
+          cognition: this.ruleForm.renzhi,
+          source: Number(this.ruleForm.laiyuan),
+          memberType: Number(this.ruleForm.memberType),
+          doctorId: this.addData[0].doctorValue,
+          prescriptionType: this.addData[0].prescriptionValue,
+          condition: this.addData[0].condition,
+          illness: this.addData[0].obCondition || "",
+          siteId: this.addData[0].siteValue,
+          provinceId: this.addData[0].provinceId,
+          cityId: this.addData[0].cityId
+        };
+        // console.log(data)
+        addMember(data)
+          .then(res => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                type: "warning",
+                message: res.data.returnMsg,
+                center: true
+              });
+            } else {
+              this.$message({
+                type: "success",
+                message: "新增成功！",
+                center: true
+              });
+              this.resetForm("ruleForm");
+              this.pageList(this.pages.currentPage, this.pages.pageSize);
+            }
+          })
+          .catch(err => {
+            console.log(err);
           });
-        }
+      } else {
+        this.$message({
+          type: "warning",
+          message: "请填写表格！",
+          center: true
+        });
+      }
       // });
     },
     resetForm(formName) {
@@ -3245,7 +3327,7 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      let data = await allSite(null,id);
+      let data = await allSite(null, id);
       this.seach.siteLists = data;
       this.transferSite.siteLists = data;
     },
@@ -3270,7 +3352,8 @@ export default {
       return s;
     },
     xqMoney() {
-      let s = this.paymentMethod.totalAmountReceivable - this.paymentMethod.total;
+      let s =
+        this.paymentMethod.totalAmountReceivable - this.paymentMethod.total;
       return s.toFixed(2);
     }
   }
@@ -3330,7 +3413,7 @@ export default {
   .span {
     display: inline-block;
     margin-bottom: 10px;
-     width: 30%;
+    width: 30%;
   }
   .div {
     display: inline-block;

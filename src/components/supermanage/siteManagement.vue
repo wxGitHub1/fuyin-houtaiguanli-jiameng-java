@@ -118,7 +118,7 @@
       <el-table-column align="center" prop="sitePhone" label="联系电话"></el-table-column>
       <el-table-column align="center" prop="siteAddress" label="测评中心地址"></el-table-column>
       <el-table-column align="center" prop="siteLeaders" label="负责人"></el-table-column>
-      <el-table-column align="center" prop="siteUsers" label="员工"></el-table-column>
+      <el-table-column align="center" prop="siteUsers" show-overflow-tooltip  label="员工"></el-table-column>
       <el-table-column align="center" prop="siteCreateTime" label="创建时间"></el-table-column>
       <el-table-column align="center" prop="orderUserName" label="操作">
         <template slot-scope="scope">
@@ -333,7 +333,8 @@ export default {
           }
         ]
       }, 
-      hasRole:2
+      hasRole:2,
+      leaderIdsList:[]
     };
   },
   mounted() {

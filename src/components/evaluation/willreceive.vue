@@ -860,7 +860,7 @@
         <el-table-column prop="deliveryTime" label="交货日期" min-width="150">
           <template slot-scope="scope">
             <el-date-picker
-              v-if="scope.row.process < 6 ? true : false"
+              v-if="scope.row.orderType  == 3 ? true : false"
               v-model="scope.row.deliveryTime"
               @blur="deliveryTimeDate(scope.row,scope.$index)"
               style="width:100%"
@@ -1867,55 +1867,7 @@ export default {
       this.orderingPerson = session.getItem("username");
     },
     sizeEntry(obj) {
-      // if (!!obj.row.size && JSON.stringify(obj.row.size) != "{}") {
-      // let qxwc = obj.row.size["取型"]["围长"];
-      // let qxkd = obj.row.size["取型"]["宽度"];
-      // let qxgd = obj.row.size["取型"]["高度"];
-      // let qxzb = obj.row.size["取型"]["足部"];
-      // this.productSize.yq = obj.row.size["取型"]["要求"];
-      // for (let i in qxzb) {
-      //   this.productSize.zb.push({ name: i, value: qxzb[i] });
-      // }
-      // for (let i in qxwc) {
-      //   this.productSize.wc.push({ name: i, value: qxwc[i] });
-      // }
-      // for (let i in qxkd) {
-      //   this.productSize.kd.push({ name: i, value: qxkd[i] });
-      // }
-      // for (let i in qxgd) {
-      //   this.productSize.gd.push({ name: i, value: qxgd[i] });
-      // }
-      let data = {
-        hospitalId: obj.row.hospitalId
-      };
-      selectUserListByHospitalId(data)
-        .then(res => {
-          if (res.data.returnCode != 0) {
-            this.$message({
-              type: "warning",
-              message: res.data.returnMsg,
-              center: true
-            });
-          } else {
-            console.log(res);
-            this.productSize.list = obj.row.sizeMapList;
-            this.productSize.radio = obj.row.xRay;
-            this.cpIndex = obj.$index;
-            this.dialogSizeDetails = true;
-            this.productSize.shapeUserList = res.data.data;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-
-      // } else {
-      //   this.$message({
-      //     type: "warning",
-      //     message: "暂无尺寸信息！",
-      //     center: true
-      //   });
-      // }
+      naVComponent.sizeEntry(this,obj)
     },
     submitModfiy(formName) {
       // this.$refs[formName].validate(valid => {
