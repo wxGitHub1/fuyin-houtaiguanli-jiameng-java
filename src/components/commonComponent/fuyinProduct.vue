@@ -5,7 +5,7 @@
       <div v-else>
         <h3
           class="title"
-        >{{productTitle.baseProductName}}[{{productTitle.baseProductNickname}}-{{productTitle.baseProductModel}}]-{{productTitle.recordNumber}}</h3>
+        >{{productTitle.baseProductName}}[{{productTitle.baseProductNickname}}-{{productTitle.baseProductModel}}]-{{productTitle.recordNumber}}-{{productTitle.baseProductUnit}}</h3>
         <table class="border margin-b-20">
           <tr>
             <td class="border-b">姓名</td>
