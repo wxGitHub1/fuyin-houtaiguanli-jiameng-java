@@ -1,3 +1,4 @@
+// 已回访
 <template>
   <div>
     <!-- seach -->
@@ -2813,6 +2814,7 @@ import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import javaApi from "../../api/javaApi";
 import Clipboard from "clipboard";
+import return_variable from "./return_variable";
 export default {
   name: "App",
   data() {
@@ -2891,27 +2893,9 @@ export default {
       phoneList: [],
       //模板表显示
       productItem_box: false,
-      productItem: {
-        item_1: false,
-        item_2: false,
-        item_3: false,
-        item_4: false,
-        item_5: false,
-        item_6: false,
-        item_7: false,
-        item_8: false
-      },
+      productItem: return_variable.productItem,
       //体验回访详情
-      productItemUse: {
-        item_1: false,
-        item_2: false,
-        item_3: false,
-        item_4: false,
-        item_5: false,
-        item_6: false,
-        item_7: false,
-        item_8: false
-      },
+      productItemUse: return_variable.productItemUse,
       usePhoneStatus: null,
       usePhone: null,
       useWaitTime: null,
@@ -2939,219 +2923,8 @@ export default {
       zysx_2: ["运动", "皮肤护理", "按摩"],
       zysx_3: ["运动", "皮肤护理", "生活习惯"],
       visitShow:1,
-      data_box_use: [
-        {
-          productType: 1,
-          experienceUseTime: null,
-          experienceSatisfaction: null,
-          experienceUseEffect: null,
-          experienceNotice: [],
-          experienceCTaxian: null,
-          experienceCKaijiao: null,
-          experienceZKaijiao: null,
-          experienceZDuanceng: null,
-          experienceProblemHave: null,
-          experienceProblemDo: null
-        },
-        {
-          productType: 2,
-          experienceUseTime: null,
-          experienceSatisfaction: null,
-          experienceUseEffect: null,
-          experienceNotice: [],
-          experienceMopifu: null,
-          experienceZimukouqiaoqi: null,
-          experienceGuanjielinghuodu: null,
-          experienceProblemHave: null,
-          experienceProblemDo: null
-        },
-        {
-          productType: 3,
-          experienceUseTime: null,
-          experienceSatisfaction: null,
-          experienceUseEffect: null,
-          experienceNotice: [],
-          experienceZhijuxiahua: null,
-          experienceLuosisongdong: null,
-          experienceZimukouqiaoqi: null,
-          experienceMopifu: null,
-          experienceProblemHave: null,
-          experienceProblemDo: null
-        },
-        {
-          productType: 4,
-          experienceUseTime: null,
-          experienceSatisfaction: null,
-          experienceUseEffect: null,
-          experienceNotice: [],
-          experienceLuosisongdong: null,
-          experienceZimukouqiaoqi: null,
-          experienceMopifu: null,
-          experienceProblemHave: null,
-          experienceProblemDo: null
-        },
-        {
-          productType: 5,
-          experienceUseTime: null,
-          experienceSatisfaction: null,
-          experienceUseEffect: null,
-          experienceNotice: [],
-          experienceMopifu: null,
-          experienceZhijuxiahua: null,
-          experienceZimukouqiaoqi: null,
-          experienceProblemHave: null,
-          experienceProblemDo: null
-        },
-        {
-          productType: 6,
-          experienceUseTime: null,
-          experienceSatisfaction: null,
-          experienceUseEffect: null,
-          experienceNotice: [],
-          experienceJiaodusongdong: null,
-          experienceMopifu: null,
-          experienceProblemHave: null,
-          experienceProblemDo: null
-        },
-        {
-          productType: 7,
-          experienceUseTime: null,
-          experienceSatisfaction: null,
-          experienceUseEffect: null,
-          experienceNotice: [],
-          experienceMopifu: null,
-          experienceJiaodubianhua: null,
-          experienceButai: null,
-          experienceProblemHave: null,
-          experienceProblemDo: null
-        },
-        {
-          productType: 8,
-          experienceUseTime: null,
-          experienceSatisfaction: null,
-          experienceUseEffect: null,
-          experienceNotice: [],
-          experienceZimukouqiaoqi: null,
-          experienceMopifu: null,
-          experienceQita: null,
-          experienceProblemHave: null,
-          experienceProblemDo: null
-        }
-      ],
-      data_box: [
-        {
-          productType: 1,
-          useUseTime: null,
-          useHeightWeight: null,
-          useSatisfaction: null,
-          useNotice: [],
-          useClean: null,
-          useDicengkailie: null,
-          useUseEffect: null,
-          useCTaxian: null,
-          useMopifu: null,
-          useProblemHave: null,
-          useProblemDo: null
-        },
-        {
-          productType: 2,
-          useUseTime: null,
-          useHeightWeight: null,
-          useSatisfaction: null,
-          useNotice: [],
-          useClean: null,
-          useUseEffect: null,
-          useMopifu: null,
-          useNilongdai: null,
-          useZhijubianxing: null,
-          useProblemHave: null,
-          useProblemDo: null
-        },
-        {
-          productType: 3,
-          useUseTime: null,
-          useHeightWeight: null,
-          useSatisfaction: null,
-          useNotice: [],
-          useClean: null,
-          useUseEffect: null,
-          useMopifu: null,
-          useNilongdai: null,
-          useZhijubianxing: null,
-          useProblemHave: null,
-          useProblemDo: null
-        },
-        {
-          productType: 4,
-          useUseTime: null,
-          useHeightWeight: null,
-          useSatisfaction: null,
-          useNotice: [],
-          useClean: null,
-          useUseEffect: null,
-          useMopifu: null,
-          useNilongdai: null,
-          useLuosisongdong: null,
-          useProblemHave: null,
-          useProblemDo: null
-        },
-        {
-          productType: 5,
-          useUseTime: null,
-          useHeightWeight: null,
-          useSatisfaction: null,
-          useNotice: [],
-          useClean: null,
-          useUseEffect: null,
-          useMopifu: null,
-          useNilongdai: null,
-          useZhijubianxing: null,
-          useProblemHave: null,
-          useProblemDo: null
-        },
-        {
-          productType: 6,
-          useUseTime: null,
-          useHeightWeight: null,
-          useSatisfaction: null,
-          useNotice: [],
-          useClean: null,
-          useUseEffect: null,
-          useMopifu: null,
-          useNilongdai: null,
-          useJiaodusongdong: null,
-          useProblemHave: null,
-          useProblemDo: null
-        },
-        {
-          productType: 7,
-          useUseTime: null,
-          useHeightWeight: null,
-          useSatisfaction: null,
-          useNotice: [],
-          useClean: null,
-          useUseEffect: null,
-          useMopifu: null,
-          useLianjiechutuokai: null,
-          useButai: null,
-          useProblemHave: null,
-          useProblemDo: null
-        },
-        {
-          productType: 8,
-          useUseTime: null,
-          useHeightWeight: null,
-          useSatisfaction: null,
-          useNotice: [],
-          useClean: null,
-          useUseEffect: null,
-          useMopifu: null,
-          useNilongdai: null,
-          useZimukoushengxiu: null,
-          useProblemHave: null,
-          useProblemDo: null
-        }
-      ]
+      data_box_use: return_variable.data_box_use,
+      data_box:return_variable.data_box,
     };
   },
   mounted() {
