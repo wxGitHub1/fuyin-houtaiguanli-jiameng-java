@@ -2885,6 +2885,7 @@ export default {
       this.addData[0].siteValue = null;
       this.addData[0].provinceId = null;
       this.addData[0].cityId = null;
+      this.bianhao=null
     },
     addDd(obj) {
       if (

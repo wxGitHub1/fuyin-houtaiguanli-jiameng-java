@@ -778,9 +778,9 @@
         >确认移出</el-button>
       </div>
     </el-dialog>
-    <!-- dialog 新增病单-->
+    <!-- dialog 新增/修改病单-->
     <el-dialog
-      title="新增病单"
+      :title="bdTitle"
       :visible.sync="dialogAddbd"
       center
       :close-on-click-modal="false"
@@ -1829,7 +1829,8 @@ export default {
         list: []
       },
       threeDDialg: false,
-      only_recordId: null
+      only_recordId: null,
+      bdTitle:"新增病单"
     };
   },
   components: {
@@ -1843,6 +1844,7 @@ export default {
   methods: {
      Adddis_fuc(){
        this.dialogAddbd = true
+       this.bdTitle='新增病单'
        naVComponent.default_PCSH(this)
      },
     threeD_func() {
@@ -2153,9 +2155,10 @@ export default {
       this.addData[0].siteValue = null;
       this.addData[0].provinceId = null;
       this.addData[0].cityId = null;
+      this.bianhao=null
     },
     addDd(obj) {
-      alert(1)
+      // alert(1)
       if (
         obj[0].doctorValue != null &&
         obj[0].prescriptionValue != null &&
@@ -2237,6 +2240,7 @@ export default {
     },
     ddModfiy(obj) {
       this.dialogAddbd = true;
+      this.bdTitle="修改病单"
       this.departmentList(obj.hospitalId);
       this.doctorList(obj.departmentId);
       this.addData[0].condition = obj.condition;
