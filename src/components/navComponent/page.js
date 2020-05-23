@@ -526,6 +526,19 @@ function threeD_func(that){
     that.discount = null;
     // that.specialRequirements = null;
   }
+  /**
+   * 下单列表点击表格选中一行数据
+   * @param {*} that 
+   * @param {*} row 
+   * @param {*} column 
+   * @param {*} cell 
+   * @param {*} event 
+   */
+ function dblclick_table_fuc(that,row, column, cell, event){
+  that.multipleSelection.push(row)
+  that.$refs.multipleTable.setCurrentRow(row);
+  that.$refs.multipleTable.toggleRowSelection(row);
+}
 export default{
     default_PCSH,
     threeD_func,
@@ -540,5 +553,6 @@ export default{
     zkyh,
     discount_fuc,
     discountConfirm,
-    specialRequirementsCancel
+    specialRequirementsCancel,
+    dblclick_table_fuc
 }

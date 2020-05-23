@@ -1266,7 +1266,9 @@
         ref="multipleTable"
         :data="productData"
         tooltip-effect="dark"
+        highlight-current-row
         @selection-change="handleSelectionChange"
+         @row-dblclick='dblclick_table_fuc'
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
@@ -1847,6 +1849,16 @@ export default {
   },
   computed: {},
   methods: {
+    dblclick_table_fuc(row, column, cell, event){
+        console.log(row)
+        this.multipleSelection.push(row)
+        // if (rows) {
+        //   rows.forEach(row => {
+          this.$refs.multipleTable.setCurrentRow(row);
+            this.$refs.multipleTable.toggleRowSelection(row);
+        //   
+        
+    },
     discount_fuc(value) {
       naVComponent.discount_fuc(this,value)
     },
