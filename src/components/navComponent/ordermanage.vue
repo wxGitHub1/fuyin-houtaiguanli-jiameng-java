@@ -1132,7 +1132,11 @@
       :before-close="specialRequirementsCancel"
     >
       <div>标准价格：{{zhekouyouhui.price}}</div>
-      <div>
+      <div class="margin-t-20">
+        优惠折扣：
+        <input type="text" class="input" v-model="discount" oninput="value=value.replace(/[^\d.]/g,'')" @change="discount_fuc(discount)" />
+      </div>
+      <!-- <div>
         折扣价格：
         <input
           type="text"
@@ -1140,7 +1144,7 @@
           v-model="zhekouyouhui.favorable"
           oninput="value=value.replace(/[^\d.]/g,'')"
         />
-      </div>
+      </div> -->
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
       <div slot="footer" class="dialog-footer">
@@ -1256,6 +1260,7 @@ import naVComponent from "./page";
 export default {
   data() {
     return {
+      discount:0,
       isCancel: false, //详情中退款、取消、修改按钮状态   :disabled="isCancel" 按钮加入显示状态
       //
       dialogreadyOrder: false,
@@ -1464,6 +1469,9 @@ export default {
     this.provinceList();
   },
   methods: {
+    discount_fuc(value) {
+      naVComponent.discount_fuc(this,value)
+    },
     // 取消打印
     cancelPrinting() {
       this.dialogOrderFrom = false;
@@ -1552,28 +1560,10 @@ export default {
       console.log(this.detailFormList[0]);
     },
     discountConfirm() {
-      this.detailFormList.forEach((obj, index) => {
-        if (index == this.cpIndex) {
-          obj.favorableRemark = this.favorableRemark;
-          obj.favorable = this.zhekouyouhui.favorable;
-          obj.actual = obj.price - this.zhekouyouhui.favorable;
-        }
-      });
-      debugger;
-      this.$set(
-        this.detailFormList,
-        this.cpIndex,
-        this.detailFormList[this.cpIndex]
-      );
-      this.specialRequirementsCancel();
-      this.paymentMethod.totalAmountReceivable = this.ysMoney();
-      this.paymentMethod.arrears = this.xqMoney();
-      // console.log(this.detailFormList[0]);
+      naVComponent.discountConfirm(this)
     },
     specialRequirementsCancel() {
-      this.dialogSpecialRequirements = false;
-      this.dialogDiscount = false;
-      this.cpIndex = null;
+      naVComponent.specialRequirementsCancel(this)
     },
     sizeEntry(obj) {
      naVComponent.sizeEntry(this,obj)
@@ -1585,11 +1575,7 @@ export default {
       this.specialRequirements = obj.row.demand;
     },
     zkyh(obj) {
-      this.dialogDiscount = true;
-      this.cpIndex = obj.$index;
-      this.zhekouyouhui = obj.row;
-      this.favorableRemark = obj.row.favorableRemark;
-      console.log(obj.$index);
+      naVComponent.zkyh(this,obj)
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);

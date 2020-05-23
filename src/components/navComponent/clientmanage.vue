@@ -116,7 +116,7 @@
           size="small"
           icon="el-icon-search"
           type="warning"
-          @click="pageList(pages.currentPage,pages.pageSize)"
+          @click.native="pageList(pages.currentPage,pages.pageSize)"
           class="btns"
         >查询</el-button>
         <el-button
@@ -1327,15 +1327,19 @@
       :before-close="specialRequirementsCancel"
     >
       <div>标准价格：{{zhekouyouhui.price}}</div>
-      <div>
-        折扣价格：
-        <input
+      <div class="margin-t-20">
+        优惠折扣：
+        <input type="text" class="input" v-model="discount" oninput="value=value.replace(/[^\d.]/g,'')" @change="discount_fuc(discount)" />
+      </div>
+      <!-- <div class="margin-t-20">
+      折扣后价格：{{discountValue}}-->
+      <!-- <input
           type="text"
           class="input"
           v-model="zhekouyouhui.favorable"
           oninput="value=value.replace(/[^\d.]/g,'')"
-        />
-      </div>
+      />-->
+      <!-- </div> -->
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
       <div slot="footer" class="dialog-footer">
@@ -1667,11 +1671,11 @@ export default {
       excelLoad: false,
       addKeHuTitle: "新增客户",
       specialRequirements: null,
-      discount: null,
+      discount: 0.0,
       productData: [],
       multipleSelection: [],
       detailFormList: [],
-      seachProduct:naVComponent_variable.seachProduct,
+      seachProduct: naVComponent_variable.seachProduct,
       jjChecked: false,
       orderingPerson: null,
       paymentMethod: {
@@ -1686,7 +1690,7 @@ export default {
       },
       isBlackBut: null,
       currentPrescriptions: [],
-      seach:naVComponent_variable.seach,
+      seach: naVComponent_variable.seach,
       clientData: [],
       //分页
       pages: {
@@ -1785,7 +1789,7 @@ export default {
       bianhao: null,
       cpIndex: null,
       zhekouyouhui: {
-        favorable: null
+        favorable: 0
       },
       favorableRemark: null,
       // wc: [],
@@ -1830,7 +1834,7 @@ export default {
       },
       threeDDialg: false,
       only_recordId: null,
-      bdTitle:"新增病单"
+      bdTitle: "新增病单"
     };
   },
   components: {
@@ -1841,21 +1845,25 @@ export default {
     // this.hospitals();
     this.provinceList();
   },
+  computed: {},
   methods: {
-     Adddis_fuc(){
-       this.dialogAddbd = true
-       this.bdTitle='新增病单'
-       naVComponent.default_PCSH(this)
-     },
+    discount_fuc(value) {
+      naVComponent.discount_fuc(this,value)
+    },
+    Adddis_fuc() {
+      this.dialogAddbd = true;
+      this.bdTitle = "新增病单";
+      naVComponent.default_PCSH(this);
+    },
     threeD_func() {
-     naVComponent.threeD_func(this)
+      naVComponent.threeD_func(this);
     },
     threeD_show(obj) {
       this.threeD_ObjFrom.list = obj;
       this.threeDDialg = true;
     },
     isRequired(val) {
-      naVComponent.isRequired(this,val)
+      naVComponent.isRequired(this, val);
     },
     printpage() {
       this.$print2(this.$refs.print);
@@ -1887,7 +1895,7 @@ export default {
         });
     },
     confirmTransferSite_func() {
-      naVComponent.confirmTransferSite_func(this)
+      naVComponent.confirmTransferSite_func(this);
     },
     cancelTransfer_func() {
       this.transferSite.provinceValue = null;
@@ -1952,7 +1960,7 @@ export default {
       this.multipleSelection = [];
     },
     entrySize() {
-      naVComponent.entrySize(this)
+      naVComponent.entrySize(this);
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);
@@ -1960,11 +1968,7 @@ export default {
       this.paymentMethod.arrears = this.xqMoney();
     },
     specialRequirementsCancel() {
-      this.dialogSpecialRequirements = false;
-      this.dialogDiscount = false;
-      this.cpIndex = null;
-      this.favorableRemark = null;
-      // this.specialRequirements = null;
+      naVComponent.specialRequirementsCancel(this)
     },
     specialRequirementsConfirm() {
       this.detailFormList.forEach((obj, index) => {
@@ -1976,23 +1980,7 @@ export default {
       // console.log(this.detailFormList[0]);
     },
     discountConfirm() {
-      this.detailFormList.forEach((obj, index) => {
-        if (index == this.cpIndex) {
-          obj.favorableRemark = this.favorableRemark;
-          obj.favorable = this.zhekouyouhui.favorable;
-          obj.actual = obj.price - this.zhekouyouhui.favorable;
-        }
-      });
-      // debugger;
-      this.$set(
-        this.detailFormList,
-        this.cpIndex,
-        this.detailFormList[this.cpIndex]
-      );
-      this.specialRequirementsCancel();
-      this.paymentMethod.totalAmountReceivable = this.ysMoney();
-      this.paymentMethod.arrears = this.xqMoney();
-      // console.log(this.detailFormList[0]);
+      naVComponent.discountConfirm(this)
     },
     tsyq(obj) {
       this.dialogSpecialRequirements = true;
@@ -2000,10 +1988,7 @@ export default {
       this.specialRequirements = obj.row.demand;
     },
     zkyh(obj) {
-      this.cpIndex = obj.$index;
-      this.zhekouyouhui = obj.row;
-      this.favorableRemark = obj.row.favorableRemark;
-      this.dialogDiscount = true;
+      naVComponent.zkyh(this,obj)
     },
     deliveryTimeDate(value, index) {
       this.$set(this.detailFormList, index, value);
@@ -2050,7 +2035,7 @@ export default {
         });
     },
     calculation() {
-     naVComponent.calculation(this)
+      naVComponent.calculation(this);
     },
     readyOrderCancel() {
       this.dialogreadyOrder = false;
@@ -2065,7 +2050,7 @@ export default {
       this.paymentMethod.xj = 0;
     },
     orderingStart() {
-      naVComponent.orderingStart(this)
+      naVComponent.orderingStart(this);
     },
     readyOrder(obj) {
       this.dialogreadyOrder = true;
@@ -2074,8 +2059,7 @@ export default {
       this.orderingPerson = session.getItem("username");
     },
     sizeEntry(obj) {
-      
-     naVComponent.sizeEntry(this,obj)
+      naVComponent.sizeEntry(this, obj);
       // let data = {
       //   hospitalId: obj.row.hospitalId
       // };
@@ -2155,7 +2139,7 @@ export default {
       this.addData[0].siteValue = null;
       this.addData[0].provinceId = null;
       this.addData[0].cityId = null;
-      this.bianhao=null
+      this.bianhao = null;
     },
     addDd(obj) {
       // alert(1)
@@ -2240,7 +2224,7 @@ export default {
     },
     ddModfiy(obj) {
       this.dialogAddbd = true;
-      this.bdTitle="修改病单"
+      this.bdTitle = "修改病单";
       this.departmentList(obj.hospitalId);
       this.doctorList(obj.departmentId);
       this.addData[0].condition = obj.condition;

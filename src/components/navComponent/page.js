@@ -435,6 +435,97 @@ function threeD_func(that){
         console.log(err);
       });
   }
+  /**
+   * 优惠折扣按钮
+   * @param {*} that 
+   * @param {*} obj 
+   */
+  function zkyh(that,obj) {
+    that.cpIndex = obj.$index;
+    that.zhekouyouhui = obj.row;
+    that.favorableRemark = obj.row.favorableRemark;
+    that.dialogDiscount = true;
+    let price = obj.row.price;
+    let actual = obj.row.actual;
+    if (price == actual) {
+      that.discount = 0;
+    } else {
+      that.discount = ((actual / price) * 10).toFixed(1);
+    }
+  }
+  /**
+   * 优惠折扣率改变时
+   * @param {*} that 
+   * @param {*} value 
+   */
+ function discount_fuc(that,value) {
+    const rega = /^((0\.[1-9]{1})|(([1-9]{1})(\.\d{1})?))$/;
+    // console.log(value);
+    if (value != 0) {
+      if (rega.test(value)) {
+        let discount_Rate = value;
+        let standard_Price = that.zhekouyouhui.price;
+        let actual_Price = (discount_Rate / 10) * standard_Price;
+        that.zhekouyouhui.favorable = actual_Price.toFixed(2);
+      } else {
+        that.discount = 0.0;
+        that.$message({
+          type: "warning",
+          message: "输入折扣率不正确！请重新输入！",
+          center: true
+        });
+      }
+    }else{
+      that.zhekouyouhui.favorable = that.zhekouyouhui.price;
+    }
+    // console.log(that.zhekouyouhui.favorable);
+  }
+  /**
+   * 提交折扣弹窗框
+   * @param {*} that 
+   */
+ function discountConfirm(that) {
+    // console.log(that.zhekouyouhui.favorable);
+    let favorable = that.zhekouyouhui.favorable;
+    let favorableRemark = that.favorableRemark;
+    let detailFormList=that.detailFormList
+    // debugger
+    detailFormList.forEach((obj, index) => {
+      if (index == that.cpIndex) {
+        let price = obj.price
+        obj.favorableRemark = favorableRemark;
+        obj.favorable = ( Number(price) - Number(favorable) ).toFixed(2);
+        obj.actual = favorable;
+      }
+    });
+    // debugger;
+    // let Mydata=that.detailFormList;
+    that.$set(
+      that.detailFormList,
+      that.cpIndex,
+      detailFormList[that.cpIndex]
+    );
+    // that.zhekouyouhui.favorable = favorable;
+    // console.log(that.zhekouyouhui.favorable);
+    // that.detailFormList = Mydata
+    // console.log(that.detailFormList);
+    that.specialRequirementsCancel();
+    that.paymentMethod.totalAmountReceivable = that.ysMoney();
+    that.paymentMethod.arrears = that.xqMoney();
+    // console.log(that.detailFormList[0]);
+  }
+  /**
+   * 折扣弹框取消
+   * @param {*} that 
+   */
+ function specialRequirementsCancel(that) {
+    that.dialogSpecialRequirements = false;
+    that.dialogDiscount = false;
+    that.cpIndex = null;
+    that.favorableRemark = null;
+    that.discount = null;
+    // that.specialRequirements = null;
+  }
 export default{
     default_PCSH,
     threeD_func,
@@ -445,5 +536,9 @@ export default{
     entrySize,
     modefiy_orderingStart,
     addRefund,
-    sizeEntry
+    sizeEntry,
+    zkyh,
+    discount_fuc,
+    discountConfirm,
+    specialRequirementsCancel
 }

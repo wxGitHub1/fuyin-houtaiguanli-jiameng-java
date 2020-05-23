@@ -1129,7 +1129,11 @@
       :before-close="specialRequirementsCancel"
     >
       <div>标准价格：{{zhekouyouhui.price}}</div>
-      <div>
+      <div class="margin-t-20">
+        优惠折扣：
+        <input type="text" class="input" v-model="discount" oninput="value=value.replace(/[^\d.]/g,'')" @change="discount_fuc(discount)" />
+      </div>
+      <!-- <div>
         折扣价格：
         <input
           type="text"
@@ -1137,7 +1141,7 @@
           v-model="zhekouyouhui.favorable"
           oninput="value=value.replace(/[^\d.]/g,'')"
         />
-      </div>
+      </div> -->
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
       <div slot="footer" class="dialog-footer">
@@ -1635,6 +1639,9 @@ export default {
     this.userNameList_fuc();
   },
   methods: {
+    discount_fuc(value) {
+      naVComponent.discount_fuc(this,value)
+    },
      Adddis_fuc(){
        this.dialogAddbd = true
        naVComponent.default_PCSH(this)
@@ -1752,11 +1759,7 @@ export default {
       this.paymentMethod.arrears = this.xqMoney();
     },
     specialRequirementsCancel() {
-      this.dialogSpecialRequirements = false;
-      this.dialogDiscount = false;
-      this.cpIndex = null;
-      this.favorableRemark = null;
-      // this.specialRequirements = null;
+      naVComponent.specialRequirementsCancel(this)
     },
     specialRequirementsConfirm() {
       this.detailFormList.forEach((obj, index) => {
@@ -1768,23 +1771,7 @@ export default {
       // console.log(this.detailFormList[0]);
     },
     discountConfirm() {
-      this.detailFormList.forEach((obj, index) => {
-        if (index == this.cpIndex) {
-          obj.favorableRemark = this.favorableRemark;
-          obj.favorable = this.zhekouyouhui.favorable;
-          obj.actual = obj.price - this.zhekouyouhui.favorable;
-        }
-      });
-      // debugger;
-      this.$set(
-        this.detailFormList,
-        this.cpIndex,
-        this.detailFormList[this.cpIndex]
-      );
-      this.specialRequirementsCancel();
-      this.paymentMethod.totalAmountReceivable = this.ysMoney();
-      this.paymentMethod.arrears = this.xqMoney();
-      // console.log(this.detailFormList[0]);
+      naVComponent.discountConfirm(this)
     },
     tsyq(obj) {
       this.dialogSpecialRequirements = true;
@@ -1792,10 +1779,7 @@ export default {
       this.specialRequirements = obj.row.demand;
     },
     zkyh(obj) {
-      this.cpIndex = obj.$index;
-      this.zhekouyouhui = obj.row;
-      this.favorableRemark = obj.row.favorableRemark;
-      this.dialogDiscount = true;
+      naVComponent.zkyh(this,obj)
     },
     deliveryTimeDate(value, index) {
       // debugger
