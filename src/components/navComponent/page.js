@@ -423,12 +423,16 @@ function threeD_func(that){
           });
         } else {
           console.log(res);
+          that.productSize.shapeUserList = res.data.data;
           that.productSize.list = obj.row.sizeMapList;
-          that.productSize.shapeUser = obj.row.shapeUser;
+          if( obj.row.shapeUser != undefined){
+            that.productSize.shapeUser = obj.row.shapeUser.id;
+          }else{
+            that.productSize.shapeUser=null
+          }
           that.productSize.radio = obj.row.xRay;
           that.cpIndex = obj.$index;
           that.dialogSizeDetails = true;
-          that.productSize.shapeUserList = res.data.data;
         }
       })
       .catch(err => {
