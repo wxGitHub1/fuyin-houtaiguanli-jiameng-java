@@ -240,6 +240,8 @@
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
+      :header-row-class-name="'headerClass'"
+      
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
@@ -1266,9 +1268,9 @@
         ref="multipleTable"
         :data="productData"
         tooltip-effect="dark"
-        highlight-current-row
         @selection-change="handleSelectionChange"
-         @row-dblclick='dblclick_table_fuc'
+        @row-dblclick='dblclick_table_fuc'
+         highlight-current-row
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
@@ -1850,14 +1852,10 @@ export default {
   computed: {},
   methods: {
     dblclick_table_fuc(row, column, cell, event){
-        console.log(row)
-        this.multipleSelection.push(row)
-        // if (rows) {
-        //   rows.forEach(row => {
-          this.$refs.multipleTable.setCurrentRow(row);
-            this.$refs.multipleTable.toggleRowSelection(row);
-        //   
-        
+      naVComponent.dblclick_table_fuc(this,row)
+        // this.multipleSelection.push(row)
+        // this.$refs.multipleTable.setCurrentRow(row);
+        // this.$refs.multipleTable.toggleRowSelection(row);
     },
     discount_fuc(value) {
       naVComponent.discount_fuc(this,value)
@@ -2743,4 +2741,6 @@ export default {
   border-top: 1px dashed #666;
   margin-top: 5px;
 }
+ 
 </style>
+

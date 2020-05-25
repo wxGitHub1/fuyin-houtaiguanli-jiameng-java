@@ -373,6 +373,12 @@
   line-height: 30px;
   color: #606266;
 }
+.el-table .headerClass th{
+  /* background-color: #F5F7FA; */
+  background-color: #56a9ff;
+  /* color: #56a9ff; */
+  color: #fff;
+}
 /**
 * 全局global.css
 */

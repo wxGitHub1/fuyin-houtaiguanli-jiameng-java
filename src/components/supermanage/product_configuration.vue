@@ -110,6 +110,7 @@
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
+      :header-row-class-name="'headerClass'"
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="batchNum" label="产品清单编号"></el-table-column>
@@ -448,7 +449,14 @@
           >查询</el-button>
         </el-col>
       </el-row>
-      <el-table ref="multipleTable" :data="productData_two" @selection-change="handleSelectionChange" max-height="500">
+      <el-table
+        ref="multipleTable"
+        :data="productData_two"
+        @selection-change="handleSelectionChange"
+        @row-dblclick="dblclick_table_fuc"
+        highlight-current-row
+        max-height="500"
+      >
         <el-table-column type="selection"></el-table-column>
         <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
@@ -635,9 +643,9 @@ export default {
       only_hospitalId: null,
       productlonding_two: false,
       multipleSelection: [],
-      deduplicationDialog:false,
-      deduplication_data:[],
-      deduplication_data_tab:[],
+      deduplicationDialog: false,
+      deduplication_data: [],
+      deduplication_data_tab: []
     };
   },
   mounted() {
@@ -646,46 +654,51 @@ export default {
     this.addProvinceList();
   },
   methods: {
-    comeBack_deduplication(){
-      this.deduplicationDialog=false
+    dblclick_table_fuc(row, column, cell, event){
+      naVComponent.dblclick_table_fuc(this,row)
     },
-    next_deduplication_fuc(){
+    comeBack_deduplication() {
+      this.deduplicationDialog = false;
+    },
+    next_deduplication_fuc() {
       // debugger
-      this.multipleSelection.forEach((obj,index)=>{
-        this.deduplication_data_tab.forEach(item=>{
-          if(obj.id==item){
+      this.multipleSelection.forEach((obj, index) => {
+        this.deduplication_data_tab.forEach(item => {
+          if (obj.id == item) {
             this.$refs.multipleTable.toggleRowSelection(obj);
             this.multipleSelection.splice(index, 1);
           }
-        })
-      })
-      this.comeBack_deduplication()
+        });
+      });
+      this.comeBack_deduplication();
     },
-    sbmint_fuc(){
-      let saleBasesForm=[]
-      this.productData.forEach(obj=>{
-          saleBasesForm.push({id:obj.id,price:Number(obj.price)})
-      })
-      console.log(saleBasesForm)
-      debugger
-      let data={
-        batchNum:this.only_batchNum,
-        saleBasesForm:saleBasesForm
-      }
-      updateHospitalSaleBasePrice(data).then(res=>{
-        if (res.data.returnCode != 0) {
+    sbmint_fuc() {
+      let saleBasesForm = [];
+      this.productData.forEach(obj => {
+        saleBasesForm.push({ id: obj.id, price: Number(obj.price) });
+      });
+      console.log(saleBasesForm);
+      debugger;
+      let data = {
+        batchNum: this.only_batchNum,
+        saleBasesForm: saleBasesForm
+      };
+      updateHospitalSaleBasePrice(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
               message: res.data.returnMsg,
               center: true
             });
           } else {
-              this.product_comeBack()
-              this.comeBack()
-              this.pageList(this.pages.currentPage,this.pages.pageSize)
-              tips(this, "提交成功!", "success");
+            this.product_comeBack();
+            this.comeBack();
+            this.pageList(this.pages.currentPage, this.pages.pageSize);
+            tips(this, "提交成功!", "success");
           }
-      }).catch(err => {
+        })
+        .catch(err => {
           console.log(err);
         });
     },
@@ -694,14 +707,14 @@ export default {
       this.multipleSelection = val;
     },
     add_product_list_two() {
-      let saleBaseIds=[];
-      this.multipleSelection.forEach((obj,index)=>{
-        saleBaseIds.push(obj.id)
+      let saleBaseIds = [];
+      this.multipleSelection.forEach((obj, index) => {
+        saleBaseIds.push(obj.id);
       });
       let data = {
-        hospitalId:this.only_hospitalId,
-        batchNum:this.only_batchNum,
-        saleBaseIds:saleBaseIds
+        hospitalId: this.only_hospitalId,
+        batchNum: this.only_batchNum,
+        saleBaseIds: saleBaseIds
       };
       insertHospitalAndSaleBase(data)
         .then(res => {
@@ -712,15 +725,18 @@ export default {
               center: true
             });
           } else {
-            console.log(res)
-            if(res.data.data.baseIds.length == 0 ){
-                  this.product_comeBack_two()
-                  tips(this, "添加成功!", "success");
-                  this.next_product_fuc(this.pagesProduct.currentPage,this.pagesProduct.pageSize)
-            }else{
-              this.deduplicationDialog=true;
-              this.deduplication_data=res.data.data.dtos
-              this.deduplication_data_tab=res.data.data.baseIds
+            console.log(res);
+            if (res.data.data.baseIds.length == 0) {
+              this.product_comeBack_two();
+              tips(this, "添加成功!", "success");
+              this.next_product_fuc(
+                this.pagesProduct.currentPage,
+                this.pagesProduct.pageSize
+              );
+            } else {
+              this.deduplicationDialog = true;
+              this.deduplication_data = res.data.data.dtos;
+              this.deduplication_data_tab = res.data.data.baseIds;
             }
           }
         })
@@ -872,16 +888,16 @@ export default {
           });
         });
     },
-    next_fuc(obj,xiugai) {
+    next_fuc(obj, xiugai) {
       let data = {};
-      if(xiugai == '修改'){ 
-          this.only_hospitalId=obj.hospitalId,
-          this.only_batchNum=obj.batchNum,
-          data.hospitalId=obj.hospitalId,
-          data.batchNumSelf=obj.batchNum
-      }else{
-        data.hospitalId=this.addSite.hospitalId,
-        data.batchNumCopy=this.addSite.batch
+      if (xiugai == "修改") {
+        (this.only_hospitalId = obj.hospitalId),
+          (this.only_batchNum = obj.batchNum),
+          (data.hospitalId = obj.hospitalId),
+          (data.batchNumSelf = obj.batchNum);
+      } else {
+        (data.hospitalId = this.addSite.hospitalId),
+          (data.batchNumCopy = this.addSite.batch);
       }
       insertNext(data)
         .then(res => {
@@ -1140,7 +1156,7 @@ export default {
     // },
     //测评中心
     async siteList(id) {
-      this.seach.siteIdList = await allSite(null,id);
+      this.seach.siteIdList = await allSite(null, id);
     },
     //测评中心id获取医院
     async hospitals(id) {

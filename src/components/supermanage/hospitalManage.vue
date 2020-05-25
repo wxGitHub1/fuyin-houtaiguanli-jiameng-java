@@ -112,6 +112,7 @@
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
+      :header-row-class-name="'headerClass'"
     >
       <el-table-column width="50" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="hospitalNum" label="医院编号" min-width="60"></el-table-column>

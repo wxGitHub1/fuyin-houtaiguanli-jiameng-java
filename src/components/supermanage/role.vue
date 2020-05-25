@@ -35,6 +35,7 @@
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
+      :header-row-class-name="'headerClass'"
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="name" label="角色名称" min-width="20"></el-table-column>
@@ -106,7 +107,6 @@
       <!-- 添加用户表格 -->
       <el-table
         v-if="mTable"
-        ref="multipleTable"
         :data="selection"
         tooltip-effect="dark"
         style="margin-top:20px"
@@ -141,7 +141,6 @@
       <!-- 修改用户表格 -->
       <el-table
         v-else
-        ref="multipleTable"
         :data="modifymune"
         tooltip-effect="dark"
         style="margin-top:20px"

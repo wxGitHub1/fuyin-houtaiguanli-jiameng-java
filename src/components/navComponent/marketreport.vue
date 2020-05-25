@@ -186,6 +186,7 @@
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
+      :header-row-class-name="'headerClass'"
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>

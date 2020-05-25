@@ -177,6 +177,7 @@
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
+      :header-row-class-name="'headerClass'"
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
@@ -1186,6 +1187,8 @@
         :data="productData"
         tooltip-effect="dark"
         @selection-change="handleSelectionChange"
+        @row-dblclick='dblclick_table_fuc'
+         highlight-current-row
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
@@ -1756,6 +1759,9 @@ export default {
     this.userNameList_fuc();
   },
   methods: {
+    dblclick_table_fuc(row, column, cell, event){
+      naVComponent.dblclick_table_fuc(this,row)
+    },
     discount_fuc(value) {
       naVComponent.discount_fuc(this,value)
     },
