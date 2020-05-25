@@ -9,16 +9,16 @@
         </el-row>
         <el-row :span="24" style="margin-top: 31px">
           <el-col class="input" :span="20" :offset="2">
-            <i>
-              <img src="../../static/image/login/icon_zhangh.png" alt />
+            <i class="iconfont icon-zhanghaoguanli">
+              <!-- <img src="../../static/image/login/icon_zhangh.png" alt /> -->
             </i>
             <input type="text" placeholder="请输入账号" v-model="userCount" />
           </el-col>
         </el-row>
         <el-row :span="24" style="margin-top: 15px;">
           <el-col class="input" :span="20" :offset="2">
-            <i>
-              <img src="../../static/image/login/icon_mm.png" alt />
+            <i class="iconfont icon-account_pwd">
+              <!-- <img src="../../static/image/login/icon_mm.png" alt /> -->
             </i>
             <input type="password" placeholder="请输入密码" v-model="userPassword" />
             <!-- <i><img src="../../static/image/login/icon_yc1.png" alt=""></i> -->
@@ -29,7 +29,7 @@
             <div class="user_login" @click="userLogin()">登陆</div>
           </el-col>
         </el-row>
-        <div class="version">当前版本：2.0.2</div>
+        <div class="version">当前版本：2.0.3</div>
       </el-col>
     </el-row>
   </div>
@@ -188,13 +188,13 @@ export default {
       color: #fff;
     }
     .input {
-      border-bottom: 2px solid#e5e5e5;
+      border-bottom: 2px solid #e5e5e5;
       input {
         width: 82%;
         letter-spacing: 1px;
         font-size: 16px;
         color: #9babbb;
-        vertical-align: 6px;
+        // vertical-align: 6px;
       }
       :-ms-input-placeholder {
         letter-spacing: 1px;
@@ -207,11 +207,12 @@ export default {
         color: #e5e5e5;
       }
       i {
-        display: inline-block;
-        width: 7%;
-        img {
-          width: 100%;
-        }
+        color: #9babbb;
+        // display: inline-block;
+        // width: 7%;
+        // img {
+        //   width: 100%;
+        // }
       }
     }
     .login_btn {

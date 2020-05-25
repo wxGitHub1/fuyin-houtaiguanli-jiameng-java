@@ -135,7 +135,7 @@
       <el-table-column align="center" prop="assignTime" label="接待时长"></el-table-column>
       <el-table-column align="center" prop="firstAssignTime" label="到访时间"></el-table-column>
       <el-table-column align="center" prop="createTime" label="分配时间"></el-table-column>
-      <el-table-column align="center" label="操作" min-width="100">
+      <el-table-column align="center" label="操作" width="300">
         <template slot-scope="scope">
           <!-- <el-button
             v-if="panduan(scope.row)"

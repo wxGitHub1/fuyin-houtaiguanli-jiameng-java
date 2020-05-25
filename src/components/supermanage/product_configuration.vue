@@ -101,7 +101,7 @@
       <el-table-column align="center" prop="hospitalName" label="医院名称"></el-table-column>
       <el-table-column align="center" prop="saleBaseNumber" label="产品数量"></el-table-column>
       <el-table-column align="center" prop="createTime" label="创建时间"></el-table-column>
-      <el-table-column align="center" label="操作" min-width="150">
+      <el-table-column align="center" label="操作" width="300">
         <template slot-scope="scope">
           <el-button @click="copy(scope.$index)" type="primary" class="tag-read" size="small">复制订单号</el-button>
           <el-button @click="next_fuc(scope.row,'修改')" type="primary" size="small">修改</el-button>

@@ -88,7 +88,7 @@
       <el-table-column align="center" prop="xRay" label="是否有X光片"></el-table-column>
       <el-table-column align="center" prop="pUser" label="主取型人"></el-table-column>
       <el-table-column align="center" prop="deliveryTime" label="交货日期"></el-table-column>
-      <el-table-column align="center" label="操作">
+      <el-table-column align="center" label="操作" width="250">
         <template slot-scope="scope">
           <el-button type="primary" @click="printFormDatas(scope.row.spId)" size="small">打印订单</el-button>
           <el-button type="primary" @click="details(scope.row.spId)" size="small">验收</el-button>

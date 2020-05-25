@@ -84,7 +84,7 @@
         min-width="160"
       ></el-table-column>
       <el-table-column align="center" prop="siteName" label="测评中心" show-overflow-tooltip></el-table-column>
-      <el-table-column align="center" label="操作" min-width="300">
+      <el-table-column align="center" label="操作" width="500">
         <template slot-scope="scope">
           <el-button
             type="primary"

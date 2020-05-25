@@ -160,7 +160,7 @@
       <el-table-column align="center" prop="createUserName" label="创建人"></el-table-column>
       <el-table-column align="center" prop="haveOrder" label="是否下单"></el-table-column>
       <el-table-column align="center" prop="createTime" label="创建时间" min-width="100"></el-table-column>
-      <el-table-column align="center" prop="operation" label="操作" min-width="200">
+      <el-table-column align="center" prop="operation" label="操作" min-width="300">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.phone == '***********' "

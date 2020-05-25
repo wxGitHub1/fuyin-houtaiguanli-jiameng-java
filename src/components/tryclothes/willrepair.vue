@@ -115,7 +115,7 @@
       <el-table-column align="center" prop="assignTime" label="分配时间"></el-table-column>
       <el-table-column align="center" prop="tryOnUser" label="试穿人员"></el-table-column>
       <el-table-column align="center" prop="tryOnBeginTime" label="试穿时间"></el-table-column>
-      <el-table-column align="center" label="操作" min-width="150">
+      <el-table-column align="center" label="操作" width="250">
         <template slot-scope="scope">
           <el-button @click="seeDetails(scope.row.saleProductId)" type="primary" size="small">查看详情</el-button>
           <el-button

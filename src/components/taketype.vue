@@ -27,21 +27,33 @@ export default {
       }],
       navTable: [{
         name: 'willReceive',
+        iconfont:'iconfont',
+        icon:'icon-gongwujiedai',
         title: '待接待',
       },{
         name: 'receive',
+        iconfont:'iconfont',
+          icon:'icon-ico_yuyueguanli_jiedaiyuyue',
         title: '已接待',
       },{
         name: 'willSelfTest',
+        iconfont:'iconfont',
+          icon:'icon-shouhuoyanshou',
         title: '待验收',
       },{
         name: 'alreadyReject',
+        iconfont:'iconfont',
+          icon:'icon-wangongyanshou',
         title: '已验收',
       },{
         name: 'statistics',
+        iconfont:'iconfont',
+          icon:'icon-tongjibaobiao',
         title: '统计报表',
       },{
         name: 'InsoleProduction',
+        iconfont:'iconfont',
+          icon:'icon-xiedian',
         title: '鞋垫制作',
       }],
       Repeat: false,

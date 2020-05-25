@@ -37,52 +37,76 @@ export default {
       navTable: [
          {
           name: "clientManage",
+          iconfont:'iconfont',
+          icon:'icon-kehuguanli',
           title: "客户管理"
         },
         {
           name: "pendingTrialAcceptance",
+          iconfont:'iconfont',
+          icon:'icon-shouhuoyanshou',
           title: "待试穿验收"
         },
         {
           name: "accepted",
+          iconfont:'iconfont',
+          icon:'iicon-wangongyanshou',
           title: "已验收"
         },{
           name: "toBeAllocated",
+          iconfont:'iconfont',
+          icon:'icon-zhengshifuwushangliebiao-',
           title: "待分配"
         },
         {
           name: "willmessage",
+          iconfont:'iconfont',
+          icon:'icon-dadianhua',
           title: "待通知"
         },
         {
           name: "willtake",
+          iconfont:'iconfont',
+          icon:'icon-3chuanyixiguan',
           title: "待试穿"
         },
         {
           name: "take",
+          iconfont:'iconfont',
+          icon:'icon-yiwancheng',
           title: "已试穿"
         },
         
         {
           name: "willrepair",
+          iconfont:'iconfont',
+          icon:'icon-baoxiu',
           title: "待报修"
         },
 
         {
           name: "willmaintain",
+          iconfont:'iconfont',
+          icon:'icon-weixiu1',
           title: "待维修"
         },
 
         {
           name: "maintain",
+          iconfont:'iconfont',
+          icon:'icon-weixiujilu',
           title: "已维修"
         },
         {
           name: "triedStatistics",
+          iconfont:'iconfont',
+          icon:'icon-navicon-tjb1',
           title: "试穿统计"
         },
         {
           name: "repairedStatistics",
+          iconfont:'iconfont',
+          icon:'icon-navicon-tjb',
           title: "维修统计"
         }
       ],

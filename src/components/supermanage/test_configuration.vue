@@ -102,7 +102,7 @@
       <el-table-column align="center" prop="examinationCount" label="测评项目数"></el-table-column>
       <el-table-column align="center" prop="examinations" label="测评项目" min-width="250"></el-table-column>
       <el-table-column align="center" prop="examinationSiteTime" label="创建时间"></el-table-column>
-      <el-table-column align="center" label="操作">
+      <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
           <el-button @click="modify_function(scope.row)" type="primary" size="small">修改</el-button>
           <el-button @click="deletesite_function(scope.row.siteId)" type="danger" size="small">删除</el-button>

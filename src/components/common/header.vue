@@ -11,7 +11,7 @@
         <el-row>
           <el-col :span="6">
             <div class="head_pic">
-              <img src="../../../static/image/login/icon_zh.png" />
+              <img src="../../../static/image/login/gly.png" />
             </div>
           </el-col>
           <el-col :span="12" class="name_type">
@@ -38,9 +38,10 @@
     </el-row>
     <div class="nav_bar">
       <el-row v-for="(nav,index) in navTables" :key="nav.name">
-        <el-col class="nav_box" :span="24" :class="{active:cur==index}">
-          <i>
-            <img src="../../../static/image/login/icon_khgl.png" alt />
+        <el-col class="nav_box":class="{active:cur==index}">
+          <i  :class="[nav.iconfont,nav.icon]">
+            <!-- <img src="../../../static/image/login/icon_khgl.png" alt /> -->
+
           </i>
           <span @click="switchTitle(nav.name,index)">{{nav.title}}</span>
         </el-col>
@@ -234,18 +235,19 @@ export default {
     position: relative;
     right: 16.8%;
     border-right: 1px solid #eeeeee;
-
+    overflow-x: hidden;
     .nav_box {
       font-size: 16px;
       letter-spacing: 1px;
       color: #606266;
       padding-left: 20px;
+      line-height: 30px;
       margin-top: 20px;
       cursor: pointer;
-      span {
-        position: relative;
-        bottom: 8px;
-      }
+      // span {
+      //   position: relative;
+      //   bottom: 8px;
+      // }
     }
     .active {
       background: rgb(244, 244, 244);

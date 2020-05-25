@@ -37,26 +37,38 @@ export default {
       navTable: [
         {
           name: "clientManage",
+          iconfont:'iconfont',
+          icon:'icon-kehuguanli',
           title: "客户管理"
         },
         {
           name: "orderManage",
+          iconfont:'iconfont',
+          icon:'icon-tubiao_dingdanguanli',
           title: "订单管理"
         },
         {
           name: "alreadyReceive",
+          iconfont:'iconfont',
+          icon:'icon-fenpeijiaose',
           title: "已分配"
         },
         {
           name: "comment",
+          iconfont:'iconfont',
+          icon:'icon-daipingjia',
           title: "待评价"
         },
         {
           name: "evaluationManagement",
+          iconfont:'iconfont',
+          icon:'icon-pingjiaguanli',
           title: "评价管理"
         },
         {
           name: "statistics",
+          iconfont:'iconfont',
+          icon:'icon-tongjibaobiao',
           title: "统计报表"
         }
       ],

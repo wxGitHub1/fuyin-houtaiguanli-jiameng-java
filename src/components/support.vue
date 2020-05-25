@@ -35,18 +35,26 @@ export default {
       navTable: [
         {
           name: "clientManage",
+          iconfont:'iconfont',
+          icon:'icon-kehuguanli',
           title: "客户管理"
         },
         {
           name: "orderManage",
+          iconfont:'iconfont',
+          icon:'icon-tubiao_dingdanguanli',
           title: "订单管理"
         },
         {
           name: "market",
+          iconfont:'iconfont',
+          icon:'icon-tongjibaobiao',
           title: "统计报表"
         },
         {
           name: "member",
+          iconfont:'iconfont',
+          icon:'icon-huiyuan',
           title: "会员统计"
         },
         // {

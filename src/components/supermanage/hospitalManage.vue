@@ -111,7 +111,7 @@
       <el-table-column align="center" prop="doctorCount" label="医生数量" min-width="20"></el-table-column>
       <el-table-column align="center" prop="address" label="医院地址"></el-table-column>
       <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
-      <el-table-column align="center" label="操作" min-width="150">
+      <el-table-column align="center" label="操作" width="450">
         <template slot-scope="scope">
           <el-button
             type="primary"

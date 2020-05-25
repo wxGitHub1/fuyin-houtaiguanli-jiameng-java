@@ -37,22 +37,32 @@ export default {
       navTable: [
         {
           name: "willreceive",
+          iconfont:'iconfont',
+          icon:'icon-gongwujiedai',
           title: "待接待"
         },
         {
           name: "receive",
+          iconfont:'iconfont',
+          icon:'icon-ico_yuyueguanli_jiedaiyuyue',
           title: "已接待"
         },
         {
           name: "ordermanage",
+          iconfont:'iconfont',
+          icon:'icon-tubiao_dingdanguanli',
           title: "订单管理"
         },
         {
           name: "statistic",
+          iconfont:'iconfont',
+          icon:'icon-tongjibaobiao',
           title: "统计报表"
         },
         {
           name: "product",
+          iconfont:'iconfont',
+          icon:'icon-_dailijiameng',
           title: "测评加盟统计"
         }
       ],

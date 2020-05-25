@@ -207,7 +207,7 @@
       <el-table-column align="center" prop="oweMoney" label="下欠金额"></el-table-column>
       <el-table-column align="center" prop="favorable" label="折扣优惠金额"></el-table-column>
       <el-table-column align="center" prop="should" label="应收金额"></el-table-column>
-      <el-table-column align="center" label="操作" min-width="180">
+      <el-table-column align="center" label="操作" width="250">
         <template slot-scope="scope">
           <el-button
             @click="printTicket(scope.row.orderNum)"
