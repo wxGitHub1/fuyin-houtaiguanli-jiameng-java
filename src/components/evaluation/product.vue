@@ -1,24 +1,16 @@
+//测评加盟统计
 <template>
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" id="input-title">
-        <span>客户姓名</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input v-model="seach.memberName" size="small" placeholder="请输入姓名" autocomplete="off"></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>联系电话</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input v-model="seach.phone" size="small" placeholder="请输入电话" autocomplete="off"></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">是否会员</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.isVip" placeholder="请选择">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="客户姓名">
+        <el-input v-model="seach.memberName" placeholder="请输入姓名" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="联系电话">
+        <el-input v-model="seach.phone" placeholder="请输入电话" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="是否会员">
+        <el-select clearable v-model="seach.isVip" placeholder="请选择">
           <el-option
             v-for="item in seach.isVipList"
             :key="item.id"
@@ -26,15 +18,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评时间：</span>
-      </el-col>
-      <el-col :span="4">
+      </el-form-item>
+      <el-form-item label="测评时间">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="seach.orderDate"
           type="daterange"
           format="yyyy-MM-dd"
@@ -43,12 +30,9 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2" style="line-height: 30px">
-        <span class="time_style">测评服务人员</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.recordValue" placeholder="请选择">
+      </el-form-item>
+      <el-form-item label="测评服务人员">
+        <el-select clearable v-model="seach.recordValue" placeholder="请选择">
           <el-option
             v-for="item in seach.nameList"
             :key="item.id"
@@ -56,24 +40,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2">
-        <el-button
-          size="small"
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          type="warning"
-          icon="el-icon-search"
-        >查询</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="office_performance">
-      
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -86,13 +55,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -105,12 +70,14 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" @change="evaluation_fuc(seach.siteValue)"  v-model="seach.siteValue" placeholder="请先选择城市">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select
+          clearable
+          @change="evaluation_fuc(seach.siteValue)"
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -118,12 +85,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评项</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.examinationId" placeholder="请选择">
+      </el-form-item>
+      <el-form-item label="测评项">
+        <el-select clearable v-model="seach.examinationId" placeholder="请选择">
           <el-option
             v-for="item in seach.examinationIdList"
             :key="item.baseId"
@@ -131,22 +95,21 @@
             :value="item.baseId"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item>
         <el-button
-          type="danger"
-          icon="el-icon-download"
-          @click="exportExcels()"
-          size="small"
-        >导出excel</el-button>
-      </el-col>
-    </el-row>
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          type="warning"
+          icon="el-icon-search"
+        >查询</el-button>
+        <el-button type="danger" icon="el-icon-download" @click="exportExcels()">导出excel</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
       :data="clientData"
       max-height="630"
-      class="client_table"
       v-loading="loading"
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
@@ -200,7 +163,14 @@
 <script>
 import { examineJoinStatistics, userListByDept } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite,evaluation } from "../../utils/public";
+import {
+  exportMethod,
+  province,
+  city,
+  site,
+  allSite,
+  evaluation
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -227,23 +197,23 @@ export default {
         ],
         examinationId: null,
         examinationIdList: [
-        //   { name: "体格测量", id: 1 },
-        //   { name: "足弓发育测评", id: 2 },
-        //   { name: "跟骨发育测评", id: 3 },
-        //   { name: "足底压力分析", id: 4 },
-        //   { name: "膝关节矢状面测评", id: 5 },
-        //   { name: "膝关节冠状面测评", id: 6 },
-        //   { name: "下肢发育测评", id: 7 },
-        //   { name: "足部3D扫描测评", id: 8 },
-        //   { name: "足行进角", id: 9 },
-        //   { name: "肩胛骨测评", id: 10 },
-        //   { name: "颈部活动度测评", id: 11 },
-        //   { name: "骨盆测评", id: 12 },
-        //   { name: "脊柱发育测评", id: 13 },
-        //   { name: "3D全身扫描", id: 14 },
-        //   { name: "胸部测评", id: 15 },
-        //   { name: "脊柱活动趋势测评", id: 16 },
-        //   { name: "骨密度测评", id: 17 }
+          //   { name: "体格测量", id: 1 },
+          //   { name: "足弓发育测评", id: 2 },
+          //   { name: "跟骨发育测评", id: 3 },
+          //   { name: "足底压力分析", id: 4 },
+          //   { name: "膝关节矢状面测评", id: 5 },
+          //   { name: "膝关节冠状面测评", id: 6 },
+          //   { name: "下肢发育测评", id: 7 },
+          //   { name: "足部3D扫描测评", id: 8 },
+          //   { name: "足行进角", id: 9 },
+          //   { name: "肩胛骨测评", id: 10 },
+          //   { name: "颈部活动度测评", id: 11 },
+          //   { name: "骨盆测评", id: 12 },
+          //   { name: "脊柱发育测评", id: 13 },
+          //   { name: "3D全身扫描", id: 14 },
+          //   { name: "胸部测评", id: 15 },
+          //   { name: "脊柱活动趋势测评", id: 16 },
+          //   { name: "骨密度测评", id: 17 }
         ],
         siteLists: [],
         siteValue: null,
@@ -360,7 +330,7 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //根据测评中心获取测评项
     async evaluation_fuc(id) {
@@ -371,31 +341,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #e4e7ed;
-  padding-bottom: 10px;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.office_performance {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
 .total {
   background: #ff9800;
   color: #606266;

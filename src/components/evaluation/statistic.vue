@@ -1,12 +1,9 @@
 <template>
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">到访类型</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.visitTypeValue" placeholder="请选择">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="到访类型">
+        <el-select clearable v-model="seach.visitTypeValue" placeholder="请选择">
           <el-option
             v-for="item in seach.visitType"
             :key="item.id"
@@ -14,14 +11,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" style="line-height: 30px">
-        <span class="time_style">测评接待时间：</span>
-      </el-col>
-      <el-col :span="4">
+      </el-form-item>
+      <el-form-item label="测评接待时间">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="seach.orderDate"
           type="daterange"
           format="yyyy-MM-dd"
@@ -30,12 +23,9 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2" style="line-height: 30px">
-        <span class="time_style">测评服务人员</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.recordValue" placeholder="请选择">
+      </el-form-item>
+      <el-form-item label="测评服务人员">
+        <el-select clearable v-model="seach.recordValue" placeholder="请选择">
           <el-option
             v-for="item in seach.nameList"
             :key="item.id"
@@ -43,24 +33,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-
-      <el-col :span="2">
-        <el-button
-          size="small"
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          type="warning"
-          icon="el-icon-search"
-        >查询</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="office_performance">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -73,13 +48,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -92,12 +63,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -105,12 +73,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">下单类型:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.productOrderType" placeholder="请先选择城市">
+      </el-form-item>
+      <el-form-item label="下单类型">
+        <el-select clearable v-model="seach.productOrderType" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.productOrderTypeList"
             :key="item.id"
@@ -118,22 +83,21 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item>
         <el-button
-          type="danger"
-          icon="el-icon-download"
-          @click="exportExcels()"
-          size="small"
-        >导出excel</el-button>
-      </el-col>
-    </el-row>
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          type="warning"
+          icon="el-icon-search"
+        >查询</el-button>
+        <el-button type="danger" icon="el-icon-download" @click="exportExcels()">导出excel</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
       :data="clientData"
       max-height="630"
-      class="client_table"
       v-loading="loading"
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
@@ -179,7 +143,13 @@
 <script>
 import { examineStatistics, userListByDept } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite } from "../../utils/public";
+import {
+  exportMethod,
+  province,
+  city,
+  site,
+  allSite
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -208,13 +178,13 @@ export default {
         cityId: null,
         provinceIdList: [],
         cityIdList: [],
-        productOrderType:null,
-        productOrderTypeList:[
-          {name:"处方产品",id:1},
-          {name:"新增产品",id:2},
-          {name:"更换产品",id:3},
-          {name:"赠送产品",id:4},
-          {name:"服务产品",id:5}
+        productOrderType: null,
+        productOrderTypeList: [
+          { name: "处方产品", id: 1 },
+          { name: "新增产品", id: 2 },
+          { name: "更换产品", id: 3 },
+          { name: "赠送产品", id: 4 },
+          { name: "服务产品", id: 5 }
         ]
       },
       total: {},
@@ -263,7 +233,7 @@ export default {
         provinceId: this.seach.provinceId || null,
         cityId: this.seach.cityId || null,
         siteId: this.seach.siteValue || null,
-        productOrderType: this.seach.productOrderType || null,
+        productOrderType: this.seach.productOrderType || null
       };
       this.loading = true;
       examineStatistics(data)
@@ -315,38 +285,13 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #e4e7ed;
-  padding-bottom: 10px;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.office_performance {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
 .total {
   background: #ff9800;
   color: #606266;

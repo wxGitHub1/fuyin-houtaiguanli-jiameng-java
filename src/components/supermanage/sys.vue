@@ -1,62 +1,58 @@
 <!-- 用户管理 -->
-<template>  
+<template>
   <div id="sys">
-        <el-form :inline="true" :model="formInline" size="small" class="margin-l-p1">
-          <el-form-item label="测评中心">
-            <el-select
-              clearable
-              v-model="formInline.siteIdValue"
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="item in formInline2.allSiteList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="所属部门">
-            <el-cascader
-            v-model="formInline.departmentValue"
-            :clearable="true"
-            :options="formInline2.departmentList"
-            :change-on-select="true"
-            :props="defaultParams2"
-            collapse-tags
-            placeholder="请选择"
-          ></el-cascader>
-          </el-form-item>
-          <el-form-item label="用户姓名/手机">
-            <el-input clearable v-model="formInline.user" placeholder="请输入用户姓名"></el-input>
-          </el-form-item>
-          <!-- <el-form-item label="电话">
+    <el-form :inline="true" :model="formInline" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="测评中心">
+        <el-select clearable v-model="formInline.siteIdValue" placeholder="请选择">
+          <el-option
+            v-for="item in formInline2.allSiteList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="所属部门">
+        <el-cascader
+          v-model="formInline.departmentValue"
+          :clearable="true"
+          :options="formInline2.departmentList"
+          :change-on-select="true"
+          :props="defaultParams2"
+          collapse-tags
+          placeholder="请选择"
+        ></el-cascader>
+      </el-form-item>
+      <el-form-item label="用户姓名/手机">
+        <el-input clearable v-model="formInline.user" placeholder="请输入用户姓名"></el-input>
+      </el-form-item>
+      <!-- <el-form-item label="电话">
             <el-input clearable v-model="formInline.userMobile" placeholder="请输入电话"></el-input>
-          </el-form-item>-->
-          <el-form-item label="用户角色">
-            <el-select clearable v-model="formInline.region" placeholder="请选择">
-              <el-option
-                v-for="item in formInline.options"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="warning"
-              icon="el-icon-search"
-              @click="getControlCommunities(pages.currentPage,pages.pageSize)"
-            >查询</el-button>
-            <el-button
+      </el-form-item>-->
+      <el-form-item label="用户角色">
+        <el-select clearable v-model="formInline.region" placeholder="请选择">
+          <el-option
+            v-for="item in formInline.options"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          type="warning"
+          icon="el-icon-search"
+          @click="getControlCommunities(pages.currentPage,pages.pageSize)"
+        >查询</el-button>
+        <el-button
           type="primary"
           size="small"
           icon="el-icon-circle-plus-outline"
           @click="addUserBut"
         >新增用户</el-button>
-          </el-form-item>
-        </el-form>
+      </el-form-item>
+    </el-form>
     <!-- 用户列表 -->
     <el-table
       :border="true"
@@ -72,9 +68,21 @@
       <el-table-column align="center" prop="username" label="用户姓名"></el-table-column>
       <el-table-column align="center" prop="telephone" label="用户电话" min-width="100"></el-table-column>
       <el-table-column align="center" prop="telephone" label="登录账户" min-width="100"></el-table-column>
-      <el-table-column align="center" prop="roleNameString" label="用户角色" show-overflow-tooltip min-width="160"></el-table-column>
+      <el-table-column
+        align="center"
+        prop="roleNameString"
+        label="用户角色"
+        show-overflow-tooltip
+        min-width="160"
+      ></el-table-column>
       <el-table-column align="center" prop="deptName" label="部门" min-width="160"></el-table-column>
-      <el-table-column align="center" prop="deptChildName" label="分组" show-overflow-tooltip min-width="160"></el-table-column>
+      <el-table-column
+        align="center"
+        prop="deptChildName"
+        label="分组"
+        show-overflow-tooltip
+        min-width="160"
+      ></el-table-column>
       <el-table-column align="center" prop="siteName" label="测评中心" show-overflow-tooltip></el-table-column>
       <el-table-column align="center" label="操作" min-width="300">
         <template slot-scope="scope">
@@ -82,26 +90,26 @@
             type="primary"
             @click="configurationRoles(scope.row.id,scope.row.username)"
             icon="el-icon-setting"
-            size="small"
+            size="mini"
           >配置用户角色</el-button>
           <el-button
             type="primary"
             @click="handleModify(scope.row.id)"
             plain
             icon="el-icon-edit"
-            size="small"
+            size="mini"
           >修改</el-button>
           <el-button
             type="danger"
             @click="handleDelete(scope.row.id)"
-            size="small"
+            size="mini"
             icon="el-icon-delete"
           >删除</el-button>
           <el-button
             type="primary"
             icon="el-icon-refresh"
             @click="handlePassword(scope.row.id)"
-            size="small"
+            size="mini"
           >重置密码</el-button>
         </template>
       </el-table-column>
@@ -131,7 +139,7 @@
         ref="ruleForm"
         :model="formInline2"
         class="form"
-        size="small"
+        size="mini"
       >
         <el-form-item label="用户姓名" prop="userName">
           <el-input clearable v-model="formInline2.userName" prop="name" placeholder="请输入用户姓名"></el-input>
@@ -190,14 +198,14 @@
               :value="item.roleId"
             ></el-option>
           </el-select>
-          <el-button @click="roleAll" type="primary" icon="el-icon-document" size="small">选择全部角色</el-button>
+          <el-button @click="roleAll" type="primary" icon="el-icon-document" size="mini">选择全部角色</el-button>
         </el-form-item>-->
         <!-- <br />
         <el-table :data="formInline2.tableData" style="width: 100%">
           <el-table-column prop="date.roleName" label="已选角色" min-width="50"></el-table-column>
           <el-table-column label="角色权限" min-width="100">
             <template slot-scope="scope">
-              <el-select clearable size="small" v-model="scope.row.region" placeholder="请选择角色权限">
+              <el-select clearable size="mini" v-model="scope.row.region" placeholder="请选择角色权限">
                 <el-option
                   v-for="item in scope.row.options"
                   :key="item.roleId"
@@ -212,7 +220,7 @@
               <el-button
                 type="danger"
                 @click.native.prevent="deleteRow(scope.$index, formInline2.tableData)"
-                size="small"
+                size="mini"
                 icon="el-icon-delete"
               >移除</el-button>
             </template>
@@ -221,7 +229,7 @@
         <el-form-item label="测评中心" prop="allSiteValue">
           <el-select
             clearable
-            size="small"
+            size="mini"
             multiple
             v-model="formInline2.allSiteValue"
             placeholder="请选择"
@@ -238,13 +246,13 @@
             :disabled="AllHospitalBut"
             type="primary"
             icon="el-icon-s-grid"
-            size="small"
-          >选择全部测评中心</el-button> -->
+            size="mini"
+          >选择全部测评中心</el-button>-->
         </el-form-item>
         <!-- <el-form-item label="负责医院" prop="regionHospital">
           <el-select
             clearable
-            size="small"
+            size="mini"
             multiple
             v-model="formInline2.regionHospital"
             placeholder="请选择"
@@ -262,10 +270,10 @@
             :disabled="AllHospitalBut"
             type="primary"
             icon="el-icon-s-grid"
-            size="small"
+            size="mini"
           >选择全部医院</el-button>
-        </el-form-item> -->
-        
+        </el-form-item>-->
+
         <el-form-item label="上传头像">
           <el-upload
             :action="upImgUrl"
@@ -313,7 +321,7 @@
       :visible.sync="configuringRoles"
       center
     >
-      <el-form :inline="true" ref="rolesFroms" :model="rolesFroms" class="center" size="small">
+      <el-form :inline="true" ref="rolesFroms" :model="rolesFroms" class="center" size="mini">
         <el-form-item label="用户角色">
           <el-select
             clearable
@@ -334,7 +342,7 @@
             :disabled="AllRoleBut"
             type="primary"
             icon="el-icon-s-grid"
-            size="small"
+            size="mini"
           >选择全部角色</el-button>
         </el-form-item>
       </el-form>
@@ -359,7 +367,7 @@ import {
   deleteUser,
   ConfiguringRolesList
 } from "../../api/javaApi";
-import {allSite} from "../../utils/public";
+import { allSite } from "../../utils/public";
 import javaApi from "../../api/javaApi";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
@@ -441,9 +449,9 @@ export default {
         userMobile: "",
         region: "",
         options: [],
-        siteIdValue:null,
-        siteIdList:[],
-        departmentValue:[]
+        siteIdValue: null,
+        siteIdList: [],
+        departmentValue: []
       },
       formInline2: {
         userName: null,
@@ -459,8 +467,8 @@ export default {
         //部门列表
         departmentList: null,
         departmentValue: [],
-        allSiteList:[],
-        allSiteValue:[]
+        allSiteList: [],
+        allSiteValue: []
       },
       rolesFroms: {
         select: [],
@@ -516,7 +524,7 @@ export default {
       AllHospitalBut: false,
       //选择全部角色按钮
       AllRoleBut: false,
-      loading: true,
+      loading: true
       //提交表单
       // formData:null
     };
@@ -603,12 +611,15 @@ export default {
           this.formData.append("username", this.formInline2.userName);
           this.formData.append("telephone", this.formInline2.userMobile);
           // this.formData.append("deptId", this.formInline2.departmentValue);//单选框
-          for(let i=0;i<this.formInline2.departmentValue.length;i++){
-              for(let key in this.formInline2.departmentValue[i]){
-                //假设这个数组对应的字段为box
-                  this.formData.append(`deptIds[${i}][${key}]`,this.formInline2.departmentValue[i][key])          
-              }
-            }//多选框
+          for (let i = 0; i < this.formInline2.departmentValue.length; i++) {
+            for (let key in this.formInline2.departmentValue[i]) {
+              //假设这个数组对应的字段为box
+              this.formData.append(
+                `deptIds[${i}][${key}]`,
+                this.formInline2.departmentValue[i][key]
+              );
+            }
+          } //多选框
           this.formData.append("siteIds", this.formInline2.allSiteValue);
           // this.formData.append(
           //   "userHospitalForms",
@@ -917,7 +928,7 @@ export default {
     },
     // 新增用户按钮
     addUserBut() {
-      this.addAndModifyUserTitle="新增用户信息"
+      this.addAndModifyUserTitle = "新增用户信息";
       this.GetHospitals();
       this.DatadialogVisible = true;
       this.rules.passWord[0].required = true;
@@ -934,7 +945,7 @@ export default {
       userDetail({ id: id })
         .then(res => {
           // debugger
-          console.log(res)
+          console.log(res);
           this.formInline2.userName = res.data.data.username;
           this.formInline2.userId = id;
           let phont = Number.parseInt(res.data.data.telephone);
@@ -948,8 +959,8 @@ export default {
           this.formInline2.allSiteValue = res.data.data.siteIds;
           if (!!res.data.data.photo) {
             this.fileList.push({ url: res.data.data.photo });
-          }   
-          this.addAndModifyUserTitle="修改用户信息"
+          }
+          this.addAndModifyUserTitle = "修改用户信息";
           this.mode = false;
           this.DatadialogVisible = true;
         })
@@ -1086,9 +1097,15 @@ export default {
     //获取用户列表
     async getControlCommunities(pageIndex = 1, pageSize = 10) {
       // console.log(this.formInline.departmentValue)
-      let itemId=null;
-      for (let index = 0; index < this.formInline.departmentValue.length; index++) {
-         itemId = this.formInline.departmentValue[this.formInline.departmentValue.length-1];
+      let itemId = null;
+      for (
+        let index = 0;
+        index < this.formInline.departmentValue.length;
+        index++
+      ) {
+        itemId = this.formInline.departmentValue[
+          this.formInline.departmentValue.length - 1
+        ];
       }
       let arg = {
         pageSize: pageSize,
@@ -1097,8 +1114,8 @@ export default {
       arg.username = this.formInline.user || null; //名称
       // arg.telephone = this.formInline.userMobile || null; //电话
       arg.roleId = this.formInline.region || null; //id
-      arg.siteId = this.formInline.siteIdValue || null; 
-      arg.deptId = itemId; 
+      arg.siteId = this.formInline.siteIdValue || null;
+      arg.deptId = itemId;
       // debugger
       this.loading = true;
       userList(arg)
@@ -1173,7 +1190,7 @@ export default {
       // FromData.region = null;
       this.formInline2.departmentValue = [];
       // FromData.regionHospital = [];
-      FromData.allSiteValue =[];
+      FromData.allSiteValue = [];
       // FromData.optionsHospital = [];
       // FromData.tableData = [];
       this.fileList = [];
@@ -1210,7 +1227,7 @@ export default {
     },
     //获取测评中心列表
     async siteList() {
-      console.log("调用成功")
+      console.log("调用成功");
       this.formInline2.allSiteList = await allSite();
     }
   }
@@ -1221,26 +1238,6 @@ export default {
 .form {
   width: 620px;
   margin: 0 auto;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.client_table {
-  margin-top: 20px;
-}
-.line-h-30 {
-  line-height: 30px;
-}
-.text-align {
-  text-align: center;
-}
-// .padding-lr-40 {
-//   padding-left: 40px;
-//   padding-right: 40px;
-// }
-.margin-l-p1 {
-  margin-left: 1%;
 }
 </style>
 <style>

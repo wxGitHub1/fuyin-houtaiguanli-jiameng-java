@@ -1,33 +1,20 @@
 //已验收
 <template>
   <div>
-    <el-row class="search">
-      <el-col :span="2" class="input-title">
-        <span>客户姓名</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input v-model="seach.memberName" size="small" placeholder="请输入姓名"></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>联系方式</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
-      </el-col>
-      
-      <el-col :span="2" class="input-title">
-        <span>产品名</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" v-model="seach.nickName" placeholder="请输入名称"></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>接待日期</span>
-      </el-col>
-      <el-col :span="5">
+    <!-- search -->
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="客户姓名">
+        <el-input v-model="seach.memberName" placeholder="请输入姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="联系方式">
+        <el-input v-model="seach.phone" placeholder="请输入联系电话"></el-input>
+      </el-form-item>
+      <el-form-item label="产品名">
+        <el-input v-model="seach.nickName" placeholder="请输入名称"></el-input>
+      </el-form-item>
+      <el-form-item label="接待日期">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="seach.time"
           type="daterange"
           format="yyyy-MM-dd"
@@ -36,23 +23,9 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2">
-        <el-button
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          size="small"
-          type="primary"
-          icon="el-icon-search"
-        >查询</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -65,13 +38,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -84,12 +53,14 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市" @change="userList(seach.siteValue)">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select
+          clearable
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="userList(seach.siteValue)"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -97,12 +68,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>主取型人</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select style="width:100%" size="small" clearable v-model="seach.user" placeholder="请选择">
+      </el-form-item>
+      <el-form-item label="主取型人">
+        <el-select style="width:100%" clearable v-model="seach.user" placeholder="请选择">
           <el-option
             v-for="item in seach.userList"
             :key="item.id"
@@ -110,9 +78,15 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      
-    </el-row>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          type="primary"
+          icon="el-icon-search"
+        >查询</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       :border="true"
@@ -229,7 +203,7 @@
         <div class="display-i-b" v-for="item in productSize.zb" :key="item.name">
           <span>{{item.name}}:</span>
           <span class="margin-r-20">{{item.value || "暂无数据"}}</span>
-        </div> -->
+        </div>-->
       </div>
       <h3 class="b-b-p-1">家长反应</h3>
       <div>
@@ -273,7 +247,11 @@
       width="80%"
       :before-close="cancelPrinting"
     >
-      <fuyinProduct-html :productTitle="productTitle" :printFormData="printFormData" :sizeMapList="sizeMapList"></fuyinProduct-html>
+      <fuyinProduct-html
+        :productTitle="productTitle"
+        :printFormData="printFormData"
+        :sizeMapList="sizeMapList"
+      ></fuyinProduct-html>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelPrinting()" type="success">取消</el-button>
         <el-button v-print="'#printTest'" type="primary">立即打印</el-button>
@@ -290,7 +268,13 @@ import {
   printProduct,
   shapeRedo
 } from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite } from "../../utils/public";
+import {
+  exportMethod,
+  province,
+  city,
+  site,
+  allSite
+} from "../../utils/public";
 // import fuyinProduct from "../../utils/fuyinProduct";
 import fuyinProduct_html from "../commonComponent/fuyinProduct";
 import { Promise, all, async } from "q";
@@ -341,7 +325,7 @@ export default {
         provinceId: null,
         cityId: null,
         provinceIdList: [],
-        cityIdList: [],
+        cityIdList: []
       },
       dialogDepartmentDetails: false,
       memberDetailDto: {
@@ -355,7 +339,7 @@ export default {
           size: null
         }
       ],
-      productSize:[],
+      productSize: [],
       loading: true,
       czBut_isShow: true
     };
@@ -474,7 +458,7 @@ export default {
           this.acceptanceDtos = res.data.data.acceptanceDtos;
           this.saleProductDto[0] = res.data.data.saleProductDto;
           this.productShapeDto[0] = res.data.data.productShapeDto;
-          this.productSize = res.data.data.productShapeDto.sizeMaps
+          this.productSize = res.data.data.productShapeDto.sizeMaps;
 
           // let qxwc = res.data.data.productShapeDto.size["取型"]["围长"];
           // let qxkd = res.data.data.productShapeDto.size["取型"]["宽度"];
@@ -501,7 +485,7 @@ export default {
     userList(siteId) {
       let data = {
         deptId: 8,
-        site:siteId
+        site: siteId
       };
       userListByDept(data)
         .then(res => {
@@ -526,7 +510,7 @@ export default {
         user: this.seach.user || null,
         provinceId: this.seach.provinceId,
         cityId: this.seach.cityId,
-        siteId: this.seach.siteValue,
+        siteId: this.seach.siteValue
       };
       this.loading = true;
       shapeAdmit(data)
@@ -572,66 +556,11 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.search {
-  text-align: center;
-  // margin-top: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e4e7ed;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.title {
-  color: #000;
-  text-align: center;
-}
-.border {
-  border-collapse: collapse;
-  width: 100%;
-  border: 1px solid #000000;
-  color: #000;
-  font-size: 14px;
-  tr td {
-    border: 1px solid #000;
-    padding: 8.5px;
-    text-align: center;
-  }
-  .background-y {
-    background: #e26b0a;
-  }
-  .border-b {
-    font-weight: 600;
-    font-size: 14px;
-  }
-  .first-tr {
-    width: 80px;
-  }
-}
-.margin-t-20 {
-  margin-top: 20px;
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
-}
 </style>

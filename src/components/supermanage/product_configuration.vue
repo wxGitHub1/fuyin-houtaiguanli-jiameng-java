@@ -2,13 +2,9 @@
 <template>
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" class="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -21,13 +17,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请选择"
@@ -40,14 +32,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
+        </el-form-item>
+      <el-form-item label="测评中心">
         <el-select
           style="width:100%"
-          size="small"
           clearable
           v-model="seach.siteId"
           placeholder="请选择"
@@ -60,14 +48,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">医院:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="医院"> 
         <el-select
           style="width:100%"
-          size="small"
           clearable
           v-model="seach.hospitalId"
           placeholder="请先选择"
@@ -79,10 +63,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="5">
+      </el-form-item>
+      <el-form-item>
         <el-button
-          size="small"
           @click="pageList(pages.currentPage,pages.pageSize)"
           icon="el-icon-search"
           type="primary"
@@ -90,17 +73,15 @@
         <el-button
           type="danger"
           icon="el-icon-download"
-          size="small"
           @click="exportExcels()"
         >导出excel</el-button>
         <el-button
           type="primary"
-          size="small"
           icon="el-icon-circle-plus-outline"
           @click="addSite_function()"
         >新增配置</el-button>
-      </el-col>
-    </el-row>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
@@ -1168,25 +1149,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  padding-bottom: 10px;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
-}
+
 </style>

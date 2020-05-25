@@ -864,19 +864,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.container {
-  .pagination {
-    margin-top: 10px;
-    text-align: center;
-  }
-  .client_table {
-    margin-top: 20px;
-  }
-}
-.line-h-30 {
-  line-height: 30px;
-}
-.margin-l-p1 {
-  margin-left: 1%;
-}
+
 </style>

@@ -157,12 +157,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.child_page {
- width: calc(100% - 180px);
-  height: calc(100% - 60px);
-  display: inline-block;
-  position: absolute;
-  top: 60px;
-  left:180px;
-}
+// .child_page {
+//  width: calc(100% - 180px);
+//   height: calc(100% - 60px);
+//   display: inline-block;
+//   position: absolute;
+//   top: 60px;
+//   left:180px;
+// }
 </style>

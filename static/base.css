@@ -362,11 +362,14 @@
     width:99.9%!important;
 }
 #input-title {
-  width: 5.5%;
+  width: 95px;
   line-height: 30px;
   text-align: center;
   font-size: 14px;
   color: #606266;
+}
+#but_2x{
+  width: 200px;
 }
 .input-title {
   width: 5.5%;
@@ -379,6 +382,27 @@
   /* color: #56a9ff; */
   color: #fff;
 }
+.child_page {
+  width: calc(100% - 180px);
+  height: calc(100% - 60px);
+  position: absolute;
+  top: 60px;
+  left: 180px;
+  overflow-x: hidden;
+}
+.pagination {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+/* search搜索样式 */
+/* #search .el-form-item--mini.el-form-item,#search .el-form-item--small.el-form-item {
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e4e4e4;
+  padding-right: 10px;
+  margin-right: -5px;
+} */
 /**
 * 全局global.css
 */
@@ -614,4 +638,10 @@ padding-right: 10px;
 }
 .margin-l-p-10{
     margin-left: 10%;
+}
+.padding-l-p10{
+  padding-left: 10px;
+}
+.padding-LR-p10{
+  padding:0 10px;
 }

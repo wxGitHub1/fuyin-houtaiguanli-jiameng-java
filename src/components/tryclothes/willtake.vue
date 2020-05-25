@@ -2,25 +2,15 @@
 <template>
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" class="input-title">
-        <span class="time_style">客户姓名:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input v-model="seach.memberName" style="width：100%" size="small" placeholder="请输入姓名"></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">联系方式:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" style="width：100%" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">试穿日期:</span>
-      </el-col>
-      <el-col :span="5">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="客户姓名">
+        <el-input v-model="seach.memberName" style="width：100%" placeholder="请输入姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="联系方式">
+        <el-input style="width：100%" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
+      </el-form-item>
+      <el-form-item label="试穿日期">
         <el-date-picker
-          size="small"
           v-model="seach.deliveryTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -29,18 +19,9 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">是否逾期：</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.isOverdue"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="是否逾期">
+        <el-select style="width:100%" clearable v-model="seach.isOverdue" placeholder="请选择">
           <el-option
             v-for="item in seach.isOverdueList"
             :key="item.id"
@@ -48,15 +29,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -69,13 +44,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -88,12 +59,14 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select
+          clearable
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="hospitalList(seach.siteValue)"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -101,12 +74,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">医院:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.hospitalId" placeholder="请先选择测评中心">
+      </el-form-item>
+      <el-form-item label="医院">
+        <el-select clearable v-model="seach.hospitalId" placeholder="请先选择测评中心">
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -114,18 +84,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">试穿人员:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.repairUserId"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="试穿人员">
+        <el-select style="width:100%" clearable v-model="seach.repairUserId" placeholder="请选择">
           <el-option
             v-for="item in seach.scUserNameList"
             :key="item.id"
@@ -133,27 +94,18 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">产品昵称:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input
-          size="small"
-          style="width：100%"
-          v-model="seach.saleProductName"
-          placeholder="请输入产品昵称"
-        ></el-input>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="产品昵称">
+        <el-input style="width：100%" v-model="seach.saleProductName" placeholder="请输入产品昵称"></el-input>
+      </el-form-item>
+      <el-form-item>
         <el-button
-          size="small"
           @click="pageList(pages.currentPage,pages.pageSize)"
           icon="el-icon-search"
           type="primary"
         >查询</el-button>
-      </el-col>
-    </el-row>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
@@ -196,7 +148,12 @@
             type="danger"
             size="small"
           >修改日期</el-button>
-          <el-button v-else  @click="uploadPhotos(scope.row.saleProductId)" type="warning" size="small">上传照片</el-button>
+          <el-button
+            v-else
+            @click="uploadPhotos(scope.row.saleProductId)"
+            type="warning"
+            size="small"
+          >上传照片</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -308,7 +265,11 @@
         <el-button type="success" v-if="tryOn[0].rivetStatus === 2" @click="rivetOver()">完成铆接</el-button>
         <el-button type="info" v-if="tryOn[0].rivetStatus === 0">已铆接</el-button>
         <el-button type="success" @click="trialComplete()">试穿完成</el-button>
-        <el-button type="warning" @click="express_func(pickupServiceInformation[0].saleProductId)" icon="el-icon-s-promotion">快递邮递</el-button>
+        <el-button
+          type="warning"
+          @click="express_func(pickupServiceInformation[0].saleProductId)"
+          icon="el-icon-s-promotion"
+        >快递邮递</el-button>
       </div>
       <div v-else slot="footer" class="dialog-footer">
         <el-button type="primary" icon="el-icon-back" @click="detailsReturn()">返回</el-button>
@@ -485,7 +446,16 @@ import {
   postExpress
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, personnel, TimeDifference, province, city,allSite, site,hospital } from "../../utils/public";
+import {
+  exportMethod,
+  personnel,
+  TimeDifference,
+  province,
+  city,
+  allSite,
+  site,
+  hospital
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import axios from "../../utils/ajax";
@@ -527,7 +497,10 @@ export default {
         memberName: null,
         phone: null,
         deliveryTime: null,
-        isOverdueList: [{ name: "是", id: 1 }, { name: "否", id: "0" }],
+        isOverdueList: [
+          { name: "是", id: 1 },
+          { name: "否", id: "0" }
+        ],
         isOverdue: null,
         repairUserId: null,
         scUserNameList: null,
@@ -538,8 +511,8 @@ export default {
         cityId: null,
         provinceIdList: [],
         cityIdList: [],
-        hospitalLists:[],
-        hospitalId:null,
+        hospitalLists: [],
+        hospitalId: null
       },
       saleProductId: null,
       memberId: null,
@@ -562,31 +535,33 @@ export default {
     this.provinceList();
   },
   methods: {
-    express_func(id){
-        let data={
-          saleProductId:id
-        }
-        postExpress(data).then(res=>{
+    express_func(id) {
+      let data = {
+        saleProductId: id
+      };
+      postExpress(data)
+        .then(res => {
           if (res.data.returnCode != 0) {
-                this.$message({
-                  type: "warning",
-                  message: res.data.returnMsg,
-                  center: true
-                });
-              } else {
-                this.detailsReturn();
-                this.pageList(this.pages.currentPage, this.pages.pageSize);
-                this.$message({
-                  type: "success",
-                  message: "操作成功!"
-                });
-              }
-        }).catch(err=>{
-           console.log(err);
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.detailsReturn();
+            this.pageList(this.pages.currentPage, this.pages.pageSize);
+            this.$message({
+              type: "success",
+              message: "操作成功!"
+            });
+          }
         })
+        .catch(err => {
+          console.log(err);
+        });
     },
     async rivetStart_function(siteId) {
-      this.rivetingStaffList = await personnel(13,siteId);
+      this.rivetingStaffList = await personnel(13, siteId);
       this.rivetingDialog = true;
     },
     rivetOver() {
@@ -705,7 +680,7 @@ export default {
     cz_serve() {
       let data = {
         saleProductId: this.saleProductId,
-        reason:this.cz_textarea
+        reason: this.cz_textarea
       };
       tryOnRedo(data)
         .then(res => {
@@ -726,7 +701,7 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err)
+          console.log(err);
         });
     },
     modifyDate(id, id2) {
@@ -1032,7 +1007,7 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //根据测评中心获取医院列表
     async hospitalList(id) {
@@ -1050,53 +1025,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #e4e7ed;
-  padding-bottom: 10px;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.office_performance {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.total {
-  background: #ff9800;
-  color: #606266;
-  height: 50px;
-  line-height: 50px;
-  span {
-    margin-left: 20px;
-  }
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
-    font-size: 14px;
-    color: #606266;
-    letter-spacing: 1px;
-  }
-}
 .color-red {
   color: #fb5b3c;
 }

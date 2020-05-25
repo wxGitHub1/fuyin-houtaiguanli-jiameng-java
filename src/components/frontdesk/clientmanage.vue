@@ -2,38 +2,21 @@
   <!-- 客户管理 -->
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" id="input-title">
-        <span>客户姓名</span>
-      </el-col>
-      <el-col :span="2">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="客户姓名">
+        <el-input v-model="seach.name" placeholder="请输入姓名" autocomplete="off" @input="listenKey()"></el-input>
+      </el-form-item>
+      <el-form-item label="联系方式">
         <el-input
-          v-model="seach.name"
-          size="small"
-          placeholder="请输入姓名"
-          autocomplete="off"
-          @input="listenKey()"
-        ></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>联系方式</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input
-          size="small"
           v-model="seach.phone"
           placeholder="请输入联系电话"
           autocomplete="off"
           @input="listenKey()"
         ></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>出生日期</span>
-      </el-col>
-      <el-col :span="3">
+      </el-form-item>
+      <el-form-item label="出生日期">
         <el-date-picker
           style="width:100%"
-          size="small"
           type="date"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
@@ -41,14 +24,10 @@
           v-model="seach.birthday"
           @change="listenKey()"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>黑名单</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="黑名单">
         <el-select
           clearable
-          size="small"
           v-model="seach.heimingdanValue"
           placeholder="请选择"
           @change="listenKey()"
@@ -60,33 +39,9 @@
             :value="item.type"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="3">
-        <el-button
-          v-if="tryOnly_show"
-          class="margin-l-p1"
-          type="primary"
-          size="small"
-          icon="el-icon-circle-plus-outline"
-          @click="addkehu()"
-        >新增</el-button>
-        <el-button
-          size="small"
-          type="warning"
-          icon="el-icon-search"
-          :loading="isSearch"
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          class="btns"
-        >查询</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -99,13 +54,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -118,12 +69,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -131,8 +79,22 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          v-if="tryOnly_show"
+          type="primary"
+          icon="el-icon-circle-plus-outline"
+          @click="addkehu()"
+        >新增</el-button>
+        <el-button
+          type="warning"
+          icon="el-icon-search"
+          :loading="isSearch"
+          @click="pageList(pages.currentPage,pages.pageSize)"
+        >查询</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
@@ -176,7 +138,7 @@
       ></el-table-column>
       <!-- <el-table-column align="center" prop="siteName" label="测评中心" :show-overflow-tooltip="true" min-width="40"></el-table-column>
       <el-table-column align="center" prop="visitFlagCN" label="到访状态" min-width="50"></el-table-column>-->
-      <el-table-column v-if="tryOnly_show" align="center" label="操作" min-width="280">
+      <el-table-column v-if="tryOnly_show" align="center" label="操作" width="550">
         <template slot-scope="scope">
           <el-button
             type="primary"
@@ -1292,13 +1254,7 @@
           </el-select>
         </el-col>
         <el-col :span="2">
-          <el-button
-            size="mini"
-            @click="salesList()"
-            icon="el-icon-search"
-            type="warning"
-            class="btns"
-          >查询</el-button>
+          <el-button size="mini" @click="salesList()" icon="el-icon-search" type="warning">查询</el-button>
         </el-col>
       </el-row>
       <el-table
@@ -1306,8 +1262,8 @@
         :data="productData"
         tooltip-effect="dark"
         @selection-change="handleSelectionChange"
-        @row-dblclick='dblclick_table_fuc'
-         highlight-current-row
+        @row-dblclick="dblclick_table_fuc"
+        highlight-current-row
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
@@ -1363,7 +1319,13 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div class="margin-t-20">
         优惠折扣：
-        <input type="text" class="input" v-model="discount" oninput="value=value.replace(/[^\d.]/g,'')" @change="discount_fuc(discount)" />
+        <input
+          type="text"
+          class="input"
+          v-model="discount"
+          oninput="value=value.replace(/[^\d.]/g,'')"
+          @change="discount_fuc(discount)"
+        />
       </div>
       <!-- <div>
         折扣价格：
@@ -1373,7 +1335,7 @@
           v-model="zhekouyouhui.favorable"
           oninput="value=value.replace(/[^\d.]/g,'')"
         />
-      </div> -->
+      </div>-->
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
       <div slot="footer" class="dialog-footer">
@@ -2169,11 +2131,11 @@ export default {
     this.init();
   },
   methods: {
-    dblclick_table_fuc(row, column, cell, event){
-      naVComponent.dblclick_table_fuc(this,row)
+    dblclick_table_fuc(row, column, cell, event) {
+      naVComponent.dblclick_table_fuc(this, row);
     },
     discount_fuc(value) {
-      naVComponent.discount_fuc(this,value)
+      naVComponent.discount_fuc(this, value);
     },
     Adddis_fuc() {
       this.dialogAddbd = true;
@@ -2727,7 +2689,7 @@ export default {
       this.paymentMethod.arrears = this.xqMoney();
     },
     specialRequirementsCancel() {
-      naVComponent.specialRequirementsCancel(this)
+      naVComponent.specialRequirementsCancel(this);
     },
     specialRequirementsConfirm() {
       this.detailFormList.forEach((obj, index) => {
@@ -2739,7 +2701,7 @@ export default {
       // console.log(this.detailFormList[0]);
     },
     discountConfirm() {
-      naVComponent.discountConfirm(this)
+      naVComponent.discountConfirm(this);
     },
     tsyq(obj) {
       this.dialogSpecialRequirements = true;
@@ -2748,7 +2710,7 @@ export default {
       this.specialRequirements = obj.row.demand;
     },
     zkyh(obj) {
-      naVComponent.zkyh(this,obj)
+      naVComponent.zkyh(this, obj);
     },
     deliveryTimeDate(value, index) {
       this.$set(this.detailFormList, index, value);
@@ -2876,7 +2838,7 @@ export default {
       this.addData[0].siteValue = null;
       this.addData[0].provinceId = null;
       this.addData[0].cityId = null;
-      this.bianhao=null
+      this.bianhao = null;
     },
     addDd(obj) {
       if (
@@ -3357,44 +3319,15 @@ export default {
   padding-bottom: 10px;
   border-bottom: 1px solid #e4e7ed;
 }
-.search {
-  text-align: center;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e4e7ed;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-}
 .input {
   border: 1px solid #ebeef5;
   color: #606266;
   padding: 5px;
   width: 80%;
 }
-.margin-l-p1 {
-  margin-left: 1%;
-}
-.b-b-1 {
-  padding: 10px 0;
-  border-bottom: 1px solid #eeeeee;
-  margin-bottom: 15px;
-}
 .b-b-p-1 {
   padding-bottom: 10px;
   border-bottom: 1px solid #eeeeee;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
 }
 .cpSize {
   float: left;
@@ -3411,10 +3344,6 @@ export default {
     display: inline-block;
     width: 69%;
   }
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
 }
 .visitEvaluation {
   width: 100%;
@@ -3445,12 +3374,6 @@ export default {
       background: #67c23a;
     }
   }
-}
-.margin-t-5 {
-  margin-top: 5px;
-}
-.margin-r-5 {
-  margin-right: 5px;
 }
 .border-dashed {
   border-top: 1px dashed #666;

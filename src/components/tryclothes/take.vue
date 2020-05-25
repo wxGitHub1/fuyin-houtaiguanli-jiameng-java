@@ -1,27 +1,17 @@
+//已试穿
 <template>
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" class="input-title">
-        <span class="time_style">客户姓名:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input v-model="seach.memberName" style="width：100%" size="small" placeholder="请输入姓名"></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">联系方式:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" style="width：100%" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
-      </el-col>
-
-      <el-col :span="2" class="input-title">
-        <span class="time_style">试穿日期:</span>
-      </el-col>
-      <el-col :span="5">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="客户姓名">
+        <el-input v-model="seach.memberName" style="width：100%" placeholder="请输入姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="联系方式">
+        <el-input style="width：100%" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
+      </el-form-item>
+      <el-form-item label="试穿日期">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="seach.repairDate"
           type="daterange"
           format="yyyy-MM-dd"
@@ -30,18 +20,9 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">试穿人员:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.repairUserId"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="试穿人员">
+        <el-select style="width:100%" clearable v-model="seach.repairUserId" placeholder="请选择">
           <el-option
             v-for="item in seach.scUserNameList"
             :key="item.id"
@@ -49,18 +30,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">试穿评价:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.repairType"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="试穿评价">
+        <el-select style="width:100%" clearable v-model="seach.repairType" placeholder="请选择">
           <el-option
             v-for="item in seach.repairTypeList"
             :key="item.id"
@@ -68,15 +40,9 @@
             :value="item.name"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -89,13 +55,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -108,12 +70,14 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select
+          clearable
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="hospitalList(seach.siteValue)"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -121,12 +85,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">医院:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.hospitalId" placeholder="请先选择测评中心">
+      </el-form-item>
+      <el-form-item label="医院">
+        <el-select clearable v-model="seach.hospitalId" placeholder="请先选择测评中心">
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -134,34 +95,24 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">产品昵称:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input
-          size="small"
-          style="width：100%"
-          v-model="seach.saleProductName"
-          placeholder="请输入产品昵称"
-        ></el-input>
-      </el-col>
-      <el-col :span="3">
+      </el-form-item>
+      <el-form-item label="产品昵称">
+        <el-input style="width：100%" v-model="seach.saleProductName" placeholder="请输入产品昵称"></el-input>
+      </el-form-item>
+      <el-form-item>
         <el-button
-          size="small"
           @click="pageList(pages.currentPage,pages.pageSize)"
           icon="el-icon-search"
           type="primary"
         >查询</el-button>
-        <el-button type="danger" @click="exportExcels()" size="small">导出excel</el-button>
-      </el-col>
-    </el-row>
+        <el-button type="danger" @click="exportExcels()">导出excel</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
       :data="clientData"
       max-height="650"
-      class="client_table"
       v-loading="loading"
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
@@ -339,7 +290,7 @@
     <el-dialog title="试穿照片" :visible.sync="photo_Dialog" :close-on-click-modal="false">
       <h3 class="b-b-p-1">试穿前</h3>
       <el-row :gutter="20">
-        <el-col :span="6" v-for="(item,index) in sc_srcList_before" :key="index" >
+        <el-col :span="6" v-for="(item,index) in sc_srcList_before" :key="index">
           <div>
             <el-image :src="item" :preview-src-list="sc_srcList_before">
               <div slot="error" class="image-slot">
@@ -351,7 +302,7 @@
       </el-row>
       <h3 class="b-b-p-1">试穿后</h3>
       <el-row :gutter="20">
-        <el-col :span="6" v-for="(item,index) in sc_srcList_after" :key="index" >
+        <el-col :span="6" v-for="(item,index) in sc_srcList_after" :key="index">
           <div>
             <el-image :src="item" :preview-src-list="sc_srcList_after">
               <div slot="error" class="image-slot">
@@ -370,7 +321,15 @@
 <script>
 import { queryTriedOn, triedOnDetail } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, personnel, province, city,allSite, site,hospital  } from "../../utils/public";
+import {
+  exportMethod,
+  personnel,
+  province,
+  city,
+  allSite,
+  site,
+  hospital
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -407,8 +366,8 @@ export default {
         cityId: null,
         provinceIdList: [],
         cityIdList: [],
-        hospitalLists:[],
-        hospitalId:null,
+        hospitalLists: [],
+        hospitalId: null
       },
       total: {},
       //客户信息
@@ -570,7 +529,7 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //根据测评中心获取医院列表
     async hospitalList(id) {
@@ -585,51 +544,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #e4e7ed;
-  padding-bottom: 10px;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.office_performance {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
-    font-size: 14px;
-    color: #606266;
-    letter-spacing: 1px;
-  }
-}
-.total {
-  background: #ff9800;
-  color: #606266;
-  height: 50px;
-  line-height: 50px;
-  span {
-    margin-left: 20px;
-  }
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
-}
+
 </style>

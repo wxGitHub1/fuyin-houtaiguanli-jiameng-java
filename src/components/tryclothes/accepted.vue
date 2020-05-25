@@ -1,26 +1,17 @@
+//已验收 
 <template>
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" class="input-title">
-        <span class="time_style">客户姓名:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input v-model="seach.memberName" style="width：100%" size="small" placeholder="请输入姓名"></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">联系电话:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" style="width：100%" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">交货日期:</span>
-      </el-col>
-      <el-col :span="5">
+    <el-form :inline="true" size="mini" id="search" class="padding-LR-p10">
+      <el-form-item label="客户姓名">
+        <el-input v-model="seach.memberName" style="width：100%" placeholder="请输入姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="联系电话">
+        <el-input style="width：100%" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
+      </el-form-item>
+      <el-form-item label="交货日期">
         <el-date-picker
           style="width:100%"
-          size="small"
           v-model="seach.delivery"
           type="daterange"
           format="yyyy 年 MM 月 dd 日"
@@ -29,52 +20,15 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">产品昵称：</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input
-          size="small"
-          style="width：100%"
-          v-model="seach.saleProductName"
-          placeholder="请输入产品昵称"
-        ></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">验收人：</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input
-          size="small"
-          style="width：100%"
-          v-model="seach.acceptedUserName"
-          placeholder="请输入验收人"
-        ></el-input>
-      </el-col>
-      <el-col :span="3">
-        <el-button
-          size="small"
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          icon="el-icon-search"
-          type="primary"
-        >查询</el-button>
-        <el-button
-          type="danger"
-          icon="el-icon-download"
-          @click="exportExcels()"
-          size="small"
-          :loading="excelLoad"
-        >导出excel</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="产品昵称">
+        <el-input style="width：100%" v-model="seach.saleProductName" placeholder="请输入产品昵称"></el-input>
+      </el-form-item>
+      <el-form-item label="验收人">
+        <el-input style="width：100%" v-model="seach.acceptedUserName" placeholder="请输入验收人"></el-input>
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -87,13 +41,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -106,12 +56,14 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select
+          clearable
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="hospitalList(seach.siteValue)"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -119,12 +71,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">医院:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.hospitalId" placeholder="请先选择测评中心">
+      </el-form-item>
+      <el-form-item label="医院">
+        <el-select clearable v-model="seach.hospitalId" placeholder="请先选择测评中心">
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -132,12 +81,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>验收结果：</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.result" placeholder="请选择">
+      </el-form-item>
+      <el-form-item label="验收结果">
+        <el-select clearable v-model="seach.result" placeholder="请选择">
           <el-option
             v-for="item in seach.resultList"
             :key="item.id"
@@ -145,14 +91,10 @@
             :value="item.name"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>验收日期：</span>
-      </el-col>
-      <el-col :span="5" style="text-align:left;">
+      </el-form-item>
+      <el-form-item label="验收日期">
         <el-date-picker
           style="width:100%"
-          size="small"
           v-model="seach.accepted"
           type="daterange"
           format="yyyy-MM-dd"
@@ -161,14 +103,26 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-    </el-row>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          icon="el-icon-search"
+          type="primary"
+        >查询</el-button>
+        <el-button
+          type="danger"
+          icon="el-icon-download"
+          @click="exportExcels()"
+          :loading="excelLoad"
+        >导出excel</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
       :data="clientData"
       max-height="650"
-      class="client_table"
       v-loading="loading"
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
@@ -241,7 +195,14 @@ import {
   selectTryOnAcceptedDetail
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, province, city, site,hospital,allSite } from "../../utils/public";
+import {
+  exportMethod,
+  province,
+  city,
+  site,
+  hospital,
+  allSite
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -275,8 +236,8 @@ export default {
         cityId: null,
         provinceIdList: [],
         cityIdList: [],
-        hospitalLists:[],
-        hospitalId:null,
+        hospitalLists: [],
+        hospitalId: null
       },
       acceptanDialog: false,
       excelLoad: false,
@@ -338,7 +299,7 @@ export default {
           this.seach.accepted == null ? null : this.seach.accepted[0],
         acceptedEndTime:
           this.seach.accepted == null ? null : this.seach.accepted[1],
-          provinceId: this.seach.provinceId,
+        provinceId: this.seach.provinceId,
         cityId: this.seach.cityId,
         siteId: this.seach.siteValue,
         hospitalId: this.seach.hospitalId
@@ -369,7 +330,7 @@ export default {
           this.seach.accepted == null ? null : this.seach.accepted[0],
         acceptedEndTime:
           this.seach.accepted == null ? null : this.seach.accepted[1],
-          provinceId: this.seach.provinceId,
+        provinceId: this.seach.provinceId,
         cityId: this.seach.cityId,
         siteId: this.seach.siteValue,
         hospitalId: this.seach.hospitalId
@@ -418,72 +379,17 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //根据测评中心获取医院列表
     async hospitalList(id) {
       this.seach.hospitalLists = await hospital(id);
-    },
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e4e7ed;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.office_performance {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.total {
-  background: #ff9800;
-  color: #606266;
-  height: 50px;
-  line-height: 50px;
-  span {
-    margin-left: 20px;
-  }
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
-}
-.box {
-  display: -webkit-flex;
-  display: flex;
-  justify-content: center;
-}
-.box > div {
-  width: 50%;
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-    color: #606266;
-  }
-}
 .xc_box > div {
   display: inline-block;
   width: 49%;

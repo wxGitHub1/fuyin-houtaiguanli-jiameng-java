@@ -1,38 +1,20 @@
 //待接待
 <template>
   <div>
-    <el-row class="search">
-      <el-col :span="2" id="input-title">
-        <span>客户姓名</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input v-model="seach.memberName" size="small" placeholder="请输入姓名"></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>联系方式</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>是否会员</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.vipValue" placeholder="请选择">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="客户姓名">
+        <el-input v-model="seach.memberName" placeholder="请输入姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="联系方式">
+        <el-input v-model="seach.phone" placeholder="请输入联系电话"></el-input>
+      </el-form-item>
+      <el-form-item label="是否会员">
+        <el-select clearable v-model="seach.vipValue" placeholder="请选择">
           <el-option v-for="item in seach.vips" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>服务人员</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          size="small"
-          clearable
-          style="width：100%"
-          v-model="seach.servicePersonnel"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="服务人员">
+        <el-select clearable style="width：100%" v-model="seach.servicePersonnel" placeholder="请选择">
           <el-option
             v-for="item in userNameList"
             :key="item.id"
@@ -40,24 +22,9 @@
             :value="item.username"
           ></el-option>
         </el-select>
-        <!-- <el-input v-model="seach.servicePersonnel" size="small" placeholder="请输入姓名"></el-input> -->
-      </el-col>
-      <el-col :span="2">
-        <el-button
-          size="small"
-          type="primary"
-          icon="el-icon-search"
-          @click="pageList(pages.currentPage,pages.pageSize)"
-        >查询</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -70,13 +37,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -89,12 +52,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -102,8 +62,15 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          @click="pageList(pages.currentPage,pages.pageSize)"
+        >查询</el-button>
+      </el-form-item>
+    </el-form>
     <el-table
       border
       :data="clientData"
@@ -212,7 +179,13 @@
         <div v-for="item in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
+            <el-input
+              v-model="item.value"
+              style="width：100%"
+              size="small"
+              placeholder="请输入"
+              oninput="value=value.replace(/[^\d.]/g,'')"
+            ></el-input>
           </div>
         </div>
         <!-- <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
@@ -232,7 +205,7 @@
           <div class="div">
             <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
           </div>
-        </div> -->
+        </div>-->
         <div class="cpSize">
           <span class="span">是否有X光片：</span>
           <div class="div">
@@ -334,7 +307,14 @@ import {
   shapeInsert,
   getShapeUser
 } from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite,personnel } from "../../utils/public";
+import {
+  exportMethod,
+  province,
+  city,
+  site,
+  allSite,
+  personnel
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -374,7 +354,7 @@ export default {
         // gd: [],
         // zb: [],
         // yq: null,
-        list:[],
+        list: [],
         radio: null,
         fy: [],
         fyList: ["配合", "理智", "心疼", "抱怨", "嫌弃", "暴躁"],
@@ -384,12 +364,12 @@ export default {
         saleBaseId: null,
         saleProductId: null,
         textarea_illness: null,
-        helpUserIds: [],
+        helpUserIds: []
       },
       saleProductId: null,
-      userNameList:[],
+      userNameList: [],
       // only_siteId:null,
-      fz_userList:[]
+      fz_userList: []
     };
   },
   mounted() {
@@ -544,7 +524,7 @@ export default {
             this.productSize.textarea_illness = this.Details.illness;
             this.dialogSizeDetails = true;
             this.userList(obj.id);
-            this.fz_userList_fuc(obj.siteId)
+            this.fz_userList_fuc(obj.siteId);
           }
         })
         .catch(err => {
@@ -635,49 +615,21 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //服务人员列表
     async userNameList_fuc() {
       this.userNameList = await personnel();
-
     },
     //辅助取型人员列表
     async fz_userList_fuc(id) {
-      this.fz_userList = await personnel(8,id);
-
-    },
+      this.fz_userList = await personnel(8, id);
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.search {
-  text-align: center;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e4e7ed;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-    // color: #606266;
-  }
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-    color: #606266;
-  }
-}
-.client_table {
-  margin-top: 20px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
 .cpSize {
   float: left;
   width: 46%;

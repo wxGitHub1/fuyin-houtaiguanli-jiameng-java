@@ -3,26 +3,16 @@
   <!-- 客户管理 -->
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">客户姓名</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input v-model="seach.memberName" style="width：100%" size="small" placeholder="请输入姓名"></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">联系方式</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" style="width：100%" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">评价日期：</span>
-      </el-col>
-      <el-col :span="5">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="客户姓名">
+        <el-input v-model="seach.memberName" style="width：100%" placeholder="请输入姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="联系方式">
+        <el-input style="width：100%" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
+      </el-form-item>
+      <el-form-item label="评价日期">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="seach.appraisalTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -31,14 +21,10 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">服务日期</span>
-      </el-col>
-      <el-col :span="5">
+      </el-form-item>
+      <el-form-item label="服务日期">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="seach.serviceTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -47,12 +33,9 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">评价类型</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.evaluationValue" placeholder="请选择">
+      </el-form-item>
+      <el-form-item label="评价类型">
+        <el-select clearable v-model="seach.evaluationValue" placeholder="请选择">
           <el-option
             v-for="item in seach.evaluations"
             :key="item.id"
@@ -60,14 +43,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" id="input-title">
-        <span>评价结果：</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.EvaluationResultValue" placeholder="请选择">
+      </el-form-item>
+      <el-form-item label="评价结果">
+        <el-select clearable v-model="seach.EvaluationResultValue" placeholder="请选择">
           <el-option
             v-for="item in seach.EvaluationResults"
             :key="item.id"
@@ -75,24 +53,9 @@
             :value="item.name"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>服务人员</span>
-      </el-col>
-      <el-col :span="2">
-        <!-- <el-input
-          size="small"
-          style="width：100%"
-          v-model="seach.servicePersonnel"
-          placeholder="请输入名称"
-        ></el-input> -->
-        <el-select
-          size="small"
-          clearable
-          style="width：100%"
-          v-model="seach.servicePersonnel"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="服务人员">
+        <el-select clearable style="width：100%" v-model="seach.servicePersonnel" placeholder="请选择">
           <el-option
             v-for="item in seach.userNameList"
             :key="item.id"
@@ -100,13 +63,9 @@
             :value="item.username"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -119,13 +78,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -138,12 +93,14 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" @change="userNameList_fuc(seach.siteValue)" placeholder="请先选择城市">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select
+          clearable
+          v-model="seach.siteValue"
+          @change="userNameList_fuc(seach.siteValue)"
+          placeholder="请先选择城市"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -151,28 +108,21 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="3">
+      </el-form-item>
+      <el-form-item>
         <el-button
-          size="small"
           @click="pageList(pages.currentPage,pages.pageSize)"
           type="warning"
           icon="el-icon-search"
         >查询</el-button>
-        <el-button
-          type="danger"
-          icon="el-icon-download"
-          @click="exportExcels()"
-          size="small"
-        >导出excel</el-button>
-      </el-col>
-    </el-row>
+        <el-button type="danger" icon="el-icon-download" @click="exportExcels()">导出excel</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
       :data="clientData"
       max-height="650"
-      class="client_table"
       v-loading="loading"
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
@@ -1187,8 +1137,8 @@
         :data="productData"
         tooltip-effect="dark"
         @selection-change="handleSelectionChange"
-        @row-dblclick='dblclick_table_fuc'
-         highlight-current-row
+        @row-dblclick="dblclick_table_fuc"
+        highlight-current-row
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
@@ -1251,7 +1201,13 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div class="margin-t-20">
         优惠折扣：
-        <input type="text" class="input" v-model="discount" oninput="value=value.replace(/[^\d.]/g,'')" @change="discount_fuc(discount)" />
+        <input
+          type="text"
+          class="input"
+          v-model="discount"
+          oninput="value=value.replace(/[^\d.]/g,'')"
+          @change="discount_fuc(discount)"
+        />
       </div>
       <!-- <div>
         折扣价格：
@@ -1261,7 +1217,7 @@
           v-model="zhekouyouhui.favorable"
           oninput="value=value.replace(/[^\d.]/g,'')"
         />
-      </div> -->
+      </div>-->
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
       <div slot="footer" class="dialog-footer">
@@ -1549,7 +1505,16 @@ import {
   examinePadZb3d
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite,getBase64Image,img_base64,personnel } from "../../utils/public";
+import {
+  exportMethod,
+  province,
+  city,
+  site,
+  allSite,
+  getBase64Image,
+  img_base64,
+  personnel
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import Print from "../commonComponent/PrintTemplate";
@@ -1588,7 +1553,7 @@ export default {
       productData: [],
       multipleSelection: [],
       detailFormList: [],
-      seachProduct:naVComponent_variable.seachProduct,
+      seachProduct: naVComponent_variable.seachProduct,
       jjChecked: false,
       orderingPerson: null,
       paymentMethod: {
@@ -1603,7 +1568,7 @@ export default {
       },
       isBlackBut: null,
       currentPrescriptions: [],
-      seach:frontDesk_variable.seach_PJ,
+      seach: frontDesk_variable.seach_PJ,
       clientData: [],
       //分页
       pages: {
@@ -1663,7 +1628,7 @@ export default {
         ],
         sex: [{ required: true, message: "请选择性别", trigger: "change" }]
       },
-      addData:naVComponent_variable.addData,
+      addData: naVComponent_variable.addData,
       //分页
       pages: {
         total: 30,
@@ -1759,25 +1724,25 @@ export default {
     this.userNameList_fuc();
   },
   methods: {
-    dblclick_table_fuc(row, column, cell, event){
-      naVComponent.dblclick_table_fuc(this,row)
+    dblclick_table_fuc(row, column, cell, event) {
+      naVComponent.dblclick_table_fuc(this, row);
     },
     discount_fuc(value) {
-      naVComponent.discount_fuc(this,value)
+      naVComponent.discount_fuc(this, value);
     },
-     Adddis_fuc(){
-       this.dialogAddbd = true
-       naVComponent.default_PCSH(this)
-     },
+    Adddis_fuc() {
+      this.dialogAddbd = true;
+      naVComponent.default_PCSH(this);
+    },
     threeD_func() {
-     naVComponent.threeD_func(this)
+      naVComponent.threeD_func(this);
     },
     threeD_show(obj) {
       this.threeD_ObjFrom.list = obj;
       this.threeDDialg = true;
     },
     isRequired(val) {
-      naVComponent.isRequired(this,val)
+      naVComponent.isRequired(this, val);
     },
     printpage() {
       this.$print2(this.$refs.print);
@@ -1809,7 +1774,7 @@ export default {
         });
     },
     confirmTransferSite_func() {
-      naVComponent.confirmTransferSite_func(this)
+      naVComponent.confirmTransferSite_func(this);
     },
     cancelTransfer_func() {
       this.transferSite.provinceValue = null;
@@ -1874,7 +1839,7 @@ export default {
       this.multipleSelection = [];
     },
     entrySize() {
-      naVComponent.entrySize(this)
+      naVComponent.entrySize(this);
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);
@@ -1882,7 +1847,7 @@ export default {
       this.paymentMethod.arrears = this.xqMoney();
     },
     specialRequirementsCancel() {
-      naVComponent.specialRequirementsCancel(this)
+      naVComponent.specialRequirementsCancel(this);
     },
     specialRequirementsConfirm() {
       this.detailFormList.forEach((obj, index) => {
@@ -1894,7 +1859,7 @@ export default {
       // console.log(this.detailFormList[0]);
     },
     discountConfirm() {
-      naVComponent.discountConfirm(this)
+      naVComponent.discountConfirm(this);
     },
     tsyq(obj) {
       this.dialogSpecialRequirements = true;
@@ -1902,7 +1867,7 @@ export default {
       this.specialRequirements = obj.row.demand;
     },
     zkyh(obj) {
-      naVComponent.zkyh(this,obj)
+      naVComponent.zkyh(this, obj);
     },
     deliveryTimeDate(value, index) {
       // debugger
@@ -1950,7 +1915,7 @@ export default {
         });
     },
     calculation() {
-     naVComponent.calculation(this)
+      naVComponent.calculation(this);
     },
     readyOrderCancel() {
       this.dialogreadyOrder = false;
@@ -1965,7 +1930,7 @@ export default {
       this.paymentMethod.xj = 0;
     },
     orderingStart() {
-      naVComponent.orderingStart(this)
+      naVComponent.orderingStart(this);
     },
     readyOrder(obj) {
       this.dialogreadyOrder = true;
@@ -1974,7 +1939,7 @@ export default {
       this.orderingPerson = session.getItem("username");
     },
     sizeEntry(obj) {
-     naVComponent.sizeEntry(this,obj)
+      naVComponent.sizeEntry(this, obj);
     },
     submitModfiy(formName) {
       // this.$refs[formName].validate(valid => {
@@ -2031,10 +1996,10 @@ export default {
       this.addData[0].siteValue = null;
       this.addData[0].provinceId = null;
       this.addData[0].cityId = null;
-      this.bianhao=null
+      this.bianhao = null;
     },
     addDd(obj) {
-      alert(1)
+      alert(1);
       if (
         obj[0].doctorValue != null &&
         obj[0].prescriptionValue != null &&
@@ -2373,7 +2338,7 @@ export default {
         appraisalString: this.seach.EvaluationResultValue || null,
         type: this.seach.evaluationValue || null,
         userName: this.seach.servicePersonnel || null,
-         provinceId: this.seach.provinceId,
+        provinceId: this.seach.provinceId,
         cityId: this.seach.cityId,
         siteId: this.seach.siteValue
       };
@@ -2404,7 +2369,7 @@ export default {
         appraisalString: this.seach.EvaluationResultValue || null,
         type: this.seach.evaluationValue || null,
         userName: this.seach.servicePersonnel || null,
-         provinceId: this.seach.provinceId,
+        provinceId: this.seach.provinceId,
         cityId: this.seach.cityId,
         siteId: this.seach.siteValue
       };
@@ -2519,8 +2484,8 @@ export default {
       this.addData[0].hospitals = data;
     },
     //服务人员列表
-    async userNameList_fuc(id=null) {
-      this.seach.userNameList = await personnel(null,id);
+    async userNameList_fuc(id = null) {
+      this.seach.userNameList = await personnel(null, id);
     },
     isJiaJi() {
       // debugger
@@ -2558,45 +2523,15 @@ export default {
   padding-bottom: 10px;
   border-bottom: 1px solid #e4e7ed;
 }
-.search {
-  text-align: center;
-  // margin-top: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e4e7ed;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-}
 .input {
   border: 1px solid #ebeef5;
   color: #606266;
   padding: 5px;
   width: 80%;
 }
-.margin-l-p1 {
-  margin-left: 1%;
-}
-.b-b-1 {
-  padding: 10px 0;
-  border-bottom: 1px solid #eeeeee;
-  margin-bottom: 15px;
-}
 .b-b-p-1 {
   padding-bottom: 10px;
   border-bottom: 1px solid #eeeeee;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
 }
 .cpSize {
   float: left;
@@ -2613,19 +2548,6 @@ export default {
     display: inline-block;
     width: 69%;
   }
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
-}
-.margin-t-20 {
-  margin-top: 20px;
-}
-.margin-t-5 {
-  margin-top: 5px;
-}
-.margin-r-5 {
-  margin-right: 5px;
 }
 .border-dashed {
   border-top: 1px dashed #666;

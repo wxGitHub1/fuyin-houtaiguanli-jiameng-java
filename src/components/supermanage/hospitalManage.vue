@@ -2,7 +2,7 @@
   <!-- 医院管理 -->
   <div>
     <!-- seach -->
-    <el-form :inline="true" :model="seachFome" size="small" label-width="80px" class="seach">
+    <el-form :inline="true" :model="seachFome" size="small" class="padding-LR-p10">
       <el-form-item label="省份">
         <el-select
           clearable
@@ -34,12 +34,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-        <el-select
-          clearable
-          v-model="seachFome.siteIdValue"
-          placeholder="请先选择城市"
-          
-        >
+        <el-select clearable v-model="seachFome.siteIdValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seachFome.siteIdList"
             :key="item.id"
@@ -59,11 +54,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="医院类型">
-        <el-select
-          clearable
-          v-model="seachFome.hospitalTypeValue"
-          placeholder="请先选择"
-        >
+        <el-select clearable v-model="seachFome.hospitalTypeValue" placeholder="请先选择">
           <el-option
             v-for="item in seachFome.hospitalTypeLists"
             :key="item.id"
@@ -94,13 +85,8 @@
           icon="el-icon-search"
           @click="pageList(pages.currentPage,pages.pageSize)"
         >查询</el-button>
-        <el-button
-        icon="el-icon-circle-plus-outline"
-        type="primary"
-        size="small"
-        @click="addDialog()"
-      >新增医院</el-button>
-      <el-button type="danger" icon="el-icon-download" size="small" @click="exportExcels()">导出excel</el-button>
+        <el-button icon="el-icon-circle-plus-outline" type="primary" @click="addDialog()">新增医院</el-button>
+        <el-button type="danger" icon="el-icon-download" @click="exportExcels()">导出excel</el-button>
       </el-form-item>
     </el-form>
     <!-- table -->
@@ -173,7 +159,14 @@
       :close-on-click-modal="false"
       :before-close="resetForm"
     >
-      <el-form :model="dialogForm" ref="dialogForm" :inline="true" size="mini" :rules="rules"  label-width="80px">
+      <el-form
+        :model="dialogForm"
+        ref="dialogForm"
+        :inline="true"
+        size="mini"
+        :rules="rules"
+        label-width="80px"
+      >
         <el-form-item label="省份" prop="provinceValue">
           <el-select
             clearable
@@ -190,7 +183,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="城市" prop="citysValue">
-          <el-select clearable v-model="dialogForm.citysValue"  @change="hospitalList(dialogForm.citysValue)" placeholder="请先选择省份">
+          <el-select
+            clearable
+            v-model="dialogForm.citysValue"
+            @change="hospitalList(dialogForm.citysValue)"
+            placeholder="请先选择省份"
+          >
             <el-option
               v-for="item in dialogForm.citys.select"
               :key="item.id"
@@ -220,10 +218,20 @@
           </el-select>
         </el-form-item>
         <el-form-item label="医院名称" prop="hospitalName">
-          <el-input v-model="dialogForm.hospitalName" autocomplete="off" placeholder="请输入医院名称" style="width:193px"></el-input>
+          <el-input
+            v-model="dialogForm.hospitalName"
+            autocomplete="off"
+            placeholder="请输入医院名称"
+            style="width:193px"
+          ></el-input>
         </el-form-item>
         <el-form-item label="地址" prop="address">
-          <el-input v-model="dialogForm.address" autocomplete="off" placeholder="请输入地址" style="width:193px"></el-input>
+          <el-input
+            v-model="dialogForm.address"
+            autocomplete="off"
+            placeholder="请输入地址"
+            style="width:193px"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -491,7 +499,7 @@ import {
   exportExcel
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod,site ,allSite,hospital } from "../../utils/public";
+import { exportMethod, site, allSite, hospital } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -532,14 +540,14 @@ export default {
         },
         doctors: "",
         principal: "",
-        siteIdList:[],
-        siteIdValue:null,
-        hospitalTypeLists:[
-          {name:"综合",id:1},
-          {name:"自营",id:3},
-          {name:"外包",id:2}
+        siteIdList: [],
+        siteIdValue: null,
+        hospitalTypeLists: [
+          { name: "综合", id: 1 },
+          { name: "自营", id: 3 },
+          { name: "外包", id: 2 }
         ],
-        hospitalTypeValue:null,
+        hospitalTypeValue: null
       },
       keshi: "",
       dialogFormVisible: false,
@@ -575,8 +583,8 @@ export default {
         provinceValue: "",
         citysValue: "",
         hospitalTypeValue: "",
-        siteIdList:[],
-        siteIdValue:null,
+        siteIdList: [],
+        siteIdValue: null
       },
       hospitalData: null,
       departmentData: null,
@@ -1021,21 +1029,21 @@ export default {
       };
       hospitalDetail(data)
         .then(res => {
-            // if (res.data.returnCode != 0) {
-            //     this.$message({
-            //       type: "warning",
-            //       message: res.data.returnMsg,
-            //       center: true
-            //     });
-            //   } else {
-                if (dialog == "dialogShow") {
-                    this.xiangqingDialog = true;
-                  }
-                this.hospitalData = res.data.data.hospital;
-                this.departmentData = res.data.data.departments;
-                this.doctorsData = res.data.data.doctors;
-                this.principalData = res.data.data.sysUsers;
-              // }
+          // if (res.data.returnCode != 0) {
+          //     this.$message({
+          //       type: "warning",
+          //       message: res.data.returnMsg,
+          //       center: true
+          //     });
+          //   } else {
+          if (dialog == "dialogShow") {
+            this.xiangqingDialog = true;
+          }
+          this.hospitalData = res.data.data.hospital;
+          this.departmentData = res.data.data.departments;
+          this.doctorsData = res.data.data.doctors;
+          this.principalData = res.data.data.sysUsers;
+          // }
         })
         .catch(err => {
           console.log(err);
@@ -1182,7 +1190,7 @@ export default {
       this.dialogForm.citysValue = null;
       this.dialogForm.address = null;
       this.dialogForm.hospitalTypeValue = null;
-      this.dialogForm.siteIdValue = null
+      this.dialogForm.siteIdValue = null;
       this.dialogFormVisible = false;
     },
     //详情保存按钮
@@ -1206,8 +1214,8 @@ export default {
         doctorName: this.seachFome.doctors || null,
         sysUserName: this.seachFome.principal || null,
         technical: this.seachFome.fom4.value || null,
-        siteId:this.seachFome.siteIdValue,
-        type:this.seachFome.hospitalTypeValue,
+        siteId: this.seachFome.siteIdValue,
+        type: this.seachFome.hospitalTypeValue
       };
       this.loading = true;
       selectByPage(data)
@@ -1238,8 +1246,8 @@ export default {
         doctorName: this.seachFome.doctors || "",
         sysUserName: this.seachFome.principal || "",
         technical: this.seachFome.fom4.value || "",
-        siteId:this.seachFome.siteIdValue,
-        type:this.seachFome.hospitalTypeValue,
+        siteId: this.seachFome.siteIdValue,
+        type: this.seachFome.hospitalTypeValue
       };
       const lsyObj = {
         method: "post",
@@ -1297,15 +1305,15 @@ export default {
         .catch(err => {
           console.log(err);
         });
-        this.siteList(id)
+      this.siteList(id);
     },
     //测评中心
     async siteList(id) {
-      let resData = await allSite(null,id);
-      this.seachFome.siteIdList = resData
+      let resData = await allSite(null, id);
+      this.seachFome.siteIdList = resData;
       this.dialogForm.siteIdList = resData;
     },
-     //根据测评中心获取医院列表
+    //根据测评中心获取医院列表
     // async hospitalList(id) {
     //   this.seach.hospitalLists = await hospital(id);
     // },
@@ -1316,7 +1324,9 @@ export default {
           this.seachFome.fom4.select = res.data.data;
           this.addDoctor.zhicheng.select = res.data.data;
         })
-        .catch(err => {console.log(err)});
+        .catch(err => {
+          console.log(err);
+        });
     },
     //医院类型
     hospitalTypeList() {
@@ -1325,7 +1335,7 @@ export default {
           this.dialogForm.hospitalType.select = res.data.data;
         })
         .catch(err => {
-          console.log(err)
+          console.log(err);
         });
     }
   }
@@ -1333,36 +1343,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.container {
-  width: 100%;
-  .client_table {
-    margin-top: 20px;
-  }
-}
-.margin-l-p1 {
-  margin-left: 1%;
-}
-.b-b-1 {
-  padding: 10px 0;
-  border-bottom: 1px solid #eeeeee;
-  margin-bottom: 15px;
-}
-// .seach {
-  // margin-left: 1%;
-//   .job {
-//     /deep/ .el-form-item__content {
-//       width: 110px;
-//     }
-//   }
-// }
-.padding-lr-40 {
-  padding-left: 40px;
-  padding-right: 40px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
 .input-p80 {
   width: 80%;
 }

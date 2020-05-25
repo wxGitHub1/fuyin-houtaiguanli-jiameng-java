@@ -1,42 +1,25 @@
 <!-- 订单管理 -->
 <template>
   <div>
-    <el-row class="search">
-      <el-col :span="2" id="input-title">
-        <span>客户姓名</span>
-      </el-col>
-      <el-col :span="2">
+    <el-form :inline="true" size="mini" id="search" class="padding-LR-p10">
+      <el-form-item label="客户姓名">
         <el-input
           v-model="seach.userName"
           style="width：100%"
-          size="small"
           placeholder="请输入姓名"
           @input="listenKey()"
         ></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>联系方式</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="联系方式">
         <el-input
-          size="small"
           style="width：100%"
           v-model="seach.phone"
           placeholder="请输入联系电话"
           @input="listenKey()"
         ></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>订单状态</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          clearable
-          size="small"
-          v-model="seach.status"
-          placeholder="请选择"
-          @change="listenKey()"
-        >
+      </el-form-item>
+      <el-form-item label="订单状态">
+        <el-select clearable v-model="seach.status" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.statusList"
             :key="item.id"
@@ -44,14 +27,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>下单日期</span>
-      </el-col>
-      <el-col :span="4">
+      </el-form-item>
+      <el-form-item label="下单日期">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="seach.createTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -61,14 +40,10 @@
           end-placeholder="结束日期"
           @change="listenKey()"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>交货日期</span>
-      </el-col>
-      <el-col :span="4">
+      </el-form-item>
+      <el-form-item label="交货日期">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="seach.deliveryTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -78,29 +53,9 @@
           end-placeholder="结束日期"
           @change="listenKey()"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2">
-        <el-button
-          size="small"
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          type="warning"
-          icon="el-icon-search"
-        >查询</el-button>
-        <!-- <el-button size="small" @click="switchTitle('clientManage',1)" type="primary">测试跳转</el-button> -->
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" id="input-title">
-        <span>付款类型</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          clearable
-          size="small"
-          v-model="seach.payType"
-          placeholder="请选择"
-          @change="listenKey()"
-        >
+      </el-form-item>
+      <el-form-item label="付款类型">
+        <el-select clearable v-model="seach.payType" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.payTypeList"
             :key="item.id"
@@ -108,18 +63,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>是否欠款</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          clearable
-          size="small"
-          v-model="seach.owe"
-          placeholder="请选择"
-          @change="listenKey()"
-        >
+      </el-form-item>
+      <el-form-item label="是否欠款">
+        <el-select clearable v-model="seach.owe" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.oweList"
             :key="item.id"
@@ -127,37 +73,21 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>订单编号</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="订单编号">
         <el-input
-          size="small"
           style="width：100%"
           v-model="seach.orderNum"
           placeholder="请输入订单编号"
           @input="listenKey()"
         ></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>下单人</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input
-          size="small"
-          v-model="seach.createUserName"
-          placeholder="请输入下单人姓名"
-          @input="listenKey()"
-        ></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>病单类型</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="下单人">
+        <el-input v-model="seach.createUserName" placeholder="请输入下单人姓名" @input="listenKey()"></el-input>
+      </el-form-item>
+      <el-form-item label="病单类型">
         <el-select
           clearable
-          size="small"
           v-model="seach.prescriptionType"
           placeholder="请选择"
           @change="listenKey()"
@@ -169,18 +99,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>折扣优惠</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          clearable
-          size="small"
-          v-model="seach.favorable"
-          placeholder="请选择"
-          @change="listenKey()"
-        >
+      </el-form-item>
+      <el-form-item label="折扣优惠">
+        <el-select clearable v-model="seach.favorable" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.favorableList"
             :key="item.id"
@@ -188,23 +109,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2">
-        <el-button
-          type="danger"
-          icon="el-icon-download"
-          @click="exportExcels()"
-          size="small"
-        >导出excel</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="client_info" id="border-none">
-      <el-col :span="2" class="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -217,13 +124,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -236,14 +139,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>测评中心</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="测评中心">
         <el-select
           clearable
-          size="small"
           v-model="seach.siteValue"
           placeholder="请先选择城市"
           @change="hospitalList(seach.siteValue)"
@@ -255,14 +154,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>医院名称</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="医院名称">
         <el-select
           clearable
-          size="small"
           v-model="seach.hospitalId"
           placeholder="请先选择测评中心"
           @change="listenKey()"
@@ -274,8 +169,16 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          type="warning"
+          icon="el-icon-search"
+        >查询</el-button>
+        <el-button type="danger" icon="el-icon-download" @click="exportExcels()">导出excel</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
@@ -286,6 +189,7 @@
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
       :header-row-class-name="'headerClass'"
+      sizi="mini"
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="orderNum" label="订单编号" min-width="150"></el-table-column>
@@ -496,7 +400,12 @@
           @click="printTicket(paymentMethod.orderNum)"
         >打印小票</el-button>
         <el-button type="warning" @click="dialogRefund=true" icon="el-icon-bank-card">退款</el-button>
-        <el-button type="primary" :disabled="Details.updateOrder === 0"  icon="el-icon-circle-close" @click="cancelOrder">取消订单</el-button>
+        <el-button
+          type="primary"
+          :disabled="Details.updateOrder === 0"
+          icon="el-icon-circle-close"
+          @click="cancelOrder"
+        >取消订单</el-button>
         <el-button :disabled="Details.updateOrder === 0" type="warning" @click="changeOrder()">修改订单</el-button>
       </div>
     </el-dialog>
@@ -1135,7 +1044,13 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div class="margin-t-20">
         优惠折扣：
-        <input type="text" class="input" v-model="discount" oninput="value=value.replace(/[^\d.]/g,'')" @change="discount_fuc(discount)" />
+        <input
+          type="text"
+          class="input"
+          v-model="discount"
+          oninput="value=value.replace(/[^\d.]/g,'')"
+          @change="discount_fuc(discount)"
+        />
       </div>
       <!-- <div>
         折扣价格：
@@ -1145,7 +1060,7 @@
           v-model="zhekouyouhui.favorable"
           oninput="value=value.replace(/[^\d.]/g,'')"
         />
-      </div> -->
+      </div>-->
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
       <div slot="footer" class="dialog-footer">
@@ -1261,7 +1176,7 @@ import naVComponent from "./page";
 export default {
   data() {
     return {
-      discount:0,
+      discount: 0,
       isCancel: false, //详情中退款、取消、修改按钮状态   :disabled="isCancel" 按钮加入显示状态
       //
       dialogreadyOrder: false,
@@ -1471,7 +1386,7 @@ export default {
   },
   methods: {
     discount_fuc(value) {
-      naVComponent.discount_fuc(this,value)
+      naVComponent.discount_fuc(this, value);
     },
     // 取消打印
     cancelPrinting() {
@@ -1531,7 +1446,7 @@ export default {
       this.paymentMethod.arrears = this.xqMoney();
     },
     entrySize() {
-      naVComponent.entrySize(this)
+      naVComponent.entrySize(this);
     },
     sizeCancel() {
       this.dialogSizeDetails = false;
@@ -1561,13 +1476,13 @@ export default {
       console.log(this.detailFormList[0]);
     },
     discountConfirm() {
-      naVComponent.discountConfirm(this)
+      naVComponent.discountConfirm(this);
     },
     specialRequirementsCancel() {
-      naVComponent.specialRequirementsCancel(this)
+      naVComponent.specialRequirementsCancel(this);
     },
     sizeEntry(obj) {
-     naVComponent.sizeEntry(this,obj)
+      naVComponent.sizeEntry(this, obj);
     },
     tsyq(obj) {
       this.dialogSpecialRequirements = true;
@@ -1576,7 +1491,7 @@ export default {
       this.specialRequirements = obj.row.demand;
     },
     zkyh(obj) {
-      naVComponent.zkyh(this,obj)
+      naVComponent.zkyh(this, obj);
     },
     deleteRow(index, rows) {
       rows.splice(index, 1);
@@ -1600,7 +1515,7 @@ export default {
       this.paymentMethod.lkl = 0;
     },
     modefiy_orderingStart() {
-      naVComponent.modefiy_orderingStart(this)
+      naVComponent.modefiy_orderingStart(this);
     },
     changeOrder() {
       // debugger;
@@ -1669,9 +1584,7 @@ export default {
     //   this.$emit("acceptTitle", item);
     // },
     orderDetails(obj) {
-      if (
-        obj.sizeMapList==[]
-      ) {
+      if (obj.sizeMapList == []) {
         this.$message({
           type: "warning",
           message: "暂无尺寸信息！",
@@ -1731,7 +1644,7 @@ export default {
       //   });
     },
     addRefund() {
-     naVComponent.addRefund(this)
+      naVComponent.addRefund(this);
     },
     cancelMakeUp() {
       this.dialogMakeUpTheArrears = false;
@@ -1774,7 +1687,7 @@ export default {
       }
     },
     calculation() {
-     naVComponent.calculation(this)
+      naVComponent.calculation(this);
     },
     printTicket_bj(num) {
       this.realTime = getTime();
@@ -2107,36 +2020,6 @@ export default {
 .operation {
   padding-bottom: 10px;
   border-bottom: 1px solid #e4e7ed;
-}
-.search {
-  text-align: center;
-  // margin-top: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e4e7ed;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #e4e7ed;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-}
-#border-none {
-  border-bottom: none;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.width-p-50 {
-  width: 50%;
-  float: left;
 }
 .signatureImg {
   width: 328px;

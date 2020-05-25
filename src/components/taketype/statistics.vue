@@ -1,13 +1,9 @@
 <template>
   <div>
-    <el-row class="search">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">接待日期：</span>
-      </el-col>
-      <el-col :span="4">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="接待日期">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="search.OrderTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -16,39 +12,15 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>产品名称:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" style="width:100%" v-model="search.product" placeholder="请输入产品名称"></el-input>
-      </el-col>
-      
-      <el-col :span="2" id="input-title">
-        <span>辅助人员:</span>
-      </el-col>
-      <el-col :span="2" >
-        <!-- <el-select size="small" clearable  v-model="search.userValue">
-          <el-option v-for="(item,index) in search.userList" :key="index" :value="item.id" :label="item.username"></el-option>
-        </el-select>-->
-        <el-input size="small" style="width:100%" v-model="search.helpUser" placeholder="请输入人员"></el-input>
-      </el-col>
-      <el-col :span="2">
-        <el-button
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          icon="el-icon-search"
-          size="small"
-          type="primary"
-        >查询</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="office_performance">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="产品名称">
+        <el-input style="width:100%" v-model="search.product" placeholder="请输入产品名称"></el-input>
+      </el-form-item>
+      <el-form-item label="辅助人员">
+        <el-input style="width:100%" v-model="search.helpUser" placeholder="请输入人员"></el-input>
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="search.provinceId"
           placeholder="请选择"
@@ -61,13 +33,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="search.cityId"
           placeholder="请先选择省份"
@@ -80,12 +48,14 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="search.siteValue" placeholder="请先选择城市" @change="userList(search.siteValue)">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select
+          clearable
+          v-model="search.siteValue"
+          placeholder="请先选择城市"
+          @change="userList(search.siteValue)"
+        >
           <el-option
             v-for="item in search.siteLists"
             :key="item.id"
@@ -93,12 +63,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>主取型人:</span>
-      </el-col>
-      <el-col :span="2" >
-        <el-select size="small" clearable v-model="search.userValue">
+      </el-form-item>
+      <el-form-item label="主取型人">
+        <el-select clearable v-model="search.userValue">
           <el-option
             v-for="(item,index) in search.userList"
             :key="index"
@@ -106,19 +73,18 @@
             :label="item.username"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item>
         <el-button
-          type="danger"
-          icon="el-icon-download"
-          @click="exportExcels()"
-          size="small"
-        >导出excel</el-button>
-      </el-col>
-    </el-row>
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          icon="el-icon-search"
+          type="primary"
+        >查询</el-button>
+        <el-button type="danger" icon="el-icon-download" @click="exportExcels()">导出excel</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
-      class="client_table"
       border
       :data="clientData"
       max-height="980"
@@ -166,7 +132,13 @@
 <script>
 import { shapeStatistics, userListByDept } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite } from "../../utils/public";
+import {
+  exportMethod,
+  province,
+  city,
+  site,
+  allSite
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -200,7 +172,7 @@ export default {
         provinceId: null,
         cityId: null,
         provinceIdList: [],
-        cityIdList: [],
+        cityIdList: []
       }
     };
   },
@@ -213,7 +185,7 @@ export default {
     userList(siteId) {
       let data = {
         deptId: 8,
-        site:siteId
+        site: siteId
       };
       userListByDept(data)
         .then(res => {
@@ -236,7 +208,7 @@ export default {
         nickname: this.search.product || null,
         provinceId: this.search.provinceId,
         cityId: this.search.cityId,
-        siteId: this.search.siteValue,
+        siteId: this.search.siteValue
       };
       const lsyObj = {
         method: "post",
@@ -260,7 +232,7 @@ export default {
         nickname: this.search.product || null,
         provinceId: this.search.provinceId,
         cityId: this.search.cityId,
-        siteId: this.search.siteValue,
+        siteId: this.search.siteValue
       };
       this.loading = true;
       shapeStatistics(data)
@@ -308,39 +280,13 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.search.siteLists = await allSite(null,id);
+      this.search.siteLists = await allSite(null, id);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #e4e7ed;
-  padding-bottom: 10px;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.office_performance {
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
 .total {
   background: #ff9800;
   color: #606266;

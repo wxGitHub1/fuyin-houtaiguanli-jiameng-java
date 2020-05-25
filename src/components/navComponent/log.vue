@@ -1,12 +1,10 @@
+// 系统管理操作日志
 <template>
   <div>
-    <el-row class="search">
-        <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+    <!-- search -->
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -19,13 +17,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -38,12 +32,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -51,36 +42,21 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
-    <el-row class="office_performance">
-      <el-col :span="2" id="input-title">
-        <span>用户名:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" v-model="seach.name" placeholder="请输入联系电话"></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>操作类型:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.logValue" placeholder="请选择">
+      </el-form-item>
+      <el-form-item label="用户名">
+        <el-input v-model="seach.name" placeholder="请输入联系电话"></el-input>
+      </el-form-item>
+      <el-form-item label="操作类型">
+        <el-select clearable v-model="seach.logValue" placeholder="请选择">
           <el-option v-for="item in seach.logs" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>订单编号:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" v-model="seach.orderNum" placeholder="请输入订单编号"></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">操作时间:</span>
-      </el-col>
-      <el-col :span="4">
+      </el-form-item>
+      <el-form-item label="订单编号">
+        <el-input v-model="seach.orderNum" placeholder="请输入订单编号"></el-input>
+      </el-form-item>
+      <el-form-item label="操作时间">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="seach.logTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -89,22 +65,16 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="3">
+      </el-form-item>
+      <el-form-item>
         <el-button
           @click="pageList(pages.currentPage,pages.pageSize)"
-          size="small"
           type="warning"
           icon="el-icon-search"
         >查询</el-button>
-        <el-button
-          type="danger"
-          icon="el-icon-download"
-          @click="exportExcels()"
-          size="small"
-        >导出excel</el-button>
-      </el-col>
-    </el-row>
+        <el-button type="danger" icon="el-icon-download" @click="exportExcels()">导出excel</el-button>
+      </el-form-item>
+    </el-form>
     <el-table
       class="client_table"
       border
@@ -181,7 +151,6 @@
           <el-table-column align="center" prop="productOrderTypeOld" label="下单类型前"></el-table-column>
           <el-table-column align="center" prop="productOrderTypeNew" label="下单类型后"></el-table-column>
           <el-table-column align="center" prop="nickname" label="产品昵称"></el-table-column>
-          
         </el-table>
         <el-table class="client_table" border :data="xq.before">
           <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
@@ -223,7 +192,13 @@
 <script>
 import { logList, logDetail } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite } from "../../utils/public";
+import {
+  exportMethod,
+  province,
+  city,
+  site,
+  allSite
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -392,37 +367,11 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #e4e7ed;
-  padding-bottom: 10px;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.office_performance {
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
 </style>

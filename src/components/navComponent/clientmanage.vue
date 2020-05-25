@@ -2,13 +2,9 @@
   <!-- 客户管理 -->
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" class="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -21,13 +17,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -40,18 +32,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>测评中心</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          clearable
-          size="small"
-          v-model="seach.siteValue"
-          placeholder="请先选择城市"
-          @change="listenKey()"
-        >
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市" @change="listenKey()">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -59,87 +42,28 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>客户姓名</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="客户姓名">
+        <el-input v-model="seach.name" placeholder="请输入姓名" autocomplete="off" @input="listenKey()"></el-input>
+      </el-form-item>
+      <el-form-item label="联系方式">
         <el-input
-          v-model="seach.name"
-          size="small"
-          placeholder="请输入姓名"
-          autocomplete="off"
-          @input="listenKey()"
-        ></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>联系方式</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input
-          size="small"
           v-model="seach.phone"
           placeholder="请输入联系电话"
           autocomplete="off"
           @input="listenKey()"
         ></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>创建人</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="创建人">
         <el-input
-          size="small"
           v-model="seach.createName"
           placeholder="请输入创建人姓名"
           autocomplete="off"
           @input="listenKey()"
         ></el-input>
-      </el-col>
-
-      <!-- <el-col :span="2" class="input-title">
-        <span>是否下单</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.xiadan.value" placeholder="请选择" @change="listenKey()">
-          <el-option
-            v-for="item in seach.xiadan.select"
-            :key="item.type"
-            :label="item.name"
-            :value="item.type"
-          ></el-option>
-        </el-select>
-      </el-col>-->
-
-      <el-col :span="3">
-        <el-button
-          size="small"
-          icon="el-icon-search"
-          type="warning"
-          @click.native="pageList(pages.currentPage,pages.pageSize)"
-          class="btns"
-        >查询</el-button>
-        <el-button
-          class="margin-l-p1"
-          type="primary"
-          size="small"
-          icon="el-icon-circle-plus-outline"
-          @click="addkehu()"
-        >新增</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" class="input-title">
-        <span>到访状态</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          clearable
-          size="small"
-          v-model="seach.daofang.value"
-          placeholder="请选择"
-          @change="listenKey()"
-        >
+      </el-form-item>
+      <el-form-item label="到访状态">
+        <el-select clearable v-model="seach.daofang.value" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.daofang.select"
             :key="item.type"
@@ -147,18 +71,9 @@
             :value="item.type"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>客户认知</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          clearable
-          size="small"
-          v-model="seach.renzhi.value"
-          placeholder="请选择"
-          @change="listenKey()"
-        >
+      </el-form-item>
+      <el-form-item label="客户认知">
+        <el-select clearable v-model="seach.renzhi.value" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.renzhi.select"
             :key="item.type"
@@ -166,18 +81,9 @@
             :value="item.name"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>客户来源</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          clearable
-          size="small"
-          v-model="seach.laiyuan.value"
-          placeholder="请选择"
-          @change="listenKey()"
-        >
+      </el-form-item>
+      <el-form-item label="客户来源">
+        <el-select clearable v-model="seach.laiyuan.value" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.laiyuan.select"
             :key="item.type"
@@ -185,14 +91,10 @@
             :value="item.type"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>黑名单</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="黑名单">
         <el-select
           clearable
-          size="small"
           v-model="seach.heimingdan.value"
           placeholder="请选择"
           @change="listenKey()"
@@ -204,14 +106,11 @@
             :value="item.type"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span>选择时间</span>
-      </el-col>
-      <el-col :span="5" style="text-align:left;" @change="listenKey()">
+      </el-form-item>
+      <el-form-item label="选择时间">
         <el-date-picker
+          @change="listenKey()"
           style="width:100%"
-          size="small"
           v-model="seach.createTime"
           type="daterange"
           format="yyyy 年 MM 月 dd 日"
@@ -220,17 +119,23 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          icon="el-icon-search"
+          type="warning"
+          @click.native="pageList(pages.currentPage,pages.pageSize)"
+          class="btns"
+        >查询</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addkehu()">新增</el-button>
         <el-button
           type="danger"
           icon="el-icon-download"
           @click="exportExcels()"
-          size="small"
           :loading="excelLoad"
         >导出excel</el-button>
-      </el-col>
-    </el-row>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       :border="true"
@@ -241,7 +146,6 @@
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
       :header-row-class-name="'headerClass'"
-      
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
@@ -1021,7 +925,7 @@
             type="primary"
           >选择产品</el-button>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>下单人:</span>
         </el-col>
         <el-col :span="3">
@@ -1119,7 +1023,7 @@
       </el-table>
       <h3 class="b-b-p-1">付款方式</h3>
       <el-row>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>现金金额：</span>
         </el-col>
         <el-col :span="3">
@@ -1131,7 +1035,7 @@
             @change="calculation"
           ></el-input-number>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>转账金额：</span>
         </el-col>
         <el-col :span="3">
@@ -1177,7 +1081,7 @@
     >
       <!-- seach product-->
       <el-row class="search">
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品名称</span>
         </el-col>
         <el-col :span="2">
@@ -1188,7 +1092,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品昵称</span>
         </el-col>
         <el-col :span="2">
@@ -1199,7 +1103,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>备案编号</span>
         </el-col>
         <el-col :span="2">
@@ -1210,7 +1114,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品类型</span>
         </el-col>
         <el-col :span="2">
@@ -1228,7 +1132,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品资质</span>
         </el-col>
         <el-col :span="2">
@@ -1241,7 +1145,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产地</span>
         </el-col>
         <el-col :span="2">
@@ -1269,8 +1173,8 @@
         :data="productData"
         tooltip-effect="dark"
         @selection-change="handleSelectionChange"
-        @row-dblclick='dblclick_table_fuc'
-         highlight-current-row
+        @row-dblclick="dblclick_table_fuc"
+        highlight-current-row
         max-height="500"
       >
         <el-table-column type="selection"></el-table-column>
@@ -1333,7 +1237,13 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div class="margin-t-20">
         优惠折扣：
-        <input type="text" class="input" v-model="discount" oninput="value=value.replace(/[^\d.]/g,'')" @change="discount_fuc(discount)" />
+        <input
+          type="text"
+          class="input"
+          v-model="discount"
+          oninput="value=value.replace(/[^\d.]/g,'')"
+          @change="discount_fuc(discount)"
+        />
       </div>
       <!-- <div class="margin-t-20">
       折扣后价格：{{discountValue}}-->
@@ -1851,14 +1761,14 @@ export default {
   },
   computed: {},
   methods: {
-    dblclick_table_fuc(row, column, cell, event){
-      naVComponent.dblclick_table_fuc(this,row)
-        // this.multipleSelection.push(row)
-        // this.$refs.multipleTable.setCurrentRow(row);
-        // this.$refs.multipleTable.toggleRowSelection(row);
+    dblclick_table_fuc(row, column, cell, event) {
+      naVComponent.dblclick_table_fuc(this, row);
+      // this.multipleSelection.push(row)
+      // this.$refs.multipleTable.setCurrentRow(row);
+      // this.$refs.multipleTable.toggleRowSelection(row);
     },
     discount_fuc(value) {
-      naVComponent.discount_fuc(this,value)
+      naVComponent.discount_fuc(this, value);
     },
     Adddis_fuc() {
       this.dialogAddbd = true;
@@ -1978,7 +1888,7 @@ export default {
       this.paymentMethod.arrears = this.xqMoney();
     },
     specialRequirementsCancel() {
-      naVComponent.specialRequirementsCancel(this)
+      naVComponent.specialRequirementsCancel(this);
     },
     specialRequirementsConfirm() {
       this.detailFormList.forEach((obj, index) => {
@@ -1990,7 +1900,7 @@ export default {
       // console.log(this.detailFormList[0]);
     },
     discountConfirm() {
-      naVComponent.discountConfirm(this)
+      naVComponent.discountConfirm(this);
     },
     tsyq(obj) {
       this.dialogSpecialRequirements = true;
@@ -1998,7 +1908,7 @@ export default {
       this.specialRequirements = obj.row.demand;
     },
     zkyh(obj) {
-      naVComponent.zkyh(this,obj)
+      naVComponent.zkyh(this, obj);
     },
     deliveryTimeDate(value, index) {
       this.$set(this.detailFormList, index, value);
@@ -2668,45 +2578,15 @@ export default {
   padding-bottom: 10px;
   border-bottom: 1px solid #e4e7ed;
 }
-.search {
-  text-align: center;
-  // margin-top: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e4e7ed;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-}
 .input {
   border: 1px solid #ebeef5;
   color: #606266;
   padding: 5px;
   width: 80%;
 }
-.margin-l-p1 {
-  margin-left: 1%;
-}
-.b-b-1 {
-  padding: 10px 0;
-  border-bottom: 1px solid #eeeeee;
-  margin-bottom: 15px;
-}
 .b-b-p-1 {
   padding-bottom: 10px;
   border-bottom: 1px solid #eeeeee;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
 }
 .cpSize {
   float: left;
@@ -2724,23 +2604,9 @@ export default {
     width: 69%;
   }
 }
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
-}
-.margin-t-20 {
-  margin-top: 20px;
-}
-.margin-t-5 {
-  margin-top: 5px;
-}
-.margin-r-5 {
-  margin-right: 5px;
-}
 .border-dashed {
   border-top: 1px dashed #666;
   margin-top: 5px;
 }
- 
 </style>
 

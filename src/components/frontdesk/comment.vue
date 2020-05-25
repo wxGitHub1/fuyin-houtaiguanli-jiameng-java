@@ -1,24 +1,16 @@
+//待评价
 <template>
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" class="input-title">
-        <span class="time_style">客户姓名</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input v-model="seach.memberName" style="width：100%" size="small" placeholder="请输入姓名"></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">联系方式</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" style="width：100%" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">服务种类</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.serviceValue" placeholder="请选择">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="客户姓名">
+        <el-input v-model="seach.memberName" style="width：100%" placeholder="请输入姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="联系方式">
+        <el-input style="width：100%" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
+      </el-form-item>
+      <el-form-item label="服务种类">
+        <el-select clearable v-model="seach.serviceValue" placeholder="请选择">
           <el-option
             v-for="item in seach.services"
             :key="item.id"
@@ -26,18 +18,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">服务人员</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          size="small"
-          clearable
-          style="width：100%"
-          v-model="seach.userName"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="服务人员">
+        <el-select clearable style="width：100%" v-model="seach.userName" placeholder="请选择">
           <el-option
             v-for="item in userNameList"
             :key="item.id"
@@ -45,15 +28,10 @@
             :value="item.username"
           ></el-option>
         </el-select>
-        <!-- <el-input size="small" style="width：100%" v-model="seach.userName" placeholder="请输入名称"></el-input> -->
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">分配日期：</span>
-      </el-col>
-      <el-col :span="5">
+      </el-form-item>
+      <el-form-item label="分配日期">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="seach.distributionTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -62,23 +40,9 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2">
-        <el-button
-          size="small"
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          type="warning"
-          icon="el-icon-search"
-        >查询</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -91,13 +55,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -110,12 +70,14 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small"  @change="userNameList_fuc(seach.siteValue)" v-model="seach.siteValue" placeholder="请先选择城市">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select
+          clearable
+          @change="userNameList_fuc(seach.siteValue)"
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -123,8 +85,15 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          type="warning"
+          icon="el-icon-search"
+        >查询</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
@@ -148,11 +117,7 @@
       <el-table-column align="center" prop="createTime" label="分配时间"></el-table-column>
       <el-table-column align="center" label="操作" min-width="100">
         <template slot-scope="scope">
-          <el-button
-            @click="openDrawer(scope.row)"
-            type="primary"
-            size="small"
-          >评价</el-button>
+          <el-button @click="openDrawer(scope.row)" type="primary" size="small">评价</el-button>
           <!-- <el-button
             v-if="wanchengjd(scope.row)"
             @click="completeReception(scope.row.id)"
@@ -171,7 +136,7 @@
             @click="Unassign(scope.row.id)"
             type="success"
             size="small"
-          >取消分配</el-button> -->
+          >取消分配</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -285,7 +250,14 @@ import {
   assignAppraisal,
   endAdmit
 } from "../../api/javaApi";
-import { exportMethod, province, city, site,allSite,personnel } from "../../utils/public";
+import {
+  exportMethod,
+  province,
+  city,
+  site,
+  allSite,
+  personnel
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -310,8 +282,8 @@ export default {
       is_sc: false,
       radio1: null,
       radio2: null,
-      radio1Name:null,
-      radio2Name:null,
+      radio1Name: null,
+      radio2Name: null,
       clientData: [],
       loading: true,
       //分页
@@ -344,13 +316,16 @@ export default {
           { name: "接待中", id: 1 },
           { name: "已接待", id: 2 }
         ],
-        appraisals: [{ name: "待评价", id: "0" }, { name: "已评价", id: 1 }],
+        appraisals: [
+          { name: "待评价", id: "0" },
+          { name: "已评价", id: 1 }
+        ],
         siteLists: [],
         siteValue: null,
         provinceId: null,
         cityId: null,
         provinceIdList: [],
-        cityIdList: [],
+        cityIdList: []
       },
       userDialog: false,
       myValue: [],
@@ -365,7 +340,7 @@ export default {
         imgUrl: null
       },
       myType: null,
-      userNameList:[],
+      userNameList: []
     };
   },
   mounted() {
@@ -415,7 +390,7 @@ export default {
         });
     },
     SaveRatingInformation() {
-      let data={};
+      let data = {};
       if (this.myType === "试穿") {
         data.id = this.pjId;
         data.appraisal = this.active;
@@ -468,8 +443,8 @@ export default {
             } else {
               this.active = res.data.data.answer1;
             }
-            this.radio1Name=res.data.data.answer1
-            this.radio2Name=res.data.data.answer2
+            this.radio1Name = res.data.data.answer1;
+            this.radio2Name = res.data.data.answer2;
             if (res.data.data.answer1 == "学会了") {
               this.radio1 = 1;
             } else if (res.data.data.answer1 == "没学会") {
@@ -525,8 +500,8 @@ export default {
       this.drawer = false;
       this.radio1 = null;
       this.active = null;
-      this.radio1Name=null;
-      this.radio2Name=null;
+      this.radio1Name = null;
+      this.radio2Name = null;
       this.activeTwo = null;
       this.radio2 = null;
     },
@@ -610,7 +585,8 @@ export default {
     panduan(obj) {
       if (
         (obj.status == "已接待" || obj.status == "接待中") &&
-        obj.isAppraisal == 0 && obj.type != "维修"
+        obj.isAppraisal == 0 &&
+        obj.type != "维修"
       ) {
         return true;
       } else {
@@ -683,7 +659,7 @@ export default {
         // appraisal:
         //   this.seach.appraisalValue == "0" ? 0 : this.seach.appraisalValue,
         userName: this.seach.userName || null,
-         provinceId: this.seach.provinceId,
+        provinceId: this.seach.provinceId,
         cityId: this.seach.cityId,
         siteId: this.seach.siteValue
       };
@@ -731,60 +707,17 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //服务人员列表
-    async userNameList_fuc(id=null) {
-      this.userNameList = await personnel(null,id);
-    },
+    async userNameList_fuc(id = null) {
+      this.userNameList = await personnel(null, id);
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #e4e7ed;
-  padding-bottom: 10px;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-     color: #606266;
-  }
-}
-.office_performance {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-// .client_table {
-//   margin-top: 10px;
-// }
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.total {
-  background: #ff9800;
-  color: #606266;
-  height: 50px;
-  line-height: 50px;
-  span {
-    margin-left: 20px;
-  }
-}
 .visitEvaluation {
   width: 100%;
   position: relative;
@@ -822,10 +755,6 @@ export default {
       background: #67c23a;
     }
   }
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
 }
 // .image-slot{
 //   display: flex;

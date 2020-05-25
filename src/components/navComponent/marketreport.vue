@@ -1,15 +1,9 @@
-/**
- * 统计报表
- */
+// 统计报表
 <template>
   <div>
-    <el-row class="search">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -22,13 +16,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -41,14 +31,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>测评中心:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="测评中心">
         <el-select
           clearable
-          size="small"
           v-model="seach.siteValue"
           placeholder="请先选择城市"
           @change="hospitalList(seach.siteValue)"
@@ -60,14 +46,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>医院:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="医院">
         <el-select
           clearable
-          size="small"
           @change="departmentList(seach.hospitalValue)"
           v-model="seach.hospitalValue"
           placeholder="请先选择测评中心"
@@ -79,14 +61,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>科室:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="科室">
         <el-select
           clearable
-          size="small"
           @change="doctorList(seach.departmentValue)"
           v-model="seach.departmentValue"
           placeholder="请选择"
@@ -98,12 +76,9 @@
             :value="item.departmentId"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>医生:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.doctorValue" placeholder="请选择">
+      </el-form-item>
+      <el-form-item label="医生">
+        <el-select clearable v-model="seach.doctorValue" placeholder="请选择">
           <el-option
             v-for="item in seach.doctors"
             :key="item.doctorId"
@@ -111,54 +86,16 @@
             :value="item.doctorId"
           ></el-option>
         </el-select>
-      </el-col>
-      <!-- <el-col :span="2" style="width: 5%;line-height: 30px">
-        <span>产品分类</span>
-      </el-col>
-      <el-col :span="2" style="line-height: 30px">
-        <el-select clearable size="small" v-model="seach.prescriptionType" placeholder="请选择">
-          <el-option
-            v-for="item in seach.prescriptionTypeList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
-        </el-select>
-      </el-col>-->
-      <el-col :span="2">
-        <el-button
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          size="small"
-          type="warning"
-          icon="el-icon-search"
-        >查询</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="office_performance">
-      <el-col :span="2" id="input-title">
-        <span>产品:</span>
-      </el-col>
-      <el-col :span="2" style="line-height: 30px">
-        <el-input size="small" style="width:100%" v-model="seach.product" placeholder="请输入产品名称"></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span>下单人:</span>
-      </el-col>
-      <el-col :span="2" style="line-height: 30px">
-        <el-input
-          size="small"
-          style="width:100%"
-          v-model="seach.orderUserName"
-          placeholder="请输入下单人"
-        ></el-input>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">下单日期：</span>
-      </el-col>
-      <el-col :span="4">
+      </el-form-item>
+      <el-form-item label="产品">
+        <el-input style="width:100%" v-model="seach.product" placeholder="请输入产品名称"></el-input>
+      </el-form-item>
+      <el-form-item label="下单人">
+        <el-input style="width:100%" v-model="seach.orderUserName" placeholder="请输入下单人"></el-input>
+      </el-form-item>
+      <el-form-item label="下单日期">
         <el-date-picker
           style="width: 100%"
-          size="small"
           v-model="seach.OrderTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -167,18 +104,17 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item>
         <el-button
-          type="danger"
-          icon="el-icon-download"
-          @click="exportExcels()"
-          size="small"
-        >导出excel</el-button>
-      </el-col>
-    </el-row>
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          type="warning"
+          icon="el-icon-search"
+        >查询</el-button>
+        <el-button type="danger" icon="el-icon-download" @click="exportExcels()">导出excel</el-button>
+      </el-form-item>
+    </el-form>
     <el-table
-      class="client_table"
       border
       :data="clientData"
       max-height="600"
@@ -207,7 +143,7 @@
       <span>产品总数量：{{total.num}}</span>
       <span>营业总额：{{total.actualSum}}</span>
       <span>退款总金额：{{total.refundSum}}</span>
-      <span>加急费总金额：{{total.quicklyRefundSum}}</span>
+      <span>加急费总金额：{{total.quicklySum}}</span>
     </div>
     <!-- Pagination 分页 -->
     <el-pagination
@@ -315,10 +251,7 @@ export default {
             let dataList = res.data;
             this.clientData = dataList.data.productStatistics;
             this.pages.total = dataList.total;
-            this.total.num = dataList.data.num;
-            this.total.actualSum = dataList.data.actualSum;
-            this.total.refundSum = dataList.data.refundSum;
-            this.total.quicklyRefundSum = dataList.data.quicklyRefundSum;
+            this.total = dataList.data;
           }
         })
         .catch(err => {
@@ -411,7 +344,7 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //根据测评中心获取医院列表
     async hospitalList(id) {
@@ -422,32 +355,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.search {
-  color: #606266;
-  font-size: 14px;
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #e4e7ed;
-  padding-bottom: 10px;
-  .time_style {
-    letter-spacing: 1px;
-  }
-}
-.office_performance {
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
 .total {
   background: #ff9800;
   color: #606266;

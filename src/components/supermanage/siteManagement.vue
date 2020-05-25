@@ -1,13 +1,9 @@
 <template>
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" class="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="省份">
         <el-select
-          size="small"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -20,13 +16,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -39,18 +31,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.siteId"
-          placeholder="请先选择城市"
-        >
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select style="width:100%" clearable v-model="seach.siteId" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteIdList"
             :key="item.id"
@@ -58,18 +41,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">测评中心类型:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.siteType"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="测评中心类型">
+        <el-select style="width:100%" clearable v-model="seach.siteType" placeholder="请选择">
           <el-option
             v-for="item in seach.siteTypeList"
             :key="item.id"
@@ -77,16 +51,12 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="input-title">
-        <span class="time_style">负责人:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input size="small" style="width：100%" v-model="seach.userName" placeholder="请输入产品昵称"></el-input>
-      </el-col>
-      <el-col :span="3">
+      </el-form-item>
+      <el-form-item label="负责人">
+        <el-input style="width：100%" v-model="seach.userName" placeholder="请输入产品昵称"></el-input>
+      </el-form-item>
+      <el-form-item>
         <el-button
-          size="small"
           @click="pageList(pages.currentPage,pages.pageSize)"
           icon="el-icon-search"
           type="primary"
@@ -94,12 +64,11 @@
         <el-button
           v-if="hasRole==1"
           type="primary"
-          size="small"
           icon="el-icon-circle-plus-outline"
           @click="addSite_function()"
         >新增测评中心</el-button>
-      </el-col>
-    </el-row>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
@@ -119,12 +88,17 @@
       <el-table-column align="center" prop="sitePhone" label="联系电话"></el-table-column>
       <el-table-column align="center" prop="siteAddress" label="测评中心地址"></el-table-column>
       <el-table-column align="center" prop="siteLeaders" label="负责人"></el-table-column>
-      <el-table-column align="center" prop="siteUsers" show-overflow-tooltip  label="员工"></el-table-column>
+      <el-table-column align="center" prop="siteUsers" show-overflow-tooltip label="员工"></el-table-column>
       <el-table-column align="center" prop="siteCreateTime" label="创建时间"></el-table-column>
       <el-table-column align="center" prop="orderUserName" label="操作">
         <template slot-scope="scope">
           <el-button @click="modify_function(scope.row)" type="primary" size="small">修改</el-button>
-          <el-button @click="deletesite_function(scope.row.siteId)" type="danger" v-if="hasRole == 1" size="small">删除</el-button>
+          <el-button
+            @click="deletesite_function(scope.row.siteId)"
+            type="danger"
+            v-if="hasRole == 1"
+            size="small"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -148,13 +122,7 @@
       :close-on-click-modal="false"
       :before-close="comeBack"
     >
-      <el-form
-        :model="addSite"
-        ref="dialogForm"
-        :inline="true"
-        size="mini"
-        :rules="rules"
-      >
+      <el-form :model="addSite" ref="dialogForm" :inline="true" size="mini" :rules="rules">
         <el-form-item label="省份" prop="provinceValue">
           <el-select
             clearable
@@ -172,7 +140,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="城市" prop="citysValue">
-          <el-select :disabled="hasRole != 1" clearable v-model="addSite.citysValue" placeholder="请先选择省份">
+          <el-select
+            :disabled="hasRole != 1"
+            clearable
+            v-model="addSite.citysValue"
+            placeholder="请先选择省份"
+          >
             <el-option
               v-for="item in add.cityIdList"
               :key="item.id"
@@ -182,7 +155,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="测评中心类型" prop="siteType">
-          <el-select clearable :disabled="hasRole != 1" v-model="addSite.siteType" placeholder="请选择">
+          <el-select
+            clearable
+            :disabled="hasRole != 1"
+            v-model="addSite.siteType"
+            placeholder="请选择"
+          >
             <el-option
               v-for="item in seach.siteTypeList"
               :key="item.id"
@@ -191,7 +169,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="测评中心负责人" v-if="isShowAddTitle == '修改测评中心信息'" >
+        <el-form-item label="测评中心负责人" v-if="isShowAddTitle == '修改测评中心信息'">
           <el-select clearable multiple collapse-tags v-model="addSite.leaderIds" placeholder="请选择">
             <el-option
               v-for="item in leaderIdsList"
@@ -250,7 +228,8 @@ import {
   city,
   site,
   allSite,
-  joinAllProvince,joinAllCity
+  joinAllProvince,
+  joinAllCity
 } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
@@ -281,9 +260,9 @@ export default {
         ],
         userName: null
       },
-      add:{
-        provinceIdList:[],
-        cityIdList:[]
+      add: {
+        provinceIdList: [],
+        cityIdList: []
       },
       addSiteDialog: false,
       addSite: {
@@ -293,7 +272,7 @@ export default {
         siteName: null,
         siteAddress: null,
         sitePhone: null,
-        leaderIds:[]
+        leaderIds: []
       },
       isShowAdd: true,
       isShowAddTitle: "新增测评中心信息",
@@ -333,9 +312,9 @@ export default {
             type: "number"
           }
         ]
-      }, 
-      hasRole:2,
-      leaderIdsList:[]
+      },
+      hasRole: 2,
+      leaderIdsList: []
     };
   },
   mounted() {
@@ -343,7 +322,7 @@ export default {
     //获取省列表
     this.provinceList();
     //获取新增加盟省列表
-    this.addProvinceList()
+    this.addProvinceList();
   },
   methods: {
     modify_function(obj) {
@@ -359,7 +338,7 @@ export default {
       this.addSite.siteAddress = obj.siteAddress;
       this.addSite.sitePhone = obj.sitePhone;
       this.addSiteDialog = true;
-      this.leaderIdsList_fuc(obj.siteId)
+      this.leaderIdsList_fuc(obj.siteId);
     },
     deletesite_function(id) {
       this.$confirm("此操作将永久删除该信息, 是否继续？", "提示", {
@@ -402,38 +381,38 @@ export default {
     addSite_fuc(formName, name) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          let data={
-             provinceId: this.addSite.provinceValue, //省ID
-              cityId: this.addSite.citysValue, //市ID
-              siteName: this.addSite.siteName, //测评中心名
-              siteType: this.addSite.siteType, //0-总部，1-独立，2-连锁
-              sitePhone: this.addSite.sitePhone, //测评中心联系方式
-              siteAddress: this.addSite.siteAddress //测评中心地址 address
-          }
+          let data = {
+            provinceId: this.addSite.provinceValue, //省ID
+            cityId: this.addSite.citysValue, //市ID
+            siteName: this.addSite.siteName, //测评中心名
+            siteType: this.addSite.siteType, //0-总部，1-独立，2-连锁
+            sitePhone: this.addSite.sitePhone, //测评中心联系方式
+            siteAddress: this.addSite.siteAddress //测评中心地址 address
+          };
           if (name == "modify") {
-            data.siteId=this.rowSiteId,
-            data.leaderIds=this.addSite.leaderIds,
-            updateSite(data)
-              .then(res => {
-                if (res.data.returnCode != 0) {
-                  this.$message({
-                    type: "warning",
-                    message: res.data.returnMsg,
-                    center: true
-                  });
-                } else {
-                  this.comeBack();
-                  this.pageList(this.pages.currentPage, this.pages.pageSize);
-                  this.$message({
-                    type: "success",
-                    message: "修改成功！",
-                    center: true
-                  });
-                }
-              })
-              .catch(err => {
-                console.log(err);
-              });
+            (data.siteId = this.rowSiteId),
+              (data.leaderIds = this.addSite.leaderIds),
+              updateSite(data)
+                .then(res => {
+                  if (res.data.returnCode != 0) {
+                    this.$message({
+                      type: "warning",
+                      message: res.data.returnMsg,
+                      center: true
+                    });
+                  } else {
+                    this.comeBack();
+                    this.pageList(this.pages.currentPage, this.pages.pageSize);
+                    this.$message({
+                      type: "success",
+                      message: "修改成功！",
+                      center: true
+                    });
+                  }
+                })
+                .catch(err => {
+                  console.log(err);
+                });
           } else {
             insertSite(data)
               .then(res => {
@@ -507,7 +486,7 @@ export default {
             // this.clientData = dataList.data;
             this.clientData = dataList.data.siteListDTOs;
             this.pages.total = dataList.total;
-            this.hasRole=dataList.data.hasRole
+            this.hasRole = dataList.data.hasRole;
             this.loading = false;
           }
         })
@@ -548,36 +527,16 @@ export default {
     },
     //测评中心
     async siteList(id) {
-      this.seach.siteIdList = await allSite(null,id);
+      this.seach.siteIdList = await allSite(null, id);
     },
     //测评中心
     async leaderIdsList_fuc(id) {
-      this.leaderIdsList = await personnel(null,id);
+      this.leaderIdsList = await personnel(null, id);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  padding-bottom: 10px;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
-}
+
 </style>
