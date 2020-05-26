@@ -2019,10 +2019,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.operation {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e4e7ed;
-}
 .signatureImg {
   width: 328px;
   height: 117px;
@@ -2161,9 +2157,6 @@ export default {
   .first-tr {
     width: 80px;
   }
-}
-#margin-r-20 {
-  margin-right: 20px;
 }
 #margin-l-20 {
   margin-left: 20px;
