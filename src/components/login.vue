@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="login_box">
-      <div style="margin-bottom: 31px">
+      <div style="margin-bottom: 30px">
         <img src="../../static/image/login/img_logotitle.png" alt="title" width="80%" />
       </div>
       <div class="input">
@@ -184,14 +184,14 @@ export default {
     }
     .user_login:hover {
       transition: 1s;
-      background: #007bff;
+      background: #409eff;
       color: #fff;
     }
     .input {
       display: flex;
       -ms-flex-align: center;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       input {
         width: 100%;
         font-size: 14px;
@@ -243,6 +243,6 @@ export default {
   left: 0;
   top: 0;
   content: "";
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 </style>

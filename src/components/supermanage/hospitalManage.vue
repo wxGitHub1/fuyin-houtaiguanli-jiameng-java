@@ -91,7 +91,7 @@
     </el-form>
     <!-- table -->
     <el-table
-      max-height="650"
+      
       :border="true"
       :data="clientData"
       v-loading="loading"
@@ -101,14 +101,14 @@
       :header-row-class-name="'headerClass'"
     >
       <el-table-column width="50" align="center" type="index" label="序号"></el-table-column>
-      <el-table-column align="center" prop="hospitalNum" label="医院编号" min-width="60"></el-table-column>
-      <el-table-column align="center" prop="provinceName" label="省份" min-width="30"></el-table-column>
-      <el-table-column align="center" prop="cityName" label="城市" min-width="30"></el-table-column>
-      <el-table-column align="center" prop="hospitalName" label="医院" min-width="60"></el-table-column>
-      <el-table-column align="center" prop="typeName" label="医院类型" min-width="20"></el-table-column>
-      <el-table-column align="center" prop="sysUserCount" label="负责人数量" min-width="20"></el-table-column>
-      <el-table-column align="center" prop="departmentCount" label="科室数量" min-width="20"></el-table-column>
-      <el-table-column align="center" prop="doctorCount" label="医生数量" min-width="20"></el-table-column>
+      <el-table-column align="center" prop="hospitalNum" label="医院编号" width="150"></el-table-column>
+      <el-table-column align="center" prop="provinceName" label="省份" width="100"></el-table-column>
+      <el-table-column align="center" prop="cityName" label="城市" width="100"></el-table-column>
+      <el-table-column align="center" prop="hospitalName" label="医院" width="150"></el-table-column>
+      <el-table-column align="center" prop="typeName" label="医院类型" width="100"></el-table-column>
+      <el-table-column align="center" prop="sysUserCount" label="负责人数量" width="100"></el-table-column>
+      <el-table-column align="center" prop="departmentCount" label="科室数量" width="100"></el-table-column>
+      <el-table-column align="center" prop="doctorCount" label="医生数量" width="100"></el-table-column>
       <el-table-column align="center" prop="address" label="医院地址"></el-table-column>
       <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
       <el-table-column align="center" label="操作" width="450">

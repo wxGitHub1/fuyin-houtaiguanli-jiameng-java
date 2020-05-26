@@ -94,7 +94,7 @@
       :header-row-class-name="'headerClass'"
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
-      <el-table-column align="center" prop="batchNum" label="产品清单编号"></el-table-column>
+      <el-table-column align="center" prop="batchNum" label="产品清单编号" width="130"></el-table-column>
       <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
       <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
       <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
