@@ -3,7 +3,7 @@
   <!-- 客户管理 -->
   <div>
     <!-- seach -->
-    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+    <el-form :inline="true" size="mini" id="search" class="padding-LR-p10">
       <el-form-item label="客户姓名">
         <el-input v-model="seach.memberName" style="width：100%" placeholder="请输入姓名"></el-input>
       </el-form-item>

@@ -28,63 +28,6 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="下单日期">
-        <el-date-picker
-          style="width: 100%"
-          v-model="seach.createTime"
-          type="daterange"
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          @change="listenKey()"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="交货日期">
-        <el-date-picker
-          style="width: 100%"
-          v-model="seach.deliveryTime"
-          type="daterange"
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          @change="listenKey()"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="付款类型">
-        <el-select clearable v-model="seach.payType" placeholder="请选择" @change="listenKey()">
-          <el-option
-            v-for="item in seach.payTypeList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="是否欠款">
-        <el-select clearable v-model="seach.owe" placeholder="请选择" @change="listenKey()">
-          <el-option
-            v-for="item in seach.oweList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="订单编号">
-        <el-input
-          style="width：100%"
-          v-model="seach.orderNum"
-          placeholder="请输入订单编号"
-          @input="listenKey()"
-        ></el-input>
-      </el-form-item>
-      <el-form-item label="下单人">
-        <el-input v-model="seach.createUserName" placeholder="请输入下单人姓名" @input="listenKey()"></el-input>
-      </el-form-item>
       <el-form-item label="病单类型">
         <el-select
           clearable
@@ -109,6 +52,39 @@
             :value="item.id"
           ></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="订单编号">
+        <el-input
+          style="width：100%"
+          v-model="seach.orderNum"
+          placeholder="请输入订单编号"
+          @input="listenKey()"
+        ></el-input>
+      </el-form-item>
+      
+      <el-form-item label="付款类型">
+        <el-select clearable v-model="seach.payType" placeholder="请选择" @change="listenKey()">
+          <el-option
+            v-for="item in seach.payTypeList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="是否欠款">
+        <el-select clearable v-model="seach.owe" placeholder="请选择" @change="listenKey()">
+          <el-option
+            v-for="item in seach.oweList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      
+      <el-form-item label="下单人">
+        <el-input v-model="seach.createUserName" placeholder="请输入下单人姓名" @input="listenKey()"></el-input>
       </el-form-item>
       <el-form-item label="省份">
         <el-select
@@ -170,6 +146,32 @@
           ></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="下单日期">
+        <el-date-picker
+          style="width: 100%"
+          v-model="seach.createTime"
+          type="daterange"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          @change="listenKey()"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item label="交货日期">
+        <el-date-picker
+          style="width: 100%"
+          v-model="seach.deliveryTime"
+          type="daterange"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          @change="listenKey()"
+        ></el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button
           @click="pageList(pages.currentPage,pages.pageSize)"
@@ -205,7 +207,7 @@
       <el-table-column align="center" prop="owe" label="是否欠款"></el-table-column>
       <el-table-column align="center" prop="prescriptionType" label="病单类型"></el-table-column>
       <el-table-column align="center" prop="oweMoney" label="下欠金额"></el-table-column>
-      <el-table-column align="center" prop="favorable" label="折扣优惠金额"></el-table-column>
+      <el-table-column align="center" prop="favorable" label="折扣优惠金额" width="130"></el-table-column>
       <el-table-column align="center" prop="should" label="应收金额"></el-table-column>
       <el-table-column align="center" label="操作" width="250">
         <template slot-scope="scope">

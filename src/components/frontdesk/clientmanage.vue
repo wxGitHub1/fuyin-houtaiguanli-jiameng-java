@@ -108,17 +108,17 @@
       :header-row-class-name="'headerClass'"
     >
       <el-table-column width="60" align="center" prop="seq" label="序号"></el-table-column>
-      <el-table-column align="center" prop="memberName" label="客户姓名" min-width="50"></el-table-column>
-      <el-table-column align="center" prop="sex" label="性别" min-width="30"></el-table-column>
+      <el-table-column align="center" prop="memberName" label="客户姓名" width="100"></el-table-column>
+      <el-table-column align="center" prop="sex" label="性别" width="50"></el-table-column>
       <el-table-column
         align="center"
         prop="phone"
         label="联系电话"
         :show-overflow-tooltip="true"
-        min-width="50"
+        width="100"
       ></el-table-column>
-      <el-table-column align="center" prop="isVIP" label="是否会员" min-width="50"></el-table-column>
-      <el-table-column align="center" prop="isBlack" label="黑名单" min-width="40"></el-table-column>
+      <el-table-column align="center" prop="isVIP" label="是否会员" width="100"></el-table-column>
+      <el-table-column align="center" prop="isBlack" label="黑名单" width="80"></el-table-column>
       <el-table-column align="center" prop="productName" label="产品昵称"></el-table-column>
       <el-table-column
         align="center"
@@ -128,13 +128,13 @@
         min-width="50"
       ></el-table-column>
       <el-table-column align="center" prop="orderNum" label="订单号"></el-table-column>
-      <el-table-column align="center" prop="oweMoney" label="下欠金额" min-width="50"></el-table-column>
+      <el-table-column align="center" prop="oweMoney" label="下欠金额" width="100"></el-table-column>
       <el-table-column
         align="center"
         prop="orderDate"
         label="下单时间"
         :show-overflow-tooltip="true"
-        min-width="50"
+        width="100"
       ></el-table-column>
       <!-- <el-table-column align="center" prop="siteName" label="测评中心" :show-overflow-tooltip="true" min-width="40"></el-table-column>
       <el-table-column align="center" prop="visitFlagCN" label="到访状态" min-width="50"></el-table-column>-->

@@ -16,7 +16,13 @@
         </span>
         <input type="password" placeholder="请输入密码" v-model="userPassword" />
       </div>
-      <div style="margin-top: 50px;" class="user_login" @click="userLogin()">登录</div>
+      <!-- <div style="margin-top: 50px;" class="user_login" :loading="isSearch" @click="userLogin()">登录</div> -->
+      <el-button
+        style="margin-top: 50px;"
+        class="user_login"
+        :loading="isSearch"
+        @click="userLogin()"
+      >登录</el-button>
       <div class="version">当前版本：2.0.3</div>
     </div>
     <!-- </el-col>
@@ -35,7 +41,8 @@ export default {
     return {
       menu: null,
       userCount: null,
-      userPassword: null
+      userPassword: null,
+      isSearch: false
     };
   },
 
@@ -105,6 +112,7 @@ export default {
     },
     //登陆
     async userLogin() {
+      this.isSearch = true;
       let self = this;
       //如果不填写账号和密码
       const userInfo = {
@@ -112,6 +120,7 @@ export default {
         password: self.userPassword
       };
       if (!userInfo.username && !userInfo.password) {
+        this.isSearch = false;
         self.$message({
           message: "账号或密码不能为空！",
           type: "warning",
@@ -121,6 +130,7 @@ export default {
         const loginState = await self.$store.dispatch("userLogin", userInfo);
         // debugger
         if (loginState.data.returnCode != "0") {
+          this.isSearch = false;
           this.$message({
             type: "warning",
             message: loginState.data.returnMsg,
@@ -129,21 +139,9 @@ export default {
         } else {
           let menu = session.getItem("menu");
           let actions = actions_data;
-          //  {
-          //   超级管理员: "/supermanage",
-          //   大客户: "/bigclient",
-          //   外出体检: "/outwork",
-          //   前台: "/Front",
-          //   支具室: "/Support",
-          //   取型: "/TakeType",
-          //   试穿: "/clothes",
-          //   测评: "/Evaluation",
-          //   回访管理: "/return",
-          //   "404": "/404"
-          // };
-          // debugger
           let action = actions[menu[0].name] || actions["404"];
           self.$router.push(action);
+          this.isSearch = false;
         }
       }
     }
@@ -171,16 +169,19 @@ export default {
     transform: translate(-50%, -50%);
     text-align: center;
     .user_login {
+      width: 100%;
       background-color: #59a4f2;
-      height: 45px;
+      border: 0px;
+      // height: 45px;
       border-radius: 30px;
       font-size: 16px;
       letter-spacing: 4px;
       color: #f2f6fc;
       text-align: center;
-      line-height: 45px;
+      // line-height: 45px;
       font-weight: bold;
       cursor: pointer;
+      padding: 15px 0;
     }
     .user_login:hover {
       transition: 1s;
