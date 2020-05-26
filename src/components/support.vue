@@ -22,15 +22,23 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      tableNav: "home",
-      tabIndex: "home",
+      tableNav: "clientManage",
+      // tabIndex: "clientManage",
       tables: [
         {
-          title: "首页",
-          name: "home",
-          content: "my-home",
-          isClose: false
-        }
+          name: "clientManage",
+          content: "my-client",
+          // iconfont:'iconfont',
+          // icon:'icon-kehuguanli',
+          title: "客户管理",
+           isClose: false
+        },
+        // {
+        //   title: "首页",
+        //   name: "home",
+        //   content: "my-home",
+        //   isClose: false
+        // }
       ],
       navTable: [
         {
