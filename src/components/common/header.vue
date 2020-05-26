@@ -28,8 +28,7 @@
                   @click.native="gotoBigClient(item.name)"
                   v-for="(item,index) in menu "
                   :key="index"
-                >{{item.name}}
-                </el-dropdown-item>
+                >{{item.name}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-col>
@@ -38,10 +37,9 @@
     </el-row>
     <div class="nav_bar">
       <el-row v-for="(nav,index) in navTables" :key="nav.name">
-        <el-col class="nav_box":class="{active:cur==index}">
-          <i  :class="[nav.iconfont,nav.icon]">
+        <el-col class="nav_box" :class="{active:cur==index}">
+          <i :class="[nav.iconfont,nav.icon]">
             <!-- <img src="../../../static/image/login/icon_khgl.png" alt /> -->
-
           </i>
           <span @click="switchTitle(nav.name,index)">{{nav.title}}</span>
         </el-col>
@@ -167,6 +165,8 @@ export default {
 <style scoped lang="scss">
 .container {
   height: 100%;
+  // min-width: 1200px;
+  width: 100%;
   .header {
     height: 60px;
     line-height: 60px;

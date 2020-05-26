@@ -1,37 +1,26 @@
 <template>
   <div class="container">
-    <el-row :span="24">
-      <el-col class="login_box" :span="6" :offset="9">
-        <el-row :span="24">
-          <el-col class="top_sign" :span="12" :offset="6">
-            <img src="../../static/image/login/img_title.png" alt />
-          </el-col>
-        </el-row>
-        <el-row :span="24" style="margin-top: 31px">
-          <el-col class="input" :span="20" :offset="2">
-            <i class="iconfont icon-zhanghaoguanli">
-              <!-- <img src="../../static/image/login/icon_zhangh.png" alt /> -->
-            </i>
-            <input type="text" placeholder="请输入账号" v-model="userCount" />
-          </el-col>
-        </el-row>
-        <el-row :span="24" style="margin-top: 15px;">
-          <el-col class="input" :span="20" :offset="2">
-            <i class="iconfont icon-account_pwd">
-              <!-- <img src="../../static/image/login/icon_mm.png" alt /> -->
-            </i>
-            <input type="password" placeholder="请输入密码" v-model="userPassword" />
-            <!-- <i><img src="../../static/image/login/icon_yc1.png" alt=""></i> -->
-          </el-col>
-        </el-row>
-        <el-row :span="24" style="margin-top: 31px;">
-          <el-col :span="20" :offset="2" class="login_btn">
-            <div class="user_login" @click="userLogin()">登陆</div>
-          </el-col>
-        </el-row>
-        <div class="version">当前版本：2.0.3</div>
-      </el-col>
-    </el-row>
+    <div class="login_box">
+      <div style="margin-bottom: 31px">
+        <img src="../../static/image/login/img_logotitle.png" alt="title" width="80%" />
+      </div>
+      <div class="input">
+        <span>
+          <i class="iconfont icon-zhanghaoguanli"></i>
+        </span>
+        <input type="text" placeholder="请输入账号" v-model="userCount" />
+      </div>
+      <div class="input">
+        <span>
+          <i class="iconfont icon-account_pwd"></i>
+        </span>
+        <input type="password" placeholder="请输入密码" v-model="userPassword" />
+      </div>
+      <div style="margin-top: 50px;" class="user_login" @click="userLogin()">登录</div>
+      <div class="version">当前版本：2.0.3</div>
+    </div>
+    <!-- </el-col>
+    </el-row>-->
   </div>
 </template>
 
@@ -161,7 +150,6 @@ export default {
   }
 };
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .container {
   width: 100%;
@@ -169,71 +157,92 @@ export default {
   background-image: url(../../static/image/login/img_background.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  position: relative;
+  background-size: cover;
+  background-position: center center;
+
   .login_box {
-    margin-top: 16%;
-    height: 345px;
-    background-color: #ffffff;
-    box-shadow: 0 3px 43px 0px rgba(40, 121, 194, 0.36);
-    border-radius: 10px;
-    .top_sign {
-      height: 62px;
-      img {
-        width: 100%;
-        margin-top: -23%;
-      }
+    width: 320px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    .user_login {
+      background-color: #59a4f2;
+      height: 45px;
+      border-radius: 30px;
+      font-size: 16px;
+      letter-spacing: 4px;
+      color: #f2f6fc;
+      text-align: center;
+      line-height: 45px;
+      font-weight: bold;
+      cursor: pointer;
     }
     .user_login:hover {
-      border-radius: 10px;
-      background: rgb(66, 152, 240);
+      transition: 1s;
+      background: #007bff;
       color: #fff;
     }
     .input {
-      border-bottom: 2px solid #e5e5e5;
+      display: flex;
+      -ms-flex-align: center;
+      align-items: center;
+      margin-bottom: 20px;
       input {
-        width: 82%;
-        letter-spacing: 1px;
-        font-size: 16px;
-        color: #9babbb;
-        // vertical-align: 6px;
+        width: 100%;
+        font-size: 14px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #e5e5e5;
+        padding: 15px 18px 15px 16px;
+        border-radius: 0 30px 30px 0;
+      }
+      input:focus {
+        transition: 1s;
+        background-color: rgba(255, 255, 255, 0.2);
       }
       :-ms-input-placeholder {
         letter-spacing: 1px;
-        font-size: 16px;
+        font-size: 14px;
         color: #e5e5e5;
       }
       ::-webkit-input-placeholder {
         letter-spacing: 2px;
-        font-size: 16px;
+        font-size: 14px;
         color: #e5e5e5;
       }
+      span {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        padding: 14px 0 14px 19px;
+        border-radius: 50% 0 0 50%;
+      }
       i {
-        color: #9babbb;
-        // display: inline-block;
-        // width: 7%;
-        // img {
-        //   width: 100%;
-        // }
+        // font-size: 17px;
+        color: rgba(255, 255, 255, 0.7);
       }
     }
-    .login_btn {
-      background-color: #59a4f2;
-      height: 51px;
-      border-radius: 10px;
-      font-size: 18px;
-      letter-spacing: 4px;
-      color: #f2f6fc;
-      text-align: center;
-      line-height: 51px;
-      font-weight: bold;
-      cursor: pointer;
-    }
     .version {
-      color: #59a4f2;
+      color: #e5e5e5;
       font-size: 12px;
       text-align: right;
       margin-top: 40px;
       margin-right: 8%;
     }
   }
+}
+.container:before {
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  left: 0;
+  top: 0;
+  content: "";
+  background-color: rgba(0, 0, 0, 0.5);
 }
 </style>

@@ -21,6 +21,9 @@ export default {
 </script>
 
 <style>
+#app{
+  height: 100%;
+}
 #nprogress .bar{
   background: #1465b7 !important;
 }

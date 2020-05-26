@@ -50,7 +50,7 @@ export default {
         {
           name: "accepted",
           iconfont:'iconfont',
-          icon:'iicon-wangongyanshou',
+          icon:'icon-wangongyanshou',
           title: "已验收"
         },{
           name: "toBeAllocated",
