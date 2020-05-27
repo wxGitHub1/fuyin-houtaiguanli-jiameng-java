@@ -86,7 +86,7 @@
     <el-table
       border
       :data="clientData"
-      max-height="670"
+      
       v-loading="loading"
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
