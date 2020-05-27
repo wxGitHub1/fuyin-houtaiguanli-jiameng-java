@@ -39,7 +39,6 @@
       <el-row v-for="(nav,index) in navTables" :key="nav.name">
         <el-col class="nav_box" :class="{active:cur==index}">
           <i :class="[nav.iconfont,nav.icon]">
-            <!-- <img src="../../../static/image/login/icon_khgl.png" alt /> -->
           </i>
           <span @click="switchTitle(nav.name,index)">{{nav.title}}</span>
         </el-col>
@@ -56,7 +55,6 @@ export default {
   name: "HelloWorld",
   props: {
     navTables: Array,
-    required: true
   },
   data() {
     return {

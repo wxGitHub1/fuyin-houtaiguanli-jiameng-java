@@ -11,7 +11,7 @@
         <el-row>
           <el-col :span="6">
             <div class="head_pic">
-              <img src="../../../static/image/login/icon_zh.png" alt />
+              <img src="../../../static/image/login/gly.png" alt />
             </div>
           </el-col>
           <el-col :span="12" class="name_type">

@@ -1,6 +1,5 @@
 <template>
   <div style="height:100%">
-    <!-- <el-button type="danger" style="position:absolute; z-index:9999;top: 100px;"  @click="addTab('orderManage')">增加</el-button> -->
     <my-header :navTables="navTable" v-on:acceptTitle="newTitle"></my-header>
     <div class="child_page">
       <el-tabs class="table_style" v-model="tableNav" type="card" @tab-remove="removeTab">
@@ -25,7 +24,6 @@ export default {
   data() {
     return {
       tableNav: "orderManage",
-    //   tabIndex: "orderManage",
       tables: [
         {
           title: "订单管理",
@@ -35,28 +33,17 @@ export default {
         }
       ],
       navTable: [
-        // {
-        //   name: "clientManage",
-        //   title: "客户管理"
-        // },
         {
           name: "orderManage",
+          iconfont:'iconfont',
+          icon:'icon-tubiao_dingdanguanli',
           title: "订单管理"
         },
-        // {
-        //   name: "alreadyReceive",
-        //   title: "已分配"
-        // },
-        // {
-        //   name: "comment",
-        //   title: "待评价"
-        // },
-        // {
-        //   name: "evaluationManagement",
-        //   title: "评价管理"
-        // },
+       
         {
           name: "statistics",
+          iconfont:'iconfont',
+          icon:'icon-tongjibaobiao',
           title: "统计报表"
         }
       ],
@@ -91,42 +78,6 @@ export default {
       });
       if (_this.Repeat) {
         switch (newTabName) {
-          case "clientManage":
-            _this.tables.push({
-              title: "客户管理",
-              name: newTabName,
-              content: "front-client",
-              isClose: true
-            });
-            this.tableNav = newTabName;
-            break;
-          case "alreadyReceive":
-            _this.tables.push({
-              title: "已分配",
-              name: "alreadyReceive",
-              content: "front-receive",
-              isClose: true
-            });
-            this.tableNav = newTabName;
-            break;
-          case "evaluationManagement":
-            _this.tables.push({
-              title: "评价管理",
-              name: "evaluationManagement",
-              content: "front-evaluation",
-              isClose: true
-            });
-            this.tableNav = newTabName;
-            break;
-          case "comment":
-            _this.tables.push({
-              title: "待评价",
-              name: "comment",
-              content: "comment",
-              isClose: true
-            });
-            this.tableNav = newTabName;
-            break;
           case "orderManage":
             _this.tables.push({
               title: "订单管理",

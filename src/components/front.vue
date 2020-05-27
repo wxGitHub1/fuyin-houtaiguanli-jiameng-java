@@ -1,11 +1,9 @@
 <template>
   <div style="height:100%">
-    <!-- <el-button type="danger" style="position:absolute; z-index:9999;top: 100px;"  @click="addTab('orderManage')">增加</el-button> -->
     <my-header :navTables="navTable" v-on:acceptTitle="newTitle"></my-header>
     <div class="child_page">
-      <el-tabs class="table_style" v-model="tableNav" type="card" @tab-remove="removeTab">
+      <el-tabs v-model="tableNav" type="card" @tab-remove="removeTab">
         <el-tab-pane
-          class="home_table"
           v-for="(item) in tables"
           :key="item.name"
           :closable="item.isClose"
@@ -20,6 +18,7 @@
 </template>
 
 <script>
+import Global from "./global";
 export default {
   name: "HelloWorld",
   data() {
@@ -37,151 +36,55 @@ export default {
       navTable: [
         {
           name: "clientManage",
-          iconfont:'iconfont',
-          icon:'icon-kehuguanli',
+          iconfont: "iconfont",
+          icon: "icon-kehuguanli",
+          content: "front-client",
           title: "客户管理"
         },
         {
           name: "orderManage",
-          iconfont:'iconfont',
-          icon:'icon-tubiao_dingdanguanli',
+          iconfont: "iconfont",
+          icon: "icon-tubiao_dingdanguanli",
+          content: "front-order",
           title: "订单管理"
         },
         {
           name: "alreadyReceive",
-          iconfont:'iconfont',
-          icon:'icon-fenpeijiaose',
+          iconfont: "iconfont",
+          icon: "icon-fenpeijiaose",
+          content: "front-receive",
           title: "已分配"
         },
         {
           name: "comment",
-          iconfont:'iconfont',
-          icon:'icon-daipingjia',
+          iconfont: "iconfont",
+          icon: "icon-daipingjia",
+          content: "comment",
           title: "待评价"
         },
         {
           name: "evaluationManagement",
-          iconfont:'iconfont',
-          icon:'icon-pingjiaguanli',
+          iconfont: "iconfont",
+          icon: "icon-pingjiaguanli",
+          content: "front-evaluation",
           title: "评价管理"
         },
         {
           name: "statistics",
-          iconfont:'iconfont',
-          icon:'icon-tongjibaobiao',
+          iconfont: "iconfont",
+          icon: "icon-tongjibaobiao",
+          content: "front-statistic",
           title: "统计报表"
         }
-      ],
-      Repeat: false
+      ]
     };
   },
-  directives: {
-    noclose: {
-      // 指令的定义
-      inserted: function(el) {
-        let domProperty = el.getAttribute("data");
-        el.setAttribute("closable", false);
-        if (domProperty === "homepage") {
-          el.setAttribute("closable", true);
-        } else {
-          console.log(2);
-        }
-      }
-    }
-  },
   methods: {
-    // 增加标签
-    newTitle(prop) {
-      let _this = this;
-      let newTabName = prop + "";
-      this.tableNav = newTabName;
-      _this.Repeat = true;
-      _this.tables.map(item => {
-        if (item.name === prop) {
-          _this.Repeat = false;
-        }
-      });
-      if (_this.Repeat) {
-        switch (newTabName) {
-          case "clientManage":
-            _this.tables.push({
-              title: "客户管理",
-              name: newTabName,
-              content: "front-client",
-              isClose: true
-            });
-            this.tableNav = newTabName;
-            break;
-          case "alreadyReceive":
-            _this.tables.push({
-              title: "已分配",
-              name: "alreadyReceive",
-              content: "front-receive",
-              isClose: true
-            });
-            this.tableNav = newTabName;
-            break;
-          case "evaluationManagement":
-            _this.tables.push({
-              title: "评价管理",
-              name: "evaluationManagement",
-              content: "front-evaluation",
-              isClose: true
-            });
-            this.tableNav = newTabName;
-            break;
-          case "comment":
-            _this.tables.push({
-              title: "待评价",
-              name: "comment",
-              content: "comment",
-              isClose: true
-            });
-            this.tableNav = newTabName;
-            break;
-          case "orderManage":
-            _this.tables.push({
-              title: "订单管理",
-              name: "orderManage",
-              content: "front-order",
-              isClose: true
-            });
-            this.tableNav = newTabName;
-            break;
-          case "statistics":
-            _this.tables.push({
-              title: "统计报表",
-              name: "statistics",
-              content: "front-statistic",
-              isClose: true
-            });
-            this.tableNav = newTabName;
-            break;
-        }
-      } else {
-        return;
-      }
+    newTitle(newTabName) {
+      Global.newTitle(this, newTabName);
     },
-
-    //移除标签
-    /*
-     * @param  {Object} targetName {content, isClose, name, title}
-     */
     removeTab(targetName) {
-      let activeName = this.tableNav;
-      let tabs = this.tables;
-      if (activeName === targetName) {
-        tabs.forEach((tab, index) => {
-          if (tab.name === targetName) {
-            let nextTab = tabs[index + 1] || tabs[index - 1];
-            if (nextTab) {
-              activeName = nextTab.name;
-            }
-          }
-        });
-      }
-      this.tableNav = activeName;
-      this.tables = tabs.filter(tab => tab.name !== targetName);
+      Global.removeTab(this, targetName);
     }
   }
 };

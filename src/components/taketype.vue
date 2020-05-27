@@ -3,8 +3,14 @@
     <!-- <el-button type="danger" style="position:absolute; z-index:9999;top: 100px;"  @click="addTab('orderManage')">增加</el-button> -->
     <my-header :navTables="navTable" v-on:acceptTitle="newTitle"></my-header>
     <div class="child_page">
-      <el-tabs class="table_style" v-model="tableNav" type="card" @tab-remove="removeTab">
-        <el-tab-pane class="home_table" v-for="(item) in tables" :key="item.name" :closable="item.isClose" :label="item.title" :name="item.name">
+      <el-tabs v-model="tableNav" type="card" @tab-remove="removeTab">
+        <el-tab-pane
+          v-for="(item) in tables"
+          :key="item.name"
+          :closable="item.isClose"
+          :label="item.title"
+          :name="item.name"
+        >
           <component :is="item.content"></component>
         </el-tab-pane>
       </el-tabs>
@@ -13,182 +19,77 @@
 </template>
 
 <script>
+import Global from "./global";
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   data() {
     return {
-      tableNav: 'home',
-      tabIndex: 'home',
-      tables: [{
-        title: '首页',
-        name: 'home',
-        content: 'take-home',
-        isClose: false,
-      }],
-      navTable: [{
-        name: 'willReceive',
-        iconfont:'iconfont',
-        icon:'icon-gongwujiedai',
-        title: '待接待',
-      },{
-        name: 'receive',
-        iconfont:'iconfont',
-          icon:'icon-ico_yuyueguanli_jiedaiyuyue',
-        title: '已接待',
-      },{
-        name: 'willSelfTest',
-        iconfont:'iconfont',
-          icon:'icon-shouhuoyanshou',
-        title: '待验收',
-      },{
-        name: 'alreadyReject',
-        iconfont:'iconfont',
-          icon:'icon-wangongyanshou',
-        title: '已验收',
-      },{
-        name: 'statistics',
-        iconfont:'iconfont',
-          icon:'icon-tongjibaobiao',
-        title: '统计报表',
-      },{
-        name: 'InsoleProduction',
-        iconfont:'iconfont',
-          icon:'icon-xiedian',
-        title: '鞋垫制作',
-      }],
-      Repeat: false,
+      tableNav: "home",
+      tabIndex: "home",
+      tables: [
+        {
+          title: "首页",
+          name: "home",
+          content: "take-home",
+          isClose: false
+        }
+      ],
+      navTable: [
+        {
+          name: "willReceive",
+          iconfont: "iconfont",
+          icon: "icon-gongwujiedai",
+          content: "take-willReceive",
+          title: "待接待"
+        },
+        {
+          name: "receive",
+          iconfont: "iconfont",
+          icon: "icon-ico_yuyueguanli_jiedaiyuyue",
+          content: "take-receive",
+          title: "已接待"
+        },
+        {
+          name: "willSelfTest",
+          iconfont: "iconfont",
+          icon: "icon-shouhuoyanshou",
+          content: "take-willSelfTest",
+          title: "待验收"
+        },
+        {
+          name: "alreadyReject",
+          iconfont: "iconfont",
+          icon: "icon-wangongyanshou",
+          content: "take-alreadyReject",
+          title: "已验收"
+        },
+        {
+          name: "statistics",
+          iconfont: "iconfont",
+          icon: "icon-tongjibaobiao",
+          content: "take-statistics",
+          title: "统计报表"
+        },
+        {
+          name: "InsoleProduction",
+          iconfont: "iconfont",
+          icon: "icon-xiedian",
+          content: "insole-production",
+          title: "鞋垫制作"
+        }
+      ]
     };
   },
-  directives: {
-      noclose: {
-        // 指令的定义
-        inserted: function (el) {
-          let domProperty = el.getAttribute('data');
-          el.setAttribute('closable', false);
-          if (domProperty === 'homepage') {
-            el.setAttribute('closable', true);
-          } else {
-            console.log(2);
-          }
-        }
-      }
-  },
   methods: {
-    // 增加标签
-    newTitle(prop) {
-      let _this = this;
-      let newTabName = prop + '';
-      this.tableNav = newTabName;
-      _this.Repeat = true;
-      _this.tables.map((item) => {
-        if (item.name === prop) {
-          _this.Repeat = false;
-        }
-      });
-      if(_this.Repeat) {
-        switch(newTabName) {
-          case 'willReceive':
-            _this.tables.push({
-              title: '待接待',
-              name: newTabName,
-              content: 'take-willReceive',
-              isClose: true,
-            });
-            this.tableNav = newTabName;
-            break;
-          case 'receive':
-            _this.tables.push(
-              {
-                title: '已接待',
-                name: 'receive',
-                content: 'take-receive',
-                isClose: true,
-              }
-            );
-            this.tableNav = newTabName;
-            break;
-          case 'willSelfTest':
-            _this.tables.push(
-              {
-                title: '待验收',
-                name: 'willSelfTest',
-                content: 'take-willSelfTest',
-                isClose: true,
-              }
-            );
-            this.tableNav = newTabName;
-            break;
-          case 'alreadyReject':
-            _this.tables.push(
-              {
-                title: '已验收',
-                name: 'alreadyReject',
-                content: 'take-alreadyReject',
-                isClose: true,
-              }
-            );
-            this.tableNav = newTabName;
-            break;
-          case 'statistics':
-            _this.tables.push(
-              {
-                title: '统计报表',
-                name: 'statistics',
-                content: 'take-statistics',
-                isClose: true,
-              }
-            );
-            this.tableNav = newTabName;
-            break;
-          case 'InsoleProduction':
-            _this.tables.push(
-              {
-                title: '鞋垫制作',
-                name: 'InsoleProduction',
-                content: 'insole-production',
-                isClose: true,
-              }
-            );
-            this.tableNav = newTabName;
-            break;
-        }
-      } else {
-        return;
-      }
+    newTitle(newTabName) {
+      Global.newTitle(this, newTabName);
     },
-
-    //移除标签
-    /*
-     * @param  {Object} targetName {content, isClose, name, title}
-     */
     removeTab(targetName) {
-      let activeName = this.tableNav;
-      let tabs = this.tables;
-      if (activeName === targetName) {
-        tabs.forEach((tab, index) => {
-          if (tab.name === targetName) {
-            let nextTab = tabs[index + 1] || tabs[index - 1];
-            if (nextTab) {
-              activeName = nextTab.name;
-            }
-          }
-        })
-      };
-      this.tableNav = activeName;
-      this.tables = tabs.filter(tab => tab.name !== targetName);
-    },
-  },
+      Global.removeTab(this, targetName);
+    }
+  }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-// .child_page {
-//  width: calc(100% - 180px);
-//   height: calc(100% - 60px);
-//   display: inline-block;
-//   position: absolute;
-//   top: 60px;
-//   left:180px;
-// }
 </style>

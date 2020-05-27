@@ -2,8 +2,6 @@
 // import { login, loginOut } from '../../api/user';
 import {login} from '../../api/javaApi';
 import session from '../../utils/session';
-
-
 const state = {
     isLogin: false,
     // user_count: null,
