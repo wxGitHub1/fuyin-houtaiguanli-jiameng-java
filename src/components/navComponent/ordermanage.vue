@@ -868,7 +868,7 @@
             disabled
           >选择产品</el-button>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>下单人:</span>
         </el-col>
         <el-col :span="3">
@@ -966,7 +966,7 @@
       </el-table>
       <h3 class="b-b-p-1">付款方式</h3>
       <el-row>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>现金金额：</span>
         </el-col>
         <el-col :span="3">
@@ -978,7 +978,7 @@
             @change="calculation"
           ></el-input-number>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>转账金额：</span>
         </el-col>
         <el-col :span="3">

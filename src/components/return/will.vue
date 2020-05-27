@@ -2,7 +2,7 @@
   <div>
     <!-- seach -->
     <el-row class="search">
-      <el-col :span="2" class="input-title">
+      <el-col :span="2" id="input-title">
         <span class="time_style">应回访日期:</span>
       </el-col>
       <el-col :span="5">
@@ -19,7 +19,7 @@
         ></el-date-picker>
       </el-col>
 
-      <el-col :span="2" class="input-title">
+      <el-col :span="2" id="input-title">
         <span class="time_style">试穿人员:</span>
       </el-col>
       <el-col :span="2">

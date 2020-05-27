@@ -1080,6 +1080,7 @@
       :before-close="cancelSelection"
     >
       <!-- seach product-->
+      
       <el-row class="search">
         <el-col :span="2" id="input-title">
           <span>产品名称</span>
@@ -1158,7 +1159,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="2" id="input-title">
           <el-button
             size="mini"
             @click="salesList()"
@@ -1173,7 +1174,7 @@
         :data="productData"
         tooltip-effect="dark"
         @selection-change="handleSelectionChange"
-        @row-dblclick="dblclick_table_fuc"
+        @row-click="dblclick_table_fuc"
         highlight-current-row
         max-height="500"
       >

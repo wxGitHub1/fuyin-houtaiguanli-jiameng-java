@@ -205,7 +205,7 @@
     >
       <h4>批次编号：{{only_batchNum}}</h4>
       <el-row class="search">
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品名称</span>
         </el-col>
         <el-col :span="2">
@@ -216,7 +216,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品昵称</span>
         </el-col>
         <el-col :span="2">
@@ -227,7 +227,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>备案编号</span>
         </el-col>
         <el-col :span="2">
@@ -238,7 +238,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品类型</span>
         </el-col>
         <el-col :span="2">
@@ -256,7 +256,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品资质</span>
         </el-col>
         <el-col :span="2">
@@ -269,7 +269,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产地</span>
         </el-col>
         <el-col :span="2">
@@ -282,7 +282,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="2" id="input-title">
           <el-button
             size="mini"
             @click="next_product_fuc(pagesProduct.currentPage,pagesProduct.pageSize)"
@@ -338,7 +338,7 @@
       :before-close="product_comeBack_two"
     >
       <el-row class="search">
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品名称</span>
         </el-col>
         <el-col :span="2">
@@ -349,7 +349,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品昵称</span>
         </el-col>
         <el-col :span="2">
@@ -360,7 +360,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>备案编号</span>
         </el-col>
         <el-col :span="2">
@@ -371,7 +371,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品类型</span>
         </el-col>
         <el-col :span="2">
@@ -389,7 +389,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品资质</span>
         </el-col>
         <el-col :span="2">
@@ -407,7 +407,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产地</span>
         </el-col>
         <el-col :span="2">
@@ -420,7 +420,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="2" id="input-title">
           <el-button
             size="mini"
             @click="add_product_list(pagesProduct_two.currentPage,pagesProduct_two.pageSize)"
@@ -434,7 +434,7 @@
         ref="multipleTable"
         :data="productData_two"
         @selection-change="handleSelectionChange"
-        @row-dblclick="dblclick_table_fuc"
+        @row-click="dblclick_table_fuc"
         highlight-current-row
         max-height="500"
       >

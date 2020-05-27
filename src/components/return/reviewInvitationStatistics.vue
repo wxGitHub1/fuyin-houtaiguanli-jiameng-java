@@ -2,13 +2,13 @@
   <div>
     <!-- seach -->
     <el-row class="search">
-      <el-col :span="2" class="input-title">
+      <el-col :span="2" id="input-title">
         <span class="time_style">客户姓名:</span>
       </el-col>
       <el-col :span="2">
         <el-input v-model="seach.memberName" style="width：100%" size="small" placeholder="请输入姓名"></el-input>
       </el-col>
-      <el-col :span="2" class="input-title">
+      <el-col :span="2" id="input-title">
         <span class="time_style">是否会员:</span>
       </el-col>
       <el-col :span="2">
@@ -21,7 +21,7 @@
           ></el-option>
         </el-select>
       </el-col>
-      <el-col :span="2" class="input-title">
+      <el-col :span="2" id="input-title">
         <span class="time_style">回访人员:</span>
       </el-col>
       <el-col :span="2"> 
@@ -41,7 +41,7 @@
           ></el-option>
         </el-select> -->
       </el-col> 
-      <el-col :span="2" class="input-title">
+      <el-col :span="2" id="input-title">
         <span class="time_style">是否流失:</span>
       </el-col>
       <el-col :span="2">
@@ -60,7 +60,7 @@
           ></el-option>
         </el-select>
       </el-col>
-      <el-col :span="2" class="input-title">
+      <el-col :span="2" id="input-title">
         <span class="time_style">回访时间:</span>
       </el-col>
       <el-col :span="5">
@@ -78,7 +78,7 @@
       </el-col>
     </el-row>
     <el-row class="office_performance">
-      <el-col :span="2" class="input-title">
+      <el-col :span="2" id="input-title">
         <span class="time_style">产品昵称:</span>
       </el-col>
       <el-col :span="2">
@@ -90,7 +90,7 @@
         ></el-input>
       </el-col>
 
-      <el-col :span="2" class="input-title">
+      <el-col :span="2" id="input-title">
         <span class="time_style">沟通结果:</span>
       </el-col>
       <el-col :span="2">
@@ -109,7 +109,7 @@
           ></el-option>
         </el-select>
       </el-col>
-      <el-col :span="2" class="input-title">
+      <el-col :span="2" id="input-title">
         <span class="time_style">是否到访:</span>
       </el-col>
       <el-col :span="2">
@@ -128,7 +128,7 @@
           ></el-option>
         </el-select>
       </el-col>
-      <el-col :span="2" class="input-title">
+      <el-col :span="2" id="input-title">
         <span class="time_style">接通状态:</span>
       </el-col>
       <el-col :span="2">

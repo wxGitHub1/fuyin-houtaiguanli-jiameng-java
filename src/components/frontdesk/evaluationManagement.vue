@@ -889,7 +889,7 @@
             type="primary"
           >选择产品</el-button>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>下单人:</span>
         </el-col>
         <el-col :span="3">
@@ -987,7 +987,7 @@
       </el-table>
       <h3 class="b-b-p-1">付款方式</h3>
       <el-row>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>现金金额：</span>
         </el-col>
         <el-col :span="3">
@@ -999,7 +999,7 @@
             @change="calculation"
           ></el-input-number>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>转账金额：</span>
         </el-col>
         <el-col :span="3">
@@ -1045,7 +1045,7 @@
     >
       <!-- seach product-->
       <el-row class="search">
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品名称</span>
         </el-col>
         <el-col :span="2">
@@ -1056,7 +1056,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品昵称</span>
         </el-col>
         <el-col :span="2">
@@ -1067,7 +1067,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>备案编号</span>
         </el-col>
         <el-col :span="2">
@@ -1078,7 +1078,7 @@
             autocomplete="off"
           ></el-input>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品类型</span>
         </el-col>
         <el-col :span="2">
@@ -1096,7 +1096,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产品资质</span>
         </el-col>
         <el-col :span="2">
@@ -1109,7 +1109,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2" class="input-title">
+        <el-col :span="2" id="input-title">
           <span>产地</span>
         </el-col>
         <el-col :span="2">
@@ -1122,7 +1122,7 @@
             ></el-option>
           </el-select>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="2" id="input-title">
           <el-button
             size="mini"
             @click="salesList()"
@@ -1137,7 +1137,7 @@
         :data="productData"
         tooltip-effect="dark"
         @selection-change="handleSelectionChange"
-        @row-dblclick="dblclick_table_fuc"
+        @row-click="dblclick_table_fuc"
         highlight-current-row
         max-height="500"
       >
