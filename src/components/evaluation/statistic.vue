@@ -3,7 +3,7 @@
     <!-- seach -->
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="到访类型">
-        <el-select clearable v-model="seach.visitTypeValue" placeholder="请选择">
+        <el-select class="w-150" clearable v-model="seach.visitTypeValue" placeholder="请选择">
           <el-option
             v-for="item in seach.visitType"
             :key="item.id"
@@ -12,20 +12,8 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="测评接待时间">
-        <el-date-picker
-          style="width: 100%"
-          v-model="seach.orderDate"
-          type="daterange"
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
-      </el-form-item>
       <el-form-item label="测评服务人员">
-        <el-select clearable v-model="seach.recordValue" placeholder="请选择">
+        <el-select class="w-150" clearable v-model="seach.recordValue" placeholder="请选择">
           <el-option
             v-for="item in seach.nameList"
             :key="item.id"
@@ -37,6 +25,7 @@
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.provinceId"
           placeholder="请选择"
           @change="cityList(seach.provinceId)"
@@ -52,6 +41,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.cityId"
           placeholder="请先选择省份"
           @change="siteList(seach.cityId)"
@@ -65,7 +55,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市">
+        <el-select class="w-150" clearable v-model="seach.siteValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -75,7 +65,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="下单类型">
-        <el-select clearable v-model="seach.productOrderType" placeholder="请先选择城市">
+        <el-select class="w-150" clearable v-model="seach.productOrderType" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.productOrderTypeList"
             :key="item.id"
@@ -83,6 +73,18 @@
             :value="item.id"
           ></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="测评接待时间">
+        <el-date-picker
+          class="w-250"
+          v-model="seach.orderDate"
+          type="daterange"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button

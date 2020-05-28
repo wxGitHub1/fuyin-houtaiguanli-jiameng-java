@@ -50,7 +50,8 @@
 <script>
 import session from "../../utils/session";
 import { logout } from "../../api/javaApi";
-import { viewPage_function, actions_data } from "../../router/path";
+// import { viewPage_function} from "../../router/path";
+import  menuList_data from "../../router/path";
 export default {
   name: "HelloWorld",
   props: {
@@ -66,7 +67,7 @@ export default {
       //显示当前页面名称
       witchPage: null,
       menu: [],
-      cur: null
+      cur: 0
     };
   },
   created() {
@@ -94,8 +95,9 @@ export default {
       }
     },
     init() {
-      // this.viewPage(String(window.location.href));
-      this.witchPage = viewPage_function(String(window.location.href));
+    //  console.log(this.$route.name) 
+      let data=menuList_data.menuList_data
+      this.witchPage = menuList_data.viewPage_function(this.$route.name,data);
       if (this.$store.state.login.username) {
         this.user.name = this.$store.state.login.username;
         this.menu = this.$store.state.login.menu;
@@ -142,18 +144,21 @@ export default {
               console.log(err);
             });
         })
-        .catch(action => {
+        .catch(err => {
           this.$message({
             type: "info",
-            message: action === "cancel" ? "开发中！" : "已取消"
+            message: err === "cancel" ? "开发中！" : "已取消"
           });
         });
     },
     //跳转页面
     gotoBigClient(adress) {
-      let actions = actions_data;
-      let action = actions[adress] || actions["404"];
-      this.$router.push(action);
+      menuList_data.menuList_data.forEach(element => {
+        if(element.text === adress){
+          this.$router.push({ name:element.name });
+          return
+        }
+      });
     }
   }
 };

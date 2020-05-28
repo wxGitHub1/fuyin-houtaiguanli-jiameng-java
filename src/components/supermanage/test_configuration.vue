@@ -6,6 +6,7 @@
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.provinceId"
           placeholder="请选择"
           @change="addCityList(seach.provinceId)"
@@ -21,6 +22,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.cityId"
           placeholder="请先选择省份"
           @change="siteList(seach.cityId)"
@@ -34,7 +36,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-        <el-select style="width:100%" clearable v-model="seach.siteId" placeholder="请先选择城市">
+        <el-select class="w-150" clearable v-model="seach.siteId" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteIdList"
             :key="item.id"
@@ -44,7 +46,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评项目">
-        <el-select style="width:100%" clearable v-model="seach.evaluationId" placeholder="请选择">
+        <el-select class="w-150" clearable v-model="seach.evaluationId" placeholder="请选择">
           <el-option
             v-for="item in seach.evaluationList"
             :key="item.baseId"
@@ -54,7 +56,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心类型">
-        <el-select style="width:100%" clearable v-model="seach.siteType" placeholder="请先选择测评中心">
+        <el-select class="w-150" clearable v-model="seach.siteType" placeholder="请先选择测评中心">
           <el-option
             v-for="item in seach.siteTypeList"
             :key="item.id"

@@ -6,6 +6,7 @@
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.provinceId"
           placeholder="请选择"
           @change="cityList(seach.provinceId)"
@@ -21,6 +22,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.cityId"
           placeholder="请先选择省份"
           @change="siteList(seach.cityId)"
@@ -34,7 +36,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
+        <el-select clearable class="w-150" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -46,6 +48,7 @@
       <el-form-item label="医院名称">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.hospitalId"
           placeholder="请先选择测评中心"
           @change="listenKey()"
@@ -59,10 +62,11 @@
         </el-select>
       </el-form-item>
       <el-form-item label="客户姓名">
-        <el-input v-model="seach.name" placeholder="请输入姓名" autocomplete="off" @input="listenKey()"></el-input>
+        <el-input class="w-150" v-model="seach.name" placeholder="请输入姓名" autocomplete="off" @input="listenKey()"></el-input>
       </el-form-item>
       <el-form-item label="联系方式">
         <el-input
+         class="w-150"
           v-model="seach.phone"
           placeholder="请输入联系电话"
           autocomplete="off"
@@ -71,6 +75,7 @@
       </el-form-item>
       <el-form-item label="创建人">
         <el-input
+        class="w-150"
           v-model="seach.createName"
           placeholder="请输入创建人姓名"
           autocomplete="off"
@@ -78,7 +83,7 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="到访状态">
-        <el-select clearable v-model="seach.daofang.value" placeholder="请选择" @change="listenKey()">
+        <el-select clearable class="w-150" v-model="seach.daofang.value" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.daofang.select"
             :key="item.type"
@@ -88,7 +93,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="客户认知">
-        <el-select clearable v-model="seach.renzhi.value" placeholder="请选择" @change="listenKey()">
+        <el-select clearable class="w-150" v-model="seach.renzhi.value" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.renzhi.select"
             :key="item.type"
@@ -98,7 +103,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="客户来源">
-        <el-select clearable v-model="seach.laiyuan.value" placeholder="请选择" @change="listenKey()">
+        <el-select clearable class="w-150" v-model="seach.laiyuan.value" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.laiyuan.select"
             :key="item.type"
@@ -110,6 +115,7 @@
       <el-form-item label="黑名单">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.heimingdan.value"
           placeholder="请选择"
           @change="listenKey()"
@@ -124,8 +130,8 @@
       </el-form-item>
       <el-form-item label="选择时间">
         <el-date-picker
+        class="w-250"
           @change="listenKey()"
-          style="width:100%"
           v-model="seach.createTime"
           type="daterange"
           format="yyyy 年 MM 月 dd 日"

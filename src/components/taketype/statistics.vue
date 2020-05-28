@@ -1,27 +1,17 @@
 <template>
   <div>
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
-      <el-form-item label="接待日期">
-        <el-date-picker
-          style="width: 100%"
-          v-model="search.OrderTime"
-          type="daterange"
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
-      </el-form-item>
+      
       <el-form-item label="产品名称">
-        <el-input style="width:100%" v-model="search.product" placeholder="请输入产品名称"></el-input>
+        <el-input class="w-150" v-model="search.product" placeholder="请输入产品名称"></el-input>
       </el-form-item>
       <el-form-item label="辅助人员">
-        <el-input style="width:100%" v-model="search.helpUser" placeholder="请输入人员"></el-input>
+        <el-input class="w-150" v-model="search.helpUser" placeholder="请输入人员"></el-input>
       </el-form-item>
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="search.provinceId"
           placeholder="请选择"
           @change="cityList(search.provinceId)"
@@ -37,6 +27,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="search.cityId"
           placeholder="请先选择省份"
           @change="siteList(search.cityId)"
@@ -52,6 +43,7 @@
       <el-form-item label="测评中心">
         <el-select
           clearable
+          class="w-150"
           v-model="search.siteValue"
           placeholder="请先选择城市"
           @change="userList(search.siteValue)"
@@ -65,7 +57,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="主取型人">
-        <el-select clearable v-model="search.userValue">
+        <el-select class="w-150" clearable v-model="search.userValue">
           <el-option
             v-for="(item,index) in search.userList"
             :key="index"
@@ -73,6 +65,18 @@
             :label="item.username"
           ></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="接待日期">
+        <el-date-picker
+          class="w-250"
+          v-model="search.OrderTime"
+          type="daterange"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button

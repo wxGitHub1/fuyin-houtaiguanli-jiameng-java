@@ -4,29 +4,19 @@
     <!-- search -->
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="客户姓名">
-        <el-input v-model="seach.memberName" placeholder="请输入姓名"></el-input>
+        <el-input class="w-150" v-model="seach.memberName" placeholder="请输入姓名"></el-input>
       </el-form-item>
       <el-form-item label="联系方式">
-        <el-input v-model="seach.phone" placeholder="请输入联系电话"></el-input>
+        <el-input class="w-150" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
       </el-form-item>
       <el-form-item label="产品名">
-        <el-input v-model="seach.nickName" placeholder="请输入名称"></el-input>
+        <el-input class="w-150" v-model="seach.nickName" placeholder="请输入名称"></el-input>
       </el-form-item>
-      <el-form-item label="接待日期">
-        <el-date-picker
-          style="width: 100%"
-          v-model="seach.time"
-          type="daterange"
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
-      </el-form-item>
+
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.provinceId"
           placeholder="请选择"
           @change="cityList(seach.provinceId)"
@@ -42,6 +32,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.cityId"
           placeholder="请先选择省份"
           @change="siteList(seach.cityId)"
@@ -57,6 +48,7 @@
       <el-form-item label="测评中心">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.siteValue"
           placeholder="请先选择城市"
           @change="userList(seach.siteValue)"
@@ -70,7 +62,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="主取型人">
-        <el-select style="width:100%" clearable v-model="seach.user" placeholder="请选择">
+        <el-select class="w-150" clearable v-model="seach.user" placeholder="请选择">
           <el-option
             v-for="item in seach.userList"
             :key="item.id"
@@ -78,6 +70,18 @@
             :value="item.id"
           ></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="接待日期">
+        <el-date-picker
+          class="w-250"
+          v-model="seach.time"
+          type="daterange"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button

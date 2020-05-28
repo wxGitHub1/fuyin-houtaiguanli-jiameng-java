@@ -1,62 +1,70 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import { Support, LoginPage, Modify, Front, FrontUser,TakeType, Evaluation, BigClient, OutWork, Process, Quality, TryClothes, Fiance, Warehouse, Return, Theory, SuperManage,Error } from './path';
+import path from './path';
 import { Main } from 'element-ui';
 
 Vue.use(Router);
+import VueRouter from "vue-router";
 
+const [routerPush, routerReplace] = [VueRouter.prototype.push, VueRouter.prototype.replace];
+VueRouter.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error => error);
+};
+VueRouter.prototype.replace = function replace(location) {
+  return routerReplace.call(this, location).catch(error => error);
+}
 export default new Router({
-  // mode: 'history',
+  mode:'hash',
   routes: [
     {
       path: '*',
       name: '404',
-      component: Error,
+      component: path.Error,
     },
     {
       path: '/',
       name: 'Login',
-      component: LoginPage,
+      component: path.LoginPage,
     },
     {
       path: '/login',
       name: 'login',
-      component: LoginPage,
+      component: path.LoginPage,
     },
     {
       path: '/support',
       name: 'supports',
-      component: Support,
+      component: path.Support,
     },
     {
       path: '/login',
       name: 'Login',
-      component: LoginPage,
+      component: path.LoginPage,
     },
     {
       path: '/evaluation',
       name: 'evaluationPage',
-      component: Evaluation,
+      component: path.Evaluation,
     },
     {
       path: '/taketype',
       name: 'take',
-      component: TakeType,
+      component: path.TakeType,
     },
     {
       path: '/modify',
       name: 'modifytype',
-      component: Modify,
+      component: path.Modify,
     },
     {
       path: '/front',
       name: 'frontdesk',
-      component: Front,
+      component: path.Front,
     },
     {
       path: '/specialUser',
       name: 'specialUser',
-      component: FrontUser,
+      component: path.FrontUser,
     },
     {
       path: '/bigclient',
@@ -64,7 +72,7 @@ export default new Router({
       meta: {
         requireAuth: true
       },
-      component: BigClient,
+      component: path.BigClient,
     },
     {
       path: '/outwork',
@@ -72,48 +80,48 @@ export default new Router({
       meta: {
         requireAuth: true
       },
-      component: OutWork,
+      component: path.OutWork,
     },
     {
       path: '/process',
       name: 'process',
-      component: Process,
+      component: path.Process,
     },
     {
       path: '/quality',
       name: 'quality',
-      component: Quality,
+      component: path.Quality,
     },
     {
       path: '/clothes',
       name: 'tryclothes',
-      component: TryClothes,
+      component: path.TryClothes,
     },
     {
 
       path: '/fiance',
       name:'fiance',
-      component: Fiance,
+      component: path.Fiance,
     },
     {
       path: '/warehouse',
       name: 'warehouse',
-      component: Warehouse,
+      component: path.Warehouse,
     },
     {
       path: '/return',
       name: 'return',
-      component: Return,
+      component: path.Return,
     },
     {
       path: '/supermanage',
       name: 'super',
-      component: SuperManage,
+      component: path.SuperManage,
     },
     {
       path: '/theory',
       name: 'theory',
-      component: Theory,
+      component: path.Theory,
     },
   ],
 });

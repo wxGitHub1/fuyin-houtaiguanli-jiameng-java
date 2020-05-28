@@ -5,18 +5,18 @@
     <!-- seach -->
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="客户姓名">
-        <el-input v-model="seach.memberName" placeholder="请输入姓名"></el-input>
+        <el-input class="w-150" v-model="seach.memberName" placeholder="请输入姓名"></el-input>
       </el-form-item>
       <el-form-item label="联系方式">
-        <el-input v-model="seach.phone" placeholder="请输入联系电话"></el-input>
+        <el-input class="w-150" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
       </el-form-item>
       <el-form-item label="是否会员">
         <el-select clearable v-model="seach.vipValue" placeholder="请选择">
-          <el-option v-for="item in seach.vips" :key="item.id" :label="item.name" :value="item.id"></el-option>
+          <el-option class="w-150" v-for="item in seach.vips" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="服务人员">
-        <el-select clearable style="width：100%" v-model="seach.servicePersonnel" placeholder="请选择">
+        <el-select clearable class="w-150" v-model="seach.servicePersonnel" placeholder="请选择">
           <el-option
             v-for="item in seach.userNameList"
             :key="item.id"
@@ -1397,7 +1397,7 @@
 
 <script>
 import {
-  assignList,
+  examinationWaitAdmit,
   getHospitalList,
   selectDepartmentByHospitalId,
   queryDoctorByDepartmentId,
@@ -2248,7 +2248,7 @@ export default {
         status: 0
       };
       this.loading = true;
-      assignList(data)
+      examinationWaitAdmit(data)
         .then(res => {
           this.loading = false;
           let dataList = res.data;

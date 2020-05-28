@@ -2,10 +2,11 @@
 <template>
   <div>
     <!-- search -->
-    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+    <el-form :inline="true" size="small"  id="search" class="padding-LR-p10">
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.provinceId"
           placeholder="请选择"
           @change="cityList(seach.provinceId)"
@@ -21,6 +22,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.cityId"
           placeholder="请先选择省份"
           @change="siteList(seach.cityId)"
@@ -34,7 +36,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市">
+        <el-select clearable class="w-150" v-model="seach.siteValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -44,19 +46,19 @@
         </el-select>
       </el-form-item>
       <el-form-item label="用户名">
-        <el-input v-model="seach.name" placeholder="请输入联系电话"></el-input>
+        <el-input class="w-150" v-model="seach.name" placeholder="请输入联系电话"></el-input>
       </el-form-item>
       <el-form-item label="操作类型">
-        <el-select clearable v-model="seach.logValue" placeholder="请选择">
+        <el-select clearable class="w-150" v-model="seach.logValue" placeholder="请选择">
           <el-option v-for="item in seach.logs" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="订单编号">
-        <el-input v-model="seach.orderNum" placeholder="请输入订单编号"></el-input>
+        <el-input class="w-150" v-model="seach.orderNum" placeholder="请输入订单编号"></el-input>
       </el-form-item>
       <el-form-item label="操作时间">
         <el-date-picker
-          style="width: 100%"
+          class="w-250"
           v-model="seach.logTime"
           type="daterange"
           format="yyyy-MM-dd"

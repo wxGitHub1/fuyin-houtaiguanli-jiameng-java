@@ -4,22 +4,23 @@
     <el-form :inline="true" size="mini" id="search" class="padding-LR-p10">
       <el-form-item label="客户姓名">
         <el-input
+        
           v-model="seach.userName"
-          style="width：100%"
+          class="w-150"
           placeholder="请输入姓名"
           @input="listenKey()"
         ></el-input>
       </el-form-item>
       <el-form-item label="联系方式">
         <el-input
-          style="width：100%"
+          class="w-150"
           v-model="seach.phone"
           placeholder="请输入联系电话"
           @input="listenKey()"
         ></el-input>
       </el-form-item>
       <el-form-item label="订单状态">
-        <el-select clearable v-model="seach.status" placeholder="请选择" @change="listenKey()">
+        <el-select clearable class="w-150" v-model="seach.status" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.statusList"
             :key="item.id"
@@ -31,6 +32,7 @@
       <el-form-item label="病单类型">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.prescriptionType"
           placeholder="请选择"
           @change="listenKey()"
@@ -44,7 +46,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="折扣优惠">
-        <el-select clearable v-model="seach.favorable" placeholder="请选择" @change="listenKey()">
+        <el-select clearable class="w-150" v-model="seach.favorable" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.favorableList"
             :key="item.id"
@@ -55,7 +57,7 @@
       </el-form-item>
       <el-form-item label="订单编号">
         <el-input
-          style="width：100%"
+          class="w-150"
           v-model="seach.orderNum"
           placeholder="请输入订单编号"
           @input="listenKey()"
@@ -63,7 +65,7 @@
       </el-form-item>
       
       <el-form-item label="付款类型">
-        <el-select clearable v-model="seach.payType" placeholder="请选择" @change="listenKey()">
+        <el-select clearable class="w-150" v-model="seach.payType" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.payTypeList"
             :key="item.id"
@@ -73,7 +75,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="是否欠款">
-        <el-select clearable v-model="seach.owe" placeholder="请选择" @change="listenKey()">
+        <el-select clearable class="w-150" v-model="seach.owe" placeholder="请选择" @change="listenKey()">
           <el-option
             v-for="item in seach.oweList"
             :key="item.id"
@@ -84,11 +86,12 @@
       </el-form-item>
       
       <el-form-item label="下单人">
-        <el-input v-model="seach.createUserName" placeholder="请输入下单人姓名" @input="listenKey()"></el-input>
+        <el-input class="w-150" v-model="seach.createUserName" placeholder="请输入下单人姓名" @input="listenKey()"></el-input>
       </el-form-item>
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.provinceId"
           placeholder="请选择"
           @change="cityList(seach.provinceId)"
@@ -104,6 +107,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.cityId"
           placeholder="请先选择省份"
           @change="siteList(seach.cityId)"
@@ -119,6 +123,7 @@
       <el-form-item label="测评中心">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.siteValue"
           placeholder="请先选择城市"
           @change="hospitalList(seach.siteValue)"
@@ -134,6 +139,7 @@
       <el-form-item label="医院名称">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.hospitalId"
           placeholder="请先选择测评中心"
           @change="listenKey()"
@@ -148,7 +154,7 @@
       </el-form-item>
       <el-form-item label="下单日期">
         <el-date-picker
-          style="width: 100%"
+          class="w-250"
           v-model="seach.createTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -161,7 +167,7 @@
       </el-form-item>
       <el-form-item label="交货日期">
         <el-date-picker
-          style="width: 100%"
+          class="w-250"
           v-model="seach.deliveryTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -1174,7 +1180,6 @@ import {
 import fuyinProduct_html from "../commonComponent/fuyinProduct";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
-import { viewPage_function } from "../../router/path";
 import naVComponent from "./page";
 export default {
   data() {
@@ -2009,7 +2014,7 @@ export default {
       this.seach.hospitalLists = await hospital(id);
     },
     init() {
-      if (viewPage_function(String(window.location.href)) == "测评") {
+      if (this.$route.name == "evaluationPage") {
         this.cpOnly_show = false;
       } else {
         this.cpOnly_show = true;

@@ -37,61 +37,46 @@ const SuperManage = resolve => require(['../components/supermanage'], resolve)
 const Error = resolve => require(['../components/error'], resolve)
 const FrontUser = resolve => require(['../components/frontUser'], resolve)
 
-
-export { Support, LoginPage, Evaluation, Front, TakeType, Modify, BigClient, OutWork, Process, Quality, TryClothes, Fiance, Warehouse, Return, Theory, SuperManage, Error, FrontUser };
+const menuList_data = [
+  { name: "super", text: "超级管理员" },
+  { name: "frontdesk", text: "前台" },
+  { name: "supports", text: "支具室" },
+  { name: "take", text: "取型" },
+  { name: "tryclothes", text: "试穿" },
+  { name: "evaluationPage", text: "测评" },
+  { name: "return", text: "回访管理" },
+  { name: "specialUser", text: "前台统计员" }
+]
 //根据当前链接地址 显示界面信息
-export function viewPage_function(arg) {
-  let outworks = new RegExp("outwork");
-  let bigclients = new RegExp("bigclient");
-  let supermanage = new RegExp("supermanage");
-  let Support = new RegExp("Support");
-  let Front = new RegExp("Front");
-  let TakeType = new RegExp("TakeType");
-  let clothes = new RegExp("clothes");
-  let Evaluation = new RegExp("Evaluation");
-  let Return = new RegExp("return");
-  let FrontUser = new RegExp("specialUser");
-  if (outworks.test(arg)) {
-    let witchPage = "外出体检";
-    return witchPage
-  } else if (bigclients.test(arg)) {
-    witchPage = "大客户";
-  } else if (supermanage.test(arg)) {
-    let witchPage = "超级管理员";
-    return witchPage
-  } else if (Front.test(arg)) {
-    let witchPage = "前台";
-    return witchPage
-  } else if (Support.test(arg)) {
-    let witchPage = "支具室";
-    return witchPage
-  } else if (TakeType.test(arg)) {
-    let witchPage = "取型";
-    return witchPage
-  } else if (clothes.test(arg)) {
-    let witchPage = "试穿";
-    return witchPage
-  } else if (Evaluation.test(arg)) {
-    let witchPage = "测评";
-    return witchPage
-  } else if (Return.test(arg)) {
-    let witchPage = "回访管理";
-    return witchPage
-  } else if (FrontUser.test(arg)) {
-    let witchPage = "前台统计员";
-    return witchPage
-  }
+function viewPage_function(arg, list) {
+  let data = list
+  let witchPage = null
+  data.forEach(element => {
+    if (element.name == arg) {
+      witchPage = element.text;
+    }
+  });
+  return witchPage
 }
-export const actions_data = {
-  超级管理员: "/supermanage",
-  大客户: "/bigclient",
-  外出体检: "/outwork",
-  前台: "/Front",
-  支具室: "/Support",
-  取型: "/TakeType",
-  试穿: "/clothes",
-  测评: "/Evaluation",
-  回访管理: "/return",
-  前台统计员: "/specialUser",
-  "404": "/404"
-};
+export default {
+  menuList_data,
+  viewPage_function,
+  Support,
+  LoginPage,
+  Evaluation,
+  Front,
+  TakeType,
+  Modify,
+  BigClient,
+  OutWork,
+  Process,
+  Quality,
+  TryClothes,
+  Fiance,
+  Warehouse,
+  Return,
+  Theory,
+  SuperManage,
+  Error,
+  FrontUser
+}

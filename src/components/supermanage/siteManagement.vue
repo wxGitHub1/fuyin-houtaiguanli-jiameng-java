@@ -5,6 +5,7 @@
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.provinceId"
           placeholder="请选择"
           @change="cityList(seach.provinceId)"
@@ -20,6 +21,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.cityId"
           placeholder="请先选择省份"
           @change="siteList(seach.cityId)"
@@ -33,7 +35,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-        <el-select style="width:100%" clearable v-model="seach.siteId" placeholder="请先选择城市">
+        <el-select class="w-150" clearable v-model="seach.siteId" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteIdList"
             :key="item.id"
@@ -43,7 +45,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心类型">
-        <el-select style="width:100%" clearable v-model="seach.siteType" placeholder="请选择">
+        <el-select class="w-150" clearable v-model="seach.siteType" placeholder="请选择">
           <el-option
             v-for="item in seach.siteTypeList"
             :key="item.id"
@@ -53,7 +55,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="负责人">
-        <el-input style="width：100%" v-model="seach.userName" placeholder="请输入产品昵称"></el-input>
+        <el-input class="w-150" v-model="seach.userName" placeholder="请输入产品昵称"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button

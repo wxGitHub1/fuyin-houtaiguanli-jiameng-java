@@ -2,9 +2,49 @@
   <!-- 鞋垫制作 -->
   <div>
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      
+      <el-form-item label="下单类型">
+        <el-select class="w-150" clearable v-model="seach.productOrderType" placeholder="请选择">
+          <el-option
+            v-for="item in seach.productOrderTypeList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="客户姓名">
+        <el-input class="w-150" v-model="seach.memberName" placeholder="请输入客户姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="医院名称">
+        <el-select class="w-150" clearable v-model="seach.hospitalId" placeholder="请选择">
+          <el-option
+            v-for="item in seach.hospitalLists"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="产品昵称">
+        <el-select class="w-150" clearable v-model="seach.baseId" placeholder="请选择">
+          <el-option
+            v-for="item in seach.baseList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="下单人">
+        <el-input class="w-150" v-model="seach.orderUserName" placeholder="请输入下单人姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="联系电话">
+        <el-input class="w-150" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
+      </el-form-item>
       <el-form-item label="下单日期">
         <el-date-picker
-          style="width: 100%"
+          class="w-250"
           v-model="seach.orderTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -16,7 +56,7 @@
       </el-form-item>
       <el-form-item label="交货日期">
         <el-date-picker
-          style="width: 100%"
+          class="w-250"
           v-model="seach.deliveryTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -25,45 +65,6 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="下单类型">
-        <el-select clearable v-model="seach.productOrderType" placeholder="请选择">
-          <el-option
-            v-for="item in seach.productOrderTypeList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="客户姓名">
-        <el-input v-model="seach.memberName" placeholder="请输入客户姓名"></el-input>
-      </el-form-item>
-      <el-form-item label="医院名称">
-        <el-select clearable v-model="seach.hospitalId" placeholder="请选择">
-          <el-option
-            v-for="item in seach.hospitalLists"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="产品昵称">
-        <el-select clearable v-model="seach.baseId" placeholder="请选择">
-          <el-option
-            v-for="item in seach.baseList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="下单人">
-        <el-input v-model="seach.orderUserName" placeholder="请输入下单人姓名"></el-input>
-      </el-form-item>
-      <el-form-item label="联系电话">
-        <el-input v-model="seach.phone" placeholder="请输入联系电话"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button

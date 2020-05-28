@@ -251,6 +251,7 @@ export const selectRepairStatistics = async params => axios.post(baseUrl  + '/tr
 *
 */
 //待接待
+export const examinationWaitAdmit = async params => axios.post(baseUrl  + '/member/assign/examinationWaitAdmit', params);//查询列表
 export const printMakeParam = async params => axios.get(baseUrl  + '/examination/printMakeParam', params);//检测报告查询基本信息
 //已接待
 export const examineAdmit = async params => axios.post(baseUrl  + '/examination/examineAdmit', params);//测评已接待查询

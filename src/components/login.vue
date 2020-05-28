@@ -33,7 +33,7 @@
 <script>
 import $axios from "axios";
 import session from "../utils/session";
-import { actions_data } from "../router/path";
+import menuList_data from "../router/path";
 import { checkLogine } from "../api/javaApi";
 export default {
   name: "HelloWorld",
@@ -85,14 +85,12 @@ export default {
             session.setItem("menu", res.data.data.roleName); //保存用户菜单
             // commit('USER_STATUS', res.data.data);
             let menu = session.getItem("menu");
-            let actions = actions_data;
-            let action = actions[menu[0].name] || actions["404"];
-            this.$router.push(action);
-            // this.$message({
-            //   message: "用户已登录",
-            //   type: "warning",
-            //   center: true
-            // });
+            menuList_data.menuList_data.forEach(element => {
+              if (element.text === menu[0].name) {
+                this.$router.push({ name: element.name });
+                return;
+              }
+            });
           }
         })
         .catch(err => {
@@ -138,9 +136,12 @@ export default {
           });
         } else {
           let menu = session.getItem("menu");
-          let actions = actions_data;
-          let action = actions[menu[0].name] || actions["404"];
-          self.$router.push(action);
+          menuList_data.menuList_data.forEach(element => {
+            if (element.text === menu[0].name) {
+              this.$router.push({ name: element.name });
+              return;
+            }
+          });
           this.isSearch = false;
         }
       }

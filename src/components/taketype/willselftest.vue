@@ -5,6 +5,7 @@
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.provinceId"
           placeholder="请选择"
           @change="cityList(seach.provinceId)"
@@ -20,6 +21,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.cityId"
           placeholder="请先选择省份"
           @change="siteList(seach.cityId)"
@@ -33,7 +35,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市">
+        <el-select clearable class="w-150" v-model="seach.siteValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -43,13 +45,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="客户姓名">
-        <el-input v-model="seach.memberName" placeholder="请输入姓名"></el-input>
+        <el-input v-model="seach.memberName" class="w-150" placeholder="请输入姓名"></el-input>
       </el-form-item>
       <el-form-item label="产品昵称">
-        <el-input v-model="seach.nickname" placeholder="请输入联系电话"></el-input>
+        <el-input v-model="seach.nickname" class="w-150" placeholder="请输入联系电话"></el-input>
       </el-form-item>
       <el-form-item label="是否加急">
-        <el-select style="width:100%" clearable v-model="seach.expedited" placeholder="请选择">
+        <el-select class="w-150" clearable v-model="seach.expedited" placeholder="请选择">
           <el-option
             v-for="item in seach.isExpedited"
             :key="item.id"
@@ -577,7 +579,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 </style>
 <style>
 .el-table .warning-row {

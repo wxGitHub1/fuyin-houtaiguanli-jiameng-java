@@ -4,29 +4,19 @@
     <!-- seach -->
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="客户姓名">
-        <el-input v-model="seach.memberName" style="width：100%" placeholder="请输入姓名"></el-input>
+        <el-input v-model="seach.memberName" class="w-150" placeholder="请输入姓名"></el-input>
       </el-form-item>
       <el-form-item label="联系电话">
-        <el-input style="width：100%" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
+        <el-input class="w-150" v-model="seach.phone" placeholder="请输入联系电话"></el-input>
       </el-form-item>
-      <el-form-item label="交货日期">
-        <el-date-picker
-          style="width:100%"
-          v-model="seach.delivery"
-          type="daterange"
-          format="yyyy 年 MM 月 dd 日"
-          value-format="yyyy-MM-dd"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
-      </el-form-item>
+
       <el-form-item label="产品昵称">
-        <el-input style="width：100%" v-model="seach.saleProductName" placeholder="请输入产品昵称"></el-input>
+        <el-input class="w-150" v-model="seach.saleProductName" placeholder="请输入产品昵称"></el-input>
       </el-form-item>
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.provinceId"
           placeholder="请选择"
           @change="cityList(seach.provinceId)"
@@ -42,6 +32,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.cityId"
           placeholder="请先选择省份"
           @change="siteList(seach.cityId)"
@@ -57,6 +48,7 @@
       <el-form-item label="测评中心">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.siteValue"
           placeholder="请先选择城市"
           @change="hospitalList(seach.siteValue)"
@@ -70,7 +62,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="医院">
-        <el-select clearable v-model="seach.hospitalId" placeholder="请先选择测评中心">
+        <el-select clearable class="w-150" v-model="seach.hospitalId" placeholder="请先选择测评中心">
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -78,6 +70,18 @@
             :value="item.id"
           ></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="交货日期">
+        <el-date-picker
+          class="w-250"
+          v-model="seach.delivery"
+          type="daterange"
+          format="yyyy 年 MM 月 dd 日"
+          value-format="yyyy-MM-dd"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -398,5 +402,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 </style>

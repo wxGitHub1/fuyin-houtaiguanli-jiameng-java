@@ -4,10 +4,11 @@
     <!-- seach -->
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="客户姓名">
-        <el-input v-model="seach.name" placeholder="请输入姓名" autocomplete="off" @input="listenKey()"></el-input>
+        <el-input v-model="seach.name" class="w-150" placeholder="请输入姓名" autocomplete="off" @input="listenKey()"></el-input>
       </el-form-item>
       <el-form-item label="联系方式">
         <el-input
+        class="w-150"
           v-model="seach.phone"
           placeholder="请输入联系电话"
           autocomplete="off"
@@ -16,7 +17,7 @@
       </el-form-item>
       <el-form-item label="出生日期">
         <el-date-picker
-          style="width:100%"
+        class="w-150"
           type="date"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
@@ -28,6 +29,7 @@
       <el-form-item label="黑名单">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.heimingdanValue"
           placeholder="请选择"
           @change="listenKey()"
@@ -43,6 +45,7 @@
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.provinceId"
           placeholder="请选择"
           @change="cityList(seach.provinceId)"
@@ -58,6 +61,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.cityId"
           placeholder="请先选择省份"
           @change="siteList(seach.cityId)"
@@ -71,7 +75,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市">
+        <el-select clearable class="w-150" v-model="seach.siteValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -1883,7 +1887,6 @@ import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import Print from "../commonComponent/PrintTemplate";
 import placeOrder from "../navComponent/place_order";
-import { viewPage_function } from "../../router/path";
 import naVComponent from "../navComponent/page";
 import naVComponent_variable from "../navComponent/page_variable";
 import frontDesk_variable from "./frontDesk_variable";
@@ -2152,7 +2155,7 @@ export default {
       naVComponent.isRequired(this, val);
     },
     init() {
-      if (viewPage_function(String(window.location.href)) == "试穿") {
+      if (this.$route.name == "tryclothes") {
         this.tryOnly_show = false;
       } else {
         this.tryOnly_show = true;

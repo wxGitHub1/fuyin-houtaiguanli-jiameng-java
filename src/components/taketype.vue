@@ -24,15 +24,23 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      tableNav: "home",
-      tabIndex: "home",
+      tableNav: "willReceive",
+      // tabIndex: "home",
       tables: [
         {
-          title: "首页",
-          name: "home",
-          content: "take-home",
+          name: "willReceive",
+          iconfont: "iconfont",
+          icon: "icon-gongwujiedai",
+          content: "take-willReceive",
+          title: "待接待",
           isClose: false
-        }
+        },
+        // {
+        //   title: "首页",
+        //   name: "home",
+        //   content: "take-home",
+        //   isClose: false
+        // }
       ],
       navTable: [
         {

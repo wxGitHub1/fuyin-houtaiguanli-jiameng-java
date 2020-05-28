@@ -6,6 +6,7 @@
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.provinceId"
           placeholder="请选择"
           @change="addCityList(seach.provinceId)"
@@ -21,6 +22,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seach.cityId"
           placeholder="请选择"
           @change="siteList(seach.cityId)"
@@ -35,7 +37,7 @@
         </el-form-item>
       <el-form-item label="测评中心">
         <el-select
-          style="width:100%"
+          class="w-150"
           clearable
           v-model="seach.siteId"
           placeholder="请选择"
@@ -51,7 +53,7 @@
       </el-form-item>
       <el-form-item label="医院"> 
         <el-select
-          style="width:100%"
+          class="w-150"
           clearable
           v-model="seach.hospitalId"
           placeholder="请先选择"

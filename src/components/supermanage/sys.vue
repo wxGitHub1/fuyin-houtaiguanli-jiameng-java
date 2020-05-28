@@ -3,7 +3,7 @@
   <div id="sys">
     <el-form :inline="true" :model="formInline" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="测评中心">
-        <el-select clearable v-model="formInline.siteIdValue" placeholder="请选择">
+        <el-select clearable class="w-150" v-model="formInline.siteIdValue" placeholder="请选择">
           <el-option
             v-for="item in formInline2.allSiteList"
             :key="item.id"
@@ -14,6 +14,7 @@
       </el-form-item>
       <el-form-item label="所属部门">
         <el-cascader
+        class="w-150"
           v-model="formInline.departmentValue"
           :clearable="true"
           :options="formInline2.departmentList"
@@ -24,13 +25,13 @@
         ></el-cascader>
       </el-form-item>
       <el-form-item label="用户姓名/手机">
-        <el-input clearable v-model="formInline.user" placeholder="请输入用户姓名"></el-input>
+        <el-input clearable class="w-150" v-model="formInline.user" placeholder="请输入用户姓名"></el-input>
       </el-form-item>
       <!-- <el-form-item label="电话">
             <el-input clearable v-model="formInline.userMobile" placeholder="请输入电话"></el-input>
       </el-form-item>-->
       <el-form-item label="用户角色">
-        <el-select clearable v-model="formInline.region" placeholder="请选择">
+        <el-select clearable class="w-150" v-model="formInline.region" placeholder="请选择">
           <el-option
             v-for="item in formInline.options"
             :key="item.id"

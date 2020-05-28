@@ -2,10 +2,11 @@
   <!-- 医院管理 -->
   <div>
     <!-- seach -->
-    <el-form :inline="true" :model="seachFome" size="small" class="padding-LR-p10">
+    <el-form :inline="true" :model="seachFome" id="search" size="small" class="padding-LR-p10">
       <el-form-item label="省份">
         <el-select
           clearable
+          class="w-150"
           v-model="seachFome.fom1.value"
           placeholder="请选择"
           @change="cityList(seachFome.fom1.value)"
@@ -21,6 +22,7 @@
       <el-form-item label="城市">
         <el-select
           clearable
+          class="w-150"
           v-model="seachFome.fom2.value"
           placeholder="请先选择省份"
           @change="hospitalList(seachFome.fom2.value)"
@@ -34,7 +36,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-        <el-select clearable v-model="seachFome.siteIdValue" placeholder="请先选择城市">
+        <el-select clearable class="w-150" v-model="seachFome.siteIdValue" placeholder="请先选择城市">
           <el-option
             v-for="item in seachFome.siteIdList"
             :key="item.id"
@@ -44,7 +46,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="医院名称">
-        <el-select clearable v-model="seachFome.fom3.value" placeholder="请先选择城市">
+        <el-select clearable class="w-150" v-model="seachFome.fom3.value" placeholder="请先选择城市">
           <el-option
             v-for="item in seachFome.fom3.select"
             :key="item.id"
@@ -54,7 +56,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="医院类型">
-        <el-select clearable v-model="seachFome.hospitalTypeValue" placeholder="请先选择">
+        <el-select clearable class="w-150" v-model="seachFome.hospitalTypeValue" placeholder="请先选择">
           <el-option
             v-for="item in seachFome.hospitalTypeLists"
             :key="item.id"
@@ -64,13 +66,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="医生">
-        <el-input clearable v-model="seachFome.doctors" placeholder="请输入用户姓名"></el-input>
+        <el-input clearable class="w-150" v-model="seachFome.doctors" placeholder="请输入用户姓名"></el-input>
       </el-form-item>
       <el-form-item label="负责人">
-        <el-input clearable v-model="seachFome.principal" placeholder="请输入用户姓名"></el-input>
+        <el-input clearable class="w-150" v-model="seachFome.principal" placeholder="请输入用户姓名"></el-input>
       </el-form-item>
       <el-form-item label="当前职称" class="job">
-        <el-select clearable v-model="seachFome.fom4.value" placeholder="请选择">
+        <el-select clearable class="w-150" v-model="seachFome.fom4.value" placeholder="请选择">
           <el-option
             v-for="item in seachFome.fom4.select"
             :key="item.id"
