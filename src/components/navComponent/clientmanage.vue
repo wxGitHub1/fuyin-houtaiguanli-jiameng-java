@@ -2,7 +2,7 @@
   <!-- 客户管理 -->
   <div>
     <!-- seach -->
-    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+    <el-form :inline="true" size="mini" id="search" class="padding-LR-p10">
       <el-form-item label="省份">
         <el-select
           clearable
@@ -34,9 +34,24 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市" @change="listenKey()">
+        <el-select clearable v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
           <el-option
             v-for="item in seach.siteLists"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="医院名称">
+        <el-select
+          clearable
+          v-model="seach.hospitalId"
+          placeholder="请先选择测评中心"
+          @change="listenKey()"
+        >
+          <el-option
+            v-for="item in seach.hospitalLists"
             :key="item.id"
             :label="item.name"
             :value="item.id"
@@ -620,7 +635,7 @@
       </el-table>
       <h3 class="b-b-p-1">订单信息</h3>
       <el-table :data="orders" border max-height="500">
-        <el-table-column prop="orderNum" label="病单编号" min-width="100"></el-table-column>
+        <el-table-column prop="orderNum" label="订单编号" min-width="100"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
@@ -2406,7 +2421,8 @@ export default {
           this.seach.heimingdan.value == "0" ? 0 : this.seach.heimingdan.value,
         siteId: this.seach.siteValue,
         provinceId: this.seach.provinceId,
-        cityId: this.seach.cityId
+        cityId: this.seach.cityId,
+        hospitalId: this.seach.hospitalId
       };
       const lsyObj = {
         method: "post",
@@ -2437,7 +2453,8 @@ export default {
           this.seach.heimingdan.value == "0" ? 0 : this.seach.heimingdan.value,
         siteId: this.seach.siteValue,
         provinceId: this.seach.provinceId,
-        cityId: this.seach.cityId
+        cityId: this.seach.cityId,
+        hospitalId: this.seach.hospitalId
       };
       this.loading = true;
       queryMemberByPage(data)
@@ -2547,7 +2564,7 @@ export default {
     //根据测评中心获取医院列表
     async hospitalList(id) {
       let data = await hospital(id);
-      // this.seach.hospitalLists = data;
+      this.seach.hospitalLists = data;
       this.addData[0].hospitals = data;
     },
     isJiaJi() {

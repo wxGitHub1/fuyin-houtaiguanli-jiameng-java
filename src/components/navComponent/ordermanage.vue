@@ -371,7 +371,8 @@
         <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格"></el-table-column>
         <el-table-column prop="favorable" label="折扣金额"></el-table-column>
-        <el-table-column prop="recordActual" label="退款金额"></el-table-column>
+        <!-- <el-table-column prop="recordActual" label="退款金额"></el-table-column> -->
+        <el-table-column prop="favorableRemark" label="特殊要求"></el-table-column>
         <el-table-column prop="deliveryTime" label="交货时间" min-width="200"></el-table-column>
         <el-table-column label="操作" min-width="130">
           <template slot-scope="scope">

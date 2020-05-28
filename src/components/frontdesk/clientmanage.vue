@@ -598,7 +598,7 @@
       </el-table>
       <h3 class="b-b-p-1">订单信息</h3>
       <el-table :data="orders" border max-height="500">
-        <el-table-column prop="orderNum" label="病单编号" min-width="100"></el-table-column>
+        <el-table-column prop="orderNum" label="订单编号" min-width="100"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>

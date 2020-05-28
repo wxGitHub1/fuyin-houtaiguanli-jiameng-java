@@ -136,7 +136,7 @@
       <el-table-column align="center" prop="departmentName" label="科室"></el-table-column>
       <el-table-column align="center" prop="doctorName" label="医生"></el-table-column>-->
       <el-table-column align="center" prop="orderTime" label="会员下单日期"></el-table-column>
-      <el-table-column align="center" prop="userName" label="会员人"></el-table-column>
+      <el-table-column align="center" prop="userName" label="下单人"></el-table-column>
     </el-table>
     <div class="total">
       <span>合计：</span>

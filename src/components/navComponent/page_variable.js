@@ -123,8 +123,10 @@ const seach={
     siteValue: null,
     provinceId: null,
     cityId: null,
+    hospitalId: null,
     provinceIdList: [],
-    cityIdList: []
+    cityIdList: [],
+    hospitalLists: []
   }
  const addData=[
     {
