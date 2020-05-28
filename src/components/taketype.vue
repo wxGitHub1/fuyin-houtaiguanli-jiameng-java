@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:100%">
     <!-- <el-button type="danger" style="position:absolute; z-index:9999;top: 100px;"  @click="addTab('orderManage')">增加</el-button> -->
     <my-header :navTables="navTable" v-on:acceptTitle="newTitle"></my-header>
     <div class="child_page">

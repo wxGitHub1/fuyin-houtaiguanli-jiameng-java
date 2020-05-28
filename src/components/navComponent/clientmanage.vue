@@ -170,7 +170,7 @@
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
-      <el-table-column align="center" prop="sex" label="性别" min-width="40"></el-table-column>
+      <el-table-column align="center" prop="sex" label="性别" width="50"></el-table-column>
       <el-table-column align="center" prop="visitFlag" label="到访状态"></el-table-column>
       <el-table-column align="center" prop="phone" label="联系电话" min-width="100"></el-table-column>
       <el-table-column align="center" prop="siteName" label="测评中心"></el-table-column>
