@@ -16,7 +16,6 @@
         </span>
         <input type="password" placeholder="请输入密码" v-model="userPassword" />
       </div>
-      <!-- <div style="margin-top: 50px;" class="user_login" :loading="isSearch" @click="userLogin()">登录</div> -->
       <el-button
         style="margin-top: 50px;"
         class="user_login"
@@ -25,8 +24,6 @@
       >登录</el-button>
       <div class="version">当前版本：2.0.3</div>
     </div>
-    <!-- </el-col>
-    </el-row>-->
   </div>
 </template>
 

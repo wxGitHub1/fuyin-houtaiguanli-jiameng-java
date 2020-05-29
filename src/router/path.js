@@ -45,7 +45,9 @@ const menuList_data = [
   { name: "tryclothes", text: "试穿" },
   { name: "evaluationPage", text: "测评" },
   { name: "return", text: "回访管理" },
-  { name: "specialUser", text: "前台统计员" }
+  { name: "specialUser", text: "前台统计员" },
+  { name: "bigClient", text: "大客户" },
+  { name: "outwork", text: "外出体检" },
 ]
 //根据当前链接地址 显示界面信息
 function viewPage_function(arg, list) {

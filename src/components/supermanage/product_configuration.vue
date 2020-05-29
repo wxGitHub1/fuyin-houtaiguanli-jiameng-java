@@ -512,6 +512,7 @@ import {
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import Clipboard from "clipboard";
+import naVComponent from "../navComponent/page";
 export default {
   name: "App",
   data() {

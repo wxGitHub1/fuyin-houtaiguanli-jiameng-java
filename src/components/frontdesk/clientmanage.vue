@@ -451,12 +451,14 @@
           v-if="modefiy"
           type="success"
           icon="el-icon-circle-check"
+          :loading="isSearch"
           @click="submitModfiy('ruleForm')"
         >保存</el-button>
         <el-button
           v-else
           type="success"
           icon="el-icon-circle-check"
+          :loading="isSearch"
           @click="submitForm('ruleForm')"
         >保存</el-button>
         <el-button
@@ -938,7 +940,7 @@
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelDd()" type="primary" icon="el-icon-circle-close">取消</el-button>
-        <el-button type="success" icon="el-icon-circle-check" @click="addDd(addData)">确认</el-button>
+        <el-button type="success" icon="el-icon-circle-check" :loading="isSearch" @click="addDd(addData)">确认</el-button>
       </div>
     </el-dialog>
     <!-- dialog 黑名单明细-->
@@ -1738,12 +1740,14 @@
           v-if="isBlackBut == 1"
           type="success"
           icon="el-icon-circle-check"
+          :loading="isSearch"
           @click="addBlackList(0)"
         >确认拉黑</el-button>
         <el-button
           v-if="isBlackBut == 2"
           type="success"
           icon="el-icon-circle-check"
+          :loading="isSearch"
           @click="addBlackList(1)"
         >确认移出</el-button>
       </div>
@@ -2206,6 +2210,7 @@ export default {
       this.dialogTransferSite = true;
     },
     addBlackList(operation) {
+      this.isSearch=true
       if (!!this.BlackReason) {
         let data = {
           operation: operation,
@@ -2214,6 +2219,7 @@ export default {
         };
         blackOperation(data)
           .then(res => {
+            this.isSearch=false
             if (res.data.returnCode != 0) {
               this.$message({
                 type: "warning",
@@ -2237,6 +2243,7 @@ export default {
             console.log(err);
           });
       } else {
+        this.isSearch=false
         this.$message({
           type: "warning",
           message: "请填写原因！",
@@ -2787,6 +2794,7 @@ export default {
       naVComponent.sizeEntry(this, obj);
     },
     submitModfiy(formName) {
+      this.isSearch=true
       // this.$refs[formName].validate(valid => {
       let data = {
         channel: 0,
@@ -2808,6 +2816,7 @@ export default {
       // console.log(data)
       updateMemberInfo(data)
         .then(res => {
+          this.isSearch=false
           if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
@@ -2844,6 +2853,7 @@ export default {
       this.bianhao = null;
     },
     addDd(obj) {
+      this.isSearch=true
       if (
         obj[0].doctorValue != null &&
         obj[0].prescriptionValue != null &&
@@ -2869,6 +2879,7 @@ export default {
           updatePrescription(data)
             .then(res => {
               //debugger;
+              this.isSearch=false
               if (res.data.returnCode != 0) {
                 this.$message({
                   type: "warning",
@@ -2893,6 +2904,7 @@ export default {
         } else {
           addPrescription(data)
             .then(res => {
+              this.isSearch=false
               //debugger;
               if (res.data.returnCode != 0) {
                 this.$message({
@@ -2917,6 +2929,7 @@ export default {
             });
         }
       } else {
+        this.isSearch=false
         this.$message({
           type: "warning",
           message: "请填写表格！",
@@ -2966,6 +2979,7 @@ export default {
       naVComponent.default_PCSH(this);
     },
     submitForm(formName) {
+      this.isSearch=true
       // this.$refs[formName].validate(valid => {
       //   // console.log(this.addData[0].prescriptionValue);
       //     valid &&
@@ -3002,6 +3016,7 @@ export default {
         // console.log(data)
         addMember(data)
           .then(res => {
+            this.isSearch=false
             if (res.data.returnCode != 0) {
               this.$message({
                 type: "warning",
@@ -3022,6 +3037,7 @@ export default {
             console.log(err);
           });
       } else {
+        this.isSearch=false
         this.$message({
           type: "warning",
           message: "请填写表格！",
