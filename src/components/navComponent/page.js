@@ -452,13 +452,14 @@ function zkyh(that, obj) {
   that.zhekouyouhui = obj.row;
   that.favorableRemark = obj.row.favorableRemark;
   that.dialogDiscount = true;
-  let price = obj.row.price;
-  let actual = obj.row.actual;
-  if (price == actual) {
-    that.discount = 0;
-  } else {
-    that.discount = ((actual / price) * 10).toFixed(1);
-  }
+  that.zhekouyouhui.favorable = obj.row.price - obj.row.actual;
+  // let price = obj.row.price;
+  // let actual = obj.row.actual;
+  // if (price == actual) {
+  //   that.discount = 0;
+  // } else {
+  //   that.discount = ((actual / price) * 10).toFixed(1);
+  // }
 }
 /**
  * 优惠折扣率改变时
@@ -466,26 +467,30 @@ function zkyh(that, obj) {
  * @param {*} value 
  */
 function discount_fuc(that, value) {
-  const rega = /^((0\.[1-9]{1})|(([1-9]{1})(\.\d{1})?))$/;
+  // const rega = /^((0\.[1-9]{1})|(([1-9]{1})(\.\d{1})?))$/;
   // console.log(value);
-  if (value != 0) {
-    if (rega.test(value)) {
-      let discount_Rate = value;
-      let standard_Price = that.zhekouyouhui.price;
-      let actual_Price = (discount_Rate / 10) * standard_Price;
-      that.zhekouyouhui.favorable = actual_Price.toFixed(2);
-    } else {
-      that.discount = 0.0;
-      that.$message({
-        type: "warning",
-        message: "输入折扣率不正确！请重新输入！",
-        center: true
-      });
-    }
-  } else {
-    that.zhekouyouhui.favorable = that.zhekouyouhui.price;
-  }
+  // if (value != 0) {
+  //   if (rega.test(value)) {
+  //     let discount_Rate = value;
+  //     let standard_Price = that.zhekouyouhui.price;
+  //     let actual_Price = (discount_Rate / 10) * standard_Price;
+  //     that.zhekouyouhui.favorable = actual_Price.toFixed(2);
+  //   } else {
+  //     that.discount = 0.0;
+  //     that.$message({
+  //       type: "warning",
+  //       message: "输入折扣率不正确！请重新输入！",
+  //       center: true
+  //     });
+  //   }
+  // } else {
+  //   that.zhekouyouhui.favorable = that.zhekouyouhui.price;
+  // }
   // console.log(that.zhekouyouhui.favorable);
+    let discount_Rate = value;
+    let standard_Price = that.zhekouyouhui.price;
+    let actual_Price = (discount_Rate / 10) * standard_Price;
+    that.zhekouyouhui.favorable = actual_Price.toFixed(2);
 }
 /**
  * 提交折扣弹窗框
@@ -501,8 +506,8 @@ function discountConfirm(that) {
     if (index == that.cpIndex) {
       let price = obj.price
       obj.favorableRemark = favorableRemark;
-      obj.favorable = (Number(price) - Number(favorable)).toFixed(2);
-      obj.actual = favorable;
+      obj.favorable = favorable;
+      obj.actual = (Number(price) - Number(favorable)).toFixed(2);
     }
   });
   // debugger;
