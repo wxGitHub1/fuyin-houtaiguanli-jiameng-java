@@ -452,7 +452,7 @@ function zkyh(that, obj) {
   that.zhekouyouhui = obj.row;
   that.favorableRemark = obj.row.favorableRemark;
   that.dialogDiscount = true;
-  that.zhekouyouhui.favorable = obj.row.price - obj.row.actual;
+  that.zhekouyouhui.favorable = obj.row.actual;
   // let price = obj.row.price;
   // let actual = obj.row.actual;
   // if (price == actual) {
@@ -506,8 +506,8 @@ function discountConfirm(that) {
     if (index == that.cpIndex) {
       let price = obj.price
       obj.favorableRemark = favorableRemark;
-      obj.favorable = favorable;
-      obj.actual = (Number(price) - Number(favorable)).toFixed(2);
+      obj.favorable =(Number(price) - Number(favorable)).toFixed(2); 
+      obj.actual = favorable;
     }
   });
   // debugger;

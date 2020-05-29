@@ -1259,23 +1259,32 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div class="margin-t-20">
         优惠折扣：
-        <input
+        <!-- <input
           type="text"
           class="input"
           v-model="discount"
           oninput="value=value.replace(/[^\d.]/g,'')"
-          @change="discount_fuc(discount)"
-        />
+          @input="discount_fuc(discount)"
+        /> -->
+        <el-select size='mini' @change="discount_fuc(discount)" v-model="discount" placeholder="请选择">
+          <el-option
+            v-for="item in discountList"
+            
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
       </div>
-      <!-- <div class="margin-t-20">
-      折扣后价格：{{discountValue}}-->
-      <!-- <input
+      <div class="margin-t-20">
+      折扣后价格：
+      <input
           type="text"
           class="input"
           v-model="zhekouyouhui.favorable"
           oninput="value=value.replace(/[^\d.]/g,'')"
-      />-->
-      <!-- </div> -->
+      />
+      </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
       <div slot="footer" class="dialog-footer">
@@ -1607,7 +1616,8 @@ export default {
       excelLoad: false,
       addKeHuTitle: "新增客户",
       specialRequirements: null,
-      discount: 0.0,
+      discount: null,
+      discountList:naVComponent_variable.discount,
       productData: [],
       multipleSelection: [],
       detailFormList: [],

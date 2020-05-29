@@ -1,3 +1,4 @@
+//产品搜索
 const seachProduct={
     name: null,
     productTypeValue: null,
@@ -25,6 +26,7 @@ const seachProduct={
       { name: "进口", id: 2 }
     ]
   }  
+  //查询搜索
 const seach={
     name: "",
     phone: "",
@@ -128,6 +130,7 @@ const seach={
     cityIdList: [],
     hospitalLists: []
   }
+  //新增数据
  const addData=[
     {
       number: "自动生成",
@@ -150,8 +153,39 @@ const seach={
       cityId: null
     }
   ]
+  //折扣框数据
+const discount=[
+  {
+    id:9.5,name:'九五折'
+  },
+  {
+    id:8.5,name:'八五折'
+  },
+  {
+    id:7.5,name:'七五折'
+  },
+  {
+    id:6.5,name:'六五折'
+  },
+  {
+    id:5,name:'五折'
+  },
+  {
+    id:4,name:'四折'
+  },
+  {
+    id:3,name:'三折'
+  },
+  {
+    id:2,name:'二折'
+  },
+  {
+    id:1,name:'一折'
+  },
+]
 export default{
     seachProduct,
     seach,
-    addData
+    addData,
+    discount
 }

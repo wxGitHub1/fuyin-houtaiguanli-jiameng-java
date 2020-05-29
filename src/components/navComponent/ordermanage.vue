@@ -1064,7 +1064,7 @@
         </el-select>
       </div>
       <div class="margin-t-20">
-      折扣价格：
+       折扣后价格：
       <input
           type="text"
           class="input"
