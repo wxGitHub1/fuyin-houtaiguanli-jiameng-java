@@ -1183,6 +1183,7 @@ import fuyinProduct_html from "../commonComponent/fuyinProduct";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 import naVComponent from "./page";
+import naVComponent_variable from "./page_variable";
 export default {
   data() {
     return {
