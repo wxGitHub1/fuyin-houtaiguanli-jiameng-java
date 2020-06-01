@@ -328,6 +328,7 @@
       :close-on-click-modal="false"
       :before-close="cancel_YH"
       center
+       width="1000px"
     >
       <div style="width:496px;margin:0 auto;">
         <el-transfer
