@@ -68,12 +68,12 @@
             </el-col>
             <el-col :span="6">
               <div class="text-c">
-                <p>左根骨</p>
+                <p>左跟骨</p>
               </div>
             </el-col>
             <el-col :span="6">
               <div class="text-c">
-                <p>右根骨</p>
+                <p>右跟骨</p>
               </div>
             </el-col>
           </el-row>
@@ -109,8 +109,8 @@
             </el-col>
             <el-col :span="10">
               <div class="text-c">
-                <p class="margin-r-50 display-i-b">左根骨</p>
-                <p class="display-i-b">右根骨</p>
+                <p class="margin-r-50 display-i-b">左跟骨</p>
+                <p class="display-i-b">右跟骨</p>
               </div>
             </el-col>
           </el-row>
