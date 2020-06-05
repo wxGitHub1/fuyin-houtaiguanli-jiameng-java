@@ -1093,7 +1093,7 @@
       :before-close="sizeCancel"
     >
       <div class="clearfix">
-        <div v-for="item in productSize.list" :key="item.name" class="cpSize">
+        <div v-for="(item,index) in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
             <el-input
@@ -1101,7 +1101,7 @@
               style="width：100%"
               size="small"
               placeholder="请输入"
-              oninput="value=value.replace(/[^\d.]/g,'')"
+              @input="changeSizeVal_fuc(item.value,index)"
             ></el-input>
           </div>
         </div>
@@ -1397,6 +1397,9 @@ export default {
     this.provinceList();
   },
   methods: {
+    changeSizeVal_fuc(value,index){
+       naVComponent.changeSizeVal_fuc(this,value,index);
+    },
     discount_fuc(value) {
       naVComponent.discount_fuc(this, value);
     },

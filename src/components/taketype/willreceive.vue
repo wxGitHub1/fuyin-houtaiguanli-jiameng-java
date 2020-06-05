@@ -178,7 +178,7 @@
       width="70%"
     >
       <div class="clearfix">
-        <div v-for="item in productSize.list" :key="item.name" class="cpSize">
+        <div v-for="(item,index) in productSize.list" :key="item.name" class="cpSize">
           <span class="span">{{item.key}}</span>
           <div class="div">
             <el-input
@@ -186,28 +186,10 @@
               style="width：100%"
               size="small"
               placeholder="请输入"
-              oninput="value=value.replace(/[^\d.]/g,'')"
+              @input="changeSizeVal_fuc(item.value,index)"
             ></el-input>
           </div>
         </div>
-        <!-- <div v-for="item in productSize.kd" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
-          <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
-          </div>
-        </div>
-        <div v-for="item in productSize.gd" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
-          <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
-          </div>
-        </div>
-        <div v-for="item in productSize.zb" :key="item.name" class="cpSize">
-          <span class="span">{{item.name}}</span>
-          <div class="div">
-            <el-input v-model="item.value" style="width：100%" size="small" placeholder="请输入"></el-input>
-          </div>
-        </div>-->
         <div class="cpSize">
           <span class="span">是否有X光片：</span>
           <div class="div">
@@ -381,6 +363,9 @@ export default {
     // this.userList();
   },
   methods: {
+    changeSizeVal_fuc(value,index){
+       naVComponent.changeSizeVal_fuc(this,value,index);
+    },
     // 查询取型产品人
     userList(id) {
       let data = {

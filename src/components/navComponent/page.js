@@ -551,6 +551,18 @@ function dblclick_table_fuc(that, row, column, cell, event) {
   that.$refs.multipleTable.setCurrentRow(row);
   that.$refs.multipleTable.toggleRowSelection(row);
 }
+/**
+ * 下单size限制输入汉字
+ * @param {*} that vue对象
+ * @param {*} value 值
+ * @param {*} index 序号
+ */
+function changeSizeVal_fuc(that,value,index){
+  let reg = /[^\d.]/g;
+  if(reg.test(value)){
+    that.productSize.list[index].value=''
+  }
+}
 export default {
   default_PCSH,
   threeD_func,
@@ -566,5 +578,6 @@ export default {
   discount_fuc,
   discountConfirm,
   specialRequirementsCancel,
-  dblclick_table_fuc
+  dblclick_table_fuc,
+  changeSizeVal_fuc
 }
