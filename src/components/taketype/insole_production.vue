@@ -1,8 +1,7 @@
-<template>
   <!-- 鞋垫制作 -->
+<template>
   <div>
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
-      
       <el-form-item label="下单类型">
         <el-select class="w-150" clearable v-model="seach.productOrderType" placeholder="请选择">
           <el-option
@@ -99,6 +98,12 @@
       <el-table-column align="center" prop="footWidth" label="足宽"></el-table-column>
       <el-table-column align="center" prop="height" label="身高"></el-table-column>
       <el-table-column align="center" prop="weight" label="体重"></el-table-column>
+      <el-table-column align="center" prop="lzgxs" label="左足弓系数" width="100"></el-table-column>
+      <el-table-column align="center" prop="rzgxs" label="右足弓系数" width="100"></el-table-column>
+      <el-table-column align="center" prop="lggnfz" label="左跟骨内翻值" width="120"></el-table-column>
+      <el-table-column align="center" prop="rggnfz" label="右跟骨内翻值" width="120"></el-table-column>
+      <el-table-column align="center" prop="lggwfz" label="左跟骨外翻值" width="120"></el-table-column>
+      <el-table-column align="center" prop="rggwfz" label="右跟骨外翻值" width="120"></el-table-column>
       <el-table-column align="center" prop="productOrderTypeCN" label="下单类型"></el-table-column>
       <el-table-column align="center" prop="actual" label="实际价格"></el-table-column>
       <el-table-column align="center" prop="refund" label="退款金额"></el-table-column>
