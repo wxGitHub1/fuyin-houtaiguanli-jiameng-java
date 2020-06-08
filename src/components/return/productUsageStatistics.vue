@@ -1,19 +1,13 @@
+//产品使用统计
 <template>
   <div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">客户姓名:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input v-model="seach.memberName" style="width：100%" size="small" placeholder="请输入姓名"></el-input>
-      </el-col>
-
-      <el-col :span="2" id="input-title">
-        <span class="time_style">是否会员:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select style="width:100%" size="small" clearable v-model="seach.vip" placeholder="请选择">
+    <el-form :inline="true" size="mini" id="search" class="padding-LR-p10">
+      <el-form-item label="客户姓名">
+        <el-input v-model="seach.memberName" class="w-150" placeholder="请输入姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="是否会员">
+        <el-select class="w-150" clearable v-model="seach.vip" placeholder="请选择">
           <el-option
             v-for="item in seach.vipList"
             :key="item.id"
@@ -21,12 +15,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">回访人员:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input clearable size="small" v-model="seach.visitUserName" placeholder="请输入回访人"></el-input>
+      </el-form-item>
+      <el-form-item label="回访人员">
+        <el-input clearable class="w-150" v-model="seach.visitUserName" placeholder="请输入回访人"></el-input>
         <!-- <el-select
           style="width:100%"
           size="small"
@@ -40,19 +31,10 @@
             :label="item.username"
             :value="item.id"
           ></el-option>
-        </el-select> -->
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">客户满意度:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.satisfaction"
-          placeholder="请选择"
-        >
+        </el-select>-->
+      </el-form-item>
+      <el-form-item label="客户满意度">
+        <el-select class="w-150" clearable v-model="seach.satisfaction" placeholder="请选择">
           <el-option
             v-for="item in seach.satisfactionList"
             :key="item.id"
@@ -60,18 +42,9 @@
             :value="item.name"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">产品类别:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.productTypeInt"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="产品类别">
+        <el-select class="w-150" clearable v-model="seach.productTypeInt" placeholder="请选择">
           <el-option
             v-for="item in seach.productTypeIntList"
             :key="item.id"
@@ -79,14 +52,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">回访时间:</span>
-      </el-col>
-      <el-col :span="5">
+      </el-form-item>
+      <el-form-item label="回访时间">
         <el-date-picker
-          style="width: 100%"
-          size="small"
+          class="w-250"
           v-model="seach.visitTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -95,32 +64,12 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-    </el-row>
-    <el-row class="office_performance">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">产品昵称:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-input
-          size="small"
-          style="width：100%"
-          v-model="seach.saleProductName"
-          placeholder="请输入产品昵称"
-        ></el-input>
-      </el-col>
-
-      <el-col :span="2" id="input-title">
-        <span class="time_style">接通状态:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.phoneStatus"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="产品昵称">
+        <el-input class="w-150" v-model="seach.saleProductName" placeholder="请输入产品昵称"></el-input>
+      </el-form-item>
+      <el-form-item label="接通状态">
+        <el-select class="w-150" clearable v-model="seach.phoneStatus" placeholder="请选择">
           <el-option
             v-for="item in seach.phoneStatusList"
             :key="item.id"
@@ -128,18 +77,9 @@
             :value="item.name"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">有无问题:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.problemHave"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="有无问题">
+        <el-select class="w-150" clearable v-model="seach.problemHave" placeholder="请选择">
           <el-option
             v-for="item in seach.problemHaveList"
             :key="item.id"
@@ -147,18 +87,9 @@
             :value="item.name"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" class="line-h-30">
-        <span class="time_style">产品使用时间:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.productUseTime"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="产品使用时间">
+        <el-select class="w-150" clearable v-model="seach.productUseTime" placeholder="请选择">
           <el-option
             v-for="item in seach.productUseTimeList"
             :key="item.id"
@@ -166,24 +97,10 @@
             :value="item.name"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="3">
-        <el-button
-          size="small"
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          icon="el-icon-search"
-          type="primary"
-        >查询</el-button>
-        <el-button type="danger" @click="exportExcels()" size="small">导出excel</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
+          class="w-150"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -196,13 +113,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
+          class="w-150"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -215,12 +129,15 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="hospitalList(seach.siteValue)"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -228,12 +145,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">医院:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.hospitalId" placeholder="请先选择测评中心">
+      </el-form-item>
+      <el-form-item label="医院">
+        <el-select clearable class="w-150" v-model="seach.hospitalId" placeholder="请先选择测评中心">
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -241,8 +155,16 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          icon="el-icon-search"
+          type="primary"
+        >查询</el-button>
+        <el-button type="danger" @click="exportExcels()">导出excel</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
@@ -294,7 +216,15 @@
 <script>
 import { selectUseStatistics } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, personnel, province, city, site,allSite, hospital } from "../../utils/public";
+import {
+  exportMethod,
+  personnel,
+  province,
+  city,
+  site,
+  allSite,
+  hospital
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -311,7 +241,10 @@ export default {
       seach: {
         visitTime: null,
         vip: null,
-        vipList: [{ name: "否", id: "0" }, { name: "是", id: 1 }],
+        vipList: [
+          { name: "否", id: "0" },
+          { name: "是", id: 1 }
+        ],
         visitUserName: null,
         visitUserList: [],
         saleProductName: null,
@@ -331,14 +264,14 @@ export default {
         ],
         productTypeInt: null,
         productTypeIntList: [
-          { name: "足弓垫" ,id:1},
-          { name: "长腿类" ,id:2},
-          { name: "膝外翻" ,id:3},
-          { name: "膝内翻" ,id:8},
-          { name: "扭转类" ,id:7},
-          { name: "脊柱类" ,id:5},
-          { name: "踝足类" ,id:4},
-          { name: "丹尼斯" ,id:6}
+          { name: "足弓垫", id: 1 },
+          { name: "长腿类", id: 2 },
+          { name: "膝外翻", id: 3 },
+          { name: "膝内翻", id: 8 },
+          { name: "扭转类", id: 7 },
+          { name: "脊柱类", id: 5 },
+          { name: "踝足类", id: 4 },
+          { name: "丹尼斯", id: 6 }
         ],
         productUseTime: null,
         productUseTimeList: [
@@ -356,8 +289,8 @@ export default {
         cityId: null,
         provinceIdList: [],
         cityIdList: [],
-        hospitalLists:[],
-        hospitalId:null,
+        hospitalLists: [],
+        hospitalId: null
       },
       total: {},
       loading: true
@@ -456,7 +389,7 @@ export default {
       let pageSize = this.pages.pageSize;
       this.pageList(pageIndex, pageSize);
     },
-     //获取省
+    //获取省
     async provinceList() {
       this.seach.provinceIdList = await province();
     },
@@ -466,7 +399,7 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //根据测评中心获取医院列表
     async hospitalList(id) {
@@ -481,42 +414,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #e4e7ed;
-  padding-bottom: 10px;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.office_performance {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  border-bottom: 1px solid #e4e7ed;
-  padding-bottom: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
-    font-size: 14px;
-    color: #606266;
-    letter-spacing: 1px;
-  }
-}
 .total {
   background: #ff9800;
   color: #606266;
@@ -525,12 +422,5 @@ export default {
   span {
     margin-left: 20px;
   }
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
-}
-.line-h-30 {
-  line-height: 30px;
 }
 </style>

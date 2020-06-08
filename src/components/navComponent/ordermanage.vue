@@ -3,24 +3,19 @@
   <div>
     <el-form :inline="true" size="mini" id="search" class="padding-LR-p10">
       <el-form-item label="客户姓名">
-        <el-input
-        
-          v-model="seach.userName"
-          class="w-150"
-          placeholder="请输入姓名"
-          @input="listenKey()"
-        ></el-input>
+        <el-input v-model="seach.userName" class="w-150" placeholder="请输入姓名" @input="listenKey()"></el-input>
       </el-form-item>
       <el-form-item label="联系方式">
-        <el-input
-          class="w-150"
-          v-model="seach.phone"
-          placeholder="请输入联系电话"
-          @input="listenKey()"
-        ></el-input>
+        <el-input class="w-150" v-model="seach.phone" placeholder="请输入联系电话" @input="listenKey()"></el-input>
       </el-form-item>
       <el-form-item label="订单状态">
-        <el-select clearable class="w-150" v-model="seach.status" placeholder="请选择" @change="listenKey()">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.status"
+          placeholder="请选择"
+          @change="listenKey()"
+        >
           <el-option
             v-for="item in seach.statusList"
             :key="item.id"
@@ -46,7 +41,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="折扣优惠">
-        <el-select clearable class="w-150" v-model="seach.favorable" placeholder="请选择" @change="listenKey()">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.favorable"
+          placeholder="请选择"
+          @change="listenKey()"
+        >
           <el-option
             v-for="item in seach.favorableList"
             :key="item.id"
@@ -56,16 +57,17 @@
         </el-select>
       </el-form-item>
       <el-form-item label="订单编号">
-        <el-input
-          class="w-150"
-          v-model="seach.orderNum"
-          placeholder="请输入订单编号"
-          @input="listenKey()"
-        ></el-input>
+        <el-input class="w-150" v-model="seach.orderNum" placeholder="请输入订单编号" @input="listenKey()"></el-input>
       </el-form-item>
-      
+
       <el-form-item label="付款类型">
-        <el-select clearable class="w-150" v-model="seach.payType" placeholder="请选择" @change="listenKey()">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.payType"
+          placeholder="请选择"
+          @change="listenKey()"
+        >
           <el-option
             v-for="item in seach.payTypeList"
             :key="item.id"
@@ -75,7 +77,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="是否欠款">
-        <el-select clearable class="w-150" v-model="seach.owe" placeholder="请选择" @change="listenKey()">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.owe"
+          placeholder="请选择"
+          @change="listenKey()"
+        >
           <el-option
             v-for="item in seach.oweList"
             :key="item.id"
@@ -84,9 +92,14 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      
+
       <el-form-item label="下单人">
-        <el-input class="w-150" v-model="seach.createUserName" placeholder="请输入下单人姓名" @input="listenKey()"></el-input>
+        <el-input
+          class="w-150"
+          v-model="seach.createUserName"
+          placeholder="请输入下单人姓名"
+          @input="listenKey()"
+        ></el-input>
       </el-form-item>
       <el-form-item label="省份">
         <el-select
@@ -178,6 +191,22 @@
           @change="listenKey()"
         ></el-date-picker>
       </el-form-item>
+      <el-form-item label="是否加急">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.quickly"
+          placeholder="请选择"
+          @change="listenKey()"
+        >
+          <el-option
+            v-for="item in seach.quicklyList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button
           @click="pageList(pages.currentPage,pages.pageSize)"
@@ -215,6 +244,8 @@
       <el-table-column align="center" prop="oweMoney" label="下欠金额"></el-table-column>
       <el-table-column align="center" prop="favorable" label="折扣优惠金额" width="130"></el-table-column>
       <el-table-column align="center" prop="should" label="应收金额"></el-table-column>
+      <el-table-column align="center" prop="refund" label="是否退款"></el-table-column>
+      <el-table-column align="center" prop="refundSum" label="退款金额"></el-table-column>
       <el-table-column align="center" label="操作" width="250">
         <template slot-scope="scope">
           <el-button
@@ -777,6 +808,7 @@
               <hr class="dashed" />
               <div>医院：{{bj_obj.hospitalName}}</div>
               <hr />
+
               <div class="clearfix">
                 <span class="left">应收下欠金额：</span>
                 <span class="right font-b">{{bj_obj.oweMoneyOld}}</span>
@@ -1053,24 +1085,28 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div class="margin-t-20">
         优惠折扣：
-        <el-select size='mini' @change="discount_fuc(discount)" v-model="discount" placeholder="请选择">
+        <el-select
+          size="mini"
+          @change="discount_fuc(discount)"
+          v-model="discount"
+          placeholder="请选择"
+        >
           <el-option
             v-for="item in discountList"
-            
             :key="item.id"
             :label="item.name"
-            :value="item.id">
-          </el-option>
+            :value="item.id"
+          ></el-option>
         </el-select>
       </div>
       <div class="margin-t-20">
-       折扣后价格：
-      <input
+        折扣后价格：
+        <input
           type="text"
           class="input"
           v-model="zhekouyouhui.favorable"
           oninput="value=value.replace(/[^\d.]/g,'')"
-      />
+        />
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
@@ -1188,7 +1224,7 @@ export default {
   data() {
     return {
       discount: null,
-      discountList:naVComponent_variable.discount,
+      discountList: naVComponent_variable.discount,
       isCancel: false, //详情中退款、取消、修改按钮状态   :disabled="isCancel" 按钮加入显示状态
       //
       dialogreadyOrder: false,
@@ -1312,7 +1348,12 @@ export default {
         provinceIdList: [],
         cityIdList: [],
         hospitalId: null,
-        hospitalLists: []
+        hospitalLists: [],
+        quickly: null,
+        quicklyList: [
+          { id: 0, name: "否" },
+          { id: 1, name: "是" }
+        ]
       },
       //分页
       pages: {
@@ -1397,8 +1438,8 @@ export default {
     this.provinceList();
   },
   methods: {
-    changeSizeVal_fuc(value,index){
-       naVComponent.changeSizeVal_fuc(this,value,index);
+    changeSizeVal_fuc(value, index) {
+      naVComponent.changeSizeVal_fuc(this, value, index);
     },
     discount_fuc(value) {
       naVComponent.discount_fuc(this, value);
@@ -1851,32 +1892,7 @@ export default {
     },
     //订单列表 //查询
     async pageList(pageIndex = 1, pageSize = 10) {
-      let data = {
-        pageNum: pageIndex,
-        pageSize: pageSize,
-        createTimeBegin:
-          this.seach.createTime == null ? null : this.seach.createTime[0],
-        createTimeEnd:
-          this.seach.createTime == null ? null : this.seach.createTime[1],
-        deliveryTimeBegin:
-          this.seach.deliveryTime == null ? null : this.seach.deliveryTime[0],
-        deliveryTimeEnd:
-          this.seach.deliveryTime == null ? null : this.seach.deliveryTime[1],
-        userName: this.seach.userName || null,
-        phone: this.seach.phone || null,
-        status: this.seach.status == "0" ? 0 : this.seach.status,
-        payType: this.seach.payType == "0" ? 0 : this.seach.payType,
-        owe: this.seach.owe == "0" ? 0 : this.seach.owe,
-        orderNum: this.seach.orderNum || null,
-        createUserName: this.seach.createUserName || null,
-        prescriptionType:
-          this.seach.prescriptionType == "0" ? 0 : this.seach.prescriptionType,
-        favorable: this.seach.favorable == "0" ? 0 : this.seach.favorable,
-        siteId: this.seach.siteValue,
-        provinceId: this.seach.provinceId,
-        cityId: this.seach.cityId,
-        hospitalId: this.seach.hospitalId
-      };
+      let data = naVComponent_variable.orderSearchData_fuc(this,pageIndex,pageSize)
       this.loading = true;
       if (this.cpOnly_show) {
         orderList(data)
@@ -1920,30 +1936,7 @@ export default {
     },
     //导出excel
     exportExcels() {
-      let data = {
-        createTimeBegin:
-          this.seach.createTime == null ? null : this.seach.createTime[0],
-        createTimeEnd:
-          this.seach.createTime == null ? null : this.seach.createTime[1],
-        deliveryTimeBegin:
-          this.seach.deliveryTime == null ? null : this.seach.deliveryTime[0],
-        deliveryTimeEnd:
-          this.seach.deliveryTime == null ? null : this.seach.deliveryTime[1],
-        userName: this.seach.userName || null,
-        phone: this.seach.phone || null,
-        status: this.seach.status == "0" ? 0 : this.seach.status,
-        payType: this.seach.payType == "0" ? 0 : this.seach.payType,
-        owe: this.seach.owe == "0" ? 0 : this.seach.owe,
-        orderNum: this.seach.orderNum || null,
-        createUserName: this.seach.createUserName || null,
-        prescriptionType:
-          this.seach.prescriptionType == "0" ? 0 : this.seach.prescriptionType,
-        favorable: this.seach.favorable == "0" ? 0 : this.seach.favorable,
-        siteId: this.seach.siteValue,
-        provinceId: this.seach.provinceId,
-        cityId: this.seach.cityId,
-        hospitalId: this.seach.hospitalId
-      };
+      let data = naVComponent_variable.orderSearchData_fuc(this)
       const lsyObj = {
         method: "post",
         fileName: "订单信息",

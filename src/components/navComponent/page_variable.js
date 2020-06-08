@@ -182,10 +182,42 @@ const discount=[
   {
     id:1,name:'一折'
   },
-]
+] 
+function orderSearchData_fuc(that,pageIndex,pageSize){
+    let data = {
+      pageNum: pageIndex,
+      pageSize: pageSize,
+      createTimeBegin:
+        that.seach.createTime == null ? null : that.seach.createTime[0],
+      createTimeEnd:
+        that.seach.createTime == null ? null : that.seach.createTime[1],
+      deliveryTimeBegin:
+        that.seach.deliveryTime == null ? null : that.seach.deliveryTime[0],
+      deliveryTimeEnd:
+        that.seach.deliveryTime == null ? null : that.seach.deliveryTime[1],
+      userName: that.seach.userName || null,
+      phone: that.seach.phone || null,
+      status: that.seach.status == "0" ? 0 : that.seach.status,
+      payType: that.seach.payType == "0" ? 0 : that.seach.payType,
+      owe: that.seach.owe == "0" ? 0 : that.seach.owe,
+      orderNum: that.seach.orderNum || null,
+      createUserName: that.seach.createUserName || null,
+      prescriptionType:
+        that.seach.prescriptionType == "0" ? 0 : that.seach.prescriptionType,
+      favorable: that.seach.favorable == "0" ? 0 : that.seach.favorable,
+      siteId: that.seach.siteValue,
+      provinceId: that.seach.provinceId,
+      cityId: that.seach.cityId,
+      hospitalId: that.seach.hospitalId,
+      quickly: that.seach.quickly == "0" ? 0 : that.seach.quickly
+    };
+    return data
+}
+
 export default{
     seachProduct,
     seach,
     addData,
-    discount
+    discount,
+    orderSearchData_fuc
 }
