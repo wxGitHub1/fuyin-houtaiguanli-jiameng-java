@@ -29,8 +29,6 @@ export default {
       tables: [
         {
           name: "willReceive",
-          iconfont: "iconfont",
-          icon: "icon-gongwujiedai",
           content: "take-willReceive",
           title: "待接待",
           isClose: false
@@ -45,42 +43,40 @@ export default {
       navTable: [
         {
           name: "willReceive",
-          iconfont: "iconfont",
           icon: "icon-gongwujiedai",
           content: "take-willReceive",
           title: "待接待"
         },
         {
           name: "receive",
-          iconfont: "iconfont",
           icon: "icon-ico_yuyueguanli_jiedaiyuyue",
           content: "take-receive",
           title: "已接待"
         },
         {
           name: "willSelfTest",
-          iconfont: "iconfont",
+          
           icon: "icon-shouhuoyanshou",
           content: "take-willSelfTest",
           title: "待验收"
         },
         {
           name: "alreadyReject",
-          iconfont: "iconfont",
+          
           icon: "icon-wangongyanshou",
           content: "take-alreadyReject",
           title: "已验收"
         },
         {
           name: "statistics",
-          iconfont: "iconfont",
+          
           icon: "icon-tongjibaobiao",
           content: "take-statistics",
           title: "统计报表"
         },
         {
           name: "InsoleProduction",
-          iconfont: "iconfont",
+          
           icon: "icon-xiedian",
           content: "insole-production",
           title: "鞋垫制作"

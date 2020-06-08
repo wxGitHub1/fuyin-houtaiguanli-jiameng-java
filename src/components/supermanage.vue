@@ -36,21 +36,21 @@ export default {
       navTable: [
         {
           name: "sys",
-          iconfont: "iconfont",
+          
           icon: "icon-yonghuguanli",
           content: "sys-home",
           title: "用户管理"
         },
         {
           name: "ProductConfiguration",
-          iconfont: "iconfont",
+          
           icon: "icon-chanpinpeizhi",
           content: "product-configuration",
           title: "产品配置清单"
         },
         {
           name: "testConfiguration",
-          iconfont: "iconfont",
+          
           icon: "icon-Evaluation",
           title: "测评配置",
           content: "test-configuration"
@@ -67,21 +67,21 @@ export default {
         // },
         {
           name: "hospital",
-          iconfont: "iconfont",
+          
           icon: "icon-yiyuanguanli",
           content: "sys-hospital",
           title: "医院管理"
         },
         {
           name: "siteManagement",
-          iconfont: "iconfont",
+          
           icon: "icon-flow-determine",
           content: "sys-siteManagement",
           title: "测评中心管理"
         },
         {
           name: "log",
-          iconfont: "iconfont",
+          
           icon: "icon-caozuorizhi",
           title: "操作日志",
           content: "my-log"

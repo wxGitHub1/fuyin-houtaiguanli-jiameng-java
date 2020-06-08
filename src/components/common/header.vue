@@ -38,7 +38,7 @@
     <div class="nav_bar">
       <el-row v-for="(nav,index) in navTables" :key="nav.name">
         <el-col class="nav_box" :class="{active:cur==index}">
-          <i :class="[nav.iconfont,nav.icon]">
+          <i class="iconfont" :class="nav.icon">
           </i>
           <span @click="switchTitle(nav.name,index)">{{nav.title}}</span>
         </el-col>

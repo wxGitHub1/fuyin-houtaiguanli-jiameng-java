@@ -35,7 +35,7 @@ export default {
       navTable: [
         {
           name: "orderManage",
-          iconfont: "iconfont",
+          
           icon: "icon-tubiao_dingdanguanli",
           content: "front-order",
           title: "订单管理"
@@ -43,7 +43,7 @@ export default {
 
         {
           name: "statistics",
-          iconfont: "iconfont",
+          
           icon: "icon-tongjibaobiao",
           content: "front-statistic",
           title: "统计报表"

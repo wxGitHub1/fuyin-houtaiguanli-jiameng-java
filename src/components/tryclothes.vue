@@ -36,49 +36,49 @@ export default {
       navTable: [
         {
           name: "clientManage",
-          iconfont: "iconfont",
+          
           icon: "icon-kehuguanli",
           content: "front-client",
           title: "客户管理"
         },
         {
           name: "pendingTrialAcceptance",
-          iconfont: "iconfont",
+          
           icon: "icon-shouhuoyanshou",
           content: "try-acceptance",
           title: "待试穿验收"
         },
         {
           name: "accepted",
-          iconfont: "iconfont",
+          
           icon: "icon-wangongyanshou",
           content: "try-accepted",
           title: "已验收"
         },
         {
           name: "toBeAllocated",
-          iconfont: "iconfont",
+          
           icon: "icon-zhengshifuwushangliebiao-",
           content: "to-be-allocated",
           title: "待分配"
         },
         {
           name: "willmessage",
-          iconfont: "iconfont",
+          
           icon: "icon-dadianhua",
           content: "try-message",
           title: "待通知"
         },
         {
           name: "willtake",
-          iconfont: "iconfont",
+          
           icon: "icon-3chuanyixiguan",
           content: "try-willtake",
           title: "待试穿"
         },
         {
           name: "take",
-          iconfont: "iconfont",
+          
           icon: "icon-yiwancheng",
           content: "try-take",
           title: "已试穿"
@@ -86,7 +86,7 @@ export default {
 
         {
           name: "willrepair",
-          iconfont: "iconfont",
+          
           icon: "icon-baoxiu",
           content: "maintain-repair",
           title: "待报修"
@@ -94,7 +94,7 @@ export default {
 
         {
           name: "willmaintain",
-          iconfont: "iconfont",
+          
           icon: "icon-weixiu1",
           content: "will-maintain",
           title: "待维修"
@@ -102,21 +102,21 @@ export default {
 
         {
           name: "maintain",
-          iconfont: "iconfont",
+          
           icon: "icon-weixiujilu",
           content: "maintain",
           title: "已维修"
         },
         {
           name: "triedStatistics",
-          iconfont: "iconfont",
+          
           icon: "icon-navicon-tjb1",
           content: "tried-statistics",
           title: "试穿统计"
         },
         {
           name: "repairedStatistics",
-          iconfont: "iconfont",
+          
           icon: "icon-navicon-tjb",
           content: "repaired-statistics",
           title: "维修统计"

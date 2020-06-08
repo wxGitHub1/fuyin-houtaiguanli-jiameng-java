@@ -44,28 +44,28 @@ export default {
       navTable: [
         {
           name: "clientManage",
-          iconfont: "iconfont",
+          
           icon: "icon-kehuguanli",
           content: "my-client",
           title: "客户管理"
         },
         {
           name: "orderManage",
-          iconfont: "iconfont",
+          
           icon: "icon-tubiao_dingdanguanli",
           content: "my-order",
           title: "订单管理"
         },
         {
           name: "market",
-          iconfont: "iconfont",
+          
           icon: "icon-tongjibaobiao",
           content: "my-market",
           title: "统计报表"
         },
         {
           name: "member",
-          iconfont: "iconfont",
+          
           icon: "icon-huiyuan",
           content: "my-member",
           title: "会员统计"
