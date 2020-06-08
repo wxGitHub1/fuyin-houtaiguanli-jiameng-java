@@ -1,7 +1,6 @@
 <template>
   <div id="pdfDom">
     <div id="subOutputRank-print">
-      <div id="printTest">
         <h1 class="TR_title">产品制作参数</h1>
         <p class="TR_time">打印时间：{{testReport.printDate}}</p>
         <div id="basic_information">
@@ -178,7 +177,6 @@
         </div>
         <div class="text-c margin-t-30 ">服务电话：029-68882888</div>
         <div class="text-c margin-t-20 ">服务地址：陕西省西安市未央区经开万科中心15楼福音康复</div>
-      </div>
     </div>
   </div>
 </template>
