@@ -547,7 +547,7 @@
     >
       <el-row>
         <el-col :span="8" class="outBox">
-          <div id="printTest">
+          <div id="printTest1">
             <div class="xiaopiao" v-if="dyxp.fw">
               <h2>服务收费清单</h2>
               <div class="border-tb"></div>
@@ -751,7 +751,7 @@
       </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button @click="quxiao()" type="primary" icon="el-icon-circle-close">取消</el-button>
-        <el-button type="success" icon="el-icon-receiving" v-print="'#printTest'">打印</el-button>
+        <el-button type="success" icon="el-icon-receiving" v-print="'#printTest1'">打印</el-button>
       </div>
     </el-dialog>
     <!-- dialog 打印补交小票-->
@@ -765,7 +765,7 @@
     >
       <el-row>
         <el-col :span="8" class="outBox">
-          <div id="printTest">
+          <div id="printTest2">
             <div class="xiaopiao margin-t-20">
               <h2>补交收费清单</h2>
               <div class="border-tb"></div>
@@ -832,7 +832,7 @@
       </el-row>
       <div slot="footer" class="dialog-footer">
         <el-button @click="quxiao_bj()" type="primary" icon="el-icon-circle-close">取消</el-button>
-        <el-button type="success" icon="el-icon-receiving" v-print="'#printTest'">打印</el-button>
+        <el-button type="success" icon="el-icon-receiving" v-print="'#printTest2'">打印</el-button>
       </div>
     </el-dialog>
     <!-- dialog 修改订单-->
