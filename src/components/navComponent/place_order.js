@@ -13,7 +13,7 @@
               const element2 =
                 that.multipleSelection[index + 1] ||
                 that.multipleSelection[that.multipleSelection.length - 1];
-              if (element.orderType != element2.orderType) {
+              if (element.productOrderType != element2.productOrderType) {
                 // debugger;
                 isTrue = false;
                 break;
@@ -71,18 +71,18 @@
             const element2 =
               that.multipleSelection[index + 1] ||
               that.multipleSelection[that.multipleSelection.length - 1];
-            if (element.orderType != element2.orderType) {
+            if (element.productOrderType != element2.productOrderType) {
               isTrue = false;
               break;
             } else {
               isTrue = true;
-              id = element.orderType;
+              id = element.productOrderType;
             }
           }
 
           for (let index = 0; index < that.detailFormList.length; index++) {
             const element = that.detailFormList[index];
-            if (element.orderType != id) {
+            if (element.productOrderType != id) {
               tishi = true;
               break;
             } else {
