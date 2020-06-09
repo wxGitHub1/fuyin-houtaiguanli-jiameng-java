@@ -801,68 +801,70 @@
               <h2>补交收费清单</h2>
               <div class="border-tb"></div>
               <div class="clearfix">
-                <span class="left">客户姓名：{{bj_obj.printAddMoneyDTO.memberName}}</span>
-                <span class="right">性别：{{bj_obj.printAddMoneyDTO.sex}}</span>
+                <span class="left">客户姓名：{{bj_obj.memberName}}</span>
+                <span class="right">性别：{{bj_obj.sex}}</span>
               </div>
-              <div>出生日期：{{bj_obj.printAddMoneyDTO.birthday}}</div>
+              <div>出生日期：{{bj_obj.birthday}}</div>
               <hr class="dashed" />
-              <div>医院：{{bj_obj.printAddMoneyDTO.hospitalName}}</div>
+              <div>医院：{{bj_obj.hospitalName}}</div>
               <hr />
-<h3 class="margin-0">产品</h3>
-<div
-class="clearfix"
-v-for="(item,index) in bj_obj.moneyPrintOrderDetailDtos[0].bases"
-:key="index"
->
-<hr class="dashed" />
-<div>{{item.name}}-{{item.nickname}}</div>
-<div >交付日期：{{item.deliveryTime}}</div>
-<div class="font-b">金额：{{item.price}}</div>
-</div>
-<hr />
-<div class="clearfix">
-<span class="left">应收金额合计：</span>
-<span class="right font-b">{{bj_obj.moneyPrintOrderDetailDtos[0].should}}</span>
-</div>
-<hr class="dashed" />
-<div class="clearfix">
-<span class="left">已收金额合计：</span>
-<span
-class="right font-b"
->{{bj_obj.moneyPrintOrderDetailDtos[0].lakala + bj_obj.moneyPrintOrderDetailDtos[0].cash + bj_obj.moneyPrintOrderDetailDtos[0].transfer}}</span>
-</div>
-<div>拉卡拉：{{bj_obj.moneyPrintOrderDetailDtos[0].lakala}}</div>
-<div>现金：{{bj_obj.moneyPrintOrderDetailDtos[0].cash}}</div>
-<div>转账：{{bj_obj.moneyPrintOrderDetailDtos[0].transfer}}</div>
-<hr class="dashed" />
-<div class="clearfix">
-<span class="left">下欠金额：</span>
-<span class="right font-b">{{bj_obj.moneyPrintOrderDetailDtos[0].oweMoney}}</span>
-</div>
-<hr />
-              <div>下单时间：{{bj_obj.orderCreateTime}}</div>
-              
-              <div>订单编号：{{bj_obj.printAddMoneyDTO.orderNum}}</div>
-              <div>打印时间：{{bj_obj.printAddMoneyDTO.printTime}}</div>
+              <h3 class="margin-0">{{bj_obj.moneyPrintOrderDetailDtos[0].type}}</h3>
+              <div
+                class="clearfix"
+                v-for="(item,index) in bj_obj.moneyPrintOrderDetailDtos[0].bases"
+                :key="index"
+              >
+                <hr class="dashed" />
+                <div>{{item.name}}-{{item.nickname}}</div>
+                <div>交付日期：{{item.deliveryTime}}</div>
+                <div class="font-b">金额：{{item.price}}</div>
+              </div>
               <hr />
-              <div>补交时间：{{bj_obj.printAddMoneyDTO.addMoneyTime}}</div>
-              <!-- <div class="clearfix">
-                <span class="left">应收下欠金额：</span>
-                <span class="right font-b">{{bj_obj.printAddMoneyDTO.oweMoneyOld}}</span>
-              </div> -->
-              <div>拉卡拉：{{bj_obj.printAddMoneyDTO.lakala}}</div>
-              <div>现金：{{bj_obj.printAddMoneyDTO.cash}}</div>
-              <div>转账：{{bj_obj.printAddMoneyDTO.transfer}}</div>
+              <div class="clearfix">
+                <span class="left">应收金额合计：</span>
+                <span class="right font-b">{{bj_obj.moneyPrintOrderDetailDtos[0].should}}</span>
+              </div>
               <hr class="dashed" />
               <div class="clearfix">
-                <span class="left">补交金额：</span>
-                <span class="right font-b">{{bj_obj.printAddMoneyDTO.addMoney}}</span>
+                <span class="left">已收金额合计：</span>
+                <span
+                  class="right font-b"
+                >{{bj_obj.moneyPrintOrderDetailDtos[0].lakala + bj_obj.moneyPrintOrderDetailDtos[0].cash + bj_obj.moneyPrintOrderDetailDtos[0].transfer}}</span>
               </div>
+              <div>拉卡拉：{{bj_obj.moneyPrintOrderDetailDtos[0].lakala}}</div>
+              <div>现金：{{bj_obj.moneyPrintOrderDetailDtos[0].cash}}</div>
+              <div>转账：{{bj_obj.moneyPrintOrderDetailDtos[0].transfer}}</div>
+              <hr class="dashed" />
               <div class="clearfix">
                 <span class="left">下欠金额：</span>
-                <span class="right font-b">{{bj_obj.printAddMoneyDTO.oweMoneyNew}}</span>
-              </div>       
+                <span class="right font-b">{{bj_obj.moneyPrintOrderDetailDtos[0].oweMoney}}</span>
+              </div>
               <hr />
+              <div>下单时间：{{bj_obj.orderCreateTime}}</div>
+
+              <div>订单编号：{{bj_obj.orderNum}}</div>
+              <div>打印时间：{{bj_obj.printTime}}</div>
+              <hr />
+              <div v-for="(item,index) in bj_obj.printAddMoneyDTO" :key="index">
+                <div>补交时间：{{item.addMoneyTime}}</div>
+                <!-- <div class="clearfix">
+                <span class="left">应收下欠金额：</span>
+                <span class="right font-b">{{bj_obj.printAddMoneyDTO.oweMoneyOld}}</span>
+                </div>-->
+                <div>拉卡拉：{{item.lakala}}</div>
+                <div>现金：{{item.cash}}</div>
+                <div>转账：{{item.transfer}}</div>
+                <!-- <hr class="dashed" /> -->
+                <!-- <div class="clearfix">
+                <span class="left">补交金额：</span>
+                <span class="right font-b">{{bj_obj.printAddMoneyDTO.addMoney}}</span>
+                </div>-->
+                <div class="clearfix">
+                  <span class="left">补交后下欠金额：</span>
+                  <span class="right font-b">{{item.oweMoneyNew}}</span>
+                </div>
+                <hr />
+              </div>
               <div>该产品不在医保、合疗、商业保险报销范围内，如有需求可提供正式增值税发票</div>
               <hr />
               <div>客户签字确认</div>
@@ -1448,9 +1450,9 @@ export default {
       // printFormDataMap: null,
       sizeMapList: [],
       bj_obj: {
-        printAddMoneyDTO:{},
-        moneyPrintOrderDetailDtos:[{}],
-        },
+        printAddMoneyDTO: {},
+        moneyPrintOrderDetailDtos: [{}]
+      },
       transactionType_jj: null,
       transactionType_cp: null,
       transactionType_fw: null,
@@ -1927,7 +1929,11 @@ export default {
     },
     //订单列表 //查询
     async pageList(pageIndex = 1, pageSize = 10) {
-      let data = naVComponent_variable.orderSearchData_fuc(this,pageIndex,pageSize)
+      let data = naVComponent_variable.orderSearchData_fuc(
+        this,
+        pageIndex,
+        pageSize
+      );
       this.loading = true;
       if (this.cpOnly_show) {
         orderList(data)
@@ -1971,7 +1977,7 @@ export default {
     },
     //导出excel
     exportExcels() {
-      let data = naVComponent_variable.orderSearchData_fuc(this)
+      let data = naVComponent_variable.orderSearchData_fuc(this);
       const lsyObj = {
         method: "post",
         fileName: "订单信息",
