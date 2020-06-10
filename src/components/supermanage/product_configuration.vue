@@ -294,7 +294,7 @@
           >查询</el-button>
         </el-col>
       </el-row>
-      <el-table :data="productData" max-height="500">
+      <el-table :data="productData" max-height="400">
         <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
