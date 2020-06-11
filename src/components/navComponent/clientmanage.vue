@@ -36,7 +36,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-        <el-select clearable class="w-150" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="hospitalList(seach.siteValue)"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -62,11 +68,17 @@
         </el-select>
       </el-form-item>
       <el-form-item label="客户姓名">
-        <el-input class="w-150" v-model="seach.name" placeholder="请输入姓名" autocomplete="off" @input="listenKey()"></el-input>
+        <el-input
+          class="w-150"
+          v-model="seach.name"
+          placeholder="请输入姓名"
+          autocomplete="off"
+          @input="listenKey()"
+        ></el-input>
       </el-form-item>
       <el-form-item label="联系方式">
         <el-input
-         class="w-150"
+          class="w-150"
           v-model="seach.phone"
           placeholder="请输入联系电话"
           autocomplete="off"
@@ -75,7 +87,7 @@
       </el-form-item>
       <el-form-item label="创建人">
         <el-input
-        class="w-150"
+          class="w-150"
           v-model="seach.createName"
           placeholder="请输入创建人姓名"
           autocomplete="off"
@@ -83,7 +95,13 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="到访状态">
-        <el-select clearable class="w-150" v-model="seach.daofang.value" placeholder="请选择" @change="listenKey()">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.daofang.value"
+          placeholder="请选择"
+          @change="listenKey()"
+        >
           <el-option
             v-for="item in seach.daofang.select"
             :key="item.type"
@@ -93,7 +111,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="客户认知">
-        <el-select clearable class="w-150" v-model="seach.renzhi.value" placeholder="请选择" @change="listenKey()">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.renzhi.value"
+          placeholder="请选择"
+          @change="listenKey()"
+        >
           <el-option
             v-for="item in seach.renzhi.select"
             :key="item.type"
@@ -103,7 +127,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="客户来源">
-        <el-select clearable class="w-150" v-model="seach.laiyuan.value" placeholder="请选择" @change="listenKey()">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.laiyuan.value"
+          placeholder="请选择"
+          @change="listenKey()"
+        >
           <el-option
             v-for="item in seach.laiyuan.select"
             :key="item.type"
@@ -130,7 +160,7 @@
       </el-form-item>
       <el-form-item label="选择时间">
         <el-date-picker
-        class="w-250"
+          class="w-250"
           @change="listenKey()"
           v-model="seach.createTime"
           type="daterange"
@@ -1101,7 +1131,7 @@
       :before-close="cancelSelection"
     >
       <!-- seach product-->
-      
+
       <el-row class="search">
         <el-col :span="2" id="input-title">
           <span>产品名称</span>
@@ -1265,25 +1295,29 @@
           v-model="discount"
           oninput="value=value.replace(/[^\d.]/g,'')"
           @input="discount_fuc(discount)"
-        /> -->
-        <el-select size='mini' @change="discount_fuc(discount)" v-model="discount" placeholder="请选择">
+        />-->
+        <el-select
+          size="mini"
+          @change="discount_fuc(discount)"
+          v-model="discount"
+          placeholder="请选择"
+        >
           <el-option
             v-for="item in discountList"
-            
             :key="item.id"
             :label="item.name"
-            :value="item.id">
-          </el-option>
+            :value="item.id"
+          ></el-option>
         </el-select>
       </div>
       <div class="margin-t-20">
-      折扣后价格：
-      <input
+        折扣后价格：
+        <input
           type="text"
           class="input"
           v-model="zhekouyouhui.favorable"
           oninput="value=value.replace(/[^\d.]/g,'')"
-      />
+        />
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
@@ -1307,15 +1341,35 @@
     >
       <div class="clearfix">
         <div v-for="(item,index) in productSize.list" :key="item.name" class="cpSize">
-          <span class="span">{{item.key}}</span>
-          <div class="div">
-            <el-input
-              v-model="item.value"
-              style="width：100%"
-              size="small"
-              placeholder="请输入"
-              @input="changeSizeVal_fuc(item.value,index)"
-            ></el-input>
+          <div v-if="item.center==''">
+            <span class="span">{{item.key}}</span>
+            <div class="div">
+              <el-input
+                v-model="item.value"
+                style="width：100%"
+                size="small"
+                placeholder="请输入"
+                @input="changeSizeVal_fuc(item.value,index)"
+              ></el-input>
+            </div>
+          </div>
+          <div v-else>
+            <span class="span2">{{item.key}}</span>
+            <div class="div2">
+              <el-input v-model="item.valueCenter" style="width：100%" size="small" placeholder="请输入"></el-input>
+            </div>
+
+            <span class="span2">{{item.center}}</span>
+
+            <div class="div2">
+              <el-input
+                v-model="item.centerValue "
+                style="width：100%"
+                size="small"
+                placeholder="请输入"
+                @input="changeSizeVal_fuc(item.value,index)"
+              ></el-input>
+            </div>
           </div>
         </div>
         <div class="cpSize">
@@ -1617,7 +1671,7 @@ export default {
       addKeHuTitle: "新增客户",
       specialRequirements: null,
       discount: null,
-      discountList:naVComponent_variable.discount,
+      discountList: naVComponent_variable.discount,
       productData: [],
       multipleSelection: [],
       detailFormList: [],
@@ -1793,8 +1847,8 @@ export default {
   },
   computed: {},
   methods: {
-    changeSizeVal_fuc(value,index){
-       naVComponent.changeSizeVal_fuc(this,value,index);
+    changeSizeVal_fuc(value, index) {
+      naVComponent.changeSizeVal_fuc(this, value, index);
     },
     dblclick_table_fuc(row, column, cell, event) {
       naVComponent.dblclick_table_fuc(this, row);
@@ -2014,7 +2068,11 @@ export default {
       this.orderingPerson = session.getItem("username");
     },
     sizeEntry(obj) {
+      // if(obj.name=="大腿假肢"||obj.name=="小腿假肢"){
+      //   naVComponent.sizeEntry2(this, obj);
+      // }else{
       naVComponent.sizeEntry(this, obj);
+      // }
       // let data = {
       //   hospitalId: obj.row.hospitalId
       // };
@@ -2636,9 +2694,18 @@ export default {
     margin-bottom: 10px;
     width: 30%;
   }
+  .span2 {
+    display: inline-block;
+    margin-bottom: 10px;
+    width: 10%;
+  }
   .div {
     display: inline-block;
     width: 69%;
+  }
+  .div2 {
+    display: inline-block;
+    width: 20%;
   }
 }
 .border-dashed {

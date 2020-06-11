@@ -179,15 +179,35 @@
     >
       <div class="clearfix">
         <div v-for="(item,index) in productSize.list" :key="item.name" class="cpSize">
-          <span class="span">{{item.key}}</span>
-          <div class="div">
-            <el-input
-              v-model="item.value"
-              style="width：100%"
-              size="small"
-              placeholder="请输入"
-              @input="changeSizeVal_fuc(item.value,index)"
-            ></el-input>
+          <div v-if="item.center==''">
+            <span class="span">{{item.key}}</span>
+            <div class="div">
+              <el-input
+                v-model="item.value"
+                style="width：100%"
+                size="small"
+                placeholder="请输入"
+                @input="changeSizeVal_fuc(item.value,index)"
+              ></el-input>
+            </div>
+          </div>
+          <div v-else>
+            <span class="span2">{{item.key}}</span>
+            <div class="div2">
+              <el-input v-model="item.valueCenter" style="width：100%" size="small" placeholder="请输入"></el-input>
+            </div>
+
+            <span class="span2">{{item.center}}</span>
+
+            <div class="div2">
+              <el-input
+                v-model="item.centerValue "
+                style="width：100%"
+                size="small"
+                placeholder="请输入"
+                @input="changeSizeVal_fuc(item.value,index)"
+              ></el-input>
+            </div>
           </div>
         </div>
         <div class="cpSize">
@@ -630,6 +650,15 @@ export default {
   .div {
     display: inline-block;
     width: 69%;
+  }
+  .div2 {
+    display: inline-block;
+    width: 20%;
+  }
+  .span2 {
+    display: inline-block;
+    margin-bottom: 10px;
+    width: 10%;
   }
 }
 .jzfy {

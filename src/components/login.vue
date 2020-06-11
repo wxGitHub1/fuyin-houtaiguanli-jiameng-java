@@ -22,7 +22,7 @@
         :loading="isSearch"
         @click="userLogin()"
       >登录</el-button>
-      <div class="version">当前版本：2.0.3</div>
+      <div class="version">当前版本：1.0.0</div>
     </div>
   </div>
 </template>

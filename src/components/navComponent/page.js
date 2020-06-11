@@ -183,12 +183,20 @@ function calculation(that) {
     that.paymentMethod.lx = null;
   }
 }
+// 下单确认按钮
 function orderingStart(that) {
   let priceTatol = [];
   for (let index = 0; index < that.detailFormList.length; index++) {
     const element = that.detailFormList[index];
+    element.sizeMapList.forEach(obj=>{
+      if(obj.center!=''){
+        obj.value=obj.copyValue
+      }
+    })
     priceTatol.push(element.price);
   }
+  // console.log(that.detailFormList)
+  debugger
   let price = eval(priceTatol.join("+"));
   let data = {
     customerId: that.currentNamberId,
@@ -205,6 +213,8 @@ function orderingStart(that) {
     orderUserName: that.orderingPerson,
     detailFormList: that.detailFormList
   };
+  console.log(that.detailFormList);
+  debugger
   //判断交货日期必填
   let jhrq = true;
   that.detailFormList.forEach(obj => {
@@ -307,6 +317,14 @@ function modefiy_orderingStart(that) {
       center: true
     });
   } else {
+    for (let index = 0; index < that.detailFormList.length; index++) {
+      const element = that.detailFormList[index];
+      element.sizeMapList.forEach(obj=>{
+        if(obj.center!=''){
+          obj.value=obj.copyValue
+        }
+      })
+    }
     data.detailFormList = that.detailFormList;
     // debugger;
     orderUpdateNew(data)
@@ -343,8 +361,16 @@ function entrySize(that) {
     if (obj.id == that.productSize.shapeUser) {
       userObj.id = obj.id;
       userObj.userName = obj.username;
+
     }
   })
+  that.productSize.list.forEach(eleme=>{
+      if(eleme.center!=''){
+        eleme.copyValue=eleme.valueCenter+eleme.center+eleme.centerValue
+      }
+  })
+  console.log(that.productSize.list)
+  debugger
   that.detailFormList.forEach((obj, index) => {
     if (index == that.cpIndex) {
       obj.detailFormList = that.productSize.list;
@@ -425,9 +451,11 @@ function sizeEntry(that, obj) {
           center: true
         });
       } else {
-        console.log(res);
+        // console.log(res);
         that.productSize.shapeUserList = res.data.data;
+        
         that.productSize.list = obj.row.sizeMapList;
+
         if (obj.row.shapeUser != undefined) {
           that.productSize.shapeUser = obj.row.shapeUser.id;
         } else {

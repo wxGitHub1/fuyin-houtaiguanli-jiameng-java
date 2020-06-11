@@ -1165,15 +1165,35 @@
     >
       <div class="clearfix">
         <div v-for="(item,index) in productSize.list" :key="item.name" class="cpSize">
-          <span class="span">{{item.key}}</span>
-          <div class="div">
-            <el-input
-              v-model="item.value"
-              style="width：100%"
-              size="small"
-              placeholder="请输入"
-              @input="changeSizeVal_fuc(item.value,index)"
-            ></el-input>
+          <div v-if="item.center==''">
+            <span class="span">{{item.key}}</span>
+            <div class="div">
+              <el-input
+                v-model="item.value"
+                style="width：100%"
+                size="small"
+                placeholder="请输入"
+                @input="changeSizeVal_fuc(item.value,index)"
+              ></el-input>
+            </div>
+          </div>
+          <div v-else>
+            <span class="span2">{{item.key}}</span>
+            <div class="div2">
+              <el-input v-model="item.valueCenter" style="width：100%" size="small" placeholder="请输入"></el-input>
+            </div>
+
+            <span class="span2">{{item.center}}</span>
+
+            <div class="div2">
+              <el-input
+                v-model="item.centerValue "
+                style="width：100%"
+                size="small"
+                placeholder="请输入"
+                @input="changeSizeVal_fuc(item.value,index)"
+              ></el-input>
+            </div>
           </div>
         </div>
         <div class="cpSize">
@@ -2079,32 +2099,19 @@ export default {
     margin-bottom: 10px;
     width: 30%;
   }
+  .span2 {
+    display: inline-block;
+    margin-bottom: 10px;
+    width: 10%;
+  }
   .div {
     display: inline-block;
     width: 69%;
-    .sizeInput {
-      height: 30px;
-      line-height: 30px;
-      border: 1px solid #dcdfe6;
-      -webkit-appearance: none;
-      background-color: #fff;
-      background-image: none;
-      border-radius: 4px;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      color: #606266;
-      display: inline-block;
-      font-size: 12px;
-      outline: 0;
-      padding: 0 15px;
-      -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-      transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-      width: 100%;
-    }
-    .sizeInput:focus {
-      border-color: #409eff;
-      outline: 0;
-    }
+    
+  }
+  .div2 {
+    display: inline-block;
+    width: 20%;
   }
 }
 .xiaopiao {
