@@ -44,7 +44,7 @@
             <td class="border-b first-tr background-y">{{obj.key}}</td>
             <td :colspan="12/obj.value.length" v-for="(list,index) in obj.value" :key="index">
               <span
-                v-if="obj.key == '围长'||obj.key== '宽度'||obj.key== '高度' || obj.key== '足部' || obj.key== '带子长度'"
+                v-if="obj.key == '围长'||obj.key== '宽度'||obj.key== '高度' || obj.key== '足部' || obj.key== '带子长度'|| obj.key== '型式'|| obj.key== '患侧'|| obj.key== '其他'"
               >{{list.key}} : {{list.value}}</span>
               <span v-else>{{list}}</span>
             </td>
