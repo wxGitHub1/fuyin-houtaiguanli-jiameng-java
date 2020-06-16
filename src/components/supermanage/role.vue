@@ -1,35 +1,22 @@
+// 角色管理
 <template>
-  <div class="container">
-    <el-row>
-      <el-col :span="2" class="margin-l-p1">
-        <!-- 新增角色 -->
+  <div>
+    <el-form :inline="true" :model="formInline" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="用户角色">
+        <el-input size="small" clearable v-model="formInline.searchUser" placeholder="请输入角色名称"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addUserBut">新增角色</el-button>
         <el-button
-          type="primary"
-          size="small"
-          icon="el-icon-circle-plus-outline"
-          @click="addUserBut"
-        >新增角色</el-button>
-      </el-col>
-      <!-- 查询数据 -->
-      <el-col :span="9">
-        <el-form :inline="true" :model="formInline" size="small">
-          <el-form-item label="角色名称">
-            <el-input size="small" clearable v-model="formInline.searchUser" placeholder="请输入角色名称"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="warning"
-              icon="el-icon-search"
-              @click="searchData(formInline.searchUser)"
-            >查询</el-button>
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-row>
+          type="warning"
+          icon="el-icon-search"
+          @click="searchData(formInline.searchUser)"
+        >查询</el-button>
+      </el-form-item>
+    </el-form>
     <!-- 角色列表 -->
     <el-table
       :border="true"
-      max-height="650"
       :data="clientData"
       v-loading="loading"
       element-loading-text="加载中..."
@@ -39,22 +26,29 @@
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
       <el-table-column align="center" prop="name" label="角色名称" min-width="20"></el-table-column>
-      <el-table-column align="center" label="模块名称" prop="menuModule" min-width="100"></el-table-column>
-      <el-table-column align="center" prop="createTime" label="添加日期" min-width="20"></el-table-column>
+      <el-table-column align="center" prop="name" label="用户数量" min-width="20"></el-table-column>
+      <el-table-column align="center" prop="menuModule" label="包含菜单" min-width="100"></el-table-column>
+      <el-table-column align="center" prop="createTime" label="创建时间" min-width="20"></el-table-column>
       <el-table-column align="center" label="操作" min-width="40">
         <template slot-scope="scope">
+          <el-button
+            type="info"
+            icon="el-icon-document"
+            @click="handleModify(scope.row)"
+            size="mini"
+          >详情</el-button>
           <el-button
             type="primary"
             icon="el-icon-edit"
             plain
             @click="handleModify(scope.row)"
-            size="small"
+            size="mini"
           >修改</el-button>
           <el-button
             type="danger"
             @click="handleDelete(scope.row.id)"
             icon="el-icon-delete"
-            size="small"
+            size="mini"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -864,5 +858,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 </style>

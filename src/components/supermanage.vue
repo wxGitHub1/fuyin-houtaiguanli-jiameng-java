@@ -24,64 +24,59 @@ export default {
   data() {
     return {
       tableNav: "sys",
-      tabIndex: "sys",
+      // tabIndex: "sys",
       tables: [
         {
           title: "用户管理",
           name: "sys",
           content: "sys-home",
-          isClose: false
+          isClose: true
         }
       ],
       navTable: [
         {
           name: "sys",
-          
           icon: "icon-yonghuguanli",
           content: "sys-home",
           title: "用户管理"
         },
         {
           name: "ProductConfiguration",
-          
           icon: "icon-chanpinpeizhi",
           content: "product-configuration",
           title: "产品配置清单"
         },
         {
           name: "testConfiguration",
-          
           icon: "icon-Evaluation",
           title: "测评配置",
           content: "test-configuration"
         },
-        // {
-        //   name: "role",
-        //   title: "角色管理",
-        // content: "sys-role",
-        // },
+        {
+          name: "role",
+          title: "角色管理",
+          icon: "icon-jiaoseguanli",
+          content: "sys-role",
+        },
         // {
         //   name: "configurationRole",
-        //   title: "配置角色"
-        // content: "sys-configurationRole",
+        //   title: "配置角色",
+        //   content: "sys-configurationRole",
         // },
         {
           name: "hospital",
-          
           icon: "icon-yiyuanguanli",
           content: "sys-hospital",
           title: "医院管理"
         },
         {
           name: "siteManagement",
-          
           icon: "icon-flow-determine",
           content: "sys-siteManagement",
           title: "测评中心管理"
         },
         {
           name: "log",
-          
           icon: "icon-caozuorizhi",
           title: "操作日志",
           content: "my-log"
@@ -101,6 +96,8 @@ export default {
     },
     //点击加载测评中心列表
     handleClick(tab, event) {
+      // console.log(tab)label: "用户管理"
+      console.log(event)
       if (tab.index == 0) {
         this.$refs.component[0].siteList();
       }
