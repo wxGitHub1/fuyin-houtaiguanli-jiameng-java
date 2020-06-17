@@ -384,6 +384,12 @@
   /* color: #56a9ff; */
   color: #fff;
 }
+.el-table .headerClass-two th{
+  background-color: #E6E6E6;
+  /* background-color: #56a9ff; */
+  /* color: #56a9ff; */
+  color: #101010;
+}
 .child_page {
   width: calc(100% - 180px);
   height: calc(100% - 60px);
@@ -403,6 +409,21 @@
 #search .w-250{
   width: 250px;
 }
+.new-title{
+  line-height:20px;;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  color: #101010;
+ position: relative;
+ }
+ .new-title::after{
+   position: absolute;
+   content: '';
+   height: 20px;
+   border-left: 3px solid #449CFF;
+   left: -10px;
+   top: 0;
+ }
 /* search搜索样式 */
 /* #search .el-form-item--mini.el-form-item,#search .el-form-item--small.el-form-item {
   margin-bottom: 18px;

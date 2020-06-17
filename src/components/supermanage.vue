@@ -31,7 +31,7 @@ export default {
           name: "sys",
           content: "sys-home",
           isClose: true
-        }
+        },
       ],
       navTable: [
         {

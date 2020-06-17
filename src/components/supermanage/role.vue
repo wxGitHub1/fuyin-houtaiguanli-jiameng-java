@@ -1,16 +1,31 @@
 // 角色管理
 <template>
   <div>
-    <el-form :inline="true" :model="formInline" size="small" id="search" class="padding-LR-p10">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="用户角色">
-        <el-input size="small" clearable v-model="formInline.searchUser" placeholder="请输入角色名称"></el-input>
+        <el-input class="w-150" clearable v-model="formInline.searchUser" placeholder="请输入角色名称"></el-input>
+      </el-form-item>
+      <el-form-item label="用户名">
+        <el-input class="w-150" clearable v-model="formInline.searchUser" placeholder="请输入用户名"></el-input>
+      </el-form-item>
+      <el-form-item label="创建时间">
+        <el-date-picker
+          class="w-250"
+          v-model="formInline.creation_time"
+          type="daterange"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addUserBut">新增角色</el-button>
         <el-button
           type="warning"
           icon="el-icon-search"
-          @click="searchData(formInline.searchUser)"
+          @click="getControlCommunities(pages.currentPage,pages.pageSize)"
         >查询</el-button>
       </el-form-item>
     </el-form>
@@ -25,18 +40,13 @@
       :header-row-class-name="'headerClass'"
     >
       <el-table-column width="60" align="center" type="index" label="序号"></el-table-column>
-      <el-table-column align="center" prop="name" label="角色名称" min-width="20"></el-table-column>
-      <el-table-column align="center" prop="name" label="用户数量" min-width="20"></el-table-column>
-      <el-table-column align="center" prop="menuModule" label="包含菜单" min-width="100"></el-table-column>
-      <el-table-column align="center" prop="createTime" label="创建时间" min-width="20"></el-table-column>
-      <el-table-column align="center" label="操作" min-width="40">
+      <el-table-column align="center" prop="name" label="角色名称" width="100"></el-table-column>
+      <el-table-column align="center" prop="name" label="用户数量" width="100"></el-table-column>
+      <el-table-column align="center" prop="menuModule" label="包含菜单" min-width="400"></el-table-column>
+      <el-table-column align="center" prop="createTime" label="创建时间" width="200"></el-table-column>
+      <el-table-column align="center" label="操作" width="300">
         <template slot-scope="scope">
-          <el-button
-            type="info"
-            icon="el-icon-document"
-            @click="handleModify(scope.row)"
-            size="mini"
-          >详情</el-button>
+          <el-button type="info" icon="el-icon-document" @click="details(scope.row)" size="mini">详情</el-button>
           <el-button
             type="primary"
             icon="el-icon-edit"
@@ -74,7 +84,16 @@
       :visible.sync="DatadialogVisible"
       center
     >
-      <el-row class="line-h-30">
+    <div class="new-title">角色名称</div>
+      <el-form :inline="true" :model="formInline" id="search" class="xiangqing" size="small">
+        <el-form-item>
+          <el-input class="w-150" v-model="formInline.addUser" placeholder="请输入角色名称"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <span style="color:#FFA116">温馨提示：角色名称要简明扼要，字数不宜太长</span>
+        </el-form-item>
+      </el-form>
+      <!-- <el-row class="line-h-30">
         <el-col :span="1.5" class="margin-r-20">
           <span>角色名称</span>
         </el-col>
@@ -97,16 +116,10 @@
             ></el-option>
           </el-select>
         </el-col>
-      </el-row>
+      </el-row>-->
+      <div class="new-title">角色菜单配置</div>
       <!-- 添加用户表格 -->
-      <el-table
-        v-if="mTable"
-        :data="selection"
-        tooltip-effect="dark"
-        style="margin-top:20px"
-        border
-        :max-height="481"
-      >
+      <el-table v-if="mTable" :data="selection" tooltip-effect="dark" border :max-height="481">
         <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
         <el-table-column label="模块名称" width="200">
           <template slot-scope="scope">
@@ -133,14 +146,7 @@
         </el-table-column>
       </el-table>
       <!-- 修改用户表格 -->
-      <el-table
-        v-else
-        :data="modifymune"
-        tooltip-effect="dark"
-        style="margin-top:20px"
-        border
-        :max-height="481"
-      >
+      <el-table v-else :data="modifymune" tooltip-effect="dark" border :max-height="481">
         <el-table-column type="index" label="序号" width="50" align="center"></el-table-column>
         <el-table-column label="模块名称" width="200">
           <template slot-scope="scope">
@@ -172,20 +178,20 @@
         <el-button @click="toggleSelection" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button
           type="success"
-          icon="el-icon-right"
+          icon="el-icon-circle-check"
           @click="saveCommunity(formInline,selection)"
           v-if="mTable"
-        >下一步</el-button>
+        >确认</el-button>
         <el-button
           type="success"
-          icon="el-icon-right"
+          icon="el-icon-circle-check"
           @click="saveCommunity(formInline,modifymune,'修改')"
           v-else
-        >下一步</el-button>
+        >确认</el-button>
       </span>
     </el-dialog>
     <!-- 配置权限弹框 -->
-    <el-dialog
+    <!-- <el-dialog
       title="配置权限"
       width="70%"
       :visible.sync="permissionDialog"
@@ -240,6 +246,50 @@
         <el-button @click="cancel()" type="primary" icon="el-icon-back">上一步</el-button>
         <el-button @click="determine()" type="success" icon="el-icon-circle-check">保存</el-button>
       </span>
+    </el-dialog>-->
+    <!-- 角色详情 -->
+    <el-dialog
+      title="角色详情"
+      width="70%"
+      :visible.sync="characterDetailsDialog"
+      :close-on-click-modal="false"
+      :before-close="character_cancel"
+      center
+    >
+    <div class="new-title">角色信息</div>
+      <el-table :border="true" :data="clientData_two" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="name" label="角色名称" width="100"></el-table-column>
+        <el-table-column align="center" prop="menuModule" label="包含菜单" min-width="400"></el-table-column>
+      </el-table>
+    <div class="new-title">用户信息</div>
+    <el-table :border="true" :data="clientData_three" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="name" label="用户名"></el-table-column>
+        <el-table-column align="center" prop="menuModule" label="账号"></el-table-column>
+        <el-table-column align="center" prop="menuModule" label="权限"></el-table-column>
+        <el-table-column align="center" prop="menuModule" label="测评中心"></el-table-column>
+        <el-table-column align="center" prop="menuModule" label="医院"></el-table-column>
+        <el-table-column align="center" label="操作">
+          <template slot-scope="scope">
+          <el-button
+            type="primary"
+            icon="el-icon-info"
+            @click="handleModify(scope.row)"
+            size="mini"
+          >权限</el-button>
+          <el-button
+            type="danger"
+            @click="handleDelete(scope.row.id)"
+            icon="el-icon-delete"
+            size="mini"
+          >删除</el-button>
+        </template>
+        </el-table-column>
+      </el-table>
+      <span slot="footer">
+        <el-button @click="character_cancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
+        <el-button @click="add_user()" type="success" icon="el-icon-circle-plus-outline">添加用户</el-button>
+        <el-button @click="character_determine()" type="success" icon="el-icon-circle-check">保存</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -248,10 +298,10 @@
 import {
   roleList,
   roleDelete,
-  roleTree,
+  // roleTree,
   moduleTree,
   selectMenuByModel,
-  roleMenuUpdate,
+  // roleMenuUpdate,
   roleMenuTree
 } from "../../api/javaApi";
 import { Promise, all, async } from "q";
@@ -261,6 +311,7 @@ export default {
   data() {
     return {
       permissionDialog: false,
+      characterDetailsDialog: false,
       spanArr: [],
       position: 0,
       tableData: [
@@ -269,94 +320,6 @@ export default {
           type: "1",
           name: "客户管理",
           amount1: "前台客户管理",
-          mune: [
-            {
-              name: "新增权限",
-              options: [
-                {
-                  value: "2",
-                  label: "允许新增"
-                },
-                {
-                  value: "0",
-                  label: "不允许新增"
-                }
-              ],
-              value: ""
-            },
-            {
-              name: "删除权限",
-              options: [
-                {
-                  value: "2",
-                  label: "允许删除全部"
-                },
-                {
-                  value: "1",
-                  label: "允许删除个人"
-                },
-                {
-                  value: "0",
-                  label: "不允许删除"
-                }
-              ],
-              value: ""
-            },
-            {
-              name: "删除权限",
-              options: [
-                {
-                  value: "2",
-                  label: "允许删除全部"
-                },
-                {
-                  value: "1",
-                  label: "允许删除个人"
-                },
-                {
-                  value: "0",
-                  label: "不允许删除"
-                }
-              ],
-              value: ""
-            },
-            {
-              name: "删除权限",
-              options: [
-                {
-                  value: "2",
-                  label: "允许删除全部"
-                },
-                {
-                  value: "1",
-                  label: "允许删除个人"
-                },
-                {
-                  value: "0",
-                  label: "不允许删除"
-                }
-              ],
-              value: ""
-            },
-            {
-              name: "删除权限",
-              options: [
-                {
-                  value: "2",
-                  label: "允许删除全部"
-                },
-                {
-                  value: "1",
-                  label: "允许删除个人"
-                },
-                {
-                  value: "0",
-                  label: "不允许删除"
-                }
-              ],
-              value: ""
-            }
-          ],
           value1: "",
           value2: ""
         }
@@ -368,6 +331,7 @@ export default {
       selection: [],
       //添加和查询时用户名
       formInline: {
+        creation_time: null,
         seachUser: null,
         addUser: "",
         userId: "",
@@ -386,6 +350,8 @@ export default {
       // },
       //表格数据
       clientData: [],
+      clientData_two: [],
+      clientData_three: [],
       //录入数据弹出框
       DatadialogVisible: false,
       //分页
@@ -402,7 +368,7 @@ export default {
   },
   created() {
     this.getMenus();
-    this.parentRole();
+    // this.parentRole();
   },
   mounted() {
     //获取用户权限
@@ -413,109 +379,117 @@ export default {
     this.getControlCommunities();
   },
   methods: {
+    add_user() {},
+    details(obj) {
+      this.characterDetailsDialog = true;
+    },
+    character_cancel() {
+      this.characterDetailsDialog = false;
+    },
+    character_determine() {},
     //配置权限弹框确认
-    determine() {
-      let roleMenuForms = [];
-      // debugger
-      this.tableData.forEach(father => {
-        father.menuDtos.forEach(obj => {
-          roleMenuForms.push({ aclId: obj.id, level: obj.permission });
-        });
-      });
+    // determine() {
+    //   let roleMenuForms = [];
+    //   // debugger
+    //   this.tableData.forEach(father => {
+    //     father.menuDtos.forEach(obj => {
+    //       roleMenuForms.push({ aclId: obj.id, level: obj.permission });
+    //     });
+    //   });
 
-      let data = {
-        name: this.formInline.addUser,
-        parentId: this.formInline.region || 0,
-        roleMenuForms: roleMenuForms
-      };
-      if (!!this.formInline.userId) {
-        data.id = this.formInline.userId;
-      } else {
-        data.id = null;
-      }
-      // debugger;
-      roleMenuUpdate(data)
-        .then(res => {
-          if (res.data.returnCode != 0) {
-            this.$message({
-              type: "warning",
-              message: res.data.returnMsg,
-              center: true
-            });
-          } else {
-            this.permissionDialog = false;
-            this.toggleSelection();
-            this.tableData = [];
-            this.getControlCommunities();
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+    //   let data = {
+    //     name: this.formInline.addUser,
+    //     parentId: this.formInline.region || 0,
+    //     roleMenuForms: roleMenuForms
+    //   };
+    //   if (!!this.formInline.userId) {
+    //     data.id = this.formInline.userId;
+    //   } else {
+    //     data.id = null;
+    //   }
+    //   // debugger;
+    //   roleMenuUpdate(data)
+    //     .then(res => {
+    //       if (res.data.returnCode != 0) {
+    //         this.$message({
+    //           type: "warning",
+    //           message: res.data.returnMsg,
+    //           center: true
+    //         });
+    //       } else {
+    //         this.permissionDialog = false;
+    //         this.toggleSelection();
+    //         this.tableData = [];
+    //         this.getControlCommunities();
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
     // 配置权限弹框上一步
-    cancel() {
-      this.permissionDialog = false;
-      this.spanArr = [];
-      this.position = 0;
-    },
+    // cancel() {
+    //   this.permissionDialog = false;
+    //   this.spanArr = [];
+    //   this.position = 0;
+    // },
     // 合并单元格
-    rowspan() {
-      // debugger
-      this.tableData.forEach((item, index) => {
-        if (index === 0) {
-          this.spanArr.push(1);
-          this.position = 0;
-        } else {
-          if (
-            this.tableData[index].parentId ===
-            this.tableData[index - 1].parentId
-          ) {
-            this.spanArr[this.position] += 1;
-            this.spanArr.push(0);
-          } else {
-            this.spanArr.push(1);
-            this.position = index;
-          }
-        }
-      });
-    },
+    // rowspan() {
+    //   // debugger
+    //   this.tableData.forEach((item, index) => {
+    //     if (index === 0) {
+    //       this.spanArr.push(1);
+    //       this.position = 0;
+    //     } else {
+    //       if (
+    //         this.tableData[index].parentId ===
+    //         this.tableData[index - 1].parentId
+    //       ) {
+    //         this.spanArr[this.position] += 1;
+    //         this.spanArr.push(0);
+    //       } else {
+    //         this.spanArr.push(1);
+    //         this.position = index;
+    //       }
+    //     }
+    //   });
+    // },
     //表格合并行
-    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      // debugger
-      if (columnIndex === 0) {
-        const _row = this.spanArr[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
-      // if(columnIndex === 1){
-      // 	const _row = this.spanArr[rowIndex];
-      // 	const _col = _row>0 ? 1 : 0;
-      // 	return {
-      // 		rowspan: _row,
-      // 		colspan: _col
-      // 	}
-      // }
-    },
+    // objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+    //   // debugger
+    //   if (columnIndex === 0) {
+    //     const _row = this.spanArr[rowIndex];
+    //     const _col = _row > 0 ? 1 : 0;
+    //     return {
+    //       rowspan: _row,
+    //       colspan: _col
+    //     };
+    //   }
+    //   // if(columnIndex === 1){
+    //   // 	const _row = this.spanArr[rowIndex];
+    //   // 	const _col = _row>0 ? 1 : 0;
+    //   // 	return {
+    //   // 		rowspan: _row,
+    //   // 		colspan: _col
+    //   // 	}
+    //   // }
+    // },
     addUserBut() {
-      this.parentRole();
+      // this.parentRole();
       this.DatadialogVisible = true;
       this.mTable = true;
     },
     //获取父级角色
-    parentRole() {
-      roleTree()
-        .then(res => {
-          console.log(res);
-          this.formInline.options = res.data.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+    // parentRole() {
+    //   roleTree()
+    //     .then(res => {
+    //       console.log(res);
+    //       this.formInline.options = res.data.data;
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
     // 获取用户管理列表
     async getMenus() {
       moduleTree()
@@ -600,17 +574,18 @@ export default {
       });
     },
     //查询数据
-    searchData(name) {
-      name = undefined ? null : name;
-      this.getControlCommunities(name);
-    },
+    // searchData(name) {
+    //   name = undefined ? null : name;
+    //   this.getControlCommunities(name);
+    // },
     //获取用户列表
-    async getControlCommunities(name = null, pageIndex = 1, pageSize = 10) {
+    async getControlCommunities(pageIndex = 1, pageSize = 10) {
       let arg = {
         pageSize: pageSize,
-        pageNum: pageIndex
+        pageNum: pageIndex,
+        name: this.formInline.searchUser || null //名称
       };
-      arg.name = name || null; //名称
+      // arg.name = name || null; //名称
       // debugger
       this.loading = true;
       roleList(arg)
@@ -701,7 +676,7 @@ export default {
     // 添加用户下一步
     async saveCommunity(obj, caidan, caozuo) {
       console.log(caidan);
-      debugger;
+      // debugger;
       if (!!obj.addUser) {
         let menuIdList = [];
         for (let index = 0; index < caidan.length; index++) {
@@ -739,7 +714,7 @@ export default {
               }
             });
             this.nextFormInline.fatherName = fatherRoleName;
-            this.rowspan();
+            // this.rowspan();
           })
           .catch(err => {
             console.log(err);
@@ -758,18 +733,18 @@ export default {
       this.pages.currentPage = num;
       let pageIndex = this.pages.currentPage;
       let pageSize = this.pages.pageSize;
-      this.getControlCommunities(null, pageIndex, pageSize);
+      this.getControlCommunities(pageIndex, pageSize);
     },
     //页面条数发生变化时
     handleSizeChange(val) {
       this.pages.pageSize = val;
       let pageIndex = this.pages.currentPage;
       let pageSize = this.pages.pageSize;
-      this.getControlCommunities(null, pageIndex, pageSize);
+      this.getControlCommunities(pageIndex, pageSize);
     },
     //修改
     handleModify(obj) {
-      debugger;
+      // debugger;
       this.mTable = false;
       this.DatadialogVisible = true;
       this.formInline.addUser = obj.name;
@@ -835,7 +810,6 @@ export default {
                     center: true
                   });
                   this.getControlCommunities(
-                    null,
                     this.pages.currentPage,
                     this.pages.pageSize
                   );
@@ -858,4 +832,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.xiangqing .el-form-item--small.el-form-item {
+    margin-bottom: 0px;
+}
 </style>
