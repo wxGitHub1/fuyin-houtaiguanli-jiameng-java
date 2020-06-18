@@ -25,6 +25,7 @@ import htmlToPdf from '../src/utils/htmlToPdf'
 Vue.use(htmlToPdf)
 // common
 import Header from './components/common/header';
+import HeaderTwo from './components/common/headerTwo';
 import Vheader from './components/common/vheader';
 
 // 支具室
@@ -179,6 +180,7 @@ import session from './utils/session';
 Vue.config.productionTip = false;
 
 Vue.component('my-header', Header);
+Vue.component('my-header-two', HeaderTwo);
 Vue.component('v-header', Vheader);
 
 // 支具室

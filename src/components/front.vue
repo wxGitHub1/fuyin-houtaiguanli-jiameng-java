@@ -44,7 +44,6 @@ export default {
       navTable: [
         {
           name: "clientManage",
-          
           icon: "icon-kehuguanli",
           content: "front-client",
           title: "客户管理"

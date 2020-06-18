@@ -36,6 +36,7 @@ const Theory = resolve => require(['../components/theory'], resolve)
 const SuperManage = resolve => require(['../components/supermanage'], resolve)
 const Error = resolve => require(['../components/error'], resolve)
 const FrontUser = resolve => require(['../components/frontUser'], resolve)
+const Home = resolve => require(['../components/home'], resolve)
 
 const menuList_data = [
   { name: "super", text: "超级管理员" },
@@ -80,5 +81,6 @@ export default {
   Theory,
   SuperManage,
   Error,
-  FrontUser
+  FrontUser,
+  Home
 }

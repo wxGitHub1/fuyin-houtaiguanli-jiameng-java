@@ -23,19 +23,18 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      tableNav: "clientManage",
-      tabIndex: "clientManage",
+      tableNav: "clientManage2",
       tables: [
         {
           title: "客户管理",
-          name: "clientManage",
+          name: "clientManage2",
           content: "front-client",
           isClose: false
         }
       ],
       navTable: [
         {
-          name: "clientManage",
+          name: "clientManage2",
           
           icon: "icon-kehuguanli",
           content: "front-client",

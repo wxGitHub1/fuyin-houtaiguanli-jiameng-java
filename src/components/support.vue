@@ -29,8 +29,7 @@ export default {
         {
           name: "clientManage",
           content: "my-client",
-          // iconfont:'iconfont',
-          // icon:'icon-kehuguanli',
+          icon:'icon-kehuguanli',
           title: "客户管理",
           isClose: false
         }
@@ -44,28 +43,24 @@ export default {
       navTable: [
         {
           name: "clientManage",
-          
           icon: "icon-kehuguanli",
           content: "my-client",
           title: "客户管理"
         },
         {
           name: "orderManage",
-          
           icon: "icon-tubiao_dingdanguanli",
           content: "my-order",
           title: "订单管理"
         },
         {
           name: "market",
-          
           icon: "icon-tongjibaobiao",
           content: "my-market",
           title: "统计报表"
         },
         {
           name: "member",
-          
           icon: "icon-huiyuan",
           content: "my-member",
           title: "会员统计"
