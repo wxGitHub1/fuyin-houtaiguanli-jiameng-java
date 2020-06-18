@@ -132,13 +132,13 @@ export default {
             center: true
           });
         } else {
-          let menu = session.getItem("menu");
-          menuList_data.menuList_data.forEach(element => {
-            if (element.text === menu[0].name) {
-              this.$router.push({ name: element.name });
-              return;
-            }
-          });
+          // let menu = session.getItem("menu");
+          // menuList_data.menuList_data.forEach(element => {
+          //   if (element.text === menu[0].name) {
+              this.$router.push({ name: "home" });
+          //     return;
+          //   }
+          // });
           this.isSearch = false;
         }
       }
