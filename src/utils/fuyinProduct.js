@@ -46,7 +46,21 @@
 //       })
 //   }
 // }
+/**
+ * 
+ * @param {*} that 
+ * @param {*} index 菜单索引
+ */
+// function menuTitle(that,index=0){
+//     let menu = session.getItem("menu");
+//     that.navTable=menu[index].moduleDtos
+//     that.tables=[]
+//     that.tables.push(that.navTable[0])
+//     that.tableNav=that.tables[0].name
+
+//   }
 // export default {
-//   removeTab,
-//   newTitle
+//     removeTab,
+//     newTitle,
+//     menuTitle
 // }
