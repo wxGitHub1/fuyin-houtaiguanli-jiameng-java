@@ -19,13 +19,13 @@
             <p @click="changePerson()">{{witchPage || '暂无数据'}}</p>
           </el-col>
           <el-col :span="6" class="arrow_box">
-            <el-dropdown :hide-on-click="false" type="primary" trigger="click">
+            <el-dropdown :hide-on-click="true" type="primary" trigger="click">
               <span class="el-dropdown-link">
                 <span class="arrows"></span>
               </span>
-              <el-dropdown-menu :split-button="true" slot="dropdown" style="width: 9%;">
+              <el-dropdown-menu :split-button="true" slot="dropdown" >
                 <el-dropdown-item
-                  @click.native="gotoBigClient(item.name)"
+                  @click.native="gotoBigClient(item.name,index)"
                   v-for="(item,index) in menu "
                   :key="index"
                 >{{item.name}}</el-dropdown-item>
@@ -38,8 +38,7 @@
     <div class="nav_bar">
       <el-row v-for="(nav,index) in navTables" :key="nav.name">
         <el-col class="nav_box" :class="{active:cur==index}">
-          <i class="iconfont" :class="nav.icon">
-          </i>
+          <i class="iconfont" :class="nav.icon"></i>
           <span @click="switchTitle(nav.name,index)">{{nav.title}}</span>
         </el-col>
       </el-row>
@@ -97,6 +96,8 @@ export default {
     init() {
     //  console.log(this.$route.name) 
       let data=menuList_data.menuList_data
+      // this.witchPage = menuList_data.viewPage_function(this.$route.name,data);
+      
       if (this.$store.state.login.username) {
         this.user.name = this.$store.state.login.username;
         this.menu = this.$store.state.login.menu;
@@ -152,13 +153,17 @@ export default {
         });
     },
     //跳转页面
-    gotoBigClient(adress) {
-      menuList_data.menuList_data.forEach(element => {
-        if(element.text === adress){
-          this.$router.push({ name:element.name });
-          return
-        }
-      });
+    gotoBigClient(adress,index) {
+        // console.log(adress,index)
+        this.witchPage =adress
+        this.$emit("menuTitle",index);
+      // menuList_data.menuList_data.forEach(element => {
+      //   if(element.text === adress){
+      //     this.$router.push({ name:element.name });
+      //     return
+      //   }
+      // });
+
     }
   }
 };

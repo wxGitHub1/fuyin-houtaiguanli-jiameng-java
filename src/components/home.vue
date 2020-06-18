@@ -1,6 +1,6 @@
 <template>
   <div style="height:100%">
-    <my-header-two :navTables="navTable" v-on:acceptTitle="newTitle"></my-header-two>
+    <my-header-two :navTables="navTable" v-on:acceptTitle="newTitle" v-on:menuTitle="menuTitle"></my-header-two>
     <div class="child_page">
       <el-tabs v-model="tableNav" type="card" @tab-remove="removeTab" @tab-click="handleClick">
         <el-tab-pane
@@ -19,71 +19,79 @@
 
 <script>
 import Global from "./global";
+import { Promise, all, async } from "q";
+import session from "../utils/session";
 export default {
   data() {
     return {
-      tableNav: "sys",
+      tableNav: '',
       // tabIndex: "sys",
       tables: [
-        {
-          title: "用户管理",
-          name: "sys",
-          content: "sys-home",
-          isClose: true
-        },
+        // {
+        //   title: "用户管理",
+        //   name: "sys",
+        //   content: "sys-home",
+        //   isClose: true
+        // },
       ],
       navTable: [
-        {
-          name: "sys",
-          icon: "icon-yonghuguanli",
-          content: "sys-home",
-          title: "用户管理"
-        },
-        {
-          name: "ProductConfiguration",
-          icon: "icon-chanpinpeizhi",
-          content: "product-configuration",
-          title: "产品配置清单"
-        },
-        {
-          name: "testConfiguration",
-          icon: "icon-Evaluation",
-          title: "测评配置",
-          content: "test-configuration"
-        },
-        {
-          name: "role",
-          title: "角色管理",
-          icon: "icon-jiaoseguanli",
-          content: "sys-role",
-        },
-        // {
-        //   name: "configurationRole",
-        //   title: "配置角色",
-        //   content: "sys-configurationRole",
-        // },
-        {
-          name: "hospital",
-          icon: "icon-yiyuanguanli",
-          content: "sys-hospital",
-          title: "医院管理"
-        },
-        {
-          name: "siteManagement",
-          icon: "icon-flow-determine",
-          content: "sys-siteManagement",
-          title: "测评中心管理"
-        },
-        {
-          name: "log",
-          icon: "icon-caozuorizhi",
-          title: "操作日志",
-          content: "my-log"
-        }
+      //   {
+      //     name: "sys",
+      //     icon: "icon-yonghuguanli",
+      //     content: "sys-home",
+      //     title: "用户管理"
+      //   },
+      //   {
+      //     name: "ProductConfiguration",
+      //     icon: "icon-chanpinpeizhi",
+      //     content: "product-configuration",
+      //     title: "产品配置清单"
+      //   },
+      //   {
+      //     name: "testConfiguration",
+      //     icon: "icon-Evaluation",
+      //     title: "测评配置",
+      //     content: "test-configuration"
+      //   },
+      //   {
+      //     name: "role",
+      //     title: "角色管理",
+      //     icon: "icon-jiaoseguanli",
+      //     content: "sys-role",
+      //   },
+      //   // {
+      //   //   name: "configurationRole",
+      //   //   title: "配置角色",
+      //   //   content: "sys-configurationRole",
+      //   // },
+      //   {
+      //     name: "hospital",
+      //     icon: "icon-yiyuanguanli",
+      //     content: "sys-hospital",
+      //     title: "医院管理"
+      //   },
+      //   {
+      //     name: "siteManagement",
+      //     icon: "icon-flow-determine",
+      //     content: "sys-siteManagement",
+      //     title: "测评中心管理"
+      //   },
+      //   {
+      //     name: "log",
+      //     icon: "icon-caozuorizhi",
+      //     title: "操作日志",
+      //     content: "my-log"
+      //   }
       ]
     };
   },
+  mounted(){
+    Global.menuTitle(this,0)
+  },
   methods: {
+    menuTitle(index){
+      Global.menuTitle(this,index)
+    },
     newTitle(newTabName) {
       if (newTabName == "sys") {
         this.$refs.component[0].siteList();
@@ -93,10 +101,11 @@ export default {
     removeTab(targetName) {
       Global.removeTab(this, targetName);
     },
+
     //点击加载测评中心列表
     handleClick(tab, event) {
-      // console.log(tab)label: "用户管理"
-      console.log(event)
+      // console.log(tab)//label: "用户管理",name:receive2
+      // console.log(event)
       if (tab.index == 0) {
         this.$refs.component[0].siteList();
       }

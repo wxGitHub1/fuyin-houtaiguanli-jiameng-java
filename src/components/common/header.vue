@@ -19,7 +19,7 @@
             <p @click="changePerson()">{{witchPage || '暂无数据'}}</p>
           </el-col>
           <el-col :span="6" class="arrow_box">
-            <el-dropdown :hide-on-click="false" type="primary" trigger="click">
+            <el-dropdown :hide-on-click="true" type="primary" trigger="click">
               <span class="el-dropdown-link">
                 <span class="arrows"></span>
               </span>
