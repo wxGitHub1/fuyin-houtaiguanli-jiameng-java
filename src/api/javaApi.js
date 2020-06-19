@@ -17,6 +17,7 @@ const baseUrl  = 'http://192.168.1.108:8088';//杨腾飞加盟IP
 export const login = async params => axios.post(baseUrl  + '/login/login', params); //登录
 export const logout = async params => axios.post(baseUrl  + '/login/logout', params); //退出
 export const checkLogine = async params => axios.get(baseUrl  + '/login/checkLogin', params); //验证是否登录
+export const selectMenuModuleWhenChangeRole = async params => axios.get(baseUrl  + '/sys/menu/selectMenuModuleWhenChangeRole', params); //切换角色
 /*
 *
 *系统管理 
@@ -69,12 +70,15 @@ export const deleteRoleUser = async params => axios.post(baseUrl  + '/sys/user/d
 export const roleTree = async params => axios.get(baseUrl  + '/sys/role/roleTree', params);//查询角色列表
 //角色管理
 export const roleList = async params => axios.get(baseUrl  + '/sys/role/roleMenuModelList', params);//角色管理列表
+export const selectRoleDetail = async params => axios.post(baseUrl  + '/sys/role/selectRoleDetail', params);//角色详情
 export const roleDelete = async params => axios.post(baseUrl  + '/sys/role/roleDelete', params);//删除角色
 export const moduleTree = async params => axios.get(baseUrl  + '/sys/menu/moduleTree', params);//获取角色管理菜单
+export const roleModuleUpdate = async params => axios.post(baseUrl  + '/sys/role/roleModuleUpdate', params);//新增角色
 export const selectMenuByModel = async params => axios.post(baseUrl  + '/sys/menu/selectMenuByModel', params);//获取角色权限
 export const roleMenuUpdate = async params => axios.post(baseUrl  + '/sys/role/roleMenuUpdate', params);//保存角色权限
 export const roleMenuTree = async params => axios.get(baseUrl  + '/sys/menu/roleMenuTree', params);//修改选择菜单接口
 export const changeRoleList = async params => axios.post(baseUrl  + '/sys/role/changeRoleList', params);//角色配置列表
+export const updateRoleUserPermission = async params => axios.post(baseUrl  + '/sys/role/updateRoleUserPermission', params);//新增，修改用户角色的权限级别
 //产品配置清单
 export const selectHospitalAndSaleBaseBatch = async params => axios.post(baseUrl  + '/hospital/selectHospitalAndSaleBaseBatch', params);//查询产品配置清单列表
 export const deleteHospitalAndSaleBase = async params => axios.post(baseUrl  + '/hospital/deleteHospitalAndSaleBase', params);//删除医院和产品绑定关系

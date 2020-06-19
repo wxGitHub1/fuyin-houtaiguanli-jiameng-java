@@ -25,7 +25,7 @@
               </span>
               <el-dropdown-menu :split-button="true" slot="dropdown" >
                 <el-dropdown-item
-                  @click.native="gotoBigClient(item.name,index)"
+                  @click.native="gotoBigClient(item,index)"
                   v-for="(item,index) in menu "
                   :key="index"
                 >{{item.name}}</el-dropdown-item>
@@ -48,7 +48,7 @@
 
 <script>
 import session from "../../utils/session";
-import { logout } from "../../api/javaApi";
+import { logout,selectMenuModuleWhenChangeRole } from "../../api/javaApi";
 // import { viewPage_function} from "../../router/path";
 import  menuList_data from "../../router/path";
 export default {
@@ -153,10 +153,26 @@ export default {
         });
     },
     //跳转页面
-    gotoBigClient(adress,index) {
-        // console.log(adress,index)
-        this.witchPage =adress
-        this.$emit("menuTitle",index);
+    gotoBigClient(item,index) {
+        let data = {
+            id: item.id
+          };
+      selectMenuModuleWhenChangeRole(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.witchPage =item.name
+            this.$emit("menuTitle",index);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
       // menuList_data.menuList_data.forEach(element => {
       //   if(element.text === adress){
       //     this.$router.push({ name:element.name });
