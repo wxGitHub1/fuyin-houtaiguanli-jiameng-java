@@ -23,6 +23,8 @@ Vue.use(Print2) // 注册Print2
 //pdf引入
 import htmlToPdf from '../src/utils/htmlToPdf'
 Vue.use(htmlToPdf)
+//引入css
+import '../static/base.css'//引入全局css
 // common
 import Header from './components/common/header';
 import HeaderTwo from './components/common/headerTwo';
