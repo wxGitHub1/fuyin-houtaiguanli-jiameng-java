@@ -256,6 +256,10 @@ export const printMakeParam = async params => axios.get(baseUrl  + '/examination
 //已接待
 export const examineAdmit = async params => axios.post(baseUrl  + '/examination/examineAdmit', params);//测评已接待查询
 export const examinePadZb3d = async params => axios.post(baseUrl  + '/examination/examinePadZb3d', params);//3d足部扫描增加修改足长足宽接口
+export const getExaminationDetailUrls = async params => axios.get(baseUrl  + '/examination/getExaminationDetailUrls', params);//测评文件列表
+// export const download3Dqs = async params => axios.get(baseUrl  + '/examination/download3Dqs', params);//3D全身扫描_下载测评设备的文件  
+// export const download3Dzb = async params => axios.get(baseUrl  + '/examination/download3Dzb', params);//3D足部扫描_下载测评设备的文件              
+// export const downloadZdyl = async params => axios.get(baseUrl  + '/examination/downloadZdyl', params);//足底压力_下载测评设备的文件            
 //测评统计
 export const examineStatistics = async params => axios.get(baseUrl  + '/examination/examineStatistics', params);//测评统计查询
 //测评加盟统计
@@ -331,6 +335,9 @@ const exportExamineJoinStatistics = baseUrl +"/examination/exportExamineJoinStat
 const exportShapeStatisticsExcel = baseUrl +"/shape/exportShapeStatisticsExcel"
 const makeInsoleExport = baseUrl +"/shape/makeInsoleExport"
 const exportHospitalAndSaleBase = baseUrl +"/hospital/exportHospitalAndSaleBase"
+const download3Dqs = baseUrl +'/examination/download3Dqs'
+const download3Dzb = baseUrl +'/examination/download3Dzb'            
+const downloadZdyl = baseUrl +'/examination/downloadZdyl'
 export default{
     baseUrl ,
     ExportUrl,
@@ -359,5 +366,8 @@ export default{
     exportExamineJoinStatistics,
     exportShapeStatisticsExcel,
     makeInsoleExport,
-    exportHospitalAndSaleBase
+    exportHospitalAndSaleBase,
+    downloadZdyl,
+    download3Dzb,
+    download3Dqs
 }

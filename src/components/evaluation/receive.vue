@@ -1124,24 +1124,28 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div class="margin-t-20">
         优惠折扣：
-        <el-select size='mini' @change="discount_fuc(discount)" v-model="discount" placeholder="请选择">
+        <el-select
+          size="mini"
+          @change="discount_fuc(discount)"
+          v-model="discount"
+          placeholder="请选择"
+        >
           <el-option
             v-for="item in discountList"
-            
             :key="item.id"
             :label="item.name"
-            :value="item.id">
-          </el-option>
+            :value="item.id"
+          ></el-option>
         </el-select>
       </div>
       <div class="margin-t-20">
-      折扣后价格：
-      <input
+        折扣后价格：
+        <input
           type="text"
           class="input"
           v-model="zhekouyouhui.favorable"
           oninput="value=value.replace(/[^\d.]/g,'')"
-      />
+        />
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
@@ -1180,7 +1184,12 @@
           <div v-else>
             <span class="span2">{{item.key}}</span>
             <div class="div2">
-              <el-input v-model="item.valueCenter" style="width：100%" size="small" placeholder="请输入"></el-input>
+              <el-input
+                v-model="item.valueCenter"
+                style="width：100%"
+                size="small"
+                placeholder="请输入"
+              ></el-input>
             </div>
 
             <span class="span2">{{item.center}}</span>
@@ -1294,6 +1303,15 @@
         <div>
           <span>测评项目:</span>
           <span class="margin-r-20">{{item.examinationName}}</span>
+          <el-button
+            class="right"
+            style="margin-left:10px"
+            v-if="item.examinationName == '足部3D扫描测评' || item.examinationName == '3D全身扫描' || item.examinationName == '足底压力分析'"
+            type="warning"
+            icon="el-icon-download"
+            @click="baogao_func(item.examinationName)"
+            size="mini"
+          >下载报告文件</el-button>
           <el-button
             class="right"
             v-if="item.examinationName=='足部3D扫描测评'"
@@ -1424,6 +1442,26 @@
         <el-button @click="threeD_func()" type="success" icon="el-icon-circle-check">提交</el-button>
       </div>
     </el-dialog>
+    <!-- dialog 报告列表-->
+    <el-dialog :title="file_title" :visible.sync="file_dialog" :close-on-click-modal="false">
+      <el-table border :data="file_dataList" :before-close="file_func">
+        <el-table-column prop="url" label="文件名"></el-table-column>
+        <el-table-column prop="actual" label="操作">
+          <template slot-scope="scope">
+            <el-button
+              @click="file_save(scope.row.url)"
+              type="success"
+              size="mini"
+              icon="el-icon-circle-check"
+            >下载</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="file_func()" type="primary" icon="el-icon-circle-close">取消</el-button>
+        <!-- <el-button @click="file_save()" type="success" icon="el-icon-circle-check">提交</el-button> -->
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -1447,7 +1485,8 @@ import {
   sales,
   queryExamineDetail,
   printMakeParam,
-  examinePadZb3d
+  examinePadZb3d,
+  getExaminationDetailUrls,
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
 import {
@@ -1495,7 +1534,7 @@ export default {
       addKeHuTitle: "新增客户",
       specialRequirements: null,
       discount: null,
-      discountList:naVComponent_variable.discount,
+      discountList: naVComponent_variable.discount,
       productData: [],
       multipleSelection: [],
       detailFormList: [],
@@ -1657,7 +1696,11 @@ export default {
         list: []
       },
       threeDDialg: false,
-      only_recordId: null
+      only_recordId: null,
+      // 文件列表data
+      file_title: null,
+      file_dialog: false,
+      file_dataList: []
     };
   },
   components: {
@@ -1670,8 +1713,49 @@ export default {
     this.userNameList_fuc();
   },
   methods: {
-    changeSizeVal_fuc(value,index){
-       naVComponent.changeSizeVal_fuc(this,value,index);
+    file_func() {
+      this.file_dialog = false;
+      this.file_dataList = [];
+    },
+    file_save(url) {
+      let myurl
+      if (this.file_title == "足部3D扫描测评文件下载") {
+         myurl=javaApi.download3Dzb+"?recordId="+this.only_recordId+"&url="+url;
+      } else if (this.file_title == "3D全身扫描文件下载") {
+          myurl=javaApi.download3Dqs+"?recordId="+this.only_recordId+"&url="+url;
+      } else if (this.file_title == "足底压力分析文件下载") {
+          myurl=javaApi.downloadZdyl+"?recordId="+this.only_recordId+"&url="+url;
+      }
+      window.open(myurl);
+    },
+    baogao_func(name) {
+      let data = {
+        recordId: this.only_recordId,
+        examinationId:
+          name == "足部3D扫描测评" ? 8 : name == "3D全身扫描" ? 14 : 4 //  4  足底压力分析  8  足部3D扫描测评 14  3D全身扫描
+      };
+      getExaminationDetailUrls(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            console.log(res);
+            this.file_title = name + "文件下载";
+            this.file_dialog = true;
+            this.file_dataList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    changeSizeVal_fuc(value, index) {
+      naVComponent.changeSizeVal_fuc(this, value, index);
     },
     dblclick_table_fuc(row, column, cell, event) {
       naVComponent.dblclick_table_fuc(this, row);
