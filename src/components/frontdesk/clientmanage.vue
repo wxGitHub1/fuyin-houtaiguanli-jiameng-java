@@ -1,14 +1,53 @@
 <template>
   <!-- 客户管理 -->
   <div>
+    <!-- 右侧抽屉 -->
+    <div class="left-muen" @click="lef_drawer = true"> 
+      <span class="animation-left">&rsaquo;&rsaquo;</span>
+       </div>
+    <el-drawer
+      title="预约日历"
+      :visible.sync="lef_drawer"
+      direction="ltr"
+      size="50%"
+      >
+    </el-drawer>
+    <!-- 头部筛选box -->
+    <div class="box">
+      <div class="item item1" :class="{active:topActive==0}"  @click="topActive=0">
+        <div>默认列表</div>
+      </div>
+      <div class="item item2" :class="{active:topActive==1}" @click="topActive=1">
+        <div>今日复查剩余</div>
+        <div>56</div>
+      </div>
+      <div class="item item3" :class="{active:topActive==2}" @click="topActive=2">
+        <div>今日取型剩余</div>
+        <div>20</div>
+      </div>
+      <div class="item item4" :class="{active:topActive==3}" @click="topActive=3">
+        <div>今日试穿剩余</div>
+        <div>10</div>
+      </div>
+      <div class="item item5" :class="{active:topActive==4}" @click="topActive=4">
+        <div>今日维修剩余</div>
+        <div>20</div>
+      </div>
+    </div>
     <!-- seach -->
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="客户姓名">
-        <el-input v-model="seach.name" class="w-150" placeholder="请输入姓名" autocomplete="off" @input="listenKey()"></el-input>
+        <el-input
+          v-model="seach.name"
+          class="w-150"
+          placeholder="请输入姓名"
+          autocomplete="off"
+          @input="listenKey()"
+        ></el-input>
       </el-form-item>
       <el-form-item label="联系方式">
         <el-input
-        class="w-150"
+          class="w-150"
           v-model="seach.phone"
           placeholder="请输入联系电话"
           autocomplete="off"
@@ -17,7 +56,7 @@
       </el-form-item>
       <el-form-item label="出生日期">
         <el-date-picker
-        class="w-150"
+          class="w-150"
           type="date"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
@@ -939,7 +978,12 @@
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelDd()" type="primary" icon="el-icon-circle-close">取消</el-button>
-        <el-button type="success" icon="el-icon-circle-check" :loading="isSearch" @click="addDd(addData)">确认</el-button>
+        <el-button
+          type="success"
+          icon="el-icon-circle-check"
+          :loading="isSearch"
+          @click="addDd(addData)"
+        >确认</el-button>
       </div>
     </el-dialog>
     <!-- dialog 黑名单明细-->
@@ -1324,24 +1368,28 @@
       <div>标准价格：{{zhekouyouhui.price}}</div>
       <div class="margin-t-20">
         优惠折扣：
-        <el-select size='mini' @change="discount_fuc(discount)" v-model="discount" placeholder="请选择">
+        <el-select
+          size="mini"
+          @change="discount_fuc(discount)"
+          v-model="discount"
+          placeholder="请选择"
+        >
           <el-option
             v-for="item in discountList"
-            
             :key="item.id"
             :label="item.name"
-            :value="item.id">
-          </el-option>
+            :value="item.id"
+          ></el-option>
         </el-select>
       </div>
       <div class="margin-t-20">
-       折扣后价格：
-      <input
+        折扣后价格：
+        <input
           type="text"
           class="input"
           v-model="zhekouyouhui.favorable"
           oninput="value=value.replace(/[^\d.]/g,'')"
-      />
+        />
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
@@ -1379,7 +1427,12 @@
           <div v-else>
             <span class="span2">{{item.key}}</span>
             <div class="div2">
-              <el-input v-model="item.valueCenter" style="width：100%" size="small" placeholder="请输入"></el-input>
+              <el-input
+                v-model="item.valueCenter"
+                style="width：100%"
+                size="small"
+                placeholder="请输入"
+              ></el-input>
             </div>
 
             <span class="span2">{{item.center}}</span>
@@ -1937,13 +1990,18 @@ export default {
       }
     };
     return {
+      /*** */
+      lef_drawer:false,
+      /****top box */
+      topActive: 0,
+      /** */
       addClientTitle: "新增客户",
       dialogEvaluationDetails: false, //测评信息详情弹框
       examinationInfo: {}, //测评详情
       detailList: [], //测评详情
       specialRequirements: null,
       discount: null,
-      discountList:naVComponent_variable.discount,
+      discountList: naVComponent_variable.discount,
       productData: [],
       multipleSelection: [],
       detailFormList: [],
@@ -2160,8 +2218,8 @@ export default {
     this.init();
   },
   methods: {
-    changeSizeVal_fuc(value,index){
-       naVComponent.changeSizeVal_fuc(this,value,index);
+    changeSizeVal_fuc(value, index) {
+      naVComponent.changeSizeVal_fuc(this, value, index);
     },
     dblclick_table_fuc(row, column, cell, event) {
       naVComponent.dblclick_table_fuc(this, row);
@@ -2235,7 +2293,7 @@ export default {
       this.dialogTransferSite = true;
     },
     addBlackList(operation) {
-      this.isSearch=true
+      this.isSearch = true;
       if (!!this.BlackReason) {
         let data = {
           operation: operation,
@@ -2244,7 +2302,7 @@ export default {
         };
         blackOperation(data)
           .then(res => {
-            this.isSearch=false
+            this.isSearch = false;
             if (res.data.returnCode != 0) {
               this.$message({
                 type: "warning",
@@ -2268,7 +2326,7 @@ export default {
             console.log(err);
           });
       } else {
-        this.isSearch=false
+        this.isSearch = false;
         this.$message({
           type: "warning",
           message: "请填写原因！",
@@ -2819,7 +2877,7 @@ export default {
       naVComponent.sizeEntry(this, obj);
     },
     submitModfiy(formName) {
-      this.isSearch=true
+      this.isSearch = true;
       // this.$refs[formName].validate(valid => {
       let data = {
         channel: 0,
@@ -2841,7 +2899,7 @@ export default {
       // console.log(data)
       updateMemberInfo(data)
         .then(res => {
-          this.isSearch=false
+          this.isSearch = false;
           if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
@@ -2878,7 +2936,7 @@ export default {
       this.bianhao = null;
     },
     addDd(obj) {
-      this.isSearch=true
+      this.isSearch = true;
       if (
         obj[0].doctorValue != null &&
         obj[0].prescriptionValue != null &&
@@ -2904,7 +2962,7 @@ export default {
           updatePrescription(data)
             .then(res => {
               //debugger;
-              this.isSearch=false
+              this.isSearch = false;
               if (res.data.returnCode != 0) {
                 this.$message({
                   type: "warning",
@@ -2929,7 +2987,7 @@ export default {
         } else {
           addPrescription(data)
             .then(res => {
-              this.isSearch=false
+              this.isSearch = false;
               //debugger;
               if (res.data.returnCode != 0) {
                 this.$message({
@@ -2954,7 +3012,7 @@ export default {
             });
         }
       } else {
-        this.isSearch=false
+        this.isSearch = false;
         this.$message({
           type: "warning",
           message: "请填写表格！",
@@ -3004,7 +3062,7 @@ export default {
       naVComponent.default_PCSH(this);
     },
     submitForm(formName) {
-      this.isSearch=true
+      this.isSearch = true;
       // this.$refs[formName].validate(valid => {
       //   // console.log(this.addData[0].prescriptionValue);
       //     valid &&
@@ -3041,7 +3099,7 @@ export default {
         // console.log(data)
         addMember(data)
           .then(res => {
-            this.isSearch=false
+            this.isSearch = false;
             if (res.data.returnCode != 0) {
               this.$message({
                 type: "warning",
@@ -3062,7 +3120,7 @@ export default {
             console.log(err);
           });
       } else {
-        this.isSearch=false
+        this.isSearch = false;
         this.$message({
           type: "warning",
           message: "请填写表格！",
@@ -3359,6 +3417,57 @@ export default {
 </script>
 
 <style scoped lang="scss">
+/***top box*/
+.box {
+  display: flex;
+  justify-content: center;
+  .item {
+    width: 20%;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    margin: 10px;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    div {
+      line-height: 30px;
+    }
+  }
+  .active {
+    color: #ffffff;
+    background: #56a9ff;
+  }
+  .item1 {
+    div {
+      line-height: 60px;
+    }
+  }
+}
+/********** */
+.left-muen{
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 25px;
+  top: 50%;
+  background: #56a9ff;
+  color: #ffffff;
+  left:-10px;
+  cursor: pointer;
+  animation:mymove 1s infinite alternate;
+  z-index:2;
+}
+@keyframes mymove
+	{
+	from {left: -5px;}
+	to {left: 5px;}
+}
+/** */
 .operation {
   padding-bottom: 10px;
   border-bottom: 1px solid #e4e7ed;

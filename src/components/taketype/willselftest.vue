@@ -233,7 +233,7 @@
 
 <script>
 import {
-  shapeAdmit,
+  shapeWaitAcceptance,
   userListByDept,
   shapeDetail,
   acceptanceInsert,
@@ -529,7 +529,7 @@ export default {
         siteId: this.seach.siteValue
       };
       this.loading = true;
-      shapeAdmit(data)
+      shapeWaitAcceptance(data)
         .then(res => {
           if (res.data.returnCode != 0) {
             this.$message({

@@ -266,7 +266,7 @@
 
 <script>
 import {
-  shapeAdmit,
+  shapeAcceptance,
   userListByDept,
   shapeDetail,
   printProduct,
@@ -517,7 +517,7 @@ export default {
         siteId: this.seach.siteValue
       };
       this.loading = true;
-      shapeAdmit(data)
+      shapeAcceptance(data)
         .then(res => {
           if (res.data.returnCode != 0) {
             this.$message({
