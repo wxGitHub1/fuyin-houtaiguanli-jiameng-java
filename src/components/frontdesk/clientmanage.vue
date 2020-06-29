@@ -2,19 +2,13 @@
   <!-- 客户管理 -->
   <div>
     <!-- 右侧抽屉 -->
-    <div class="left-muen" @click="lef_drawer = true"> 
+    <div class="left-muen" @click="lef_drawer = true">
       <span class="animation-left">&rsaquo;&rsaquo;</span>
-       </div>
-    <el-drawer
-      title="预约日历"
-      :visible.sync="lef_drawer"
-      direction="ltr"
-      size="50%"
-      >
-    </el-drawer>
+    </div>
+    <el-drawer title="预约日历" :visible.sync="lef_drawer" direction="ltr" size="50%"></el-drawer>
     <!-- 头部筛选box -->
     <div class="box">
-      <div class="item item1" :class="{active:topActive==0}"  @click="topActive=0">
+      <div class="item item1" :class="{active:topActive==0}" @click="topActive=0">
         <div>默认列表</div>
       </div>
       <div class="item item2" :class="{active:topActive==1}" @click="topActive=1">
@@ -1991,7 +1985,7 @@ export default {
     };
     return {
       /*** */
-      lef_drawer:false,
+      lef_drawer: false,
       /****top box */
       topActive: 0,
       /** */
@@ -3445,27 +3439,30 @@ export default {
     }
   }
 }
-/********** */
-.left-muen{
+/*****左侧悬浮菜单栏***** */
+.left-muen {
   position: fixed;
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
   border-radius: 50%;
   font-size: 25px;
   top: 50%;
   background: #56a9ff;
   color: #ffffff;
-  left:-10px;
+  left: -10px;
   cursor: pointer;
-  animation:mymove 1s infinite alternate;
-  z-index:2;
+  animation: mymove 1s infinite alternate;
+  z-index: 2;
 }
-@keyframes mymove
-	{
-	from {left: -5px;}
-	to {left: 5px;}
+@keyframes mymove {
+  0% {
+    left: -10px;
+  }
+  100% {
+    left: 0px;
+  }
 }
 /** */
 .operation {
