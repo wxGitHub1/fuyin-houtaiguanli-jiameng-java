@@ -2,9 +2,11 @@
   <!-- 客户管理 -->
   <div>
     <!-- 右侧抽屉 -->
+    <!-- 悬浮按钮 -->
     <div class="left-muen" @click="lef_drawer = true">
       <span class="animation-left">&rsaquo;&rsaquo;</span>
     </div>
+    <!-- 抽屉弹框 -->
     <el-drawer title="预约日历" :visible.sync="lef_drawer" direction="ltr" size="50%"></el-drawer>
     <!-- 头部筛选box -->
     <div class="box">
@@ -175,7 +177,7 @@
       ></el-table-column>
       <!-- <el-table-column align="center" prop="siteName" label="测评中心" :show-overflow-tooltip="true" min-width="40"></el-table-column>
       <el-table-column align="center" prop="visitFlagCN" label="到访状态" min-width="50"></el-table-column>-->
-      <el-table-column v-if="tryOnly_show" align="center" label="操作" width="550">
+      <el-table-column v-if="tryOnly_show" align="center" label="操作" width="250">
         <template slot-scope="scope">
           <el-button
             type="primary"
@@ -184,16 +186,17 @@
             @click="transferSite_func(scope.row.memberId)"
             size="small"
           >转</el-button>
-          <el-button @click="cpjd(scope.row)" type="success" size="small">测评</el-button>
+          <!-- <el-button @click="cpjd(scope.row)" type="success" size="small">测评</el-button>
           <el-button @click="qxjd(scope.row,310)" type="warning" size="small">取型</el-button>
           <el-button @click="qxjd(scope.row,363)" type="success" size="small">试穿</el-button>
-          <el-button @click="qxjd(scope.row,366)" type="primary" size="small">维修</el-button>
-          <el-button
+          <el-button @click="qxjd(scope.row,366)" type="primary" size="small">维修</el-button> -->
+          <!-- <el-button
             @click="czpj(scope.row)"
             v-if="scope.row.firstCognitionFlag == 0"
             type="danger"
             size="small"
-          >初诊</el-button>
+          >初诊</el-button> -->
+          <el-button @click="assigned_reception_func(scope.row)" type="primary" size="small">分配接待</el-button>
           <el-button @click="handleInfo(scope.row.memberId)" type="info" size="small">详情</el-button>
         </template>
       </el-table-column>
@@ -478,7 +481,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="resetForm()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button
           v-if="modefiy"
@@ -518,7 +521,20 @@
       :before-close="xiangxifanhui"
     >
       <h3 class="b-b-p-1">客户信息</h3>
-      <div>
+      <el-table :border="true" :data="Details" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期" ></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式" ></el-table-column>
+        <el-table-column align="center" prop="source" label="客户来源" ></el-table-column>
+        <el-table-column align="center" prop="cognition" label="客户初始认知" ></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别" ></el-table-column>
+        <el-table-column align="center" prop="isBlack" label="黑名单" ></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址" ></el-table-column>
+        <el-table-column align="center" prop="school" label="就读学校" ></el-table-column>
+        <el-table-column align="center" prop="memberModeCN" label="客户当前类型" ></el-table-column>
+        <el-table-column align="center" prop="memberTypeCN" label="就诊类型" ></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.memberName}}</span>
         <span>出生日期:</span>
@@ -543,9 +559,9 @@
         <span class="margin-r-20">{{Details.memberModeCN}}</span>
         <span>就诊类型:</span>
         <span>{{Details.memberTypeCN}}</span>
-      </div>
+      </div> -->
       <h3 class="b-b-p-1">会员信息</h3>
-      <el-table :data="memberCard" border>
+      <el-table :data="memberCard" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="isVIP" label="当前是否会员" min-width="100"></el-table-column>
         <el-table-column prop="partsNum" label="部位剩余次数"></el-table-column>
         <el-table-column prop="wholeNum" label="全身剩余次数"></el-table-column>
@@ -553,23 +569,23 @@
         <el-table-column prop="expireDate" label="会员到期时间"></el-table-column>
       </el-table>
       <h3 class="b-b-p-1">历史信息</h3>
-      <el-table :data="overdueList" border>
+      <el-table :data="overdueList" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="isOverdue" label="会员是否过期"></el-table-column>
         <el-table-column prop="overdueDate" label="过期时间"></el-table-column>
         <el-table-column prop="allOverdueTimes" label="过期全身次数"></el-table-column>
         <el-table-column prop="overdueTimes" label="过期部位次数"></el-table-column>
       </el-table>
       <h3 class="b-b-p-1">初诊评价</h3>
-      <div>{{Details.firstCognition}}</div>
+      <div>{{Details[0].firstCognition}}</div>
       <h3 class="b-b-p-1">治疗周期</h3>
       <div>
         <span>治疗周期:</span>
-        <span class="margin-r-20">{{Details.treatmentCycle}}</span>
+        <span class="margin-r-20">{{Details[0].treatmentCycle}}</span>
         <span>创建时间:</span>
-        <span>{{Details.treatmentCycleTime}}</span>
+        <span>{{Details[0].treatmentCycleTime}}</span>
       </div>
       <h3 class="b-b-p-1">病单信息</h3>
-      <el-table :data="prescriptions" border>
+      <el-table :data="prescriptions" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="prescriptionNum" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="pCityName" label="城市"></el-table-column>
@@ -595,7 +611,7 @@
         </el-table-column>
       </el-table>
       <h3 class="b-b-p-1">测评记录</h3>
-      <el-table :data="evaluates" border max-height="500">
+      <el-table :data="evaluates" border max-height="500" :header-row-class-name="'headerClass-two'">
         <el-table-column prop="evaluateUserName" label="测评人" min-width="100"></el-table-column>
         <el-table-column prop="createTime" label="测评时间"></el-table-column>
         <el-table-column prop="recoveryCN" label="恢复情况"></el-table-column>
@@ -636,7 +652,7 @@
         <el-table-column prop="gmd" label="骨密度"></el-table-column>
       </el-table>
       <h3 class="b-b-p-1">订单信息</h3>
-      <el-table :data="orders" border max-height="500">
+      <el-table :data="orders" border max-height="500" :header-row-class-name="'headerClass-two'">
         <el-table-column prop="orderNum" label="订单编号" min-width="100"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
@@ -656,20 +672,23 @@
         <el-table-column prop="quickly" label="是否加急"></el-table-column>
         <el-table-column prop="deliveryTime" label="交货日期"></el-table-column>
       </el-table>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="xiangxifanhui()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button
-          v-if="Details.phone != '***********' "
+          v-if="Details[0].phone != '***********' "
           type="primary"
           icon="el-icon-edit"
           plain
-          @click="handleModify(currentNamberId,Details.isBlack)"
-        >修改</el-button>
+          @click="handleModify(currentNamberId,Details[0].isBlack)"
+        >修改客户信息</el-button>
+        <el-button
+            type="danger"
+          >初诊评价</el-button>
         <el-button type="info" icon="el-icon-s-order" @click="heimingdanxiangxi()">黑名单详细</el-button>
       </div>
     </el-dialog>
     <!-- dialog 订单详情-->
-    <el-dialog
+    <!-- <el-dialog
       title="订单详情"
       :visible.sync="DdialogDepartmentDetails"
       center
@@ -713,7 +732,7 @@
         <el-table-column prop="pCreateTime" label="创建时间" min-width="100"></el-table-column>
       </el-table>
       <h3 class="b-b-p-1">
-        订单信息
+        订单信息 -->
         <!-- <el-button
           type="primary"
           icon="el-icon-plus"
@@ -722,7 +741,7 @@
           class="right"
           v-if="orderInformation.oweMoney > 0"
         >补交欠款</el-button>-->
-      </h3>
+      <!-- </h3>
       <div>
         <span>订单编号:</span>
         <span class="margin-r-20">{{orderInformation.orderNum}}</span>
@@ -770,7 +789,7 @@
         <el-table-column prop="name" label="产品名" min-width="230"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称" min-width="100"></el-table-column>
         <el-table-column prop="type" label="产品分类"></el-table-column>
-        <el-table-column prop="unit" label="产品规格"></el-table-column>
+        <el-table-column prop="unit" label="产品规格"></el-table-column> -->
         <!-- <el-table-column prop="number" label="产品数量"></el-table-column> -->
         <!-- <el-table-column label="产品尺寸" align="center" min-width="90">
           <template slot-scope="scope">
@@ -784,11 +803,11 @@
             <span v-else>--</span>
           </template>
         </el-table-column>-->
-        <el-table-column prop="price" label="标准价格"></el-table-column>
+        <!-- <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格"></el-table-column>
         <el-table-column prop="favorable" label="折扣金额"></el-table-column>
         <el-table-column prop="recordActual" label="退款金额"></el-table-column>
-        <el-table-column prop="deliveryTime" label="交货时间" min-width="200"></el-table-column>
+        <el-table-column prop="deliveryTime" label="交货时间" min-width="200"></el-table-column> -->
         <!-- <el-table-column  label="操作" min-width="130">
           <template>
             <el-button
@@ -798,7 +817,7 @@
             >打印订货单</el-button>
           </template>
         </el-table-column>-->
-      </el-table>
+      <!-- </el-table> -->
       <!-- <h3 class="b-b-p-1">客户确认签字</h3>
       <div class="signatureImg">
         <img :src="imgUrl" alt="图片"/>
@@ -808,7 +827,7 @@
           </div>
         </el-image>
       </div>-->
-      <!-- <div slot="footer" class="dialog-footer">
+      <!-- <div slot="footer" >
         <el-button @click="returnOn()" type="primary" icon="el-icon-back">返回</el-button>
         <el-button
           type="success"
@@ -819,7 +838,7 @@
         <el-button type="primary" icon="el-icon-circle-close" @click="cancelOrder">取消订单</el-button>
         <el-button type="warning" @click="changeOrder()">修改订单</el-button>
       </div>-->
-    </el-dialog>
+    <!-- </el-dialog> -->
     <!-- 新增病单 -->
     <el-dialog
       title="新增病单"
@@ -970,7 +989,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="cancelDd()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button
           type="success"
@@ -989,7 +1008,20 @@
       width="70%"
     >
       <h3 class="b-b-p-1">客户信息</h3>
-      <div>
+      <el-table :border="true" :data="Details" >
+        <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期" ></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式" ></el-table-column>
+        <el-table-column align="center" prop="source" label="客户来源" ></el-table-column>
+        <el-table-column align="center" prop="cognition" label="客户初始认知" ></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别" ></el-table-column>
+        <el-table-column align="center" prop="isBlack" label="黑名单" ></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址" ></el-table-column>
+        <el-table-column align="center" prop="school" label="就读学校" ></el-table-column>
+        <el-table-column align="center" prop="memberModeCN" label="客户当前类型" ></el-table-column>
+        <el-table-column align="center" prop="memberTypeCN" label="就诊类型" ></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.memberName}}</span>
         <span>出生日期:</span>
@@ -1012,7 +1044,7 @@
         <span class="margin-r-20">{{Details.memberModeCN}}</span>
         <span>就诊类型:</span>
         <span>{{Details.memberTypeCN}}</span>
-      </div>
+      </div> -->
       <h3 class="b-b-p-1">黑名单详细</h3>
       <el-table :data="blacklistDetails" border>
         <el-table-column prop="operation" label="操作类型" min-width="100"></el-table-column>
@@ -1031,14 +1063,19 @@
       :before-close="readyOrderCancel"
     >
       <h3 class="b-b-p-1">客户信息</h3>
-      <div>
+      <el-table :border="true" :data="Details">
+        <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期" ></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别" ></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.memberName}}</span>
         <span>出生日期:</span>
         <span class="margin-r-20">{{Details.birthday}}</span>
         <span>性别:</span>
         <span class="margin-r-20">{{Details.sex}}</span>
-      </div>
+      </div> -->
       <h3 class="b-b-p-1">病单信息</h3>
       <el-table :data="currentPrescriptions" border>
         <el-table-column prop="prescriptionNum" label="病单编号" min-width="100"></el-table-column>
@@ -1203,7 +1240,7 @@
         <span class="left margin-r-20">应收金额合计：{{paymentMethod.totalAmountReceivable}}</span>
         <span class="left margin-r-20">下欠金额：{{paymentMethod.arrears}}</span>
       </div>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="readyOrderCancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button @click="orderingStart()" type="success" icon="el-icon-circle-check">确认</el-button>
       </div>
@@ -1331,7 +1368,7 @@
         :total="pagesProduct.total"
         class="pagination"
       ></el-pagination>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="cancelSelection()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button @click="confirmProduct()" type="success" icon="el-icon-circle-check">选择</el-button>
       </div>
@@ -1344,7 +1381,7 @@
       :close-on-click-modal="false"
     >
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="specialRequirements"></el-input>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button
           @click="specialRequirementsCancel()"
           type="primary"
@@ -1387,7 +1424,7 @@
       </div>
       <h3 class="margin-b-20">折扣原因</h3>
       <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="favorableRemark"></el-input>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button
           @click="specialRequirementsCancel()"
           type="primary"
@@ -1463,7 +1500,7 @@
           </div>
         </div>
       </div>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="sizeCancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button type="success" icon="el-icon-circle-check" @click="entrySize()">确认</el-button>
       </div>
@@ -1557,15 +1594,15 @@
       </span>
     </el-dialog>
     <!-- dialog 取型 -->
-    <el-dialog
+    <!-- <el-dialog
       title="取型分配"
       :visible.sync="takeShapeDialog"
       :close-on-click-modal="false"
       width="70%"
       center
-    >
+    > -->
       <!-- table -->
-      <el-table border :data="takeShapeData">
+      <!-- <el-table border :data="takeShapeData">
         <el-table-column align="center" prop="orderNum" label="订单编号"></el-table-column>
         <el-table-column align="center" prop="rStatus" label="订单状态"></el-table-column>
         <el-table-column align="center" prop="nickname" label="产品昵称"></el-table-column>
@@ -1583,17 +1620,17 @@
           </template>
         </el-table-column>
       </el-table>
-    </el-dialog>
+    </el-dialog> -->
     <!-- dialog 试穿 -->
-    <el-dialog
+    <!-- <el-dialog
       title="试穿分配"
       :visible.sync="tryOnDialog"
       :close-on-click-modal="false"
       width="70%"
       center
-    >
+    > -->
       <!-- table -->
-      <el-table border :data="tryOnData">
+      <!-- <el-table border :data="tryOnData">
         <el-table-column align="center" prop="orderNum" label="订单编号"></el-table-column>
         <el-table-column align="center" prop="rStatus" label="订单状态"></el-table-column>
         <el-table-column align="center" prop="nickname" label="产品昵称"></el-table-column>
@@ -1611,17 +1648,17 @@
           </template>
         </el-table-column>
       </el-table>
-    </el-dialog>
+    </el-dialog> -->
     <!-- dialog 维修 -->
-    <el-dialog
+    <!-- <el-dialog
       title="维修分配"
       :visible.sync="serviceDialog"
       :close-on-click-modal="false"
       width="70%"
       center
-    >
+    > -->
       <!-- table -->
-      <el-table border :data="serviceData">
+      <!-- <el-table border :data="serviceData">
         <el-table-column align="center" prop="orderNum" label="订单编号"></el-table-column>
         <el-table-column align="center" prop="rStatus" label="订单状态"></el-table-column>
         <el-table-column align="center" prop="nickname" label="产品昵称"></el-table-column>
@@ -1639,7 +1676,7 @@
           </template>
         </el-table-column>
       </el-table>
-    </el-dialog>
+    </el-dialog> -->
     <!-- drawer 评价抽屉-->
     <el-drawer
       id="pingjia"
@@ -1682,7 +1719,13 @@
       width="80%"
     >
       <h3 class="b-b-p-1">客户信息</h3>
-      <div>
+      <el-table :border="true" :data="Details">
+        <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期" ></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式" ></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址" ></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.memberName}}</span>
         <span>出生日期:</span>
@@ -1691,7 +1734,7 @@
         <span class="margin-r-20">{{Details.phone}}</span>
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
-      </div>
+      </div> -->
       <el-row>
         <el-col :span="4">
           <h3 class="b-b-p-1">结果备注</h3>
@@ -1802,7 +1845,7 @@
         placeholder="请输入原因"
         autocomplete="off"
       ></el-input>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="cancelBlack()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button
           v-if="isBlackBut == 1"
@@ -1878,7 +1921,7 @@
           ></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="cancelTransfer_func()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button @click="confirmTransferSite_func()" type="success" icon="el-icon-circle-check">保存</el-button>
       </div>
@@ -1892,7 +1935,7 @@
       width="70%"
     >
       <my-print :testReport="testReport" :isTwo="isTwo" ref="print"></my-print>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="close_testReport()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button type="success" icon="el-icon-receiving" @click="printpage()">打印报告</el-button>
         <el-button type="success" icon="el-icon-picture-outline" v-on:click="getPdf()">导出PDF</el-button>
@@ -1905,8 +1948,62 @@
           <el-input v-model="item.value" size="small" placeholder="请输入"></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="threeD_func()" type="success" icon="el-icon-circle-check">提交</el-button>
+      </div>
+    </el-dialog>
+    <!-- 分配接待弹框-->
+    <el-dialog
+      title="分配接待"
+      :visible.sync="assigned_reception_dialog"
+      :before-close="assigned_reception_cancel"
+      :close-on-click-modal="false"
+      width="900px"
+    >
+      <div class="clearfix">
+        <div class="left left-1">
+          <ul>
+            <li
+              v-for="(item,index) in tabList"
+              :key="index"
+              @click="toggle(index,item.name)"
+              :class="{active:tabActive == index}"
+            >{{item.name}}</li>
+          </ul>
+        </div>
+        <div class="left left-2">
+          <el-table
+            v-if="tabActive != 0"
+            :data="clientData"
+            @selection-change="handleSelectionChange"
+            @row-click="dblclick_table_fuc"
+            max-height="200"
+            border
+            class="margin-b-10"
+          >
+            <el-table-column type="selection"></el-table-column>
+            <el-table-column prop="memberName" label="订单编号"></el-table-column>
+            <el-table-column prop="memberName" label="订单状态"></el-table-column>
+            <el-table-column prop="memberName" label="产品昵称"></el-table-column>
+          </el-table>
+          <div style="width:496px;margin:0 auto;">
+            <el-transfer
+              v-model="myValue"
+              filterable
+              filter-placeholder="请输入人员"
+              :titles="['待选人员-接待数', '被选人员-接待数']"
+              :data="nameList9"
+            ></el-transfer>
+          </div>
+        </div>
+      </div>
+      <div slot="footer">
+        <el-button
+          @click="assigned_reception_cancel()"
+          type="primary"
+          icon="el-icon-circle-close"
+        >取消</el-button>
+        <el-button @click="assigned_reception_save()" type="success" icon="el-icon-circle-check">提交</el-button>
       </div>
     </el-dialog>
   </div>
@@ -1984,7 +2081,16 @@ export default {
       }
     };
     return {
-      /*** */
+      /*新增data*/
+      tabList: [
+        { name: "测评接待" },
+        { name: "取型接待" },
+        { name: "试穿接待" },
+        { name: "维修接待" }
+      ],
+      tabActive: 0,
+      assigned_reception_dialog: false,
+      /*** left抽屉*/
       lef_drawer: false,
       /****top box */
       topActive: 0,
@@ -2083,7 +2189,7 @@ export default {
       },
       BlackReason: null,
       currentNamberId: null,
-      Details: {
+      Details: [{
         address: null,
         birthday: null,
         cognition: null,
@@ -2095,7 +2201,7 @@ export default {
         source: null,
         treatmentCycle: null,
         treatmentCycleTime: null
-      },
+      }],
       memberCard: [],
       prescriptions: null,
       evaluates: null,
@@ -2152,7 +2258,7 @@ export default {
         ]
       },
       //查看订单详情
-      DdialogDepartmentDetails: false,
+      // DdialogDepartmentDetails: false,
       PatientInformation: [],
       orderInformation: {},
       refundRecordDto: null,
@@ -2212,6 +2318,18 @@ export default {
     this.init();
   },
   methods: {
+    toggle(index, name) {
+      this.tabActive=index
+      console.log(index)
+    },
+    assigned_reception_func() {
+      this.assigned_reception_dialog = true;
+    },
+    assigned_reception_cancel() {
+      this.tabActive=0
+      this.assigned_reception_dialog = false;
+    },
+    assigned_reception_save() {},
     changeSizeVal_fuc(value, index) {
       naVComponent.changeSizeVal_fuc(this, value, index);
     },
@@ -2719,42 +2837,42 @@ export default {
           console.log(err);
         });
     },
-    details(orderNum) {
-      //this.paymentMethod.orderNum = orderNum;
-      let data = {
-        orderNum: orderNum
-      };
-      orderDetail(data)
-        .then(res => {
-          // console.log(res);
-          // //debugger;
-          this.Details.memberName = res.data.data.orderDetailDto.customerName;
-          this.Details = res.data.data.orderDetailDto;
-          //this.Details.address = res.data.data.orderDetailDto.address;
-          // this.Details.birthday = res.data.data.orderDetailDto.birthday;
-          // this.Details.isBlack = res.data.data.orderDetailDto.black;
-          // this.Details.phone = res.data.data.orderDetailDto.phone;
-          // this.Details.sex = res.data.data.orderDetailDto.sex;
-          // this.Details.school = res.data.data.orderDetailDto.school;
-          // this.Details.source = res.data.data.orderDetailDto.source;
-          this.prescriptions = res.data.data.saleDetailDtos;
-          this.refundData = res.data.data.saleDetailDtos;
-          this.PatientInformation[0] = res.data.data.orderDetailDto;
-          this.orderInformation = res.data.data.orderDetailDto;
-          this.favorableDto = res.data.data.favorableDtos;
-          this.refundRecordDto = res.data.data.refundDetails;
-          this.paymentMethod.orderId = res.data.data.orderDetailDto.orderId;
-          this.imgUrl = javaApi.ExportUrl + res.data.data.orderDetailDto.url;
-          // console.log(this.imgUrl);
-          this.refundData.forEach(obj => {
-            obj.amount = 0;
-          });
-          this.DdialogDepartmentDetails = true;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+    // details(orderNum) {
+    //   //this.paymentMethod.orderNum = orderNum;
+    //   let data = {
+    //     orderNum: orderNum
+    //   };
+    //   orderDetail(data)
+    //     .then(res => {
+    //       // console.log(res);
+    //       // //debugger;
+    //       this.Details.memberName = res.data.data.orderDetailDto.customerName;
+    //       this.Details = res.data.data.orderDetailDto;
+    //       //this.Details.address = res.data.data.orderDetailDto.address;
+    //       // this.Details.birthday = res.data.data.orderDetailDto.birthday;
+    //       // this.Details.isBlack = res.data.data.orderDetailDto.black;
+    //       // this.Details.phone = res.data.data.orderDetailDto.phone;
+    //       // this.Details.sex = res.data.data.orderDetailDto.sex;
+    //       // this.Details.school = res.data.data.orderDetailDto.school;
+    //       // this.Details.source = res.data.data.orderDetailDto.source;
+    //       this.prescriptions = res.data.data.saleDetailDtos;
+    //       this.refundData = res.data.data.saleDetailDtos;
+    //       this.PatientInformation[0] = res.data.data.orderDetailDto;
+    //       this.orderInformation = res.data.data.orderDetailDto;
+    //       this.favorableDto = res.data.data.favorableDtos;
+    //       this.refundRecordDto = res.data.data.refundDetails;
+    //       this.paymentMethod.orderId = res.data.data.orderDetailDto.orderId;
+    //       this.imgUrl = javaApi.ExportUrl + res.data.data.orderDetailDto.url;
+    //       // console.log(this.imgUrl);
+    //       this.refundData.forEach(obj => {
+    //         obj.amount = 0;
+    //       });
+    //       this.DdialogDepartmentDetails = true;
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
     cpjd(obj) {
       this.userDialog = true;
       this.xzfp.memberId = obj.memberId;
@@ -3203,7 +3321,7 @@ export default {
             // console.log("详情");
             // console.log(res);
             this.dialogDepartmentDetails = true;
-            this.Details = res.data.data.memberInfo;
+            this.Details[0] = res.data.data.memberInfo;
             this.overdueList = res.data.data.overdueList;
             this.$set(this.memberCard, 0, res.data.data.memberCard);
             // this.memberCard[0] = res.data.data.memberCard;
@@ -3411,6 +3529,42 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.left-1 {
+  width: 20%;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      text-align: center;
+      height: 130px;
+      line-height: 130px;
+      color: #606266;
+      background: #f7f7f7;
+      cursor: pointer;
+    }
+    .active {
+      background: #56a9ff;
+      position: relative;
+      color: #ffffff;
+    }
+    .active::after {
+      content: "";
+      position: absolute;
+      border-top: solid 5px transparent;
+      border-left: solid 10px #56a9ff;
+      border-right: solid 5px transparent;
+      border-bottom: solid 5px transparent;
+      right: -15px;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
+}
+.left-2 {
+  width: 78%;
+  margin-left: 2%;
+}
 /***top box*/
 .box {
   display: flex;
@@ -3433,6 +3587,7 @@ export default {
     color: #ffffff;
     background: #56a9ff;
   }
+
   .item1 {
     div {
       line-height: 60px;

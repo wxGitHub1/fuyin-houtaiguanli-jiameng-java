@@ -2,9 +2,6 @@
 <template>
   <!-- 客户管理 -->
   <div>
-    <div>
-      
-    </div>
     <!-- seach -->
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="客户姓名">

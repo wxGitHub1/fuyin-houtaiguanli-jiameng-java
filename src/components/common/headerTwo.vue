@@ -152,7 +152,7 @@ export default {
           });
         });
     },
-    //跳转页面
+    //切换角色页面
     gotoBigClient(item,index) {
         let data = {
             id: item.id
@@ -168,6 +168,7 @@ export default {
           } else {
             this.witchPage =item.name
             this.$emit("menuTitle",index);
+            this.cur=0
           }
         })
         .catch(err => {
