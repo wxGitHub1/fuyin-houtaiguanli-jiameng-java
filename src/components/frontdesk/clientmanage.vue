@@ -684,6 +684,7 @@
         <el-button
             type="danger"
           >初诊评价</el-button>
+          <el-button @click="assigned_reception_func()" type="primary">分配接待</el-button>
         <el-button type="info" icon="el-icon-s-order" @click="heimingdanxiangxi()">黑名单详细</el-button>
       </div>
     </el-dialog>
