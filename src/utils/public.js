@@ -101,11 +101,12 @@ export function getTime(sf) {     	//获取时间
 /**
  * 
  * @param {*} id 试穿对应id：试穿6、测评9、取型8、维修人员12
+ * @param {*} siteId 站点Id
  */
 export function personnel(id = null, siteId = null) {
   let data = {
     deptId: id,
-    siteId: siteId
+    siteId: siteId,
   };
   if (id != null || siteId != null) {
     return new Promise((resolve) => {

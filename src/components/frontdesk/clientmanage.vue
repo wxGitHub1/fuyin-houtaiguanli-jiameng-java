@@ -3,52 +3,157 @@
   <div>
     <!-- 右侧抽屉 -->
     <!-- 悬浮按钮 -->
-    <div class="left-muen" @click="lef_drawer = true">
+    <div class="left-muen" @click="left_drawer_func()">
       <span class="animation-left">&rsaquo;&rsaquo;</span>
     </div>
     <!-- 抽屉弹框 -->
-    <el-drawer title="预约日历" :visible.sync="lef_drawer" direction="ltr" size="50%"></el-drawer>
+    <el-drawer title="预约日历" :visible.sync="left_drawer_data.lef_drawer" direction="ltr" size="60%">
+      <!-- seach -->
+      <el-form :inline="true" size="mini" id="search" class="padding-LR-p10">
+        <el-form-item label="客户姓名">
+          <el-input v-model="left_drawer_data.search.memberName" class="w-150" placeholder="请输入姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="联系方式">
+          <el-input class="w-150" v-model="left_drawer_data.search.phone" placeholder="请输入联系电话"></el-input>
+        </el-form-item>
+        <el-form-item label="产品昵称">
+          <el-input
+            v-model="left_drawer_data.search.productName"
+            class="w-150"
+            placeholder="请输入产品昵称"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="时段">
+          <el-select
+            clearable
+            class="w-150"
+            v-model="left_drawer_data.search.timePeriod"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in left_drawer_data.timePeriodList"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="预约类型">
+          <el-select
+            clearable
+            class="w-150"
+            v-model="left_drawer_data.search.reservedType"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in left_drawer_data.reservedTypeList"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="服务人员">
+          <el-select
+            clearable
+            class="w-150"
+            v-model="left_drawer_data.search.user"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in left_drawer_data.userList"
+              :key="item.id"
+              :label="item.username"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="预约日期">
+          <el-date-picker
+            class="w-250"
+            v-model="left_drawer_data.search.time"
+            type="daterange"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            type="warning"
+            icon="el-icon-search"
+            :loading="left_drawer_data.isSearch"
+            @click="left_drawer_search_func()"
+          >查询</el-button>
+        </el-form-item>
+      </el-form>
+      <!-- table -->
+      <el-table
+        border
+        :data="left_drawer_data.clientData"
+        max-height="670"
+        v-loading="left_drawer_data.loading"
+        element-loading-text="加载中..."
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.8)"
+        :header-row-class-name="'headerClass'"
+        size="mini"
+      >
+        <el-table-column type="index" label="序号" width="60"></el-table-column>
+        <el-table-column align="center" prop="memberName" label="客户姓名" width="100"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别" width="50"></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系电话" width="120"></el-table-column>
+        <el-table-column align="center" prop="isVIP" label="是否会员" ></el-table-column>
+        <el-table-column align="center" prop="date" label="预约日期" width="100"></el-table-column>
+        <el-table-column align="center" prop="timePeriod" label="时段"></el-table-column>
+        <el-table-column align="center" prop="time" label="时间点" width="100"></el-table-column>
+        <el-table-column align="center" prop="type" label="预约类型" width="100"></el-table-column>
+        <el-table-column align="center" prop="productName" label="产品昵称" width="180"></el-table-column>
+        <el-table-column align="center" prop="user" label="服务人员" width="100"></el-table-column>
+      </el-table>
+      <!-- Pagination 分页 -->
+      <el-pagination
+        @size-change="left_drawer_handleSizeChange"
+        @current-change="left_drawer_handleCurrentChange"
+        :current-page="left_drawer_data.pages.currentPage"
+        :page-sizes="[10, 15, 20]"
+        :page-size="left_drawer_data.pages.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="left_drawer_data.pages.total"
+        class="pagination"
+      ></el-pagination>
+    </el-drawer>
     <!-- 头部筛选box -->
     <div class="box">
-      <div class="item item1" :class="{active:topActive==0}" @click="topActive=0">
+      <div class="item item1" :class="{active:topActive==0}" @click="topItem_func(0)">
         <div>默认列表</div>
       </div>
-      <div class="item item2" :class="{active:topActive==1}" @click="topActive=1">
+      <div class="item item2" :class="{active:topActive==1}" @click="topItem_func(1)">
         <div>今日复查剩余</div>
-        <div>56</div>
+        <div>{{box_top_data.remainingBackVisit|| 0}}</div>
       </div>
-      <div class="item item3" :class="{active:topActive==2}" @click="topActive=2">
+      <div class="item item3" :class="{active:topActive==2}" @click="topItem_func(2)">
         <div>今日取型剩余</div>
-        <div>20</div>
+        <div>{{box_top_data.remainingShape || 0}}</div>
       </div>
-      <div class="item item4" :class="{active:topActive==3}" @click="topActive=3">
+      <div class="item item4" :class="{active:topActive==3}" @click="topItem_func(3)">
         <div>今日试穿剩余</div>
-        <div>10</div>
+        <div>{{box_top_data.remainingTryOn|| 0}}</div>
       </div>
       <div class="item item5" :class="{active:topActive==4}" @click="topActive=4">
         <div>今日维修剩余</div>
-        <div>20</div>
+        <div>{{box_top_data.remainingRepair|| 0}}</div>
       </div>
     </div>
     <!-- seach -->
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="客户姓名">
-        <el-input
-          v-model="seach.name"
-          class="w-150"
-          placeholder="请输入姓名"
-          autocomplete="off"
-          @input="listenKey()"
-        ></el-input>
+        <el-input v-model="seach.name" class="w-150" placeholder="请输入姓名" @input="listenKey()"></el-input>
       </el-form-item>
       <el-form-item label="联系方式">
-        <el-input
-          class="w-150"
-          v-model="seach.phone"
-          placeholder="请输入联系电话"
-          autocomplete="off"
-          @input="listenKey()"
-        ></el-input>
+        <el-input class="w-150" v-model="seach.phone" placeholder="请输入联系电话" @input="listenKey()"></el-input>
       </el-form-item>
       <el-form-item label="出生日期">
         <el-date-picker
@@ -130,7 +235,7 @@
           type="warning"
           icon="el-icon-search"
           :loading="isSearch"
-          @click="pageList(pages.currentPage,pages.pageSize)"
+          @click="topItem_func(topActive)"
         >查询</el-button>
       </el-form-item>
     </el-form>
@@ -184,18 +289,19 @@
             icon="el-icon-guide"
             plain
             @click="transferSite_func(scope.row.memberId)"
+            v-if="topActive==0"
             size="small"
           >转</el-button>
           <!-- <el-button @click="cpjd(scope.row)" type="success" size="small">测评</el-button>
           <el-button @click="qxjd(scope.row,310)" type="warning" size="small">取型</el-button>
           <el-button @click="qxjd(scope.row,363)" type="success" size="small">试穿</el-button>
-          <el-button @click="qxjd(scope.row,366)" type="primary" size="small">维修</el-button> -->
+          <el-button @click="qxjd(scope.row,366)" type="primary" size="small">维修</el-button>-->
           <!-- <el-button
             @click="czpj(scope.row)"
             v-if="scope.row.firstCognitionFlag == 0"
             type="danger"
             size="small"
-          >初诊</el-button> -->
+          >初诊</el-button>-->
           <el-button @click="assigned_reception_func(scope.row)" type="primary" size="small">分配接待</el-button>
           <el-button @click="handleInfo(scope.row.memberId)" type="info" size="small">详情</el-button>
         </template>
@@ -228,16 +334,16 @@
     >
       <el-row>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="auto" size="mini">
-          <h3 class="b-b-p-1">基本信息</h3>
+          <h3 class="new-title">基本信息</h3>
           <el-col :span="11">
             <el-form-item label="客户姓名:" prop="name">
-              <el-input v-model="ruleForm.name" placeholder="请输入客户姓名" autocomplete="off"></el-input>
+              <el-input v-model="ruleForm.name" placeholder="请输入客户姓名"></el-input>
             </el-form-item>
             <el-form-item label="联系方式:" prop="phone">
-              <el-input v-model.number="ruleForm.phone" placeholder="请输入联系方式" autocomplete="off"></el-input>
+              <el-input v-model.number="ruleForm.phone" placeholder="请输入联系方式"></el-input>
             </el-form-item>
             <el-form-item label="就读学校:">
-              <el-input v-model="ruleForm.school" placeholder="请输入就读学校" autocomplete="off"></el-input>
+              <el-input v-model="ruleForm.school" placeholder="请输入就读学校"></el-input>
             </el-form-item>
             <el-form-item prop="birthday" required label="出生日期">
               <el-date-picker
@@ -256,12 +362,7 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="地址">
-              <el-input
-                type="textarea"
-                v-model="ruleForm.desc"
-                placeholder="请输入家庭住址地址"
-                autocomplete="off"
-              ></el-input>
+              <el-input type="textarea" v-model="ruleForm.desc" placeholder="请输入家庭住址地址"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12" :offset="1">
@@ -305,7 +406,7 @@
           </el-col>
         </el-form>
       </el-row>
-      <h3 class="b-b-p-1">
+      <h3 class="new-title">
         病单信息
         <el-button
           v-if="modefiy"
@@ -316,7 +417,7 @@
           class="right"
         >新增病单</el-button>
       </h3>
-      <el-table v-if="modefiy" :data="DataList" key="DataList" max-height="190">
+      <el-table v-if="modefiy"  :data="DataList" size="mini" key="DataList" max-height="190">
         <el-table-column label="病单编号" align="center" prop="prescriptionNum"></el-table-column>
         <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
@@ -340,7 +441,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-table v-else :data="addData" key="addData">
+      <el-table v-else :data="addData" size="mini" key="addData">
         <el-table-column label="省份" align="center">
           <template slot-scope="scope">
             <el-select
@@ -462,22 +563,12 @@
         </el-table-column>
         <el-table-column label="处方病情" align="center">
           <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.condition"
-              placeholder="请输入处方病情"
-              autocomplete="off"
-              size="mini"
-            ></el-input>
+            <el-input v-model="scope.row.condition" placeholder="请输入处方病情" size="mini"></el-input>
           </template>
         </el-table-column>
         <el-table-column label="新增病情" align="center">
           <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.obCondition"
-              placeholder="请输入新增病情"
-              autocomplete="off"
-              size="mini"
-            ></el-input>
+            <el-input v-model="scope.row.obCondition" placeholder="请输入新增病情" size="mini"></el-input>
           </template>
         </el-table-column>
       </el-table>
@@ -520,19 +611,19 @@
       width="80%"
       :before-close="xiangxifanhui"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
+      <h3 class="new-title">客户信息</h3>
       <el-table :border="true" :data="Details" :header-row-class-name="'headerClass-two'">
         <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
-        <el-table-column align="center" prop="birthday" label="出生日期" ></el-table-column>
-        <el-table-column align="center" prop="phone" label="联系方式" ></el-table-column>
-        <el-table-column align="center" prop="source" label="客户来源" ></el-table-column>
-        <el-table-column align="center" prop="cognition" label="客户初始认知" ></el-table-column>
-        <el-table-column align="center" prop="sex" label="性别" ></el-table-column>
-        <el-table-column align="center" prop="isBlack" label="黑名单" ></el-table-column>
-        <el-table-column align="center" prop="address" label="家庭住址" ></el-table-column>
-        <el-table-column align="center" prop="school" label="就读学校" ></el-table-column>
-        <el-table-column align="center" prop="memberModeCN" label="客户当前类型" ></el-table-column>
-        <el-table-column align="center" prop="memberTypeCN" label="就诊类型" ></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式"></el-table-column>
+        <el-table-column align="center" prop="source" label="客户来源"></el-table-column>
+        <el-table-column align="center" prop="cognition" label="客户初始认知"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别"></el-table-column>
+        <el-table-column align="center" prop="isBlack" label="黑名单"></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址"></el-table-column>
+        <el-table-column align="center" prop="school" label="就读学校"></el-table-column>
+        <el-table-column align="center" prop="memberModeCN" label="客户当前类型"></el-table-column>
+        <el-table-column align="center" prop="memberTypeCN" label="就诊类型"></el-table-column>
       </el-table>
       <!-- <div>
         <span>客户姓名:</span>
@@ -559,8 +650,8 @@
         <span class="margin-r-20">{{Details.memberModeCN}}</span>
         <span>就诊类型:</span>
         <span>{{Details.memberTypeCN}}</span>
-      </div> -->
-      <h3 class="b-b-p-1">会员信息</h3>
+      </div>-->
+      <h3 class="new-title">会员信息</h3>
       <el-table :data="memberCard" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="isVIP" label="当前是否会员" min-width="100"></el-table-column>
         <el-table-column prop="partsNum" label="部位剩余次数"></el-table-column>
@@ -568,23 +659,23 @@
         <el-table-column prop="vipType" label="是否续会员"></el-table-column>
         <el-table-column prop="expireDate" label="会员到期时间"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">历史信息</h3>
+      <h3 class="new-title">历史信息</h3>
       <el-table :data="overdueList" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="isOverdue" label="会员是否过期"></el-table-column>
         <el-table-column prop="overdueDate" label="过期时间"></el-table-column>
         <el-table-column prop="allOverdueTimes" label="过期全身次数"></el-table-column>
         <el-table-column prop="overdueTimes" label="过期部位次数"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">初诊评价</h3>
+      <h3 class="new-title">初诊评价</h3>
       <div>{{Details[0].firstCognition}}</div>
-      <h3 class="b-b-p-1">治疗周期</h3>
+      <h3 class="new-title">治疗周期</h3>
       <div>
         <span>治疗周期:</span>
         <span class="margin-r-20">{{Details[0].treatmentCycle}}</span>
         <span>创建时间:</span>
         <span>{{Details[0].treatmentCycleTime}}</span>
       </div>
-      <h3 class="b-b-p-1">病单信息</h3>
+      <h3 class="new-title">病单信息</h3>
       <el-table :data="prescriptions" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="prescriptionNum" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
@@ -610,8 +701,13 @@
           </template>
         </el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">测评记录</h3>
-      <el-table :data="evaluates" border max-height="500" :header-row-class-name="'headerClass-two'">
+      <h3 class="new-title">测评记录</h3>
+      <el-table
+        :data="evaluates"
+        border
+        max-height="500"
+        :header-row-class-name="'headerClass-two'"
+      >
         <el-table-column prop="evaluateUserName" label="测评人" min-width="100"></el-table-column>
         <el-table-column prop="createTime" label="测评时间"></el-table-column>
         <el-table-column prop="recoveryCN" label="恢复情况"></el-table-column>
@@ -651,7 +747,7 @@
         <el-table-column prop="zb3d" label="足部3d"></el-table-column>
         <el-table-column prop="gmd" label="骨密度"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">订单信息</h3>
+      <h3 class="new-title">订单信息</h3>
       <el-table :data="orders" border max-height="500" :header-row-class-name="'headerClass-two'">
         <el-table-column prop="orderNum" label="订单编号" min-width="100"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
@@ -681,10 +777,8 @@
           plain
           @click="handleModify(currentNamberId,Details[0].isBlack)"
         >修改客户信息</el-button>
-        <el-button
-            type="danger"
-          >初诊评价</el-button>
-          <el-button @click="assigned_reception_func()" type="primary">分配接待</el-button>
+        <el-button type="danger">初诊评价</el-button>
+        <el-button @click="assigned_reception_func()" type="primary">分配接待</el-button>
         <el-button type="info" icon="el-icon-s-order" @click="heimingdanxiangxi()">黑名单详细</el-button>
       </div>
     </el-dialog>
@@ -696,7 +790,7 @@
       :close-on-click-modal="false"
       width="80%"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
+      <h3 class="new-title">客户信息</h3>
       <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.customerName}}</span>
@@ -721,7 +815,7 @@
         <span>就诊类型:</span>
         <span>{{Details.memberTypeCN}}</span>
       </div>
-      <h3 class="b-b-p-1">病单信息</h3>
+      <h3 class="new-title">病单信息</h3>
       <el-table :data="PatientInformation" border style="width: 100%">
         <el-table-column prop="prescriptionId" label="病单编号" min-width="100"></el-table-column>
         <el-table-column prop="hospitalNmae" label="医院"></el-table-column>
@@ -732,17 +826,17 @@
         <el-table-column prop="illness" label="新增病情"></el-table-column>
         <el-table-column prop="pCreateTime" label="创建时间" min-width="100"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">
-        订单信息 -->
-        <!-- <el-button
+      <h3 class="new-title">
+    订单信息-->
+    <!-- <el-button
           type="primary"
           icon="el-icon-plus"
           @click="bujiaoManey()"
           size="mini"
           class="right"
           v-if="orderInformation.oweMoney > 0"
-        >补交欠款</el-button>-->
-      <!-- </h3>
+    >补交欠款</el-button>-->
+    <!-- </h3>
       <div>
         <span>订单编号:</span>
         <span class="margin-r-20">{{orderInformation.orderNum}}</span>
@@ -769,7 +863,7 @@
         <span>订单备注:</span>
         <span class="margin-r-20">{{orderInformation.remark || "暂无数据"}}</span>
       </div>
-      <h3 class="b-b-p-1">退款信息</h3>
+      <h3 class="new-title">退款信息</h3>
       <el-table :data="refundRecordDto" border style="width: 100%">
         <el-table-column prop="nickname" label="产品昵称" min-width="100"></el-table-column>
         <el-table-column prop="price" label="退款金额"></el-table-column>
@@ -777,7 +871,7 @@
         <el-table-column prop="createUserName" label="退款人员"></el-table-column>
         <el-table-column prop="reason" label="退款原因"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">折扣优惠</h3>
+      <h3 class="new-title">折扣优惠</h3>
       <el-table :data="favorableDto" border style="width: 100%">
         <el-table-column prop="productName" label="产品昵称" min-width="100"></el-table-column>
         <el-table-column prop="sum" label="折扣金额"></el-table-column>
@@ -785,14 +879,14 @@
         <el-table-column prop="user" label="折扣人员"></el-table-column>
         <el-table-column prop="reason" label="折扣原因"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">产品信息</h3>
+      <h3 class="new-title">产品信息</h3>
       <el-table class="margin-t-20" :data="prescriptions" border>
         <el-table-column prop="name" label="产品名" min-width="230"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称" min-width="100"></el-table-column>
         <el-table-column prop="type" label="产品分类"></el-table-column>
-        <el-table-column prop="unit" label="产品规格"></el-table-column> -->
-        <!-- <el-table-column prop="number" label="产品数量"></el-table-column> -->
-        <!-- <el-table-column label="产品尺寸" align="center" min-width="90">
+    <el-table-column prop="unit" label="产品规格"></el-table-column>-->
+    <!-- <el-table-column prop="number" label="产品数量"></el-table-column> -->
+    <!-- <el-table-column label="产品尺寸" align="center" min-width="90">
           <template slot-scope="scope">
             <el-button
               v-if="scope.row.type =='自制产品' || scope.row.type =='定制产品' ? true : false "
@@ -803,13 +897,13 @@
             >详情</el-button>
             <span v-else>--</span>
           </template>
-        </el-table-column>-->
-        <!-- <el-table-column prop="price" label="标准价格"></el-table-column>
+    </el-table-column>-->
+    <!-- <el-table-column prop="price" label="标准价格"></el-table-column>
         <el-table-column prop="actual" label="实际价格"></el-table-column>
         <el-table-column prop="favorable" label="折扣金额"></el-table-column>
         <el-table-column prop="recordActual" label="退款金额"></el-table-column>
-        <el-table-column prop="deliveryTime" label="交货时间" min-width="200"></el-table-column> -->
-        <!-- <el-table-column  label="操作" min-width="130">
+    <el-table-column prop="deliveryTime" label="交货时间" min-width="200"></el-table-column>-->
+    <!-- <el-table-column  label="操作" min-width="130">
           <template>
             <el-button
               size="mini"
@@ -817,9 +911,9 @@
               icon="el-icon-document"
             >打印订货单</el-button>
           </template>
-        </el-table-column>-->
-      <!-- </el-table> -->
-      <!-- <h3 class="b-b-p-1">客户确认签字</h3>
+    </el-table-column>-->
+    <!-- </el-table> -->
+    <!-- <h3 class="new-title">客户确认签字</h3>
       <div class="signatureImg">
         <img :src="imgUrl" alt="图片"/>
         <el-image :src="imgUrl">
@@ -827,8 +921,8 @@
             <i class="el-icon-picture-outline"></i>
           </div>
         </el-image>
-      </div>-->
-      <!-- <div slot="footer" >
+    </div>-->
+    <!-- <div slot="footer" >
         <el-button @click="returnOn()" type="primary" icon="el-icon-back">返回</el-button>
         <el-button
           type="success"
@@ -838,7 +932,7 @@
         <el-button type="warning" @click="dialogRefund=true" icon="el-icon-bank-card">退款</el-button>
         <el-button type="primary" icon="el-icon-circle-close" @click="cancelOrder">取消订单</el-button>
         <el-button type="warning" @click="changeOrder()">修改订单</el-button>
-      </div>-->
+    </div>-->
     <!-- </el-dialog> -->
     <!-- 新增病单 -->
     <el-dialog
@@ -971,22 +1065,12 @@
         </el-table-column>
         <el-table-column label="处方病情" align="center">
           <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.condition"
-              placeholder="请输入处方病情"
-              autocomplete="off"
-              size="mini"
-            ></el-input>
+            <el-input v-model="scope.row.condition" placeholder="请输入处方病情" size="mini"></el-input>
           </template>
         </el-table-column>
         <el-table-column label="新增病情" align="center">
           <template slot-scope="scope">
-            <el-input
-              v-model="scope.row.obCondition"
-              placeholder="请输入新增病情"
-              autocomplete="off"
-              size="mini"
-            ></el-input>
+            <el-input v-model="scope.row.obCondition" placeholder="请输入新增病情" size="mini"></el-input>
           </template>
         </el-table-column>
       </el-table>
@@ -1008,19 +1092,19 @@
       :close-on-click-modal="false"
       width="70%"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <el-table :border="true" :data="Details" >
+      <h3 class="new-title">客户信息</h3>
+      <el-table :border="true" :data="Details" :header-row-class-name="'headerClass-two'">
         <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
-        <el-table-column align="center" prop="birthday" label="出生日期" ></el-table-column>
-        <el-table-column align="center" prop="phone" label="联系方式" ></el-table-column>
-        <el-table-column align="center" prop="source" label="客户来源" ></el-table-column>
-        <el-table-column align="center" prop="cognition" label="客户初始认知" ></el-table-column>
-        <el-table-column align="center" prop="sex" label="性别" ></el-table-column>
-        <el-table-column align="center" prop="isBlack" label="黑名单" ></el-table-column>
-        <el-table-column align="center" prop="address" label="家庭住址" ></el-table-column>
-        <el-table-column align="center" prop="school" label="就读学校" ></el-table-column>
-        <el-table-column align="center" prop="memberModeCN" label="客户当前类型" ></el-table-column>
-        <el-table-column align="center" prop="memberTypeCN" label="就诊类型" ></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式"></el-table-column>
+        <el-table-column align="center" prop="source" label="客户来源"></el-table-column>
+        <el-table-column align="center" prop="cognition" label="客户初始认知"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别"></el-table-column>
+        <el-table-column align="center" prop="isBlack" label="黑名单"></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址"></el-table-column>
+        <el-table-column align="center" prop="school" label="就读学校"></el-table-column>
+        <el-table-column align="center" prop="memberModeCN" label="客户当前类型"></el-table-column>
+        <el-table-column align="center" prop="memberTypeCN" label="就诊类型"></el-table-column>
       </el-table>
       <!-- <div>
         <span>客户姓名:</span>
@@ -1045,9 +1129,9 @@
         <span class="margin-r-20">{{Details.memberModeCN}}</span>
         <span>就诊类型:</span>
         <span>{{Details.memberTypeCN}}</span>
-      </div> -->
-      <h3 class="b-b-p-1">黑名单详细</h3>
-      <el-table :data="blacklistDetails" border>
+      </div>-->
+      <h3 class="new-title">黑名单详细</h3>
+      <el-table :data="blacklistDetails" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="operation" label="操作类型" min-width="100"></el-table-column>
         <el-table-column prop="createTime" label="操作时间"></el-table-column>
         <el-table-column prop="createUserName" label="操作人"></el-table-column>
@@ -1063,11 +1147,16 @@
       width="90%"
       :before-close="readyOrderCancel"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <el-table :border="true" :data="Details">
+      <h3 class="new-title">客户信息</h3>
+      <el-table
+        :border="true"
+        :data="Details"
+        size="mini"
+        :header-row-class-name="'headerClass-two'"
+      >
         <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
-        <el-table-column align="center" prop="birthday" label="出生日期" ></el-table-column>
-        <el-table-column align="center" prop="sex" label="性别" ></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别"></el-table-column>
       </el-table>
       <!-- <div>
         <span>客户姓名:</span>
@@ -1076,9 +1165,14 @@
         <span class="margin-r-20">{{Details.birthday}}</span>
         <span>性别:</span>
         <span class="margin-r-20">{{Details.sex}}</span>
-      </div> -->
-      <h3 class="b-b-p-1">病单信息</h3>
-      <el-table :data="currentPrescriptions" border>
+      </div>-->
+      <h3 class="new-title">病单信息</h3>
+      <el-table
+        :data="currentPrescriptions"
+        border
+        size="mini"
+        :header-row-class-name="'headerClass-two'"
+      >
         <el-table-column prop="prescriptionNum" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="pCityName" label="城市"></el-table-column>
@@ -1105,19 +1199,20 @@
           <span>下单人:</span>
         </el-col>
         <el-col :span="3">
-          <el-input
-            style="width：100%"
-            v-model="orderingPerson"
-            size="small"
-            placeholder="请输入姓名"
-            autocomplete="off"
-          ></el-input>
+          <el-input style="width：100%" v-model="orderingPerson" size="mini" placeholder="请输入姓名"></el-input>
         </el-col>
         <el-col :span="5" style="line-height: 30px;margin-left:20px">
           <el-checkbox v-model="jjChecked" @change="isJiaJi">加急费300元</el-checkbox>
         </el-col>
       </el-row>
-      <el-table class="margin-t-10" :data="detailFormList" border max-height="500">
+      <el-table
+        class="margin-t-10"
+        :data="detailFormList"
+        border
+        max-height="500"
+        size="mini"
+        :header-row-class-name="'headerClass-two'"
+      >
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
@@ -1197,7 +1292,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">付款方式</h3>
+      <h3 class="new-title">付款方式</h3>
       <el-row>
         <el-col :span="2" id="input-title">
           <span>现金金额：</span>
@@ -1206,7 +1301,7 @@
           <el-input-number
             :min="0"
             style="width：100%"
-            size="small"
+            size="mini"
             v-model="paymentMethod.xj"
             @change="calculation"
           ></el-input-number>
@@ -1218,7 +1313,7 @@
           <el-input-number
             :min="0"
             style="width：100%"
-            size="small"
+            size="mini"
             v-model="paymentMethod.zz"
             @change="calculation"
           ></el-input-number>
@@ -1230,7 +1325,7 @@
           <el-input-number
             :min="0"
             style="width：100%"
-            size="small"
+            size="mini"
             v-model="paymentMethod.lkl"
             @change="calculation"
           ></el-input-number>
@@ -1261,34 +1356,19 @@
           <span>产品名称</span>
         </el-col>
         <el-col :span="2">
-          <el-input
-            v-model="seachProduct.name"
-            size="mini"
-            placeholder="请输入产品名称"
-            autocomplete="off"
-          ></el-input>
+          <el-input v-model="seachProduct.name" size="mini" placeholder="请输入产品名称"></el-input>
         </el-col>
         <el-col :span="2" id="input-title">
           <span>产品昵称</span>
         </el-col>
         <el-col :span="2">
-          <el-input
-            v-model="seachProduct.nickname"
-            size="mini"
-            placeholder="请输入产品昵称"
-            autocomplete="off"
-          ></el-input>
+          <el-input v-model="seachProduct.nickname" size="mini" placeholder="请输入产品昵称"></el-input>
         </el-col>
         <el-col :span="2" id="input-title">
           <span>备案编号</span>
         </el-col>
         <el-col :span="2">
-          <el-input
-            v-model="seachProduct.recordNumber"
-            size="mini"
-            placeholder="请输入备案编号"
-            autocomplete="off"
-          ></el-input>
+          <el-input v-model="seachProduct.recordNumber" size="mini" placeholder="请输入备案编号"></el-input>
         </el-col>
         <el-col :span="2" id="input-title">
           <span>产品类型</span>
@@ -1346,6 +1426,7 @@
         @row-click="dblclick_table_fuc"
         highlight-current-row
         max-height="500"
+        :header-row-class-name="'headerClass-two'"
       >
         <el-table-column type="selection"></el-table-column>
         <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
@@ -1601,9 +1682,9 @@
       :close-on-click-modal="false"
       width="70%"
       center
-    > -->
-      <!-- table -->
-      <!-- <el-table border :data="takeShapeData">
+    >-->
+    <!-- table -->
+    <!-- <el-table border :data="takeShapeData">
         <el-table-column align="center" prop="orderNum" label="订单编号"></el-table-column>
         <el-table-column align="center" prop="rStatus" label="订单状态"></el-table-column>
         <el-table-column align="center" prop="nickname" label="产品昵称"></el-table-column>
@@ -1621,7 +1702,7 @@
           </template>
         </el-table-column>
       </el-table>
-    </el-dialog> -->
+    </el-dialog>-->
     <!-- dialog 试穿 -->
     <!-- <el-dialog
       title="试穿分配"
@@ -1629,9 +1710,9 @@
       :close-on-click-modal="false"
       width="70%"
       center
-    > -->
-      <!-- table -->
-      <!-- <el-table border :data="tryOnData">
+    >-->
+    <!-- table -->
+    <!-- <el-table border :data="tryOnData">
         <el-table-column align="center" prop="orderNum" label="订单编号"></el-table-column>
         <el-table-column align="center" prop="rStatus" label="订单状态"></el-table-column>
         <el-table-column align="center" prop="nickname" label="产品昵称"></el-table-column>
@@ -1649,7 +1730,7 @@
           </template>
         </el-table-column>
       </el-table>
-    </el-dialog> -->
+    </el-dialog>-->
     <!-- dialog 维修 -->
     <!-- <el-dialog
       title="维修分配"
@@ -1657,9 +1738,9 @@
       :close-on-click-modal="false"
       width="70%"
       center
-    > -->
-      <!-- table -->
-      <!-- <el-table border :data="serviceData">
+    >-->
+    <!-- table -->
+    <!-- <el-table border :data="serviceData">
         <el-table-column align="center" prop="orderNum" label="订单编号"></el-table-column>
         <el-table-column align="center" prop="rStatus" label="订单状态"></el-table-column>
         <el-table-column align="center" prop="nickname" label="产品昵称"></el-table-column>
@@ -1677,7 +1758,7 @@
           </template>
         </el-table-column>
       </el-table>
-    </el-dialog> -->
+    </el-dialog>-->
     <!-- drawer 评价抽屉-->
     <el-drawer
       id="pingjia"
@@ -1719,12 +1800,12 @@
       :close-on-click-modal="false"
       width="80%"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <el-table :border="true" :data="Details">
+      <h3 class="new-title">客户信息</h3>
+      <el-table :border="true" :data="Details" :header-row-class-name="'headerClass-two'">
         <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
-        <el-table-column align="center" prop="birthday" label="出生日期" ></el-table-column>
-        <el-table-column align="center" prop="phone" label="联系方式" ></el-table-column>
-        <el-table-column align="center" prop="address" label="家庭住址" ></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式"></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址"></el-table-column>
       </el-table>
       <!-- <div>
         <span>客户姓名:</span>
@@ -1735,56 +1816,56 @@
         <span class="margin-r-20">{{Details.phone}}</span>
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
-      </div> -->
+      </div>-->
       <el-row>
         <el-col :span="4">
-          <h3 class="b-b-p-1">结果备注</h3>
+          <h3 class="new-title">结果备注</h3>
           <div>{{examinationInfo.remark || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">复查日期</h3>
+          <h3 class="new-title">复查日期</h3>
           <div>{{examinationInfo.repeatTime || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">孩子配合程度</h3>
+          <h3 class="new-title">孩子配合程度</h3>
           <div>{{examinationInfo.cooperate || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">治疗周期</h3>
+          <h3 class="new-title">治疗周期</h3>
           <div>{{examinationInfo.cycle || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">老带新</h3>
+          <h3 class="new-title">老带新</h3>
           <div>{{examinationInfo.recommendCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">驼背</h3>
+          <h3 class="new-title">驼背</h3>
           <div>{{examinationInfo.tuobeiCN || "暂无数据"}}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="4">
-          <h3 class="b-b-p-1">客户分析</h3>
+          <h3 class="new-title">客户分析</h3>
           <div>{{examinationInfo.memberAnalysisCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">客户类型</h3>
+          <h3 class="new-title">客户类型</h3>
           <div>{{examinationInfo.memberModeCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">是否全身测评</h3>
+          <h3 class="new-title">是否全身测评</h3>
           <div>{{examinationInfo.completeCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">未进行全身测评的原因</h3>
+          <h3 class="new-title">未进行全身测评的原因</h3>
           <div>{{examinationInfo.incompleteReason || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">恢复情况</h3>
+          <h3 class="new-title">恢复情况</h3>
           <div>{{examinationInfo.recoveryCN || "暂无数据"}}</div>
         </el-col>
       </el-row>
-      <h3 class="b-b-p-1">测评详情</h3>
+      <h3 class="new-title">测评详情</h3>
       <div v-for="(item,index) in detailList" :key="index" class="margin-t-20">
         <div>
           <span>测评项目:</span>
@@ -1839,13 +1920,7 @@
       width="70%"
       :before-close="cancelBlack"
     >
-      <el-input
-        type="textarea"
-        :rows="4"
-        v-model="BlackReason"
-        placeholder="请输入原因"
-        autocomplete="off"
-      ></el-input>
+      <el-input type="textarea" :rows="4" v-model="BlackReason" placeholder="请输入原因"></el-input>
       <div slot="footer">
         <el-button @click="cancelBlack()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button
@@ -1914,12 +1989,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="联系电话">
-          <el-input
-            v-model="transferSite.sitePhone"
-            autocomplete="off"
-            placeholder="请输入客户电话"
-            style="width:193px"
-          ></el-input>
+          <el-input v-model="transferSite.sitePhone" placeholder="请输入客户电话" style="width:193px"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -1981,6 +2051,7 @@
             max-height="200"
             border
             class="margin-b-10"
+            :header-row-class-name="'headerClass-two'"
           >
             <el-table-column type="selection"></el-table-column>
             <el-table-column prop="memberName" label="订单编号"></el-table-column>
@@ -2040,7 +2111,13 @@ import {
   changeSite,
   printMakeParam,
   selectUserListByHospitalId,
-  examinePadZb3d
+  examinePadZb3d,
+  /*新增查询接口*/
+  backVisitRemainingToday,
+  shapeRemainingToday,
+  tryOnRemainingToday,
+  selectMemberReserved,
+  userListByDepts
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
 import {
@@ -2051,7 +2128,8 @@ import {
   allSite,
   hospital,
   getBase64Image,
-  img_base64
+  img_base64,
+  personnel
 } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
@@ -2082,6 +2160,7 @@ export default {
       }
     };
     return {
+
       /*新增data*/
       tabList: [
         { name: "测评接待" },
@@ -2092,9 +2171,10 @@ export default {
       tabActive: 0,
       assigned_reception_dialog: false,
       /*** left抽屉*/
-      lef_drawer: false,
+      left_drawer_data:frontDesk_variable.left_drawer_data,
       /****top box */
       topActive: 0,
+      box_top_data: {},
       /** */
       addClientTitle: "新增客户",
       dialogEvaluationDetails: false, //测评信息详情弹框
@@ -2190,19 +2270,21 @@ export default {
       },
       BlackReason: null,
       currentNamberId: null,
-      Details: [{
-        address: null,
-        birthday: null,
-        cognition: null,
-        isBlack: null,
-        memberName: null,
-        phone: null,
-        school: null,
-        sex: null,
-        source: null,
-        treatmentCycle: null,
-        treatmentCycleTime: null
-      }],
+      Details: [
+        {
+          address: null,
+          birthday: null,
+          cognition: null,
+          isBlack: null,
+          memberName: null,
+          phone: null,
+          school: null,
+          sex: null,
+          source: null,
+          treatmentCycle: null,
+          treatmentCycleTime: null
+        }
+      ],
       memberCard: [],
       prescriptions: null,
       evaluates: null,
@@ -2317,17 +2399,81 @@ export default {
     this.personnel(6);
     this.personnel(12);
     this.init();
+    this.init_two();
   },
   methods: {
+    init_two(){
+      let data={
+        depts:[6,9]
+      }
+       userListByDepts(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.left_drawer_data.userList=res.data.data
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    left_drawer_search_func(){
+      let ldd=this.left_drawer_data
+      let data = {
+        pageNum:ldd.pages.currentPage,
+        pageSize: ldd.pages.pageSize,
+        beginTime : ldd.search.time== null? null: ldd.search.time[0],
+        endTime: ldd.search.time== null? null: ldd.search.time[1],
+        timePeriod : ldd.search.timePeriod || null,
+        memberName : ldd.search.memberName || null,
+        phone : ldd.search.phone || null,
+        reservedType : ldd.search.reservedType || null,
+        productName : ldd.search.productName || null,
+        user : ldd.search.user || null,
+      };
+      ldd.loading = true;
+      ldd.isSearch = true;
+      selectMemberReserved(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            let dataList = res.data.data;
+            ldd.clientData = dataList.data;
+            ldd.pages.total = dataList.total;
+            ldd.loading = false;
+            ldd.isSearch = false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    left_drawer_func() {
+      this.left_drawer_search_func()
+      this.left_drawer_data.lef_drawer = true;
+    },
+    topItem_func(index) {
+      frontDesk.topItem_func(this, index);
+    },
     toggle(index, name) {
-      this.tabActive=index
-      console.log(index)
+      this.tabActive = index;
+      console.log(index);
     },
     assigned_reception_func() {
       this.assigned_reception_dialog = true;
     },
     assigned_reception_cancel() {
-      this.tabActive=0
+      this.tabActive = 0;
       this.assigned_reception_dialog = false;
     },
     assigned_reception_save() {},
@@ -2728,7 +2874,7 @@ export default {
     personnel(id, siteId) {
       let data = {
         deptId: id,
-        siteId: siteId
+        siteId: siteId,
       };
       if (id == 6) {
         userListByDept(data)
@@ -3365,7 +3511,8 @@ export default {
             });
           } else {
             let dataList = res.data.data;
-            this.clientData = dataList.data;
+            this.clientData = dataList.data.todayDTOS;
+            this.box_top_data = dataList.data;
             this.pages.total = dataList.total;
             this.rowspan();
             this.loading = false;
@@ -3442,6 +3589,16 @@ export default {
       let pageIndex = this.pagesProduct.currentPage;
       let pageSize = this.pagesProduct.pageSize;
       this.salesList(pageIndex, pageSize);
+    },
+    //左抽屉页面变化时
+    left_drawer_handleCurrentChange(num) {
+      this.left_drawer_data.pages.currentPage = num;
+      this.left_drawer_search_func();
+    },
+    //左抽屉条数发生变化时
+    left_drawer_handleSizeChange(val) {
+      this.left_drawer_data.pages.pageSize = val;
+      this.left_drawer_search_func();
     },
     //医院
     hospitals() {
@@ -3631,7 +3788,7 @@ export default {
   padding: 5px;
   width: 80%;
 }
-.b-b-p-1 {
+.new-title {
   padding-bottom: 10px;
   border-bottom: 1px solid #eeeeee;
 }

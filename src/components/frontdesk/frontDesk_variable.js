@@ -104,7 +104,7 @@ const seach={
       }
     ],
     heimingdanValue: null
-  }
+  };
 const seach_PJ={
     memberName: null,
     phone: null,
@@ -133,8 +133,39 @@ const seach_PJ={
     provinceIdList: [],
     cityIdList: [],
     userNameList:[],
-}
+};
+const left_drawer_data={
+  search:{
+    time:null,
+    timePeriod:null,
+    memberName:null,
+    phone:null,
+    phone:null,
+    reservedType:null,
+    productName:null,
+    user:null,
+  },
+  timePeriodList:[
+    {name:"上午"},
+    {name:"下午"},
+  ],
+  reservedTypeList:[
+    {name:"复查"},
+    {name:"试穿"},
+  ],
+  userList:[],
+  clientData:[],
+  pages: {
+    total: 10,
+    pageSize: 10,
+    currentPage: 1
+  },
+  loading:true,
+  isSearch:true,
+  lef_drawer: false,
+};
 export default{
     seach,
-    seach_PJ
+    seach_PJ,
+    left_drawer_data
 }
