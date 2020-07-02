@@ -105,7 +105,7 @@
         <el-table-column align="center" prop="memberName" label="客户姓名" width="100"></el-table-column>
         <el-table-column align="center" prop="sex" label="性别" width="50"></el-table-column>
         <el-table-column align="center" prop="phone" label="联系电话" width="120"></el-table-column>
-        <el-table-column align="center" prop="isVIP" label="是否会员" ></el-table-column>
+        <el-table-column align="center" prop="isVIP" label="是否会员"></el-table-column>
         <el-table-column align="center" prop="date" label="预约日期" width="100"></el-table-column>
         <el-table-column align="center" prop="timePeriod" label="时段"></el-table-column>
         <el-table-column align="center" prop="time" label="时间点" width="100"></el-table-column>
@@ -302,13 +302,13 @@
             type="danger"
             size="small"
           >初诊</el-button>-->
-          <el-button @click="assigned_reception_func(scope.row)" type="primary" size="small">分配接待</el-button>
-          <el-button @click="handleInfo(scope.row.memberId)" type="info" size="small">详情</el-button>
+          <el-button @click="receptionist_func(scope.row)" type="primary" size="small">分配接待</el-button>
+          <el-button @click="handleInfo(scope.row)" type="info" size="small">详情</el-button>
         </template>
       </el-table-column>
       <el-table-column v-else align="center" label="操作">
         <template slot-scope="scope">
-          <el-button @click="handleInfo(scope.row.memberId)" type="info" size="small">详情</el-button>
+          <el-button @click="handleInfo(scope.row)" type="info" size="small">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -417,7 +417,7 @@
           class="right"
         >新增病单</el-button>
       </h3>
-      <el-table v-if="modefiy"  :data="DataList" size="mini" key="DataList" max-height="190">
+      <el-table v-if="modefiy" :data="DataList" size="mini" key="DataList" max-height="190">
         <el-table-column label="病单编号" align="center" prop="prescriptionNum"></el-table-column>
         <el-table-column align="center" prop="provinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="cityName" label="城市"></el-table-column>
@@ -777,7 +777,11 @@
           plain
           @click="handleModify(currentNamberId,Details[0].isBlack)"
         >修改客户信息</el-button>
-        <el-button type="danger">初诊评价</el-button>
+        <el-button
+          type="danger"
+          v-if="assigned_reception_data.userObj.firstCognitionFlag == 0"
+          @click="czpj(assigned_reception_data.userObj)"
+        >初诊评价</el-button>
         <el-button @click="assigned_reception_func()" type="primary">分配接待</el-button>
         <el-button type="info" icon="el-icon-s-order" @click="heimingdanxiangxi()">黑名单详细</el-button>
       </div>
@@ -2045,26 +2049,25 @@
         <div class="left left-2">
           <el-table
             v-if="tabActive != 0"
-            :data="clientData"
+            :data="assigned_reception_data.fpjd_product"
             @selection-change="handleSelectionChange"
-            @row-click="dblclick_table_fuc"
             max-height="200"
             border
             class="margin-b-10"
             :header-row-class-name="'headerClass-two'"
           >
             <el-table-column type="selection"></el-table-column>
-            <el-table-column prop="memberName" label="订单编号"></el-table-column>
-            <el-table-column prop="memberName" label="订单状态"></el-table-column>
-            <el-table-column prop="memberName" label="产品昵称"></el-table-column>
+            <el-table-column prop="orderNum" label="订单编号"></el-table-column>
+            <el-table-column prop="rStatus" label="订单状态"></el-table-column>
+            <el-table-column prop="nickname" label="产品昵称"></el-table-column>
           </el-table>
           <div style="width:496px;margin:0 auto;">
             <el-transfer
-              v-model="myValue"
+              v-model="assigned_reception_data.user"
               filterable
               filter-placeholder="请输入人员"
               :titles="['待选人员-接待数', '被选人员-接待数']"
-              :data="nameList9"
+              :data="assigned_reception_data.userList"
             ></el-transfer>
           </div>
         </div>
@@ -2117,7 +2120,9 @@ import {
   shapeRemainingToday,
   tryOnRemainingToday,
   selectMemberReserved,
-  userListByDepts
+  userListByDepts,
+  userAssignListByDept,
+  insertAssignList
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
 import {
@@ -2160,7 +2165,6 @@ export default {
       }
     };
     return {
-
       /*新增data*/
       tabList: [
         { name: "测评接待" },
@@ -2171,7 +2175,9 @@ export default {
       tabActive: 0,
       assigned_reception_dialog: false,
       /*** left抽屉*/
-      left_drawer_data:frontDesk_variable.left_drawer_data,
+      left_drawer_data: frontDesk_variable.left_drawer_data,
+      /*** 分配接待弹框数据*/
+      assigned_reception_data: frontDesk_variable.assigned_reception_data,
       /****top box */
       topActive: 0,
       box_top_data: {},
@@ -2402,11 +2408,43 @@ export default {
     this.init_two();
   },
   methods: {
-    init_two(){
-      let data={
-        depts:[6,9]
-      }
-       userListByDepts(data)
+    fpjd_product_func(obj, type) {
+      let data = {
+        id: obj.memberId,
+        type: type
+      };
+      product(data)
+        .then(res => {
+          console.log(res);
+          this.assigned_reception_data.fpjd_product = res.data.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //  scfpr(obj) {
+    //   console.log(obj);
+    //   let data = {
+    //     productId: obj.id,
+    //     type: 360
+    //   };
+    //   selectAdvanceUser(data)
+    //     .then(res => {
+    //       this.myValue = res.data.data;
+    //       this.tryOnUserDialog = true;
+    //       this.xzfp.productId = obj.id;
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
+    receptionist_func(obj, deptId = 9) {
+      this.assigned_reception_data.userObj = obj;
+      let data = {
+        deptId: deptId,
+        siteId: obj.siteId
+      };
+      userAssignListByDept(data)
         .then(res => {
           if (res.data.returnCode != 0) {
             this.$message({
@@ -2415,26 +2453,64 @@ export default {
               center: true
             });
           } else {
-            this.left_drawer_data.userList=res.data.data
+            this.assigned_reception_dialog = true;
+            this.assigned_reception_data.userList = res.data.data;
+            // .dtos;
+            // this.assigned_reception_data.user = res.data.data.idList;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      // frontDesk.receptionist_func(this, deptId, siteId);
+
+      if (deptId == 9) {
+        let data2 = {
+          type: 201,
+          memberId: obj.memberId
+        };
+        selectAdvanceUser(data2)
+          .then(res => {
+            this.assigned_reception_data.user = res.data.data;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
+    init_two() {
+      let data = {
+        depts: [6, 9]
+      };
+      userListByDepts(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
+            this.$message({
+              type: "warning",
+              message: res.data.returnMsg,
+              center: true
+            });
+          } else {
+            this.left_drawer_data.userList = res.data.data;
           }
         })
         .catch(err => {
           console.log(err);
         });
     },
-    left_drawer_search_func(){
-      let ldd=this.left_drawer_data
+    left_drawer_search_func() {
+      let ldd = this.left_drawer_data;
       let data = {
-        pageNum:ldd.pages.currentPage,
+        pageNum: ldd.pages.currentPage,
         pageSize: ldd.pages.pageSize,
-        beginTime : ldd.search.time== null? null: ldd.search.time[0],
-        endTime: ldd.search.time== null? null: ldd.search.time[1],
-        timePeriod : ldd.search.timePeriod || null,
-        memberName : ldd.search.memberName || null,
-        phone : ldd.search.phone || null,
-        reservedType : ldd.search.reservedType || null,
-        productName : ldd.search.productName || null,
-        user : ldd.search.user || null,
+        beginTime: ldd.search.time == null ? null : ldd.search.time[0],
+        endTime: ldd.search.time == null ? null : ldd.search.time[1],
+        timePeriod: ldd.search.timePeriod || null,
+        memberName: ldd.search.memberName || null,
+        phone: ldd.search.phone || null,
+        reservedType: ldd.search.reservedType || null,
+        productName: ldd.search.productName || null,
+        user: ldd.search.user || null
       };
       ldd.loading = true;
       ldd.isSearch = true;
@@ -2459,7 +2535,7 @@ export default {
         });
     },
     left_drawer_func() {
-      this.left_drawer_search_func()
+      this.left_drawer_search_func();
       this.left_drawer_data.lef_drawer = true;
     },
     topItem_func(index) {
@@ -2467,16 +2543,94 @@ export default {
     },
     toggle(index, name) {
       this.tabActive = index;
-      console.log(index);
+      this.assigned_reception_data.user = [];
+      if (index == 0) {
+        this.receptionist_func(this.assigned_reception_data.userObj, 9);
+      } else if (index == 1) {
+        this.fpjd_product_func(this.assigned_reception_data.userObj, 310);
+        this.receptionist_func(this.assigned_reception_data.userObj, 8);
+      } else if (index == 2) {
+        this.fpjd_product_func(this.assigned_reception_data.userObj, 363);
+        this.receptionist_func(this.assigned_reception_data.userObj, 6);
+      } else if (index == 3) {
+        this.fpjd_product_func(this.assigned_reception_data.userObj, 366);
+        this.receptionist_func(this.assigned_reception_data.userObj, 12);
+      }
     },
     assigned_reception_func() {
+      this.receptionist_func(this.assigned_reception_data.userObj);
       this.assigned_reception_dialog = true;
     },
     assigned_reception_cancel() {
       this.tabActive = 0;
       this.assigned_reception_dialog = false;
+      this.multipleSelection = [];
+      this.assigned_reception_data.user = [];
     },
-    assigned_reception_save() {},
+    assigned_reception_save() {
+      if (this.assigned_reception_data.user.length == 0) {
+        this.$message({
+          type: "warning",
+          message: "请选择人员！",
+          center: true
+        });
+      } else {
+        let list = [];
+        let type = null;
+        if (this.tabActive == 0) {
+          type = 201;
+        } else if (this.tabActive == 1) {
+          type = 310;
+        } else if (this.tabActive == 2) {
+          type = 360;
+        } else if (this.tabActive == 3) {
+          type = 370;
+        }
+        if (this.multipleSelection.length == 0) {
+          list.push({
+            memberId: this.assigned_reception_data.userObj.memberId,
+            type: type,
+            users: this.assigned_reception_data.user,
+            productId: null
+          });
+        } else {
+          this.multipleSelection.forEach(obj => {
+            list.push({
+              memberId: this.assigned_reception_data.userObj.memberId,
+              type: type,
+              users: this.assigned_reception_data.user,
+              productId: obj.id
+            });
+          });
+        }
+
+        let data = {
+          assignForms: list
+        };
+
+        insertAssignList(data)
+          .then(res => {
+            if (res.data.returnCode != 0) {
+              this.$message({
+                type: "warning",
+                message: res.data.returnMsg,
+                center: true
+              });
+            } else {
+              this.assigned_reception_cancel();
+              this.$message({
+                type: "success",
+                message: "分配成功！",
+                center: true
+              });
+              this.topItem_func(this.topActive);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
     changeSizeVal_fuc(value, index) {
       naVComponent.changeSizeVal_fuc(this, value, index);
     },
@@ -2874,7 +3028,7 @@ export default {
     personnel(id, siteId) {
       let data = {
         deptId: id,
-        siteId: siteId,
+        siteId: siteId
       };
       if (id == 6) {
         userListByDept(data)
@@ -3451,10 +3605,11 @@ export default {
           console.log(err);
         });
     },
-    handleInfo(id) {
-      this.currentNamberId = id;
+    handleInfo(obj) {
+      this.assigned_reception_data.userObj = obj;
+      this.currentNamberId = obj.memberId;
       let data = {
-        memberId: id
+        memberId: obj.memberId
       };
       queryMemberDetail(data)
         .then(res => {

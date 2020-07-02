@@ -164,6 +164,7 @@ export const shapeRemainingToday = async params => axios.post(baseUrl + '/member
 export const tryOnRemainingToday = async params => axios.post(baseUrl + '/member/tryOnRemainingToday', params);//今日试穿剩余查询列表
 // export const  = async params => axios.get(baseUrl + '', params);//今日维修剩余查询列表
 export const selectMemberReserved = async params => axios.post(baseUrl + '/member/selectMemberReserved', params);//左侧抽屉查询列表
+export const userAssignListByDept = async params => axios.post(baseUrl + '/sys/user/userAssignListByDept', params);//根据部门查询用户和今天已经分配的人数
 export const product = async params => axios.post(baseUrl + '/sale/product/product', params);//根据客户id和产品状态查询产品
 export const insertAssign = async params => axios.post(baseUrl + '/member/assign/insertAssign', params);//新增分配
 export const userListByDept = async params => axios.get(baseUrl + '/sys/user/userListByDept', params);//人员列表
@@ -171,6 +172,7 @@ export const userListByDepts = async params => axios.post(baseUrl + '/sys/user/u
 export const setPjType = async params => axios.get(baseUrl + '/member/assign/setPjType', params);//开始测评
 export const getPjInfo = async params => axios.get(baseUrl + '/member/assign/getPjInfo', params);//获取评价信息
 export const firstAssess = async params => axios.post(baseUrl + '/member/firstAssess', params);//保存客户评价信息
+export const insertAssignList = async params => axios.post(baseUrl + '/member/assign/insertAssignList', params);//提交分配接待信息
 /*
 *
 *

@@ -164,8 +164,15 @@ const left_drawer_data={
   isSearch:true,
   lef_drawer: false,
 };
+const assigned_reception_data={
+  userList:[],
+  user:[],
+  userObj:{},
+  fpjd_product:[]
+}
 export default{
     seach,
     seach_PJ,
-    left_drawer_data
+    left_drawer_data,
+    assigned_reception_data
 }
