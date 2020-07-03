@@ -3887,7 +3887,7 @@ export default {
     height: 60px;
     line-height: 60px;
     text-align: center;
-    margin: 10px;
+    margin: 0 10px 10px 10px;
     border: 1px solid #e5e5e5;
     cursor: pointer;
     font-size: 14px;

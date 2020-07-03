@@ -1,15 +1,27 @@
+//产品体验待回访
 <template>
   <div>
+    <!-- 头部筛选box -->
+    <div class="box">
+      <div class="item item1" :class="{active:topActive==0}" @click="topItem_func(0)">
+        <div>今日待回访</div>
+        <div>{{box_top_data.todayNum || 0}}</div>
+      </div>
+      <div class="item item2" :class="{active:topActive==1}" @click="topItem_func(1)">
+        <div>逾期未回访总数</div>
+        <div>{{box_top_data.overdueNum|| 0}}</div>
+      </div>
+      <div class="item item3" :class="{active:topActive==2}" @click="topItem_func(2)">
+        <div>全部待回访</div>
+        <div>{{box_top_data.allNum|| 0}}</div>
+      </div>
+    </div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">应回访日期:</span>
-      </el-col>
-      <el-col :span="5">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="应回访日期">
         <el-date-picker
-          style="width:100%"
-          size="small"
           v-model="seach.delivery"
+          class="w-250"
           type="daterange"
           format="yyyy 年 MM 月 dd 日"
           value-format="yyyy-MM-dd"
@@ -17,19 +29,9 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-
-      <el-col :span="2" id="input-title">
-        <span class="time_style">试穿人员:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
-          clearable
-          v-model="seach.repairUserId"
-          placeholder="请选择"
-        >
+      </el-form-item>
+      <el-form-item label="试穿人员">
+        <el-select class="w-150" clearable v-model="seach.repairUserId" placeholder="请选择">
           <el-option
             v-for="item in seach.scUserNameList"
             :key="item.id"
@@ -37,23 +39,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2">
-        <el-button
-          size="small"
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          icon="el-icon-search"
-          type="primary"
-        >查询</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-       <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="省份">
         <el-select
-          size="small"
+          class="w-150"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -66,13 +55,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
+      </el-form-item>
+      <el-form-item label="城市">
         <el-select
-          size="small"
+          class="w-150"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -85,12 +71,15 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="hospitalList(seach.siteValue)"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -98,12 +87,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">医院:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.hospitalId" placeholder="请先选择测评中心">
+      </el-form-item>
+      <el-form-item label="医院">
+        <el-select clearable class="w-150" v-model="seach.hospitalId" placeholder="请先选择测评中心">
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -111,8 +97,20 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          icon="el-icon-search"
+          type="primary"
+        >查询</el-button>
+        <el-button
+          @click="data_assignment_func()"
+          icon="el-icon-coordinate"
+          type="warning"
+        >数据指派</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
@@ -142,6 +140,7 @@
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
           <el-button @click="details(scope.row)" type="primary" size="small" icon="el-icon-help">回访</el-button>
+          <el-button @click="details(scope.row)" type="primary" size="small" icon="el-icon-help">回访2</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -298,7 +297,11 @@
         </el-col>
       </el-row>
       <div class="product_box" v-show="productItem_box">
-        <div class="my_box clearfix" ref="my_box" :style="'width:' + 1002 * productVisitType.length + 'px'">
+        <div
+          class="my_box clearfix"
+          ref="my_box"
+          :style="'width:' + 1002 * productVisitType.length + 'px'"
+        >
           <div v-show="productItem.item_1" class="item">
             <h4 class="center border-b-1 product_title">足弓垫</h4>
             <el-row class="margin-t-20 margin-b-20">
@@ -353,7 +356,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="鞋垫保养">鞋垫保养</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -505,7 +508,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="按摩">按摩</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -637,7 +640,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="生活习惯">生活习惯</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -769,7 +772,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="鞋垫保养">鞋垫保养</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -901,7 +904,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="按摩">按摩</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1028,7 +1031,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="鞋垫保养">鞋垫保养</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1143,7 +1146,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="鞋垫保养">鞋垫保养</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1275,7 +1278,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="按摩">按摩</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1542,7 +1545,7 @@
         <el-button type="success" icon="el-icon-picture-outline" v-on:click="getPdf()">导出PDF</el-button>
       </div>
     </el-dialog>
-     <!-- dialog 足长足宽修改-->
+    <!-- dialog 足长足宽修改-->
     <el-dialog title="足长足宽修改" :visible.sync="threeDDialg" :close-on-click-modal="false" width="30%">
       <el-form :model="threeD_ObjFrom" :inline="true" size="mini" label-width="80px">
         <el-form-item v-for="(item,index) in threeD_ObjFrom.list" :key="index" :label="item.name">
@@ -1550,6 +1553,14 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
+        <el-button @click="threeD_func()" type="success" icon="el-icon-circle-check">提交</el-button>
+      </div>
+    </el-dialog>
+    <!-- dialog 数据指派-->
+    <el-dialog title="数据指派" :visible.sync="data_assignment_Dialg" :close-on-click-modal="false" width="30%">
+      
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="close_testReport()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button @click="threeD_func()" type="success" icon="el-icon-circle-check">提交</el-button>
       </div>
     </el-dialog>
@@ -1573,7 +1584,14 @@ import {
   exportMethod,
   personnel,
   tips,
-  arrayDeduplication, province, city,allSite, site,hospital,getBase64Image,img_base64
+  arrayDeduplication,
+  province,
+  city,
+  allSite,
+  site,
+  hospital,
+  getBase64Image,
+  img_base64
 } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
@@ -1583,6 +1601,11 @@ export default {
   name: "App",
   data() {
     return {
+      /****数据指派 */
+      data_assignment_Dialg:{},
+      /****top box */
+      topActive: 0,
+      box_top_data: {},
       //列表数据
       clientData: [],
       loading: true,
@@ -1602,8 +1625,8 @@ export default {
         cityId: null,
         provinceIdList: [],
         cityIdList: [],
-        hospitalLists:[],
-        hospitalId:null,
+        hospitalLists: [],
+        hospitalId: null
       },
       productDetailsForReturnVisitDialog: false,
       userMemberId: null,
@@ -1652,9 +1675,9 @@ export default {
       isSYSJ_L: ["未使用", "5小时以下", "5-12小时", "5-18小时", "18小时以上"],
       isMY: ["满意", "一般", "不满意"],
       isXG: ["没注意", "没变化", "有点变化"],
-      zysx_1:["运动","皮肤护理","鞋垫保养"],
-      zysx_2:["运动","皮肤护理","按摩"],
-      zysx_3:["运动","皮肤护理","生活习惯"],
+      zysx_1: ["运动", "皮肤护理", "鞋垫保养"],
+      zysx_2: ["运动", "皮肤护理", "按摩"],
+      zysx_3: ["运动", "皮肤护理", "生活习惯"],
       data_box: [
         {
           productType: 1,
@@ -1763,7 +1786,7 @@ export default {
         list: []
       },
       threeDDialg: false,
-      only_recordId: null
+      only_recordId: null,
     };
   },
   components: {
@@ -1775,7 +1798,14 @@ export default {
     this.provinceList();
   },
   methods: {
-     threeD_func() {
+    data_assignment_func(){
+
+    },
+    topItem_func(index) {
+      this.topActive=index
+
+    },
+    threeD_func() {
       let data = {
         recordId: this.only_recordId,
         footLength:
@@ -1834,7 +1864,7 @@ export default {
             });
           } else {
             this.testReport = res.data.data;
-            img_base64(this,res.data.data)
+            img_base64(this, res.data.data);
             this.dialogTestReport = true;
           }
         })
@@ -1842,15 +1872,16 @@ export default {
           console.log(err);
         });
     },
-    userChurn(){
-      let data={
-        outflowPhoneStatus:this.experiencePhoneStatus,
-        outflowPhone:this.experiencePhone,
-        outflowReason:this.causeOfLoss,
-        visitIds:this.multipleSelection
-      }
-      insertOutflow(data).then(res=>{
-        if (res.data.returnCode != 0) {
+    userChurn() {
+      let data = {
+        outflowPhoneStatus: this.experiencePhoneStatus,
+        outflowPhone: this.experiencePhone,
+        outflowReason: this.causeOfLoss,
+        visitIds: this.multipleSelection
+      };
+      insertOutflow(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
               message: res.data.returnMsg,
@@ -1865,9 +1896,10 @@ export default {
               center: true
             });
           }
-      }).catch(err=>{
-        console.log(err)
-      })
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     addVisit() {
       this.productVisitType.forEach((item, index) => {
@@ -1891,7 +1923,7 @@ export default {
               message: res.data.returnMsg,
               center: true
             });
-            this.visitForms=[]
+            this.visitForms = [];
           } else {
             this.cancel();
             this.pageList(this.pages.currentPage, this.pages.pageSize);
@@ -1960,16 +1992,18 @@ export default {
       });
     },
     morePrduct_function() {
-      let data={
-        memberId:this.userMemberId
-      }
-      selectOrderDetailByMemberId(data).then(res=>{
-        console.log(res)
-        this.moreProducts=res.data.data.data
-        this.dialogMoreProducts = true;
-      }).catch(err=>{
-        console.log(err)
-      })
+      let data = {
+        memberId: this.userMemberId
+      };
+      selectOrderDetailByMemberId(data)
+        .then(res => {
+          console.log(res);
+          this.moreProducts = res.data.data.data;
+          this.dialogMoreProducts = true;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     cancel() {
       this.productDetailsForReturnVisitDialog = false;
@@ -1981,7 +2015,7 @@ export default {
       this.useWaitTime = null;
       this.visitForms = [];
       this.experiencePhone = null;
-      this.causeOfLoss=null;
+      this.causeOfLoss = null;
     },
     handleSelectionChange(val) {
       // this.multipleSelection = val;
@@ -2056,9 +2090,10 @@ export default {
     },
     //统计列表 //查询
     async pageList(pageIndex = 1, pageSize = 10) {
+      // this.pages.currentPage, this.pages.pageSize
       let data = {
-        pageNum: pageIndex,
-        pageSize: pageSize,
+        pageNum: this.pages.currentPage,
+        pageSize: this.pages.pageSize,
         waitTimeBegin:
           this.seach.delivery == null ? null : this.seach.delivery[0],
         waitTimeEnd:
@@ -2081,8 +2116,9 @@ export default {
           } else {
             this.loading = false;
             let dataList = res.data.data;
-            this.clientData = dataList.data;
+            this.clientData = dataList.data.visitDTOS;
             this.pages.total = dataList.total;
+            this.box_top_data = dataList.data;
           }
         })
         .catch(err => {
@@ -2117,7 +2153,7 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //根据测评中心获取医院列表
     async hospitalList(id) {
@@ -2142,65 +2178,36 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e4e7ed;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.office_performance {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.total {
-  background: #ff9800;
-  color: #606266;
-  height: 50px;
-  line-height: 50px;
-  span {
-    margin-left: 20px;
-  }
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
-}
+/***top box*/
 .box {
-  display: -webkit-flex;
   display: flex;
   justify-content: center;
-}
-.box > div {
-  width: 50%;
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
+  .item {
+    width: 40%;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    margin:0 10px 10px 10px;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
     font-size: 14px;
-    letter-spacing: 1px;
-    color: #606266;
+    font-weight: 600;
+    div {
+      line-height: 30px;
+    }
   }
+  .active {
+    color: #ffffff;
+    background: #56a9ff;
+  }
+
+  // .item1 {
+  //   div {
+  //     line-height: 60px;
+  //   }
+  // }
 }
-.xc_box > div {
-  display: inline-block;
-  width: 49%;
-}
+/*****/
 .color-red {
   color: #fb5b3c;
 }
