@@ -1237,7 +1237,7 @@
       :visible.sync="dialogEvaluationDetails"
       center
       :close-on-click-modal="false"
-      width="80%"
+      width="90%"
     >
       <h3 class="b-b-p-1">客户信息</h3>
       <div>
@@ -1299,8 +1299,50 @@
         </el-col>
       </el-row>
       <h3 class="b-b-p-1">测评详情</h3>
-      <div v-for="(item,index) in detailList" :key="index" class="margin-t-20">
-        <div>
+      <div class="clearfix">
+        <div v-for="(item,index) in detailList" :key="index" class="margin-r-10 left pct-w49">
+          <div class="clearfix" style="border:1px solid #E6E6E6">
+            <div
+              class="left"
+              style="width:15%;height:81px;line-height:81px;background:#E6E6E6;text-align:center;"
+            >
+              <div>{{item.examinationName}}</div>
+            </div>
+            <div class="left" style="width:85%">
+              <div
+                class="margin-l-5"
+                style="height:40px;line-height:30px;border-bottom:1px solid #E6E6E6"
+              >
+                <span>测评数据:</span>
+                <span
+                  class="margin-r-20"
+                  v-for="(element,index) in item.detail"
+                  :key="index"
+                >{{element.name}}:{{element.value}}</span>
+                <el-button
+                  class="right"
+                  style="margin-left:10px"
+                  v-if="item.examinationName == '足部3D扫描测评' || item.examinationName == '3D全身扫描' || item.examinationName == '足底压力分析'"
+                  type="warning"
+                  icon="el-icon-download"
+                  @click="baogao_func(item.examinationName)"
+                  size="mini"
+                >下载报告文件</el-button>
+                <el-button
+                  class="right"
+                  v-if="item.examinationName=='足部3D扫描测评'"
+                  type="primary"
+                  icon="el-icon-edit"
+                  @click="threeD_show(item.detail)"
+                  size="mini"
+                >修改</el-button>
+              </div>
+              <div class="margin-l-5" style="height:40px;line-height:30px;">
+                <span>测评结果:</span>
+                <span class="margin-r-20">{{item.result}}</span>
+              </div>
+            </div>
+            <!-- <div>
           <span>测评项目:</span>
           <span class="margin-r-20">{{item.examinationName}}</span>
           <el-button
@@ -1328,29 +1370,27 @@
             v-for="(element,index) in item.detail"
             :key="index"
           >{{element.name}}:{{element.value}}</span>
-        </div>
-        <!-- <div class="margin-t-5">
+            </div>-->
+            <!-- <div class="margin-t-5">
           <span>新增病情:</span>
           <span class="margin-r-20">{{item.normal}}</span>
-        </div>-->
-        <div class="margin-t-5">
+            </div>-->
+            <!-- <div class="margin-t-5">
           <span>测评结果:</span>
           <span class="margin-r-20">{{item.result}}</span>
-        </div>
-        <div class="clearfix">
-          <div
-            class="margin-t-5 left margin-r-5"
-            v-for="(imgUrlList,index) in item.url"
-            :key="index"
-          >
-            <el-image :src="imgUrlList">
-              <div slot="error" class="image-slot">
-                <i class="el-icon-picture-outline"></i>
-              </div>
-            </el-image>
+            </div>-->
           </div>
+          <div class="clearfix">
+            <div class="left" v-for="(imgUrlList,index) in item.url" :key="index">
+              <el-image :src="imgUrlList" style="height:400px" fit="contain">
+                <div slot="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
+              </el-image>
+            </div>
+          </div>
+          <!-- <hr class="border-dashed" /> -->
         </div>
-        <hr class="border-dashed" />
       </div>
     </el-dialog>
     <!-- dialog 转移测评中心-->
@@ -1486,7 +1526,7 @@ import {
   queryExamineDetail,
   printMakeParam,
   examinePadZb3d,
-  getExaminationDetailUrls,
+  getExaminationDetailUrls
 } from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
 import {
@@ -1718,13 +1758,28 @@ export default {
       this.file_dataList = [];
     },
     file_save(url) {
-      let myurl
+      let myurl;
       if (this.file_title == "足部3D扫描测评文件下载") {
-         myurl=javaApi.download3Dzb+"?recordId="+this.only_recordId+"&url="+url;
+        myurl =
+          javaApi.download3Dzb +
+          "?recordId=" +
+          this.only_recordId +
+          "&url=" +
+          url;
       } else if (this.file_title == "3D全身扫描文件下载") {
-          myurl=javaApi.download3Dqs+"?recordId="+this.only_recordId+"&url="+url;
+        myurl =
+          javaApi.download3Dqs +
+          "?recordId=" +
+          this.only_recordId +
+          "&url=" +
+          url;
       } else if (this.file_title == "足底压力分析文件下载") {
-          myurl=javaApi.downloadZdyl+"?recordId="+this.only_recordId+"&url="+url;
+        myurl =
+          javaApi.downloadZdyl +
+          "?recordId=" +
+          this.only_recordId +
+          "&url=" +
+          url;
       }
       window.open(myurl);
     },
