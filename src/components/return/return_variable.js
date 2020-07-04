@@ -232,9 +232,32 @@ const productItem={
     item_7: false,
     item_8: false
   }
+  const data_assignment={
+    data_assignment_Dialg:false,
+    loading:true,
+    clientData:[],
+    multipleSelection:[],
+    pages: {
+      total: 10,
+      pageSize: 10,
+      currentPage: 1
+    },
+    userList:[],
+    search:{
+      time:null,
+      user:null,
+      productName:null,
+    }
+  }
+  const new_details_data={
+    obj:{},
+    experience_details_dialog:false
+  }
   export default{
     data_box,
     data_box_use,
     productItem,
-    productItemUse  
+    productItemUse,
+    data_assignment,
+    new_details_data  
   }
