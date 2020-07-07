@@ -283,6 +283,7 @@
       :before-close="returnOn"
     >
       <h3 class="b-b-p-1">客户信息</h3>
+      
       <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.customerName}}</span>
@@ -551,7 +552,7 @@
         <el-button type="success" icon="el-icon-circle-check" @click="addRefund()">确认退款</el-button>
       </div>
     </el-dialog>
-    <!-- dialog 订单详情-->
+    <!-- dialog 产品尺寸-->
     <el-dialog
       title="产品尺寸"
       :visible.sync="dialogSizeDetailsView"

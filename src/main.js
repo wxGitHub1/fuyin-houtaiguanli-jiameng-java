@@ -163,6 +163,7 @@ import ReviewInvitation from './components/return/reviewInvitation';
 import ProductUsageStatistics from './components/return/productUsageStatistics';
 import ReviewInvitationStatistics from './components/return/reviewInvitationStatistics';
 import ReturnStatistic from './components/return/statistic';
+import CustomerFiles from './components/return/customer_files';
 
 //理论
 import TheoryEvaluation from './components/theory/evaluation';
@@ -316,6 +317,7 @@ Vue.component('return-productUseVisits', ProductUseVisits);
 Vue.component('return-reviewInvitation', ReviewInvitation);
 Vue.component('return-productUsageStatistics', ProductUsageStatistics);
 Vue.component('return-reviewInvitationStatistics', ReviewInvitationStatistics);
+Vue.component('return-customer-files', CustomerFiles);
 
 //理论
 Vue.component('theory-evaluation', TheoryEvaluation);

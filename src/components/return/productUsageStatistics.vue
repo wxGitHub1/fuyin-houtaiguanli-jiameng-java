@@ -199,6 +199,22 @@
       <span>产品数量:{{total.saleProductCount}}</span>
       <span>流失客户数:{{total.outflowMemberCount}}</span>
     </div>
+    <div class="total">
+      <span>全昼夜产品：</span>
+      <span>未使用占比:接口数据</span>
+      <span>5小时以下占比:接口数据</span>
+      <span>5-12小时以下占比:接口数据</span>
+      <span>13-18小时占比:接口数据</span>
+      <span>18小时以上占比:接口数据</span>
+    </div>
+    <div class="total">
+      <span>全昼产品：</span>
+      <span>未使用占比:接口数据</span>
+      <span>5小时以下占比:接口数据</span>
+      <span>5-12小时以下占比:接口数据</span>
+      <span>13-18小时占比:接口数据</span>
+      <span>18小时以上占比:接口数据</span>
+    </div>
     <!-- Pagination 分页 -->
     <el-pagination
       @size-change="handleSizeChange"
