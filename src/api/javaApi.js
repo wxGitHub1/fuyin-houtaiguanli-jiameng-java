@@ -107,8 +107,8 @@ export const updateExaminationSite = async params => axios.post(baseUrl + '/exam
 */
 //客户管理
 export const changeSite = async params => axios.post(baseUrl + '/member/changeSite', params);//站站点
-// export const queryMemberByPage = async params => axios.get(baseUrl  + '/member/queryMemberByPage', params);//客户列表
-export const queryMemberByPage = async params => axios.get(baseUrl + '/member/receptionQueryMemberTryOn', params);//客户列表
+export const queryMemberByPage = async params => axios.get(baseUrl  + '/member/queryMemberByPage', params);//客户列表
+
 export const addMember = async params => axios.post(baseUrl + '/member/addMember', params);//新增客户
 export const updateMemberInfo = async params => axios.post(baseUrl + '/member/updateMemberInfo', params);//修改客户
 export const addPrescription = async params => axios.post(baseUrl + '/member/addPrescription', params);//新增病单
@@ -209,6 +209,7 @@ export const makeInsole = async params => axios.post(baseUrl + '/shape/makeInsol
 *
 */
 //待试穿验收
+export const receptionQueryMemberTryOn = async params => axios.get(baseUrl + '/member/receptionQueryMemberTryOn', params);//客户列表
 export const selectTryOnPendingAcceptanceList = async params => axios.post(baseUrl + '/acceptance/selectTryOnPendingAcceptanceList', params);//查看试穿待验收列表
 export const selectTryOnPendingAcceptanceDetail = async params => axios.post(baseUrl + '/acceptance/selectTryOnPendingAcceptanceDetail', params);//查看试穿待验收详情
 export const tryOnAcceptanceInsertEligible = async params => axios.post(baseUrl + '/acceptance/tryOnAcceptanceInsertEligible', params);//试穿验收合格

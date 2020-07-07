@@ -282,9 +282,21 @@
       width="80%"
       :before-close="returnOn"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      
-      <div>
+      <h3 class="new-title">客户信息</h3>
+      <el-table :border="true" :data="Details" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="customerName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式"></el-table-column>
+        <el-table-column align="center" prop="source" label="客户来源"></el-table-column>
+        <el-table-column align="center" prop="cognition" label="客户初始认知"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别"></el-table-column>
+        <el-table-column align="center" prop="isBlack" label="黑名单"></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址"></el-table-column>
+        <el-table-column align="center" prop="school" label="就读学校"></el-table-column>
+        <el-table-column align="center" prop="memberModeCN" label="客户当前类型"></el-table-column>
+        <el-table-column align="center" prop="memberTypeCN" label="就诊类型"></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.customerName}}</span>
         <span>出生日期:</span>
@@ -307,9 +319,10 @@
         <span class="margin-r-20">{{Details.memberModeCN}}</span>
         <span>就诊类型:</span>
         <span>{{Details.memberTypeCN}}</span>
-      </div>
-      <h3 class="b-b-p-1">病单信息</h3>
-      <el-table :data="PatientInformation" border style="width: 100%">
+      </div> -->
+
+      <h3 class="new-title">病单信息</h3>
+      <el-table :data="PatientInformation" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="prescriptionId" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="pCityName" label="城市"></el-table-column>
@@ -322,7 +335,7 @@
         <el-table-column prop="illness" label="新增病情"></el-table-column>
         <el-table-column prop="pCreateTime" label="创建时间" min-width="100"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">
+      <h3 class="new-title">
         订单信息
         <el-button
           type="primary"
@@ -370,23 +383,23 @@
         <span>订单备注:</span>
         <span class="margin-r-20">{{orderInformation.remark || "暂无数据"}}</span>
       </div>
-      <h3 class="b-b-p-1">退款信息</h3>
-      <el-table :data="refundRecordDto" border style="width: 100%">
+      <h3 class="new-title">退款信息</h3>
+      <el-table :data="refundRecordDto" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="nickname" label="产品昵称" min-width="100"></el-table-column>
         <el-table-column prop="price" label="退款金额"></el-table-column>
         <el-table-column prop="createTime" label="退款时间"></el-table-column>
         <el-table-column prop="createUserName" label="退款人员"></el-table-column>
         <el-table-column prop="reason" label="退款原因"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">折扣优惠</h3>
-      <el-table :data="favorableDto" border style="width: 100%">
+      <h3 class="new-title">折扣优惠</h3>
+      <el-table :data="favorableDto" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="productName" label="产品昵称" min-width="100"></el-table-column>
         <el-table-column prop="sum" label="折扣金额"></el-table-column>
         <el-table-column prop="refundTime" label="折扣时间"></el-table-column>
         <el-table-column prop="user" label="折扣人员"></el-table-column>
         <el-table-column prop="reason" label="折扣原因"></el-table-column>
       </el-table>
-      <el-table class="margin-t-20" :data="prescriptions" border>
+      <el-table class="margin-t-20" :data="prescriptions" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="name" label="产品名" min-width="230"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称" min-width="100"></el-table-column>
         <el-table-column prop="type" label="产品分类"></el-table-column>
@@ -423,7 +436,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <!-- <h3 class="b-b-p-1">客户确认签字</h3>
+      <!-- <h3 class="new-title">客户确认签字</h3>
       <div class="signatureImg">
          <img :src="imgUrl" alt="图片"/> 
          <el-image :src="imgUrl">
@@ -442,11 +455,11 @@
         <el-button type="warning" @click="dialogRefund=true" icon="el-icon-bank-card">退款</el-button>
         <el-button
           type="primary"
-          :disabled="Details.updateOrder === 0"
+          :disabled="Details[0].updateOrder === 0"
           icon="el-icon-circle-close"
           @click="cancelOrder"
         >取消订单</el-button>
-        <el-button :disabled="Details.updateOrder === 0" type="warning" @click="changeOrder()">修改订单</el-button>
+        <el-button :disabled="Details[0].updateOrder === 0" type="warning" @click="changeOrder()">修改订单</el-button>
       </div>
     </el-dialog>
     <!-- dialog 补交欠款-->
@@ -457,7 +470,7 @@
       :close-on-click-modal="false"
       width="70%"
     >
-      <h3 class="b-b-p-1">付款方式</h3>
+      <h3 class="new-title">付款方式</h3>
       <el-row>
         <el-col :span="2" id="input-title">
           <span>现金金额：</span>
@@ -513,7 +526,7 @@
       :close-on-click-modal="false"
       width="70%"
     >
-      <el-table :data="refundData" border>
+      <el-table :data="refundData" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="name" label="产品名" min-width="100"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
         <el-table-column prop="type" label="产品分类"></el-table-column>
@@ -540,12 +553,12 @@
           </template>
         </el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">是否退加急费</h3>
+      <h3 class="new-title">是否退加急费</h3>
       <el-radio-group v-model="refund.quickly">
         <el-radio label="1">退加急</el-radio>
         <el-radio label="0">不退</el-radio>
       </el-radio-group>
-      <h3 class="b-b-p-1">退款原因</h3>
+      <h3 class="new-title">退款原因</h3>
       <el-input type="textarea" v-model="refund.reason" placeholder="请输入退款原因" autocomplete="off"></el-input>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelRefund()" type="primary" icon="el-icon-circle-close">取消</el-button>
@@ -911,17 +924,23 @@
       width="90%"
       :before-close="readyOrderCancel"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <div>
+      <h3 class="new-title">客户信息</h3>
+      <el-table :border="true" :data="Details" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="customerName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别"></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.customerName}}</span>
         <span>出生日期:</span>
         <span class="margin-r-20">{{Details.birthday}}</span>
         <span>性别:</span>
         <span class="margin-r-20">{{Details.sex}}</span>
-      </div>
-      <h3 class="b-b-p-1">病单信息</h3>
-      <el-table :data="currentPrescriptions" border>
+      </div> -->
+
+      <h3 class="new-title">病单信息</h3>
+      <el-table :data="currentPrescriptions" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="prescriptionId" label="病单编号" min-width="100"></el-table-column>
         <el-table-column prop="hospitalNmae" label="医院"></el-table-column>
         <el-table-column prop="departmentName" label="科室"></el-table-column>
@@ -958,7 +977,7 @@
           <el-checkbox v-model="jjChecked" @change="isJiaJi">加急费300元</el-checkbox>
         </el-col>
       </el-row>
-      <el-table class="margin-t-10" :data="detailFormList" border max-height="500">
+      <el-table class="margin-t-10" :data="detailFormList" border max-height="500" :header-row-class-name="'headerClass-two'">
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
@@ -1038,7 +1057,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">付款方式</h3>
+      <h3 class="new-title">付款方式</h3>
       <el-row>
         <el-col :span="2" id="input-title">
           <span>现金金额：</span>
@@ -1421,7 +1440,7 @@ export default {
       dialogMakeUpTheArrears: false,
       dialogSizeDetailsView: false,
       dialogRefund: false,
-      Details: {
+      Details: [{
         address: null,
         birthday: null,
         isBlack: null,
@@ -1430,7 +1449,7 @@ export default {
         school: null,
         sex: null,
         source: null
-      },
+      }],
       prescriptions: [],
       favorableDto: [],
       refundRecordDto: [],
@@ -1912,7 +1931,7 @@ export default {
               center: true
             });
           } else {
-            this.Details = res.data.data.orderDetailDto;
+            this.Details[0] = res.data.data.orderDetailDto;
             // this.Details.address = res.data.data.orderDetailDto.address;
             // this.Details.birthday = res.data.data.orderDetailDto.birthday;
             // this.Details.isBlack = res.data.data.orderDetailDto.black;

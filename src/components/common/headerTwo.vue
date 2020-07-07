@@ -108,6 +108,7 @@ export default {
       this.$store.dispatch("saveStatus", this.user);
       this.$store.dispatch("saveStatus", this.menu);
       this.witchPage =this.menu[0].name;
+      localStorage.setItem("witchPage", this.witchPage);
     },
     switchTitle(item, index) {
       this.$emit("acceptTitle", item);
@@ -167,6 +168,7 @@ export default {
             });
           } else {
             this.witchPage =item.name
+            localStorage.setItem("witchPage", this.witchPage);
             this.$emit("menuTitle",index);
             this.cur=0
           }

@@ -126,7 +126,7 @@
       ></el-pagination>
     </el-drawer>
     <!-- 头部筛选box -->
-    <div class="box">
+    <div class="box" v-if="tryOnly_show">
       <div class="item item1" :class="{active:topActive==0}" @click="topItem_func(0)">
         <div>默认列表</div>
       </div>
@@ -302,7 +302,7 @@
             type="danger"
             size="small"
           >初诊</el-button>-->
-          <el-button @click="receptionist_func(scope.row)" type="primary" size="small">分配接待</el-button>
+          <el-button @click="receptionist_func(scope.row)"  type="primary" size="small">分配接待</el-button>
           <el-button @click="handleInfo(scope.row)" type="info" size="small">详情</el-button>
         </template>
       </el-table-column>
@@ -688,7 +688,7 @@
         <el-table-column prop="condition" label="处方病情"></el-table-column>
         <el-table-column prop="illness" label="新增病情"></el-table-column>
         <el-table-column prop="updateTime" label="创建时间" min-width="100"></el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" align="center" v-if="tryOnly_show">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -779,10 +779,10 @@
         >修改客户信息</el-button>
         <el-button
           type="danger"
-          v-if="assigned_reception_data.userObj.firstCognitionFlag == 0"
+          v-if="assigned_reception_data.userObj.firstCognitionFlag == 0 || tryOnly_show == true"
           @click="czpj(assigned_reception_data.userObj)"
         >初诊评价</el-button>
-        <el-button @click="assigned_reception_func()" type="primary">分配接待</el-button>
+        <el-button @click="assigned_reception_func()" v-if="tryOnly_show" type="primary">分配接待</el-button>
         <el-button type="info" icon="el-icon-s-order" @click="heimingdanxiangxi()">黑名单详细</el-button>
       </div>
     </el-dialog>
@@ -2655,7 +2655,7 @@ export default {
       naVComponent.isRequired(this, val);
     },
     init() {
-      if (this.$route.name == "tryclothes") {
+      if (localStorage.getItem("witchPage") == "试穿") {
         this.tryOnly_show = false;
       } else {
         this.tryOnly_show = true;
