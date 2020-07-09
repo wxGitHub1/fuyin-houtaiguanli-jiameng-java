@@ -1558,10 +1558,58 @@
       title="数据指派"
       :visible.sync="data_assignment.data_assignment_Dialg"
       :close-on-click-modal="false"
-      width="80%"
+      width="90%"
     >
       <!-- seach -->
       <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+        <el-form-item label="省份">
+        <el-select
+          class="w-150"
+          clearable
+          v-model="seach.provinceId"
+          placeholder="请选择"
+          @change="cityList(seach.provinceId)"
+        >
+          <el-option
+            v-for="item in seach.provinceIdList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="城市">
+        <el-select
+          class="w-150"
+          clearable
+          v-model="seach.cityId"
+          placeholder="请先选择省份"
+          @change="siteList(seach.cityId)"
+        >
+          <el-option
+            v-for="item in seach.cityIdList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="测评中心">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="hospitalList(seach.siteValue)"
+        >
+          <el-option
+            v-for="item in seach.siteLists"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form-item>
         <el-form-item label="应回访日期">
           <el-date-picker
             v-model="data_assignment.search.time"
