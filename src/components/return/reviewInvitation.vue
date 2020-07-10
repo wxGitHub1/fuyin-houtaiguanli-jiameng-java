@@ -1,15 +1,26 @@
 // 复查邀约待回访
 <template>
   <div>
+    <!-- 头部筛选box -->
+    <div class="box">
+      <div class="item item1" >
+        <div>今日待回访</div>
+        <div>{{0}}</div>
+      </div>
+      <div class="item item2" >
+        <div>逾期未回访总数</div>
+        <div>{{0}}</div>
+      </div>
+      <div class="item item3" >
+        <div>全部待回访</div>
+        <div>{{ 0}}</div>
+      </div>
+    </div>
     <!-- seach -->
-    <el-row class="search">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">应回访日期:</span>
-      </el-col>
-      <el-col :span="5">
+    <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
+      <el-form-item label="应回访日期">
         <el-date-picker
-          style="width:100%"
-          size="small"
+          class="w-250"
           v-model="seach.delivery"
           type="daterange"
           format="yyyy 年 MM 月 dd 日"
@@ -18,15 +29,10 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-      </el-col>
-
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评人员:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
+      </el-form-item>
+      <el-form-item label="测评人员">
+          <el-select
+          class="w-150"
           clearable
           v-model="seach.repairUserId"
           placeholder="请选择"
@@ -38,14 +44,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">接通状态:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          style="width:100%"
-          size="small"
+      </el-form-item>
+      <el-form-item label="接通状态">
+<el-select
+          class="w-150"
           clearable
           v-model="seach.phoneStatus"
           placeholder="请选择"
@@ -57,23 +59,10 @@
             :value="item.name"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2">
-        <el-button
-          size="small"
-          @click="pageList(pages.currentPage,pages.pageSize)"
-          icon="el-icon-search"
-          type="primary"
-        >查询</el-button>
-      </el-col>
-    </el-row>
-    <el-row class="client_info">
-      <el-col :span="2" id="input-title">
-        <span class="time_style">省份:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          size="small"
+      </el-form-item>
+      <el-form-item label="省份">
+<el-select
+         class="w-150"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -86,13 +75,10 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">城市:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select
-          size="small"
+      </el-form-item>
+      <el-form-item label="城市">
+<el-select
+          class="w-150"
           clearable
           v-model="seach.cityId"
           placeholder="请先选择省份"
@@ -105,12 +91,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">测评中心:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
+      </el-form-item>
+      <el-form-item label="测评中心">
+<el-select clearable class="w-150" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -118,12 +101,9 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-      <el-col :span="2" id="input-title">
-        <span class="time_style">医院:</span>
-      </el-col>
-      <el-col :span="2">
-        <el-select clearable size="small" v-model="seach.hospitalId" placeholder="请先选择测评中心">
+      </el-form-item>
+      <el-form-item label="医院">
+<el-select clearable class="w-150" v-model="seach.hospitalId" placeholder="请先选择测评中心">
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -131,8 +111,15 @@
             :value="item.id"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click="pageList(pages.currentPage,pages.pageSize)"
+          icon="el-icon-search"
+          type="primary"
+        >查询</el-button>
+      </el-form-item>
+    </el-form>
     <!-- table -->
     <el-table
       border
@@ -3723,65 +3710,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.search {
-  width: 100%;
-  text-align: center;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e4e7ed;
-  .time_style {
-    letter-spacing: 1px;
-    font-size: 14px;
-    color: #606266;
-  }
-}
-.office_performance {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 10px;
-  letter-spacing: 1px;
-  color: #606266;
-}
-.client_table {
-  margin-top: 10px;
-}
-.pagination {
-  margin-top: 10px;
-  text-align: center;
-}
-.total {
-  background: #ff9800;
-  color: #606266;
-  height: 50px;
-  line-height: 50px;
-  span {
-    margin-left: 20px;
-  }
-}
-.input-title {
-  width: 5.5%;
-  line-height: 30px;
-}
-.box {
-  display: -webkit-flex;
-  display: flex;
-  justify-content: center;
-}
-.box > div {
-  width: 50%;
-}
-.client_info {
-  text-align: center;
-  padding: 10px 0;
-  span {
-    font-size: 14px;
-    letter-spacing: 1px;
-    color: #606266;
-  }
-}
-.xc_box > div {
-  display: inline-block;
-  width: 49%;
-}
 .color-red {
   color: #fb5b3c;
 }
@@ -3816,5 +3744,33 @@ export default {
 }
 .border-r-1 {
   border-right: 1px solid #cdcdcd;
+}
+/*top */
+.box {
+  display: flex;
+  justify-content: center;
+  .item {
+    width: 40%;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    margin: 0 10px 10px 10px;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    div {
+      line-height: 30px;
+    }
+  }
+  .active {
+    color: #ffffff;
+    background: #56a9ff;
+  }
+  // .item1 {
+  //   div {
+  //     line-height: 60px;
+  //   }
+  // }
 }
 </style>

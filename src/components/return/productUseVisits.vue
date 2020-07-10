@@ -1,6 +1,21 @@
 // 产品使用待回访
 <template>
   <div>
+    <!-- 头部筛选box -->
+    <div class="box">
+      <div class="item item1" >
+        <div>今日待回访</div>
+        <div>{{0}}</div>
+      </div>
+      <div class="item item2" >
+        <div>逾期未回访总数</div>
+        <div>{{0}}</div>
+      </div>
+      <div class="item item3" >
+        <div>全部待回访</div>
+        <div>{{ 0}}</div>
+      </div>
+    </div>
     <!-- seach -->
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="应回访日期">
@@ -3362,28 +3377,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-// .box {
-//   display: -webkit-flex;
-//   display: flex;
-//   justify-content: center;
-// }
-// .box > div {
-//   width: 50%;
-// }
-// .client_info {
-//   text-align: center;
-//   padding: 10px 0;
-//   span {
-//     font-size: 14px;
-//     letter-spacing: 1px;
-//     color: #606266;
-//   }
-// }
-// .xc_box > div {
-//   display: inline-block;
-//   width: 49%;
-// }
 .color-red {
   color: #fb5b3c;
 }
@@ -3418,5 +3411,33 @@ export default {
 }
 .border-r-1 {
   border-right: 1px solid #cdcdcd;
+}
+/*top */
+.box {
+  display: flex;
+  justify-content: center;
+  .item {
+    width: 40%;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    margin: 0 10px 10px 10px;
+    border: 1px solid #e5e5e5;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    div {
+      line-height: 30px;
+    }
+  }
+  .active {
+    color: #ffffff;
+    background: #56a9ff;
+  }
+  // .item1 {
+  //   div {
+  //     line-height: 60px;
+  //   }
+  // }
 }
 </style>

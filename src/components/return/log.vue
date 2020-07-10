@@ -178,8 +178,8 @@
       :before-close="cancel"
       width="80%"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <el-table :data="memberDetailDto" border>
+      <h3 class="new-title">客户信息</h3>
+      <el-table :data="memberDetailDto" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="memberName" label="客户姓名" min-width="100"></el-table-column>
         <el-table-column prop="sex" label="性别"></el-table-column>
         <el-table-column prop="phone" label="联系电话"></el-table-column>
@@ -188,8 +188,8 @@
         <el-table-column prop="condition" label="处方病情"></el-table-column>
         <el-table-column prop="illness" label="新增病情"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">产品信息</h3>
-      <el-table :data="pickupServiceInformation" border max-height="220" v-show="visitShow===1">
+      <h3 class="new-title">产品信息</h3>
+      <el-table :data="pickupServiceInformation" border max-height="220" v-show="visitShow===1" :header-row-class-name="'headerClass-two'">
         <el-table-column prop="orderNum" label="订单编号"></el-table-column>
         <el-table-column prop="saleProductNickname" label="产品昵称"></el-table-column>
         <el-table-column prop="reflect" label="取型家长反应"></el-table-column>
@@ -217,6 +217,7 @@
         max-height="220"
         class="margin-t-20"
         v-show="visitShow===2"
+        :header-row-class-name="'headerClass-two'"
       >
         <el-table-column prop="orderNum" label="订单编号"></el-table-column>
         <el-table-column prop="saleProductNickname" label="产品昵称"></el-table-column>
@@ -242,6 +243,7 @@
         max-height="220"
         class="margin-t-20"
         v-show="visitShow===3"
+        :header-row-class-name="'headerClass-two'"
       >
         <el-table-column prop="orderNum" label="订单编号"></el-table-column>
         <el-table-column prop="saleProductNickname" label="产品昵称"></el-table-column>
@@ -260,8 +262,8 @@
           </template>
         </el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">流失信息</h3>
-      <el-table :data="outflowDTOs" border>
+      <h3 class="new-title">流失信息</h3>
+      <el-table :data="outflowDTOs" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="outflowTime" label="流失时间" min-width="100"></el-table-column>
         <el-table-column prop="visitTypeString" label="回访类型"></el-table-column>
         <el-table-column prop="backVisitUserName" label="回访人"></el-table-column>
