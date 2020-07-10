@@ -210,19 +210,17 @@
     </div>
     <div class="total">
       <span>全昼夜产品：</span>
-      <span>未使用占比:接口数据</span>
-      <span>5小时以下占比:接口数据</span>
-      <span>5-12小时以下占比:接口数据</span>
-      <span>13-18小时占比:接口数据</span>
-      <span>18小时以上占比:接口数据</span>
+      <span>未使用占比:{{total.zhouye_wei}}</span>
+      <span>5小时以下占比:{{total.zhouye_5}}</span>
+      <span>5-12小时以下占比:{{total.zhouye_5_12}}</span>
+      <span>13-18小时占比:{{total.zhouye_13_18}}</span>
+      <span>18小时以上占比:{{total.zhouye_18}}</span>
     </div>
     <div class="total">
       <span>全昼产品：</span>
-      <span>未使用占比:接口数据</span>
-      <span>5小时以下占比:接口数据</span>
-      <span>5-12小时以下占比:接口数据</span>
-      <span>13-18小时占比:接口数据</span>
-      <span>18小时以上占比:接口数据</span>
+      <span>未使用占比:{{total.zhou_wei}}</span>
+      <span>5小时以下占比:{{total.zhou_5}}</span>
+      <span>5-12小时以下占比:{{total.zhou_5_12}}</span>
     </div>
     <!-- Pagination 分页 -->
     <el-pagination

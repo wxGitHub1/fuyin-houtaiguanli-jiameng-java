@@ -2992,7 +2992,7 @@
 
 <script>
 import {
-  selectWaitReviewList,
+  selectOverdueByPage,
   selectUpdateBackWaitVisitDetail,
   queryExamineDetail,
   selectBackupPhoneByMemberId,
@@ -3794,7 +3794,7 @@ export default {
         hospitalId: this.seach.hospitalId
       };
       this.loading = true;
-      selectWaitReviewList(data)
+      selectOverdueByPage(data)
         .then(res => {
           if (res.data.returnCode != 0) {
             this.$message({

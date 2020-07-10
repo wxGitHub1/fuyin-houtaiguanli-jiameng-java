@@ -97,7 +97,7 @@
     >
       <el-row>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="auto" size="mini">
-          <h3 class="b-b-p-1">基本信息</h3>
+          <h3 class="new-title">基本信息</h3>
           <el-col :span="11">
             <el-form-item label="客户姓名:" prop="name">
               <el-input v-model="ruleForm.name" placeholder="请输入客户姓名" autocomplete="off"></el-input>
@@ -174,7 +174,7 @@
           </el-col>
         </el-form>
       </el-row>
-      <h3 class="b-b-p-1">
+      <h3 class="new-title">
         病单信息
         <el-button
           v-if="modefiy"
@@ -389,8 +389,21 @@
       width="80%"
       :before-close="xiangxifanhui"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <div>
+      <h3 class="new-title">客户信息</h3>
+<el-table :border="true" :data="Details" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式"></el-table-column>
+        <el-table-column align="center" prop="source" label="客户来源"></el-table-column>
+        <el-table-column align="center" prop="cognition" label="客户初始认知"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别"></el-table-column>
+        <el-table-column align="center" prop="isBlack" label="黑名单"></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址"></el-table-column>
+        <el-table-column align="center" prop="school" label="就读学校"></el-table-column>
+        <el-table-column align="center" prop="memberModeCN" label="客户当前类型"></el-table-column>
+        <el-table-column align="center" prop="memberTypeCN" label="就诊类型"></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.memberName}}</span>
         <span>出生日期:</span>
@@ -415,32 +428,36 @@
         <span class="margin-r-20">{{Details.memberModeCN}}</span>
         <span>就诊类型:</span>
         <span>{{Details.memberTypeCN}}</span>
-      </div>
+      </div> -->
 
-      <h3 class="b-b-p-1">会员信息</h3>
-      <el-table :data="memberCard" border>
+      <h3 class="new-title">会员信息</h3>
+      <el-table :data="memberCard" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="isVIP" label="当前是否会员" min-width="100"></el-table-column>
         <el-table-column prop="partsNum" label="部位剩余次数"></el-table-column>
         <el-table-column prop="wholeNum" label="全身剩余次数"></el-table-column>
         <el-table-column prop="vipType" label="是否续会员"></el-table-column>
         <el-table-column prop="expireDate" label="会员到期时间"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">历史信息</h3>
-      <el-table :data="overdueList" border>
+      <h3 class="new-title">历史信息</h3>
+      <el-table :data="overdueList" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="isOverdue" label="会员是否过期"></el-table-column>
         <el-table-column prop="overdueDate" label="过期时间"></el-table-column>
         <el-table-column prop="allOverdueTimes" label="过期全身次数"></el-table-column>
         <el-table-column prop="overdueTimes" label="过期部位次数"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">治疗周期</h3>
-      <div>
+      <h3 class="new-title">治疗周期</h3>
+      <el-table :border="true" :data="Details" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="treatmentCycle" label="治疗周期"></el-table-column>
+        <el-table-column align="center" prop="treatmentCycleTime" label="创建时间"></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>治疗周期:</span>
         <span class="margin-r-20">{{Details.treatmentCycle}}</span>
         <span>创建时间:</span>
         <span>{{Details.treatmentCycleTime}}</span>
-      </div>
-      <h3 class="b-b-p-1">病单信息</h3>
-      <el-table :data="prescriptions" border>
+      </div> -->
+      <h3 class="new-title">病单信息</h3>
+      <el-table :data="prescriptions" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="prescriptionNum" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="pCityName" label="城市"></el-table-column>
@@ -465,8 +482,8 @@
           </template>
         </el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">测评记录</h3>
-      <el-table :data="evaluates" border max-height="500">
+      <h3 class="new-title">测评记录</h3>
+      <el-table :data="evaluates" border max-height="500" :header-row-class-name="'headerClass-two'">
         <el-table-column prop="evaluateUserName" label="测评人" min-width="100"></el-table-column>
         <el-table-column prop="createTime" label="测评时间"></el-table-column>
         <el-table-column prop="recoveryCN" label="恢复情况"></el-table-column>
@@ -506,8 +523,8 @@
         <el-table-column prop="zb3d" label="足部3d"></el-table-column>
         <el-table-column prop="gmd" label="骨密度"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">订单信息</h3>
-      <el-table :data="orders" border max-height="500">
+      <h3 class="new-title">订单信息</h3>
+      <el-table :data="orders" border max-height="500" :header-row-class-name="'headerClass-two'">
         <el-table-column prop="orderNum" label="订单编号" min-width="100"></el-table-column>
         <el-table-column prop="name" label="产品名称"></el-table-column>
         <el-table-column prop="nickname" label="产品昵称"></el-table-column>
@@ -530,11 +547,11 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="xiangxifanhui()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button
-          v-if="Details.phone != '***********' "
+          v-if="Details[0].phone != '***********' "
           type="primary"
           icon="el-icon-edit"
           plain
-          @click="handleModify(currentNamberId,Details.isBlack)"
+          @click="handleModify(currentNamberId,Details[0].isBlack)"
         >修改</el-button>
         <el-button type="info" icon="el-icon-s-order" @click="heimingdanxiangxi()">黑名单详细</el-button>
       </div>
@@ -734,8 +751,21 @@
       :close-on-click-modal="false"
       width="70%"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <div>
+      <h3 class="new-title">客户信息</h3>
+      <el-table :border="true" :data="Details" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式"></el-table-column>
+        <el-table-column align="center" prop="source" label="客户来源"></el-table-column>
+        <el-table-column align="center" prop="cognition" label="客户初始认知"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别"></el-table-column>
+        <el-table-column align="center" prop="isBlack" label="黑名单"></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址"></el-table-column>
+        <el-table-column align="center" prop="school" label="就读学校"></el-table-column>
+        <el-table-column align="center" prop="memberModeCN" label="客户当前类型"></el-table-column>
+        <el-table-column align="center" prop="memberTypeCN" label="就诊类型"></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.memberName}}</span>
         <span>出生日期:</span>
@@ -758,9 +788,9 @@
         <span class="margin-r-20">{{Details.memberModeCN}}</span>
         <span>就诊类型:</span>
         <span>{{Details.memberTypeCN}}</span>
-      </div>
-      <h3 class="b-b-p-1">黑名单详细</h3>
-      <el-table :data="blacklistDetails" border>
+      </div> -->
+      <h3 class="new-title">黑名单详细</h3>
+      <el-table :data="blacklistDetails" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="operation" label="操作类型" min-width="100"></el-table-column>
         <el-table-column prop="createTime" label="操作时间"></el-table-column>
         <el-table-column prop="createUserName" label="操作人"></el-table-column>
@@ -779,17 +809,22 @@
       width="90%"
       :before-close="readyOrderCancel"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <div>
+      <h3 class="new-title">客户信息</h3>
+      <el-table :border="true" :data="Details" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别"></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.memberName}}</span>
         <span>出生日期:</span>
         <span class="margin-r-20">{{Details.birthday}}</span>
         <span>性别:</span>
         <span class="margin-r-20">{{Details.sex}}</span>
-      </div>
-      <h3 class="b-b-p-1">病单信息</h3>
-      <el-table :data="currentPrescriptions" border>
+      </div> -->
+      <h3 class="new-title">病单信息</h3>
+      <el-table :data="currentPrescriptions" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="prescriptionNum" label="病单编号" min-width="100"></el-table-column>
         <el-table-column align="center" prop="pProvinceName" label="省份"></el-table-column>
         <el-table-column align="center" prop="pCityName" label="城市"></el-table-column>
@@ -828,7 +863,7 @@
           <el-checkbox v-model="jjChecked" @change="isJiaJi()">加急费300元</el-checkbox>
         </el-col>
       </el-row>
-      <el-table class="margin-t-10" :data="detailFormList" border max-height="500">
+      <el-table class="margin-t-10" :data="detailFormList" border max-height="500" :header-row-class-name="'headerClass-two'">
         <el-table-column type="index" label="序号" width="60"></el-table-column>
         <el-table-column prop="source" label="产品分类"></el-table-column>
         <el-table-column prop="recordNumber" label="备案编号"></el-table-column>
@@ -908,7 +943,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">付款方式</h3>
+      <h3 class="new-title">付款方式</h3>
       <el-row>
         <el-col :span="2" id="input-title">
           <span>现金金额：</span>
@@ -1239,8 +1274,14 @@
       :close-on-click-modal="false"
       width="90%"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <div>
+      <h3 class="new-title">客户信息</h3>
+      <el-table :border="true" :data="Details" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式"></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址"></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{Details.memberName}}</span>
         <span>出生日期:</span>
@@ -1249,56 +1290,70 @@
         <span class="margin-r-20">{{Details.phone}}</span>
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
-      </div>
-      <el-row>
+      </div> -->
+      <h3 class="new-title">测评信息</h3>
+      <el-table :border="true" :data="examinationInfo" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="remark" label="结果备注"></el-table-column>
+        <el-table-column align="center" prop="repeatTime" label="复查日期"></el-table-column>
+        <el-table-column align="center" prop="cooperate" label="孩子配合程度"></el-table-column>
+        <el-table-column align="center" prop="cycle" label="治疗周期"></el-table-column>
+        <el-table-column align="center" prop="recommendCN" label="老带新"></el-table-column>
+        <el-table-column align="center" prop="tuobeiCN" label="驼背"></el-table-column>
+        <el-table-column align="center" prop="memberAnalysisCN" label="客户分析"></el-table-column>
+        <el-table-column align="center" prop="memberModeCN" label="客户类型"></el-table-column>
+        <el-table-column align="center" prop="completeCN" label="是否全身测评"></el-table-column>
+        <el-table-column align="center" prop="incompleteReason" label="未进行全身测评的原因"></el-table-column>
+        <el-table-column align="center" prop="recoveryCN" label="恢复情况"></el-table-column>
+      </el-table>
+      <!-- <el-row>
         <el-col :span="4">
-          <h3 class="b-b-p-1">结果备注</h3>
+          <h3 class="new-title">结果备注</h3>
           <div>{{examinationInfo.remark || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">复查日期</h3>
+          <h3 class="new-title">复查日期</h3>
           <div>{{examinationInfo.repeatTime || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">孩子配合程度</h3>
+          <h3 class="new-title">孩子配合程度</h3>
           <div>{{examinationInfo.cooperate || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">治疗周期</h3>
+          <h3 class="new-title">治疗周期</h3>
           <div>{{examinationInfo.cycle || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">老带新</h3>
+          <h3 class="new-title">老带新</h3>
           <div>{{examinationInfo.recommendCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">驼背</h3>
+          <h3 class="new-title">驼背</h3>
           <div>{{examinationInfo.tuobeiCN || "暂无数据"}}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="4">
-          <h3 class="b-b-p-1">客户分析</h3>
+          <h3 class="new-title">客户分析</h3>
           <div>{{examinationInfo.memberAnalysisCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">客户类型</h3>
+          <h3 class="new-title">客户类型</h3>
           <div>{{examinationInfo.memberModeCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">是否全身测评</h3>
+          <h3 class="new-title">是否全身测评</h3>
           <div>{{examinationInfo.completeCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">未进行全身测评的原因</h3>
+          <h3 class="new-title">未进行全身测评的原因</h3>
           <div>{{examinationInfo.incompleteReason || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">恢复情况</h3>
+          <h3 class="new-title">恢复情况</h3>
           <div>{{examinationInfo.recoveryCN || "暂无数据"}}</div>
         </el-col>
-      </el-row>
-      <h3 class="b-b-p-1">测评详情</h3>
+      </el-row> -->
+      <h3 class="new-title">测评详情</h3>
       <div class="clearfix">
         <div v-for="(item,index) in detailList" :key="index" class="margin-r-10 left pct-w49">
           <div class="clearfix" style="border:1px solid #E6E6E6">
@@ -1484,7 +1539,7 @@
     </el-dialog>
     <!-- dialog 报告列表-->
     <el-dialog :title="file_title" :visible.sync="file_dialog" :close-on-click-modal="false">
-      <el-table border :data="file_dataList" :before-close="file_func">
+      <el-table border :data="file_dataList" :before-close="file_func" :header-row-class-name="'headerClass-two'">
         <el-table-column prop="url" label="文件名"></el-table-column>
         <el-table-column prop="actual" label="操作">
           <template slot-scope="scope">
@@ -1568,7 +1623,7 @@ export default {
     };
     return {
       dialogEvaluationDetails: false, //测评信息详情弹框
-      examinationInfo: {}, //测评详情
+      examinationInfo: [{}], //测评详情
       detailList: [], //测评详情
       excelLoad: false,
       addKeHuTitle: "新增客户",
@@ -1662,7 +1717,7 @@ export default {
       },
       BlackReason: null,
       currentNamberId: null,
-      Details: {
+      Details: [{
         address: null,
         birthday: null,
         cognition: null,
@@ -1674,7 +1729,7 @@ export default {
         source: null,
         treatmentCycle: null,
         treatmentCycleTime: null
-      },
+      }],
       memberCard: [],
       //  {
       //   isVIP: null,
@@ -1901,7 +1956,7 @@ export default {
               center: true
             });
           } else {
-            this.examinationInfo = res.data.data.examinationInfo;
+            this.examinationInfo[0] = res.data.data.examinationInfo;
             this.detailList = res.data.data.detailList;
             this.dialogEvaluationDetails = true;
           }
@@ -2397,7 +2452,7 @@ export default {
             // console.log("详情");
             // console.log(res);
             this.dialogDepartmentDetails = true;
-            this.Details = res.data.data.memberInfo;
+            this.Details[0] = res.data.data.memberInfo;
             this.overdueList = res.data.data.overdueList;
             this.$set(this.memberCard, 0, res.data.data.memberCard);
             // this.memberCard[0] = res.data.data.memberCard;
@@ -2564,7 +2619,7 @@ export default {
   padding: 5px;
   width: 80%;
 }
-.b-b-p-1 {
+.new-title {
   padding-bottom: 10px;
   border-bottom: 1px solid #eeeeee;
 }

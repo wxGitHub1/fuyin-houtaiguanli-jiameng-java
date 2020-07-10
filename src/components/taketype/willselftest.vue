@@ -118,7 +118,20 @@
       :before-close="xiangxifanhui"
     >
       <h3 class="b-b-p-1">客户信息</h3>
-      <div>
+      <el-table :border="true" :data="memberDetailDto" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式"></el-table-column>
+        <el-table-column align="center" prop="source" label="客户来源"></el-table-column>
+        <el-table-column align="center" prop="cognition" label="客户初始认知"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别"></el-table-column>
+        <el-table-column align="center" prop="black" label="黑名单"></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址"></el-table-column>
+        <el-table-column align="center" prop="school" label="就读学校"></el-table-column>
+        <el-table-column align="center" prop="memberModeCN" label="客户当前类型"></el-table-column>
+        <el-table-column align="center" prop="memberTypeCN" label="就诊类型"></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{memberDetailDto.memberName}}</span>
         <span>出生日期:</span>
@@ -143,16 +156,20 @@
         <span class="margin-r-20">{{memberDetailDto.memberModeCN}}</span>
         <span>就诊类型:</span>
         <span>{{memberDetailDto.memberTypeCN}}</span>
-      </div>
+      </div> -->
       <h3 class="b-b-p-1">病情信息</h3>
-      <div>
+      <el-table :border="true" :data="memberDetailDto" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="condition" label="处方病情"></el-table-column>
+        <el-table-column align="center" prop="illness" label="新增病情"></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>处方病情:</span>
         <span class="margin-r-20">{{memberDetailDto.condition}}</span>
         <span>新增病情:</span>
         <span class="margin-r-20">{{memberDetailDto.illness}}</span>
-      </div>
+      </div> -->
       <h3 class="b-b-p-1">订单详情</h3>
-      <el-table :data="saleProductDto" border style="width: 100%">
+      <el-table :data="saleProductDto" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="nickname" label="产品名称" min-width="100"></el-table-column>
         <el-table-column prop="model" label="产品类型"></el-table-column>
         <el-table-column prop="orderUser" label="下单人员"></el-table-column>
@@ -287,9 +304,9 @@ export default {
       dialogTurnDown: false,
       dialogFeedback: false,
       dialogOrderFrom: false,
-      memberDetailDto: {
+      memberDetailDto: [{
         memberName: null
-      },
+      }],
       acceptanceDtos: null,
       saleProductDto: [],
       productShapeDto: {
@@ -472,7 +489,7 @@ export default {
         .then(res => {
           console.log(res);
           let data = res.data.data;
-          this.memberDetailDto = data.memberDetailDto;
+          this.memberDetailDto[0] = data.memberDetailDto;
           this.acceptanceDtos = data.acceptanceDtos;
           this.saleProductDto[0] = data.saleProductDto;
           this.productShapeDto = data.productShapeDto;

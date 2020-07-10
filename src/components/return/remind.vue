@@ -2992,7 +2992,7 @@
 
 <script>
 import {
-  selectWaitReviewList,
+  selectWaitReviewByPage,
   selectUpdateBackWaitVisitDetail,
   queryExamineDetail,
   selectBackupPhoneByMemberId,
@@ -3794,7 +3794,7 @@ export default {
         hospitalId: this.seach.hospitalId
       };
       this.loading = true;
-      selectWaitReviewList(data)
+      selectWaitReviewByPage(data)
         .then(res => {
           if (res.data.returnCode != 0) {
             this.$message({
@@ -3828,9 +3828,9 @@ export default {
       this.pageList(pageIndex, pageSize);
     },
     //获取试穿人员列表
-    async userList() {
-      this.seach.scUserNameList = await personnel(9);
-    },
+    // async userList() {
+    //   this.seach.scUserNameList = await personnel(9);
+    // },
     //获取试穿人员列表
     async userList() {
       this.seach.scUserNameList = await personnel(6);

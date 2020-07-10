@@ -286,14 +286,22 @@ export const examineJoinStatistics = async params => axios.post(baseUrl + '/exam
 *回访管理
 *
 */
+//客户档案
+export const selectMemberFile = async params => axios.post(baseUrl + '/back/visit/selectMemberFile', params);//查询列表
 //已流失
 export const selectBackVisitOutflowList = async params => axios.post(baseUrl + '/back/visit/selectBackVisitOutflowList', params);//查询已流失列表
+export const confirmOutflow = async params => axios.post(baseUrl + '/back/visit/confirmOutflow', params);//确认流失
+export const cancelOutflow = async params => axios.post(baseUrl + '/back/visit/cancelOutflow', params);//取消流失
 //产品体验统计
 export const selectExperienceStatistics = async params => axios.post(baseUrl + '/back/visit/selectExperienceStatistics', params);//查询体验统计列表
 //产品使用统计
 export const selectUseStatistics = async params => axios.post(baseUrl + '/back/visit/selectUseStatistics', params);//查询使用统计列表
 //产品邀约统计
 export const selectBackStatistics = async params => axios.post(baseUrl + '/back/visit/selectBackStatistics', params);//查询产品邀约统计列表
+//待复查
+export const selectWaitReviewByPage = async params => axios.post(baseUrl + '/back/visit/selectWaitReviewByPage', params);//查询列表
+//逾期未到
+export const selectOverdueByPage = async params => axios.post(baseUrl + '/back/visit/selectOverdueByPage', params);//查询列表
 //已复查
 export const selectWaitReviewList = async params => axios.post(baseUrl + '/back/visit/selectWaitReviewList', params);//查询已复查列表
 export const selectWaitReviewDetail = async params => axios.post(baseUrl + '/back/visit/selectWaitReviewDetail', params);//查询待复查详情

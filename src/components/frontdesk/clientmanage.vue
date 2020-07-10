@@ -1821,7 +1821,21 @@
         <span>家庭住址:</span>
         <span class="margin-r-20">{{Details.address}}</span>
       </div>-->
-      <el-row>
+      <h3 class="new-title">测评信息</h3>
+      <el-table :border="true" :data="examinationInfo" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="remark" label="结果备注"></el-table-column>
+        <el-table-column align="center" prop="repeatTime" label="复查日期"></el-table-column>
+        <el-table-column align="center" prop="cooperate" label="孩子配合程度"></el-table-column>
+        <el-table-column align="center" prop="cycle" label="治疗周期"></el-table-column>
+        <el-table-column align="center" prop="recommendCN" label="老带新"></el-table-column>
+        <el-table-column align="center" prop="tuobeiCN" label="驼背"></el-table-column>
+        <el-table-column align="center" prop="memberAnalysisCN" label="客户分析"></el-table-column>
+        <el-table-column align="center" prop="memberModeCN" label="客户类型"></el-table-column>
+        <el-table-column align="center" prop="completeCN" label="是否全身测评"></el-table-column>
+        <el-table-column align="center" prop="incompleteReason" label="未进行全身测评的原因"></el-table-column>
+        <el-table-column align="center" prop="recoveryCN" label="恢复情况"></el-table-column>
+      </el-table>
+      <!-- <el-row>
         <el-col :span="4">
           <h3 class="new-title">结果备注</h3>
           <div>{{examinationInfo.remark || "暂无数据"}}</div>
@@ -1868,7 +1882,7 @@
           <h3 class="new-title">恢复情况</h3>
           <div>{{examinationInfo.recoveryCN || "暂无数据"}}</div>
         </el-col>
-      </el-row>
+      </el-row> -->
       <h3 class="new-title">测评详情</h3>
       <div v-for="(item,index) in detailList" :key="index" class="margin-t-20">
         <div>
@@ -2184,7 +2198,7 @@ export default {
       /** */
       addClientTitle: "新增客户",
       dialogEvaluationDetails: false, //测评信息详情弹框
-      examinationInfo: {}, //测评详情
+      examinationInfo: [{}], //测评详情
       detailList: [], //测评详情
       specialRequirements: null,
       discount: null,
@@ -2864,7 +2878,7 @@ export default {
               center: true
             });
           } else {
-            this.examinationInfo = res.data.data.examinationInfo;
+            this.examinationInfo[0] = res.data.data.examinationInfo;
             this.detailList = res.data.data.detailList;
             this.dialogEvaluationDetails = true;
           }

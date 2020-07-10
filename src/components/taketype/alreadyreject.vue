@@ -140,8 +140,21 @@
       width="70%"
       :before-close="xiangxifanhui"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <div>
+      <h3 class="new-title">客户信息</h3>
+      <el-table :border="true" :data="memberDetailDto" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="memberName" label="客户姓名"></el-table-column>
+        <el-table-column align="center" prop="birthday" label="出生日期"></el-table-column>
+        <el-table-column align="center" prop="phone" label="联系方式"></el-table-column>
+        <el-table-column align="center" prop="source" label="客户来源"></el-table-column>
+        <el-table-column align="center" prop="cognition" label="客户初始认知"></el-table-column>
+        <el-table-column align="center" prop="sex" label="性别"></el-table-column>
+        <el-table-column align="center" prop="black" label="黑名单"></el-table-column>
+        <el-table-column align="center" prop="address" label="家庭住址"></el-table-column>
+        <el-table-column align="center" prop="school" label="就读学校"></el-table-column>
+        <el-table-column align="center" prop="memberModeCN" label="客户当前类型"></el-table-column>
+        <el-table-column align="center" prop="memberTypeCN" label="就诊类型"></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{memberDetailDto.memberName}}</span>
         <span>出生日期:</span>
@@ -166,16 +179,20 @@
         <span class="margin-r-20">{{memberDetailDto.memberModeCN}}</span>
         <span>就诊类型:</span>
         <span>{{memberDetailDto.memberTypeCN}}</span>
-      </div>
-      <h3 class="b-b-p-1">病情信息</h3>
-      <div>
+      </div> -->
+      <h3 class="new-title">病情信息</h3>
+      <el-table :border="true" :data="memberDetailDto" :header-row-class-name="'headerClass-two'">
+        <el-table-column align="center" prop="condition" label="处方病情"></el-table-column>
+        <el-table-column align="center" prop="illness" label="新增病情"></el-table-column>
+      </el-table>
+      <!-- <div>
         <span>处方病情:</span>
         <span class="margin-r-20">{{memberDetailDto.condition}}</span>
         <span>新增病情:</span>
         <span class="margin-r-20">{{memberDetailDto.illness}}</span>
-      </div>
-      <h3 class="b-b-p-1">订单详情</h3>
-      <el-table :data="saleProductDto" border style="width: 100%">
+      </div> -->
+      <h3 class="new-title">订单详情</h3>
+      <el-table :data="saleProductDto" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="nickname" label="产品名称" min-width="100"></el-table-column>
         <el-table-column prop="model" label="产品类型"></el-table-column>
         <el-table-column prop="orderUser" label="下单人员"></el-table-column>
@@ -184,7 +201,7 @@
         <el-table-column prop="demand" label="特殊要求"></el-table-column>
         <el-table-column prop="orderNum" label="订单号"></el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">取型信息</h3>
+      <h3 class="new-title">取型信息</h3>
       <div>
         <span>主取型人:</span>
         <span class="margin-r-20">{{productShapeDto[0].user}}</span>
@@ -209,12 +226,12 @@
           <span class="margin-r-20">{{item.value || "暂无数据"}}</span>
         </div>-->
       </div>
-      <h3 class="b-b-p-1">家长反应</h3>
+      <h3 class="new-title">家长反应</h3>
       <div>
         <span class="margin-r-20">{{productShapeDto[0].reflect}}</span>
       </div>
-      <h3 class="b-b-p-1">取型自检信息</h3>
-      <el-table :data="productShapeDto" border style="width: 100%">
+      <h3 class="new-title">取型自检信息</h3>
+      <el-table :data="productShapeDto" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="checkSelfUser" label="自检人" min-width="100"></el-table-column>
         <el-table-column prop="checkSelfTime" label="自检时间"></el-table-column>
         <el-table-column prop="checkSelfResult" label="自检结果">
@@ -224,8 +241,8 @@
           </template>
         </el-table-column>
       </el-table>
-      <h3 class="b-b-p-1">取型验收信息</h3>
-      <el-table :data="acceptanceDtos" border style="width: 100%">
+      <h3 class="new-title">取型验收信息</h3>
+      <el-table :data="acceptanceDtos" border :header-row-class-name="'headerClass-two'">
         <el-table-column prop="createUserName" label="验收人" min-width="100"></el-table-column>
         <el-table-column prop="createTime" label="验收时间"></el-table-column>
         <el-table-column prop="result" label="验收结果"></el-table-column>
@@ -332,9 +349,9 @@ export default {
         cityIdList: []
       },
       dialogDepartmentDetails: false,
-      memberDetailDto: {
+      memberDetailDto: [{
         memberName: null
-      },
+      }],
       acceptanceDtos: null,
       saleProductDto: [],
       productShapeDto: [
@@ -458,7 +475,7 @@ export default {
         .then(res => {
           console.log(res);
           this.dialogDepartmentDetails = true;
-          this.memberDetailDto = res.data.data.memberDetailDto;
+          this.memberDetailDto[0] = res.data.data.memberDetailDto;
           this.acceptanceDtos = res.data.data.acceptanceDtos;
           this.saleProductDto[0] = res.data.data.saleProductDto;
           this.productShapeDto[0] = res.data.data.productShapeDto;

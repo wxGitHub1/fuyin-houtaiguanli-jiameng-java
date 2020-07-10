@@ -4,10 +4,10 @@
     <!-- seach -->
     <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
       <el-form-item label="客户姓名">
-       <el-input v-model="seach.memberName" class="w-150" placeholder="请输入姓名"></el-input>
+        <el-input v-model="seach.memberName" class="w-150" placeholder="请输入姓名"></el-input>
       </el-form-item>
       <el-form-item label="是否会员">
-       <el-select class="w-150" clearable v-model="seach.vip" placeholder="请选择">
+        <el-select class="w-150" clearable v-model="seach.vip" placeholder="请选择">
           <el-option
             v-for="item in seach.vipList"
             :key="item.id"
@@ -20,8 +20,8 @@
         <el-input clearable class="w-150" v-model="seach.visitUserName" placeholder="请输入回访人"></el-input>
       </el-form-item>
       <el-form-item label="流失时间">
-       <el-date-picker
-         class="w-250"
+        <el-date-picker
+          class="w-250"
           v-model="seach.outflowTime"
           type="daterange"
           format="yyyy-MM-dd"
@@ -32,7 +32,7 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="省份">
-       <el-select
+        <el-select
           class="w-150"
           clearable
           v-model="seach.provinceId"
@@ -48,7 +48,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="城市">
-       <el-select
+        <el-select
           class="w-150"
           clearable
           v-model="seach.cityId"
@@ -64,7 +64,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-       <el-select clearable class="w-150" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="hospitalList(seach.siteValue)"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -74,7 +80,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="医院">
-       <el-select clearable class="w-150" v-model="seach.hospitalId" placeholder="请先选择测评中心">
+        <el-select clearable class="w-150" v-model="seach.hospitalId" placeholder="请先选择测评中心">
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -84,19 +90,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="产品昵称">
-        <el-input
-          class="w-150"
-          v-model="seach.saleProductName"
-          placeholder="请输入产品昵称"
-        ></el-input>
+        <el-input class="w-150" v-model="seach.saleProductName" placeholder="请输入产品昵称"></el-input>
       </el-form-item>
       <el-form-item label="回访类型">
-       <el-select
-          class="w-150"
-          clearable
-          v-model="seach.visitTypeInt"
-          placeholder="请选择"
-        >
+        <el-select class="w-150" clearable v-model="seach.visitTypeInt" placeholder="请选择">
           <el-option
             v-for="item in seach.visitTypeIntList"
             :key="item.id"
@@ -106,12 +103,12 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-       <el-button
+        <el-button
           @click="pageList(pages.currentPage,pages.pageSize)"
           icon="el-icon-search"
           type="primary"
         >查询</el-button>
-        <el-button type="danger" @click="exportExcels()" >导出excel</el-button>
+        <el-button type="danger" @click="exportExcels()">导出excel</el-button>
       </el-form-item>
     </el-form>
     <!-- table -->
@@ -136,10 +133,20 @@
       <el-table-column align="center" prop="outflowTime" label="流失时间"></el-table-column>
       <el-table-column align="center" prop="outflowReason" label="流失原因"></el-table-column>
       <el-table-column align="center" label="操作" width="300">
-           <template slot-scope="scope"> 
-            <el-button @click="churn_cancel_func(scope.row)"  type="primary" size="mini" icon="el-icon-circle-close">取消流失</el-button>
-            <el-button @click="churn_save_func(scope.row)"  type="danger" size="mini" icon="el-icon-circle-check">确认流失</el-button>
-          </template>
+        <template slot-scope="scope">
+          <el-button
+            @click="churn_cancel_func(scope.row)"
+            type="primary"
+            size="mini"
+            icon="el-icon-circle-close"
+          >取消流失</el-button>
+          <el-button
+            @click="churn_save_func(scope.row)"
+            type="danger"
+            size="mini"
+            icon="el-icon-circle-check"
+          >确认流失</el-button>
+        </template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -156,9 +163,22 @@
 </template>
 
 <script>
-import { selectBackVisitOutflowList } from "../../api/javaApi";
+import {
+  selectBackVisitOutflowList,
+  cancelOutflow,
+  confirmOutflow
+} from "../../api/javaApi";
 import javaApi from "../../api/javaApi";
-import { exportMethod, personnel, province, city,allSite, site,hospital } from "../../utils/public";
+import {
+  exportMethod,
+  personnel,
+  province,
+  city,
+  allSite,
+  site,
+  hospital,
+  tips
+} from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
 export default {
@@ -175,16 +195,19 @@ export default {
       seach: {
         outflowTime: null,
         vip: null,
-        vipList: [{ name: "否", id: "0" }, { name: "是", id: 1 }],
+        vipList: [
+          { name: "否", id: "0" },
+          { name: "是", id: 1 }
+        ],
         visitUserName: null,
         visitUserList: [],
         saleProductName: null,
         visitTypeInt: null,
         visitTypeIntList: [
-          { name: "产品体验回访",id:1 },
-          { name: "产品使用回访",id:2 },
-          { name: "复查邀约回访",id:3 },
-          { name: "复查确认回访",id:4 }
+          { name: "产品体验回访", id: 1 },
+          { name: "产品使用回访", id: 2 },
+          { name: "复查邀约回访", id: 3 },
+          { name: "复查确认回访", id: 4 }
         ],
         memberName: null,
         siteLists: [],
@@ -193,8 +216,8 @@ export default {
         cityId: null,
         provinceIdList: [],
         cityIdList: [],
-        hospitalLists:[],
-        hospitalId:null,
+        hospitalLists: [],
+        hospitalId: null
       },
       loading: true
     };
@@ -205,39 +228,77 @@ export default {
     this.provinceList();
   },
   methods: {
-    churn_cancel_func(obj){
-        let deleteData = {};
-        this.$confirm("是否取消流失客户？", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-          .then(() => {
-                
-          })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "取消删除"
+    churn_cancel_func(obj) {
+      let deleteData = {
+        visitId: obj.visitId,
+        outflowId: obj.outflowId
+      };
+      this.$confirm("是否取消流失客户？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+
+          cancelOutflow(deleteData)
+            .then(res => {
+              if (res.data.returnCode != 0) {
+                this.$message({
+                  type: "warning",
+                  message: res.data.returnMsg,
+                  center: true
+                });
+              } else {
+                tips(this, "成功!", "success");
+                this.pageList(this.pages.currentPage, this.pages.pageSize);
+              }
+            })
+            .catch(err => {
+              console.log(err);
             });
+
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消"
           });
+        });
     },
-    churn_save_func(obj){
-      let deleteData = {};
-        this.$confirm("是否确认流失客户？", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-          .then(() => {
-                
-          })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "取消删除"
+    churn_save_func(obj) {
+      let deleteData = {
+        visitId: obj.visitId,
+        outflowId: obj.outflowId
+      };
+      this.$confirm("是否确认流失客户？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          confirmOutflow(deleteData)
+            .then(res => {
+              if (res.data.returnCode != 0) {
+                this.$message({
+                  type: "warning",
+                  message: res.data.returnMsg,
+                  center: true
+                });
+              } else {
+                tips(this, "成功!", "success");
+                this.pageList(this.pages.currentPage, this.pages.pageSize);
+              }
+            })
+            .catch(err => {
+              console.log(err);
             });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消"
           });
+        });
     },
     //统计列表 //查询
     async pageList(pageIndex = 1, pageSize = 10) {
@@ -317,7 +378,7 @@ export default {
       let pageSize = this.pages.pageSize;
       this.pageList(pageIndex, pageSize);
     },
-     //获取省
+    //获取省
     async provinceList() {
       this.seach.provinceIdList = await province();
     },
@@ -327,7 +388,7 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //根据测评中心获取医院列表
     async hospitalList(id) {
@@ -342,5 +403,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 </style>
