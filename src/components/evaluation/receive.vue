@@ -1366,7 +1366,7 @@
             <div class="left" style="width:85%">
               <div
                 class="margin-l-5"
-                style="height:40px;line-height:30px;border-bottom:1px solid #E6E6E6"
+                style="height:40px;border-bottom:1px solid #E6E6E6"
               >
                 <span>测评数据:</span>
                 <span
