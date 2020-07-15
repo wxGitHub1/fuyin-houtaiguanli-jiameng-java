@@ -327,8 +327,10 @@ export const selectBackupPhoneByMemberId = async params => axios.post(baseUrl + 
 export const insertBackupPhone = async params => axios.post(baseUrl + '/member/insertBackupPhone', params);//新增备用手机
 export const selectOrderDetailByMemberId = async params => axios.post(baseUrl + '/sale/order/selectOrderDetailByMemberId', params);//根据客户id查询历史订单详情
 /* */
-export const selectPrincipalVisitListWhenExperience = async params => axios.post(baseUrl + '/back/visit/selectPrincipalVisitListWhenExperience', params);//数据指派列表
-export const updatePrincipalUser = async params => axios.post(baseUrl + '/back/visit/updatePrincipalUser', params);//数据指派
+export const selectPrincipalVisitListWhenExperience = async params => axios.post(baseUrl + '/back/visit/selectPrincipalVisitListWhenExperience', params);//体验数据指派列表
+export const updatePrincipalUser = async params => axios.post(baseUrl + '/back/visit/updatePrincipalUser', params);//体验数据指派
+export const selectPrincipalVisitListWhenUse = async params => axios.post(baseUrl + '/back/visit/selectPrincipalVisitListWhenUse', params);//使用数据指派列表
+
 /*
 *
 *

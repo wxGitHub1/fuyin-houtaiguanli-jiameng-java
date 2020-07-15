@@ -1690,6 +1690,7 @@
       :visible.sync="data_assignment.data_assignment_Dialg"
       :close-on-click-modal="false"
       width="90%"
+      :before-close="data_assignment_close"
     >
       <!-- seach -->
       <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
@@ -1827,6 +1828,7 @@
       :visible.sync="data_assignment.experience_details_dialog_two"
       :close-on-click-modal="false"
       width="30%"
+       :before-close="data_assignment_close_two"
     >
       <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
         <el-form-item label="选择被指派人">
