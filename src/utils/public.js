@@ -399,8 +399,9 @@ export function img_base64(that, res) {
 export function date_zh(data){
   let  myDate = data;
   let year = myDate.getFullYear();
-  let month = myDate.getMonth()+1;    //js从0开始取 
-  let date1 = myDate.getDate(); 
+  let month = (myDate.getMonth()+1) < 10 ?"0" + (myDate.getMonth()+1):myDate.getMonth()+1;    //js从0开始取 
+
+  let date1 = myDate.getDate()< 10 ?"0"+myDate.getDate():myDate.getDate(); 
   // let hour = myDate.getHours(); 
   // let minutes = myDate.getMinutes(); 
   // let second = myDate.getSeconds();

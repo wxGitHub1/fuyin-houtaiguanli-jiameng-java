@@ -386,6 +386,7 @@
       :close-on-click-modal="false"
       width="80%"
     >
+
       <h3 class="b-b-p-1">客户信息</h3>
       <div>
         <span>客户姓名:</span>
@@ -445,6 +446,7 @@
           <div>{{examinationInfo.recoveryCN || "暂无数据"}}</div>
         </el-col>
       </el-row>
+
       <h3 class="b-b-p-1">测评详情</h3>
       <div v-for="(item,index) in detailList" :key="index" class="margin-t-20">
         <div>
@@ -3003,7 +3005,8 @@ import {
   selectVisitDetailByVisitIdAndType,
   selectWaitReviewDetail,
   printMakeParam,
-  examinePadZb3d
+  examinePadZb3d,
+  queryWaitReviewDetail
 } from "../../api/javaApi";
 import {
   exportMethod,
@@ -3689,8 +3692,8 @@ export default {
       this.userMemberId = obj.memberId;
       this.rowObj = obj;
       // this.userPhoneList(obj.memberId);
-      let data = { visitId: obj.visitId };
-      selectWaitReviewDetail(data)
+      let data = { backVisitId: obj.backVisitId };
+      queryWaitReviewDetail(data)
         .then(res => {
           console.log(res);
           if (res.data.returnCode != 0) {
@@ -3701,7 +3704,7 @@ export default {
             });
           } else {
             let details = res.data.data;
-            this.memberDetailDto[0] = details.memberDetailDTO;
+            this.memberDetailDto= details.memberDetailDTO;
             this.pickupServiceInformation_back =
               details.visitFinishProductDetailDTO;
             this.dfc_Dialog = true;
@@ -3726,7 +3729,7 @@ export default {
             });
           } else {
             let details = res.data.data;
-            this.memberDetailDto[0] = details.memberDetailDTO;
+            this.memberDetailDto = details.memberDetailDTO;
             this.pickupServiceInformation = details.useWaitProductDetailDTO;
             this.pickupServiceInformation_use =
               details.backWaitProductDetailDTO;

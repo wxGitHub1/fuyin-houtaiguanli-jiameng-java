@@ -5,8 +5,8 @@ import axios from '../utils/ajax';
  * baseUrl  接口路径
  */
 // const baseUrl  = 'http://117.34.105.87:8088';//服务器IP
-const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
-// const baseUrl = 'http://192.168.1.108:8088';//杨腾飞加盟IP
+// const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
+const baseUrl = 'http://192.168.1.108:8088';//杨腾飞加盟IP
 /*
 *
 *用户登录 
@@ -331,6 +331,7 @@ export const selectPrincipalVisitListWhenExperience = async params => axios.post
 export const updatePrincipalUser = async params => axios.post(baseUrl + '/back/visit/updatePrincipalUser', params);//数据指派
 export const selectPrincipalVisitListWhenUse = async params => axios.post(baseUrl + '/back/visit/selectPrincipalVisitListWhenUse', params);//使用数据指派列表
 export const selectPrincipalVisitListWhenBack = async params => axios.post(baseUrl + '/back/visit/selectPrincipalVisitListWhenBack', params);//邀约数据指派列表
+export const queryWaitReviewDetail = async params => axios.post(baseUrl + '/back/visit/queryWaitReviewDetail', params);//待复查详情
 
 /*
 *

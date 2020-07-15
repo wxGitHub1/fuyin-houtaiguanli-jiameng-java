@@ -371,6 +371,17 @@
             </el-form-item>
           </el-form>
           <el-form :inline="true" size="small" id="search">
+            <el-form-item label="复查到访约定时间：">
+              <el-date-picker
+                size="mini"
+                v-model="visitWaitTime"
+                type="datetime"
+                value-format="yyyy-MM-dd HH:mm"
+                placeholder="选择日期时间">
+            </el-date-picker>
+            </el-form-item>
+          </el-form>
+          <el-form :inline="true" size="small" id="search">
             <el-form-item label="确认时间回访：">
               <el-date-picker
                 readonly
@@ -541,7 +552,7 @@
       <span slot="footer">
         <el-button @click="cancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
         <el-button
-          @click="addVisit(productVisitIds)"
+          @click="td_addVisit()"
           type="success"
           icon="el-icon-circle-check"
         >确认提交</el-button>
@@ -3252,6 +3263,40 @@
         <el-button @click="userChurn(productVisitIds)" type="success" icon="el-icon-circle-check">提交</el-button>
       </div>
     </el-dialog>
+    <!-- new_datails-->
+    <el-dialog
+      title="客户态度分析"
+      :visible.sync="new_details_data.td_dialog"
+      :close-on-click-modal="false"
+      width="30%"
+      :before-close="td_cancel"
+    >
+      <div class="clearfix">
+        <div class="left" style="height:20px;line-height:20px">客户态度评分：</div>
+        <div class="left">
+          <el-rate
+            v-model="new_details_data.value"
+            show-score
+            text-color="#ff9900"
+            show-text
+            allow-half
+            score-template="{value}分"
+          ></el-rate>
+        </div>
+      </div>
+      <div class="margin-t-20">
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 4}"
+          placeholder="请输入详情'非必填'"
+          v-model="new_details_data.causeOfLoss"
+        ></el-input>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="td_cancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
+        <el-button @click="addVisit(productVisitIds)" type="success" icon="el-icon-circle-check">提交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -3643,6 +3688,14 @@ export default {
     this.provinceList();
   },
   methods: {
+    td_cancel() {
+      this.new_details_data.td_dialog = false;
+      this.new_details_data.value = 0;
+      this.new_details_data.causeOfLoss = null;
+    },
+    td_addVisit() {
+      this.new_details_data.td_dialog = true;
+    },
     ls_cancel(){
       this.new_details_data.ls_dialog=false
       this.new_details_data.churnRegistration=null
@@ -3652,7 +3705,9 @@ export default {
     },
     seveTime() {
       let date = date_zh(this.timeValue);
-      let time = `${this.fayy_data.timeValue}:${this.fayy_data.minuteValue}`;
+      let a=this.fayy_data.timeValue<10?"0"+this.fayy_data.timeValue:this.fayy_data.timeValue;
+      let b=this.fayy_data.minuteValue<10?"0"+this.fayy_data.minuteValue:this.fayy_data.minuteValue;
+      let time = `${a}:${b}`;
       this.useWaitTime = `${date} ${time}`;
       // console.log(date_zh(this.timeValue))
       // console.log(this.timeValue)
@@ -3920,10 +3975,10 @@ export default {
       //   console.log(this.data_box);
       let data = {
         visitWaitTimePeriod: this.fayy_data.dayValue,
-        backRemark: "复查备注",
+        backRemark:this.causeOfLoss,
         remark: this.causeOfLoss,
-        memberAttitude: "3.5",
-        memberAttitudeRemark: "客户评分详情",
+        memberAttitude: this.new_details_data.value,
+        memberAttitudeRemark: this.new_details_data.causeOfLoss,
 
         visitIds: list, //this.multipleSelection,
         backPhoneStatus: this.usePhoneStatus,
@@ -3943,6 +3998,7 @@ export default {
             });
             // this.visitForms=[]
           } else {
+            this.td_cancel()
             this.cancel();
             this.pageList(this.pages.currentPage, this.pages.pageSize);
             this.$message({
