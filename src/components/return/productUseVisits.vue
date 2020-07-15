@@ -114,7 +114,7 @@
       </el-form-item>
       <el-form-item>
         <el-button
-          @click="topItem_func(topActive) " 
+          @click="topItem_func(topActive)" 
           icon="el-icon-search"
           type="primary"
         >查询</el-button>
