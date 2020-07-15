@@ -3704,9 +3704,9 @@ export default {
             });
           } else {
             let details = res.data.data;
-            this.memberDetailDto= details.memberDetailDTO;
-            this.pickupServiceInformation_back =
-              details.visitFinishProductDetailDTO;
+            this.memberDetailDto[0]=details.memberDetail;// details.memberDetailDTO;
+            this.pickupServiceInformation_back =details.prescriptionDTO
+              // details.visitFinishProductDetailDTO;
             this.dfc_Dialog = true;
           }
         })
