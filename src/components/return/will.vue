@@ -286,7 +286,7 @@
                     v-for="(element,index) in item.detail"
                     :key="index"
                   >{{element.name}}:{{element.value}}</span>
-                  <el-button
+                  <!-- <el-button
                     class="right"
                     style="margin-left:10px"
                     v-if="item.examinationName == '足部3D扫描测评' || item.examinationName == '3D全身扫描' || item.examinationName == '足底压力分析'"
@@ -294,7 +294,7 @@
                     icon="el-icon-download"
                     @click="baogao_func(item.examinationName)"
                     size="mini"
-                  >下载报告文件</el-button>
+                  >下载报告文件</el-button> -->
                   <el-button
                     class="right"
                     v-if="item.examinationName=='足部3D扫描测评'"
@@ -1468,8 +1468,7 @@
         <el-button @click="td_addVisit()" type="success" icon="el-icon-circle-check">确认提交</el-button>
         <el-button @click="addPhone()" type="success" icon="el-icon-circle-plus-outline">添加联系电话</el-button>
         <el-button @click="morePrduct_function()" type="success" icon="el-icon-tickets">更多产品信息</el-button>
-        <el-button @click="fx_func()" type="success" icon="el-icon-tickets">客户态度分析</el-button>
-        <el-button @click="userChurn" type="danger">确认流失</el-button>
+        <el-button @click="ls_save()" type="danger">确认流失</el-button>
       </span>
     </el-dialog>
     <!-- dialog 测评详情-->
@@ -1890,6 +1889,27 @@
         <el-button @click="addVisit()" type="success" icon="el-icon-circle-check">提交</el-button>
       </div>
     </el-dialog>
+    <!-- 流失登记-->
+    <el-dialog
+      title="客户流失登记"
+      :visible.sync="new_details_data.ls_dialog"
+      :close-on-click-modal="false"
+      width="30%"
+      :before-close="ls_cancel"
+    >
+      <div class="margin-t-20">
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 4}"
+          placeholder="请输入流失原因"
+          v-model="new_details_data.churnRegistration"
+        ></el-input>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="ls_cancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
+        <el-button @click="userChurn()" type="success" icon="el-icon-circle-check">提交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -1984,16 +2004,17 @@ export default {
       phoneList: [],
       //模板表显示
       productItem_box: false,
-      productItem: {
-        item_1: false,
-        item_2: false,
-        item_3: false,
-        item_4: false,
-        item_5: false,
-        item_6: false,
-        item_7: false,
-        item_8: false
-      },
+      productItem: return_variable.productItem,
+      // {
+      //   item_1: false,
+      //   item_2: false,
+      //   item_3: false,
+      //   item_4: false,
+      //   item_5: false,
+      //   item_6: false,
+      //   item_7: false,
+      //   item_8: false
+      // },
       experiencePhoneStatus: null,
       experiencePhone: null,
       useWaitTime: null,
@@ -2065,7 +2086,13 @@ export default {
     this.topItem_func(1);
   },
   methods: {
-    fx_func() {},
+    ls_cancel(){
+      this.new_details_data.ls_dialog=false
+      this.new_details_data.churnRegistration=null
+    },
+    ls_save(){
+      this.new_details_data.ls_dialog=true
+    },
     td_cancel() {
       this.new_details_data.td_dialog = false;
       this.new_details_data.value = 0;
@@ -2200,7 +2227,7 @@ export default {
       let data = {
         outflowPhoneStatus: this.experiencePhoneStatus,
         outflowPhone: this.experiencePhone,
-        outflowReason: this.causeOfLoss,
+        outflowReason: this.new_details_data.churnRegistration,
         visitIds: this.multipleSelection
       };
       insertOutflow(data)
@@ -2212,7 +2239,7 @@ export default {
               center: true
             });
           } else {
-            
+            this.ls_cancel()
             this.cancel();
             this.pageList();
             this.$message({
@@ -2280,7 +2307,8 @@ export default {
     addSparePhone() {
       let data = {
         memberId: this.userMemberId,
-        backupPhone: `${this.new_details_data.relationship}${this.backupPhone}`
+        parent:this.new_details_data.relationship,
+        backupPhone: this.backupPhone,
       };
       debugger;
       insertBackupPhone(data)
@@ -2396,7 +2424,8 @@ export default {
             experienceProblemDo: null,
             title: productTitle,
             productType: element.saleProductType,
-            visitId:element.visitId
+            visitId:element.visitId,
+            visitTypeInt:element.visitTypeInt,
           };
           // obj=this.new_details_data.templateData[element.saleProductType - 1];
           // obj.title = productTitle;

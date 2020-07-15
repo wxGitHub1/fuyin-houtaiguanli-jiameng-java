@@ -352,6 +352,31 @@ const new_details_data = {
   td_dialog:false,
   value:0,
   causeOfLoss:null,
+  churnRegistration:null,
+  ls_dialog:false
+}
+const fayy_data={
+  dayList:[
+    {name:"上午",id:1},
+    // {name:"下午",id:2},
+  ],
+  dayValue:null,
+  timeList:[
+    {name:"8点",id:8},
+    {name:"9点",id:9},
+    {name:"10点",id:10},
+    {name:"11点",id:11},
+    {name:"12点",id:12},
+  ],
+  timeValue:null,
+  minuteList:[
+    {name:"10分",id:10},
+    {name:"20分",id:20},
+    {name:"30分",id:30},
+    {name:"40分",id:40},
+    {name:"50分",id:50},
+  ],
+  minuteValue:null,
 }
 export default {
   data_box,
@@ -359,5 +384,6 @@ export default {
   productItem,
   productItemUse,
   data_assignment,
-  new_details_data
+  new_details_data,
+  fayy_data,
 }

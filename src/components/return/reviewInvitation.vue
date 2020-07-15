@@ -31,12 +31,7 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="测评人员">
-          <el-select
-          class="w-150"
-          clearable
-          v-model="seach.repairUserId"
-          placeholder="请选择"
-        >
+        <el-select class="w-150" clearable v-model="seach.repairUserId" placeholder="请选择">
           <el-option
             v-for="item in seach.scUserNameList"
             :key="item.id"
@@ -46,12 +41,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="接通状态">
-<el-select
-          class="w-150"
-          clearable
-          v-model="seach.phoneStatus"
-          placeholder="请选择"
-        >
+        <el-select class="w-150" clearable v-model="seach.phoneStatus" placeholder="请选择">
           <el-option
             v-for="item in seach.phoneStatusList"
             :key="item.id"
@@ -61,8 +51,8 @@
         </el-select>
       </el-form-item>
       <el-form-item label="省份">
-<el-select
-         class="w-150"
+        <el-select
+          class="w-150"
           clearable
           v-model="seach.provinceId"
           placeholder="请选择"
@@ -77,7 +67,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="城市">
-<el-select
+        <el-select
           class="w-150"
           clearable
           v-model="seach.cityId"
@@ -93,7 +83,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="测评中心">
-<el-select clearable class="w-150" v-model="seach.siteValue" placeholder="请先选择城市" @change="hospitalList(seach.siteValue)">
+        <el-select
+          clearable
+          class="w-150"
+          v-model="seach.siteValue"
+          placeholder="请先选择城市"
+          @change="hospitalList(seach.siteValue)"
+        >
           <el-option
             v-for="item in seach.siteLists"
             :key="item.id"
@@ -103,7 +99,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="医院">
-<el-select clearable class="w-150" v-model="seach.hospitalId" placeholder="请先选择测评中心">
+        <el-select clearable class="w-150" v-model="seach.hospitalId" placeholder="请先选择测评中心">
           <el-option
             v-for="item in seach.hospitalLists"
             :key="item.id"
@@ -113,11 +109,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button
-          @click="topItem_func(topActive)"
-          icon="el-icon-search"
-          type="primary"
-        >查询</el-button>
+        <el-button @click="topItem_func(topActive)" icon="el-icon-search" type="primary">查询</el-button>
       </el-form-item>
       <el-form-item>
         <el-button @click="data_assignment_func()" icon="el-icon-thumb" type="warning">数据指派</el-button>
@@ -176,60 +168,126 @@
       :before-close="cancel"
       width="80%"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
-      <el-table :data="memberDetailDto" border>
-        <el-table-column prop="memberName" label="客户姓名" min-width="100"></el-table-column>
-        <el-table-column prop="sex" label="性别"></el-table-column>
-        <el-table-column prop="phone" label="联系电话"></el-table-column>
-        <el-table-column prop="birthday" label="出生日期"></el-table-column>
-        <el-table-column prop="vip" label="是否会员"></el-table-column>
-        <el-table-column prop="condition" label="处方病情"></el-table-column>
-        <el-table-column prop="illness" label="新增病情"></el-table-column>
-      </el-table>
-      <h3 class="b-b-p-1">产品信息</h3>
-      <el-table :data="pickupServiceInformation" border max-height="220">
-        <el-table-column prop="orderNum" label="订单编号"></el-table-column>
-        <el-table-column prop="saleProductNickname" label="产品昵称"></el-table-column>
-        <el-table-column prop="reflect" label="取型家长反应"></el-table-column>
-        <el-table-column prop="tryOnUserName" label="试穿人员"></el-table-column>
-        <el-table-column prop="tryOnBeginTime" label="试穿时间"></el-table-column>
-        <el-table-column prop="tryOnRemark" label="试穿备注"></el-table-column>
-        <el-table-column prop="experienceTime" label="体验回访时间"></el-table-column>
-        <el-table-column prop="experiencePhone" label="体验回访电话"></el-table-column>
-        <el-table-column prop="experiencePhoneStatus" label="接通状态"></el-table-column>
-        <el-table-column prop="experienceUserName" label="产品体验回访人"></el-table-column>
-        <el-table-column prop="experienceSatisfaction" label="客户满意度"></el-table-column>
-        <el-table-column prop="visitType" label="回访类型"></el-table-column>
-        <el-table-column label="产品体验问题">
-          <template slot-scope="scope">
-            <el-link @click="visitIdDtails(scope.row)" type="primary">
-              查看详情
-              <i class="el-icon-view el-icon--right"></i>
-            </el-link>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-table :data="pickupServiceInformation_use" border max-height="220" class="margin-t-20">
-        <el-table-column prop="orderNum" label="订单编号"></el-table-column>
-        <el-table-column prop="saleProductNickname" label="产品昵称"></el-table-column>
-        <el-table-column prop="useTime" label="回访时间"></el-table-column>
-        <el-table-column prop="usePhone" label="回访电话"></el-table-column>
-        <el-table-column prop="usePhoneStatus" label="接通状态"></el-table-column>
-        <el-table-column prop="useUserName" label="回访人"></el-table-column>
-        <el-table-column prop="useSatisfaction" label="客户满意度"></el-table-column>
-        <el-table-column prop="useHeightWeight" label="身高体重有无变化"></el-table-column>
-        <el-table-column prop="visitType" label="回访类型"></el-table-column>
-        <el-table-column label="产品使用问题">
-          <template slot-scope="scope">
-            <el-link @click="visitIdDtails_2(scope.row)" type="primary">
-              查看详情
-              <i class="el-icon-view el-icon--right"></i>
-            </el-link>
-          </template>
-        </el-table-column>
-      </el-table>
-      <h3 class="b-b-p-1">测评记录</h3>
-      <el-table :data="evaluates" border max-height="500">
+      <div class="clearfix">
+        <div
+          class="left pct-w50 padding-10 box-sizing-box"
+          style="max-height: 700px;overflow-x: hidden;"
+        >
+          <h3 class="new-title">客户信息</h3>
+          <el-table :data="memberDetailDto" border :header-row-class-name="'headerClass-two'">
+            <el-table-column prop="memberName" label="客户姓名" min-width="100"></el-table-column>
+            <el-table-column prop="sex" label="性别"></el-table-column>
+            <el-table-column prop="phone" label="联系电话"></el-table-column>
+            <el-table-column prop="birthday" label="出生日期"></el-table-column>
+            <el-table-column prop="vip" label="是否会员"></el-table-column>
+            <el-table-column prop="condition" label="处方病情"></el-table-column>
+            <el-table-column prop="illness" label="新增病情"></el-table-column>
+          </el-table>
+          <h3 class="new-title">产品信息</h3>
+          <el-table
+            :data="pickupServiceInformation"
+            border
+            max-height="220"
+            :header-row-class-name="'headerClass-two'"
+          >
+            <el-table-column prop="orderNum" label="订单编号"></el-table-column>
+            <el-table-column prop="saleProductNickname" label="产品昵称"></el-table-column>
+            <el-table-column prop="reflect" label="取型家长反应"></el-table-column>
+            <el-table-column prop="tryOnUserName" label="试穿人员"></el-table-column>
+            <el-table-column prop="tryOnBeginTime" label="试穿时间"></el-table-column>
+            <el-table-column prop="tryOnRemark" label="试穿备注"></el-table-column>
+            <el-table-column prop="experienceTime" label="体验回访时间"></el-table-column>
+            <el-table-column prop="experiencePhone" label="体验回访电话"></el-table-column>
+            <el-table-column prop="experiencePhoneStatus" label="接通状态"></el-table-column>
+            <el-table-column prop="experienceUserName" label="产品体验回访人"></el-table-column>
+            <el-table-column prop="experienceSatisfaction" label="客户满意度"></el-table-column>
+            <el-table-column prop="visitType" label="回访类型"></el-table-column>
+            <el-table-column label="产品体验问题">
+              <template slot-scope="scope">
+                <el-link @click="visitIdDtails(scope.row)" type="primary">
+                  查看详情
+                  <i class="el-icon-view el-icon--right"></i>
+                </el-link>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-table
+            :data="pickupServiceInformation_use"
+            border
+            max-height="220"
+            class="margin-t-20"
+            :header-row-class-name="'headerClass-two'"
+          >
+            <el-table-column prop="orderNum" label="订单编号"></el-table-column>
+            <el-table-column prop="saleProductNickname" label="产品昵称"></el-table-column>
+            <el-table-column prop="useTime" label="回访时间"></el-table-column>
+            <el-table-column prop="usePhone" label="回访电话"></el-table-column>
+            <el-table-column prop="usePhoneStatus" label="接通状态"></el-table-column>
+            <el-table-column prop="useUserName" label="回访人"></el-table-column>
+            <el-table-column prop="useSatisfaction" label="客户满意度"></el-table-column>
+            <el-table-column prop="useHeightWeight" label="身高体重有无变化"></el-table-column>
+            <el-table-column prop="visitType" label="回访类型"></el-table-column>
+            <el-table-column label="产品使用问题">
+              <template slot-scope="scope">
+                <el-link @click="visitIdDtails_2(scope.row)" type="primary">
+                  查看详情
+                  <i class="el-icon-view el-icon--right"></i>
+                </el-link>
+              </template>
+            </el-table-column>
+          </el-table>
+          <h3 class="new-title">测评记录</h3>
+          <div v-for="(item,index) in new_details_data.detailList" :key="index" class="margin-t-10">
+            <div class="clearfix" style="border:1px solid #E6E6E6">
+              <div
+                class="left"
+                style="width:15%;height:81px;line-height:81px;background:#E6E6E6;text-align:center;"
+              >
+                <div>{{item.examinationName}}</div>
+              </div>
+              <div class="left" style="width:85%">
+                <div class="margin-l-5" style="height:40px;border-bottom:1px solid #E6E6E6">
+                  <span>测评数据:</span>
+                  <span
+                    class="margin-r-20"
+                    v-for="(element,index) in item.detail"
+                    :key="index"
+                  >{{element.name}}:{{element.value}}</span>
+                  <!-- <el-button
+                    class="right"
+                    style="margin-left:10px"
+                    v-if="item.examinationName == '足部3D扫描测评' || item.examinationName == '3D全身扫描' || item.examinationName == '足底压力分析'"
+                    type="warning"
+                    icon="el-icon-download"
+                    @click="baogao_func(item.examinationName)"
+                    size="mini"
+                  >下载报告文件</el-button>-->
+                  <el-button
+                    class="right"
+                    v-if="item.examinationName=='足部3D扫描测评'"
+                    type="primary"
+                    icon="el-icon-edit"
+                    @click="threeD_show(item.detail)"
+                    size="mini"
+                  >修改</el-button>
+                </div>
+                <div class="margin-l-5" style="height:40px;line-height:30px;">
+                  <span>测评结果:</span>
+                  <span class="margin-r-20">{{item.result}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <div class="left" v-for="(imgUrlList,index) in item.url" :key="index">
+                <el-image :src="imgUrlList" style="height:400px" fit="contain">
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
+                </el-image>
+              </div>
+            </div>
+          </div>
+          <!-- <el-table :data="evaluates" border max-height="500">
         <el-table-column prop="evaluateUserName" label="测评人" min-width="100"></el-table-column>
         <el-table-column prop="createTime" label="测评时间"></el-table-column>
         <el-table-column prop="recoveryCN" label="恢复情况"></el-table-column>
@@ -268,10 +326,65 @@
         <el-table-column prop="sm3d" label="3d扫描 "></el-table-column>
         <el-table-column prop="zb3d" label="足部3d"></el-table-column>
         <el-table-column prop="gmd" label="骨密度"></el-table-column>
-      </el-table>
-      <h3 class="b-b-p-1">填写产品体验回访信息</h3>
-      <el-row :gutter="20">
-        <el-col :span="2">
+          </el-table>-->
+        </div>
+        <div
+          class="left pct-w50 padding-10 box-sizing-box"
+          style="max-height: 700px;overflow-x: hidden;"
+        >
+          <h3 class="new-title">填写产品体验回访信息</h3>
+          <el-form :inline="true" size="small" id="search">
+            <el-form-item label="回访电话：">
+              <el-select style="width:100%" clearable v-model="usePhone" placeholder="请选择">
+                <el-option v-for="item in phoneList" :key="item" :label="item" :value="item"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <el-form :inline="true" size="small" id="search">
+            <el-form-item label="接通状态：">
+              <el-radio-group v-model="usePhoneStatus">
+                <el-radio label="接通">接通</el-radio>
+                <el-radio label="接通挂断">接通挂断</el-radio>
+                <el-radio label="多次未接通">多次未接通</el-radio>
+                <el-radio label="联系方式错误">联系方式错误</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-form>
+          <el-steps :active="4" align-center>
+            <el-step title="表明身份"></el-step>
+            <el-step title="确认身份"></el-step>
+            <el-step title="表明目的"></el-step>
+            <el-step title="确定时间"></el-step>
+          </el-steps>
+          <el-form :inline="true" size="small" id="search">
+            <el-form-item label="复查邀约结果：">
+              <el-radio-group v-model="backInviteResult">
+                <el-radio v-for="(item,index) in ls_fcyyjg" :key="index" :label="item"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-form>
+          <el-form :inline="true" size="small" id="search">
+            <el-form-item label="沟通结果：">
+              <el-radio-group v-model="backTalkResult">
+                <el-radio v-for="(item,index) in ls_gtjg" :key="index" :label="item"></el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-form>
+          <el-form :inline="true" size="small" id="search">
+            <el-form-item label="确认时间回访：">
+              <el-date-picker
+                readonly
+                v-model="useWaitTime"
+                size="mini"
+                type="datetime"
+                value-format="yyyy-MM-dd h:m"
+                placeholder="选择日期"
+              ></el-date-picker>
+            </el-form-item>
+          </el-form>
+          <el-calendar id="el-step" v-model="timeValue"></el-calendar>
+          <!-- <el-row :gutter="20"> -->
+          <!-- <el-col :span="2">
           <div class="line-h-30 text-r">接通状态：</div>
         </el-col>
         <el-col :span="8">
@@ -283,8 +396,8 @@
               <el-radio label="联系方式错误">联系方式错误</el-radio>
             </el-radio-group>
           </div>
-        </el-col>
-        <el-col :span="2">
+          </el-col>-->
+          <!-- <el-col :span="2">
           <div class="line-h-30 text-r">回访电话：</div>
         </el-col>
         <el-col :span="3">
@@ -299,8 +412,8 @@
               <el-option v-for="item in phoneList" :key="item" :label="item" :value="item"></el-option>
             </el-select>
           </div>
-        </el-col>
-        <el-col :span="3">
+          </el-col>-->
+          <!-- <el-col :span="3">
           <div class="line-h-30 text-r">确认时间回访：</div>
         </el-col>
         <el-col :span="3">
@@ -315,29 +428,28 @@
             ></el-date-picker>
           </div>
         </el-col>
-      </el-row>
-      <el-row class="margin-t-20" style="background:#ecf5ff">
-        <el-col :span="3">
+          </el-row>-->
+
+          <!-- <el-row class="margin-t-20" style="background:#ecf5ff"> -->
+          <!-- <el-col :span="3">
           <div class="line-h-30 center margin-b-10">邀约流程提示：</div>
           <div class="line-h-30 center margin-b-10">1.表明身份</div>
           <div class="line-h-30 center margin-b-10">2.确认身份</div>
           <div class="line-h-30 center margin-b-10">3.表明目的</div>
           <div class="line-h-30 center margin-b-10">4.确定时间</div>
-        </el-col>
-        <el-col :span="12">
-          <el-row class="padding-tb-20">
+          </el-col>-->
+          <!-- <el-col :span="12"> -->
+          <!-- <el-row class="padding-tb-20">
             <el-col :span="8">
             <div class="text-r">沟通结果：</div>
             </el-col>
             <el-col :span="16">
             <div>
-                <el-radio-group v-model="backTalkResult">
-                <el-radio v-for="(item,index) in ls_gtjg" :key="index" :label="item"></el-radio>
-                </el-radio-group>
+                
             </div>
             </el-col>
-        </el-row>
-          <el-row class="padding-tb-20">
+          </el-row>-->
+          <!-- <el-row class="padding-tb-20">
             <el-col :span="8">
             <div class="text-r">复查邀约结果：</div>
             </el-col>
@@ -348,8 +460,8 @@
                 </el-radio-group>
             </div>
             </el-col>
-        </el-row>
-          <el-row class="padding-tb-20">
+          </el-row>-->
+          <!-- <el-row class="padding-tb-20">
             <el-col :span="8">
             <div class="text-r line-h-30">复查到访约定时间：</div>
             </el-col>
@@ -376,15 +488,66 @@
             ></el-input>
           </div>
           <div class="line-h-30">
-            <el-button @click="userChurn(productVisitIds)" size="mini" type="danger">确认流失</el-button>
+            
           </div>
         </el-col>
-      </el-row>
+          </el-row>-->
+          <el-form :inline="true" size="small" id="search">
+            <el-form-item>
+              <el-select class="w-150" clearable v-model="fayy_data.dayValue" placeholder="请选择上下午">
+                <el-option
+                  v-for="item in fayy_data.dayList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.name"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-select class="w-150" clearable v-model="fayy_data.timeValue" placeholder="请选择时">
+                <el-option
+                  v-for="item in fayy_data.timeList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-select class="w-150" clearable v-model="fayy_data.minuteValue" placeholder="请选择分">
+                <el-option
+                  v-for="item in fayy_data.minuteList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="seveTime()" type="primary" icon="el-icon-circle-check">确认</el-button>
+            </el-form-item>
+          </el-form>
+          <h3 class="new-title">备注</h3>
+          <div>
+            <el-input
+              type="textarea"
+              :autosize="{ minRows: 2, maxRows: 4}"
+              placeholder="请输入回访备注内容，必填"
+              v-model="causeOfLoss"
+            ></el-input>
+          </div>
+        </div>
+      </div>
       <span slot="footer">
         <el-button @click="cancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
-        <el-button @click="addVisit(productVisitIds)" type="success" icon="el-icon-circle-check">确认提交</el-button>
+        <el-button
+          @click="addVisit(productVisitIds)"
+          type="success"
+          icon="el-icon-circle-check"
+        >确认提交</el-button>
         <el-button @click="addPhone()" type="success" icon="el-icon-circle-plus-outline">添加联系电话</el-button>
         <el-button @click="morePrduct_function()" type="success" icon="el-icon-tickets">更多产品信息</el-button>
+        <el-button @click="ls_save()" type="danger">确认流失</el-button>
       </span>
     </el-dialog>
     <!-- dialog 测评详情-->
@@ -395,7 +558,7 @@
       :close-on-click-modal="false"
       width="80%"
     >
-      <h3 class="b-b-p-1">客户信息</h3>
+      <h3 class="new-title">客户信息</h3>
       <div>
         <span>客户姓名:</span>
         <span class="margin-r-20">{{memberDetailDto[0].memberName}}</span>
@@ -408,53 +571,53 @@
       </div>
       <el-row>
         <el-col :span="4">
-          <h3 class="b-b-p-1">结果备注</h3>
+          <h3 class="new-title">结果备注</h3>
           <div>{{examinationInfo.remark || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">复查日期</h3>
+          <h3 class="new-title">复查日期</h3>
           <div>{{examinationInfo.repeatTime || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">孩子配合程度</h3>
+          <h3 class="new-title">孩子配合程度</h3>
           <div>{{examinationInfo.cooperate || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">治疗周期</h3>
+          <h3 class="new-title">治疗周期</h3>
           <div>{{examinationInfo.cycle || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">老带新</h3>
+          <h3 class="new-title">老带新</h3>
           <div>{{examinationInfo.recommendCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">驼背</h3>
+          <h3 class="new-title">驼背</h3>
           <div>{{examinationInfo.tuobeiCN || "暂无数据"}}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="4">
-          <h3 class="b-b-p-1">客户分析</h3>
+          <h3 class="new-title">客户分析</h3>
           <div>{{examinationInfo.memberAnalysisCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">客户类型</h3>
+          <h3 class="new-title">客户类型</h3>
           <div>{{examinationInfo.memberModeCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">是否全身测评</h3>
+          <h3 class="new-title">是否全身测评</h3>
           <div>{{examinationInfo.completeCN || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">未进行全身测评的原因</h3>
+          <h3 class="new-title">未进行全身测评的原因</h3>
           <div>{{examinationInfo.incompleteReason || "暂无数据"}}</div>
         </el-col>
         <el-col :span="4">
-          <h3 class="b-b-p-1">恢复情况</h3>
+          <h3 class="new-title">恢复情况</h3>
           <div>{{examinationInfo.recoveryCN || "暂无数据"}}</div>
         </el-col>
       </el-row>
-      <h3 class="b-b-p-1">测评详情</h3>
+      <h3 class="new-title">测评详情</h3>
       <div v-for="(item,index) in detailList" :key="index" class="margin-t-20">
         <div>
           <span>测评项目:</span>
@@ -539,33 +702,16 @@
       :before-close="cancelAddPhone"
     >
       <el-row :gutter="20">
-        <el-col :span="4">
-          <div class="line-h-30 text-r">电话号码：</div>
+        <el-col :span="6">
+          <!-- <div class="line-h-30 text-r">电话号码：</div> -->
+          <el-input
+            type="text"
+            size="mini"
+            placeholder="请输入关系"
+            v-model="new_details_data.relationship"
+          ></el-input>
         </el-col>
-        <el-col :span="20">
-          <div>
-            <el-input type="text" size="mini" placeholder="请输入电话号码" v-model="backupPhone"></el-input>
-          </div>
-        </el-col>
-      </el-row>
-      <span slot="footer">
-        <el-button type="primary" @click="cancelAddPhone" icon="el-icon-circle-close">取消</el-button>
-        <el-button @click="addSparePhone" type="success" icon="el-icon-circle-check">确认</el-button>
-      </span>
-    </el-dialog>
-    <!-- 添加电话 -->
-    <el-dialog
-      title="添加电话信息"
-      :visible.sync="addPhoneDialog"
-      :close-on-click-modal="false"
-      width="30%"
-      :before-close="cancelAddPhone"
-    >
-      <el-row :gutter="20">
-        <el-col :span="4">
-          <div class="line-h-30 text-r">电话号码：</div>
-        </el-col>
-        <el-col :span="20">
+        <el-col :span="18">
           <div>
             <el-input type="text" size="mini" placeholder="请输入电话号码" v-model="backupPhone"></el-input>
           </div>
@@ -596,7 +742,7 @@
                   </el-col>
                   <el-col :span="16">
                     <div>
-                      <el-radio-group  v-model="data_box_use[0].experienceUseTime">
+                      <el-radio-group v-model="data_box_use[0].experienceUseTime">
                         <el-radio v-for="(item,index) in isSYSJ" :key="index" :label="item"></el-radio>
                       </el-radio-group>
                     </div>
@@ -604,7 +750,7 @@
                 </el-row>
                 <el-row class="padding-tb-30">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -639,7 +785,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="鞋垫保养">鞋垫保养</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -756,7 +902,7 @@
                 </el-row>
                 <el-row class="padding-tb-30">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -791,7 +937,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="按摩">按摩</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -888,7 +1034,7 @@
                 </el-row>
                 <el-row class="padding-tb-30">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -923,7 +1069,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="生活习惯">生活习惯</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1020,7 +1166,7 @@
                 </el-row>
                 <el-row class="padding-tb-30">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -1055,7 +1201,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="鞋垫保养">鞋垫保养</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1152,7 +1298,7 @@
                 </el-row>
                 <el-row class="padding-tb-30">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -1187,7 +1333,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="按摩">按摩</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1279,7 +1425,7 @@
                 </el-row>
                 <el-row class="padding-tb-30">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -1314,7 +1460,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="鞋垫保养">鞋垫保养</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1394,7 +1540,7 @@
                 </el-row>
                 <el-row class="padding-tb-30">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -1429,7 +1575,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="鞋垫保养">鞋垫保养</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1526,7 +1672,7 @@
                 </el-row>
                 <el-row class="padding-tb-30">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -1561,7 +1707,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="按摩">按摩</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1648,7 +1794,7 @@
       :close-on-click-modal="false"
       width="1042px"
     >
-    <div class="product_box">
+      <div class="product_box">
         <div class="my_box clearfix" ref="my_box">
           <div v-show="productItem.item_1" class="item">
             <h4 class="center border-b-1 product_title">足弓垫</h4>
@@ -1669,7 +1815,7 @@
                 </el-row>
                 <el-row class="padding-tb-20">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -1728,7 +1874,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="鞋垫保养">鞋垫保养</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1825,7 +1971,7 @@
                 </el-row>
                 <el-row class="padding-tb-20">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -1884,7 +2030,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="按摩">鞋垫保养</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -1981,7 +2127,7 @@
                 </el-row>
                 <el-row class="padding-tb-20">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -2040,7 +2186,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="生活习惯">生活习惯</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -2161,7 +2307,7 @@
                 </el-row>
                 <el-row class="padding-tb-20">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -2196,7 +2342,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="按摩">按摩</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -2317,7 +2463,7 @@
                 </el-row>
                 <el-row class="padding-tb-20">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -2352,7 +2498,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="按摩">按摩</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -2468,7 +2614,7 @@
                 </el-row>
                 <el-row class="padding-tb-20">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -2503,7 +2649,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="鞋垫保养">鞋垫保养</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -2619,7 +2765,7 @@
                 </el-row>
                 <el-row class="padding-tb-20">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -2654,7 +2800,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
                         <el-radio label="生活习惯">生活习惯</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -2775,7 +2921,7 @@
                 </el-row>
                 <el-row class="padding-tb-20">
                   <el-col :span="8">
-                    <div class="text-r">客户满意度：</div>
+                    <div class="text-r">产品满意度：</div>
                   </el-col>
                   <el-col :span="16">
                     <div>
@@ -2810,7 +2956,7 @@
                         <el-radio label="运动">运动</el-radio>
                         <el-radio label="按摩">按摩</el-radio>
                         <el-radio label="皮肤护理">皮肤护理</el-radio>
-                      </el-radio-group> -->
+                      </el-radio-group>-->
                     </div>
                   </el-col>
                 </el-row>
@@ -2902,7 +3048,7 @@
         <el-button type="success" icon="el-icon-picture-outline" v-on:click="getPdf()">导出PDF</el-button>
       </div>
     </el-dialog>
-     <!-- dialog 足长足宽修改-->
+    <!-- dialog 足长足宽修改-->
     <el-dialog title="足长足宽修改" :visible.sync="threeDDialg" :close-on-click-modal="false" width="30%">
       <el-form :model="threeD_ObjFrom" :inline="true" size="mini" label-width="80px">
         <el-form-item v-for="(item,index) in threeD_ObjFrom.list" :key="index" :label="item.name">
@@ -2919,7 +3065,7 @@
       :visible.sync="data_assignment.data_assignment_Dialg"
       :close-on-click-modal="false"
       width="90%"
-       :before-close="data_assignment_close"
+      :before-close="data_assignment_close"
     >
       <!-- seach -->
       <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
@@ -3057,7 +3203,7 @@
       :visible.sync="data_assignment.experience_details_dialog_two"
       :close-on-click-modal="false"
       width="30%"
-       :before-close="data_assignment_close_two"
+      :before-close="data_assignment_close_two"
     >
       <el-form :inline="true" size="small" id="search" class="padding-LR-p10">
         <el-form-item label="选择被指派人">
@@ -3085,6 +3231,27 @@
         >确认指派</el-button>
       </div>
     </el-dialog>
+    <!-- 流失登记-->
+    <el-dialog
+      title="客户流失登记"
+      :visible.sync="new_details_data.ls_dialog"
+      :close-on-click-modal="false"
+      width="30%"
+      :before-close="ls_cancel"
+    >
+      <div class="margin-t-20">
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 4}"
+          placeholder="请输入流失原因"
+          v-model="new_details_data.churnRegistration"
+        ></el-input>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="ls_cancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
+        <el-button @click="userChurn(productVisitIds)" type="success" icon="el-icon-circle-check">提交</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -3102,13 +3269,21 @@ import {
   printMakeParam,
   examinePadZb3d,
   selectPrincipalVisitListWhenBack,
-   updatePrincipalUser
+  updatePrincipalUser
 } from "../../api/javaApi";
 import {
   exportMethod,
   personnel,
   tips,
-  arrayDeduplication, province, city, allSite,site,hospital,getBase64Image,img_base64
+  arrayDeduplication,
+  province,
+  city,
+  allSite,
+  site,
+  hospital,
+  getBase64Image,
+  img_base64,
+  date_zh
 } from "../../utils/public";
 import { Promise, all, async } from "q";
 import session from "../../utils/session";
@@ -3119,8 +3294,13 @@ export default {
   name: "App",
   data() {
     return {
-       /****数据指派数据 */
+      //新的date
+      timeValue: new Date(),
+      /****数据指派数据 */
       data_assignment: return_variable.data_assignment,
+      fayy_data: return_variable.fayy_data,
+      /**新的回访弹框数据 */
+      new_details_data: return_variable.new_details_data,
       /****top box */
       topActive: 1,
       box_top_data: {},
@@ -3150,8 +3330,8 @@ export default {
         cityId: null,
         provinceIdList: [],
         cityIdList: [],
-        hospitalLists:[],
-        hospitalId:null,
+        hospitalLists: [],
+        hospitalId: null
       },
       productUsageDetailsDialog: false,
       productDetailsForReturnVisitDialog: false,
@@ -3210,8 +3390,8 @@ export default {
       backupPhone: null,
       //模板数据
       backTalkResult: null,
-      backInviteResult:null,
-      visitWaitTime:null,
+      backInviteResult: null,
+      visitWaitTime: null,
       isYW: ["有", "无"],
       isGJ: ["干净", "脏"],
       isSYSJ: ["未使用", "5小时以下", "5-12小时"],
@@ -3222,12 +3402,12 @@ export default {
       isQK: ["鼓励", "警告"],
       isNLD: ["粘", "不沾"],
       ls_gtjg: ["配合", "不配合"],
-      ls_fcyyjg: ["拒绝不来", "没时间","时间不定","时间确定"],
-      zysx_1:["运动","皮肤护理","鞋垫保养"],
-      zysx_2:["运动","皮肤护理","按摩"],
-      zysx_3:["运动","皮肤护理","生活习惯"],
-      ls_fcdfydsj:null,
-      productVisitIds:[],
+      ls_fcyyjg: ["拒绝不来", "没时间", "时间不定", "时间确定"],
+      zysx_1: ["运动", "皮肤护理", "鞋垫保养"],
+      zysx_2: ["运动", "皮肤护理", "按摩"],
+      zysx_3: ["运动", "皮肤护理", "生活习惯"],
+      ls_fcdfydsj: null,
+      productVisitIds: [],
       data_box_use: [
         {
           productType: 1,
@@ -3331,7 +3511,7 @@ export default {
         {
           productType: 1,
           useUseTime: null,
-          useHeightWeight:null,
+          useHeightWeight: null,
           useSatisfaction: null,
           useNotice: [],
           useClean: null,
@@ -3345,7 +3525,7 @@ export default {
         {
           productType: 2,
           useUseTime: null,
-          useHeightWeight:null,
+          useHeightWeight: null,
           useSatisfaction: null,
           useNotice: [],
           useClean: null,
@@ -3359,7 +3539,7 @@ export default {
         {
           productType: 3,
           useUseTime: null,
-          useHeightWeight:null,
+          useHeightWeight: null,
           useSatisfaction: null,
           useNotice: [],
           useClean: null,
@@ -3373,7 +3553,7 @@ export default {
         {
           productType: 4,
           useUseTime: null,
-          useHeightWeight:null,
+          useHeightWeight: null,
           useSatisfaction: null,
           useNotice: [],
           useClean: null,
@@ -3387,7 +3567,7 @@ export default {
         {
           productType: 5,
           useUseTime: null,
-          useHeightWeight:null,
+          useHeightWeight: null,
           useSatisfaction: null,
           useNotice: [],
           useClean: null,
@@ -3401,7 +3581,7 @@ export default {
         {
           productType: 6,
           useUseTime: null,
-          useHeightWeight:null,
+          useHeightWeight: null,
           useSatisfaction: null,
           useNotice: [],
           useClean: null,
@@ -3415,7 +3595,7 @@ export default {
         {
           productType: 7,
           useUseTime: null,
-          useHeightWeight:null,
+          useHeightWeight: null,
           useSatisfaction: null,
           useNotice: [],
           useClean: null,
@@ -3429,7 +3609,7 @@ export default {
         {
           productType: 8,
           useUseTime: null,
-          useHeightWeight:null,
+          useHeightWeight: null,
           useSatisfaction: null,
           useNotice: [],
           useClean: null,
@@ -3458,11 +3638,29 @@ export default {
   },
   mounted() {
     // this.pageList();
-     this.topItem_func(1);
+    this.topItem_func(1);
     this.userList();
     this.provinceList();
   },
   methods: {
+    ls_cancel(){
+      this.new_details_data.ls_dialog=false
+      this.new_details_data.churnRegistration=null
+    },
+    ls_save(){
+      this.new_details_data.ls_dialog=true
+    },
+    seveTime() {
+      let date = date_zh(this.timeValue);
+      let time = `${this.fayy_data.timeValue}:${this.fayy_data.minuteValue}`;
+      this.useWaitTime = `${date} ${time}`;
+      // console.log(date_zh(this.timeValue))
+      // console.log(this.timeValue)
+      console.log(this.useWaitTime);
+      console.log(this.fayy_data);
+      console.log(this.fayy_data.timeValue);
+      console.log(this.fayy_data.minuteValue);
+    },
     data_assignment_close() {
       this.data_assignment.data_assignment_Dialg = false;
       this.data_assignment.multipleSelection = [];
@@ -3546,7 +3744,7 @@ export default {
           console.log(err);
         });
     },
-     //指派数据当前页面变化时
+    //指派数据当前页面变化时
     data_assignment_handleCurrentChange(num) {
       this.data_assignment.pages.currentPage = num;
       this.data_assignment_pageList();
@@ -3564,7 +3762,7 @@ export default {
       this.topActive = index;
       this.pageList(index);
     },
-     threeD_func() {
+    threeD_func() {
       let data = {
         recordId: this.only_recordId,
         footLength:
@@ -3623,7 +3821,7 @@ export default {
             });
           } else {
             this.testReport = res.data.data;
-            img_base64(this,res.data.data)
+            img_base64(this, res.data.data);
             this.dialogTestReport = true;
           }
         })
@@ -3631,60 +3829,64 @@ export default {
           console.log(err);
         });
     },
-    visitIdDtails_2(obj){
+    visitIdDtails_2(obj) {
       for (let key in this.productItem) {
         this.productItem[key] = false;
       }
-      let data={
-          visitId:obj.visitId,
-          visitTypeInt:obj.visitTypeInt
-      }
-      selectVisitDetailByVisitIdAndType(data).then(res=>{
-        if (res.data.returnCode != 0) {
+      let data = {
+        visitId: obj.visitId,
+        visitTypeInt: obj.visitTypeInt
+      };
+      selectVisitDetailByVisitIdAndType(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
               message: res.data.returnMsg,
               center: true
             });
           } else {
-          this.data_box[obj.saleProductType-1]=res.data.data;
-          this.productItem["item_"+obj.saleProductType] = true;
-          this.productVisitDialog_2=true;
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
+            this.data_box[obj.saleProductType - 1] = res.data.data;
+            this.productItem["item_" + obj.saleProductType] = true;
+            this.productVisitDialog_2 = true;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
-    visitIdDtails(obj){
+    visitIdDtails(obj) {
       for (let key in this.productItemUse) {
         this.productItemUse[key] = false;
       }
-      let data={
-          visitId:obj.visitId,
-          visitTypeInt:obj.visitTypeInt
-      }
-      selectVisitDetailByVisitIdAndType(data).then(res=>{
-        if (res.data.returnCode != 0) {
+      let data = {
+        visitId: obj.visitId,
+        visitTypeInt: obj.visitTypeInt
+      };
+      selectVisitDetailByVisitIdAndType(data)
+        .then(res => {
+          if (res.data.returnCode != 0) {
             this.$message({
               type: "warning",
               message: res.data.returnMsg,
               center: true
             });
           } else {
-          this.data_box_use[obj.saleProductType-1]=res.data.data;
-          this.productItemUse["item_"+obj.saleProductType] = true;
-          this.productDetailsForReturnVisitDialog=true;
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
+            this.data_box_use[obj.saleProductType - 1] = res.data.data;
+            this.productItemUse["item_" + obj.saleProductType] = true;
+            this.productDetailsForReturnVisitDialog = true;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     userChurn(list) {
       let data = {
         outflowPhoneStatus: this.usePhoneStatus,
         outflowPhone: this.usePhone,
-        outflowReason: this.causeOfLoss,
-        visitIds: list//this.multipleSelection
+        outflowReason: this.new_details_data.churnRegistration,
+        visitIds: list //this.multipleSelection
       };
       insertOutflow(data)
         .then(res => {
@@ -3695,6 +3897,7 @@ export default {
               center: true
             });
           } else {
+            this.ls_cancel()
             this.cancel();
             this.pageList(this.pages.currentPage, this.pages.pageSize);
             this.$message({
@@ -3709,20 +3912,26 @@ export default {
         });
     },
     addVisit(list) {
-    //   this.productVisitType.forEach((item, index) => {
-    //     let element = this.data_box[Number(item) - 1];
-    //     this.visitForms.push(element);
-    //   });
-    //   console.log(this.visitForms);
-    //   console.log(this.data_box);
+      //   this.productVisitType.forEach((item, index) => {
+      //     let element = this.data_box[Number(item) - 1];
+      //     this.visitForms.push(element);
+      //   });
+      //   console.log(this.visitForms);
+      //   console.log(this.data_box);
       let data = {
-        visitIds: list,//this.multipleSelection,
+        visitWaitTimePeriod: this.fayy_data.dayValue,
+        backRemark: "复查备注",
+        remark: this.causeOfLoss,
+        memberAttitude: "3.5",
+        memberAttitudeRemark: "客户评分详情",
+
+        visitIds: list, //this.multipleSelection,
         backPhoneStatus: this.usePhoneStatus,
         backPhone: this.usePhone,
         visitWaitTime: this.visitWaitTime,
         confirmBackWaitTime: this.useWaitTime,
         backInviteResult: this.backInviteResult,
-        backTalkResult: this.backTalkResult,
+        backTalkResult: this.backTalkResult
       };
       insertBackVisit(data)
         .then(res => {
@@ -3750,6 +3959,7 @@ export default {
     addSparePhone() {
       let data = {
         memberId: this.userMemberId,
+        parent:this.new_details_data.relationship,
         backupPhone: this.backupPhone
       };
       insertBackupPhone(data)
@@ -3826,29 +4036,29 @@ export default {
       this.usePhone = null;
       this.causeOfLoss = null;
       this.backInviteResult = null;
-      this.backTalkResult =null;
+      this.backTalkResult = null;
     },
     handleSelectionChange(val) {
       // this.multipleSelection = val;
       console.log(val);
-    //   let myType = [];
-    //   if (val.length > 0) {
-        // for (let key in this.productItem) {
-        //   this.productItem[key] = false;
-        // }
-        val.forEach(element => {
+      //   let myType = [];
+      //   if (val.length > 0) {
+      // for (let key in this.productItem) {
+      //   this.productItem[key] = false;
+      // }
+      val.forEach(element => {
         //   this.productItem["item_" + element.saleProductType] = true;
         //   myType.push(element.saleProductType);
-          this.multipleSelection.push(element.visitId);
-        });
-        // let myArry = arrayDeduplication(myType);
-        // this.productItem_box = true;
-        // this.productVisitType = myArry;
-        // console.log(this.productVisitType);
-        // this.$refs.my_box.style.width = 1002 * myArry.length + "px";
-    //   } else {
-    //     this.productItem_box = false;
-    //   }
+        this.multipleSelection.push(element.visitId);
+      });
+      // let myArry = arrayDeduplication(myType);
+      // this.productItem_box = true;
+      // this.productVisitType = myArry;
+      // console.log(this.productVisitType);
+      // this.$refs.my_box.style.width = 1002 * myArry.length + "px";
+      //   } else {
+      //     this.productItem_box = false;
+      //   }
     },
     details(obj) {
       this.userMemberId = obj.memberId;
@@ -3866,14 +4076,17 @@ export default {
           } else {
             let details = res.data.data;
             this.memberDetailDto[0] = details.memberDetailDTO;
-            this.pickupServiceInformation =
-              details.useWaitProductDetailDTO
-            this.pickupServiceInformation_use =
-              details.backWaitProductDetailDTO
-            this.evaluates = details.evaluates;
+            this.new_details_data.prescriptionDTO = details.prescriptionDTO;
+            this.pickupServiceInformation = details.experienceRecordDTO;
+            this.new_details_data.examinationInfo[0] =
+              details.examineDetail.examinationInfo;
+            this.new_details_data.detailList = details.examineDetail.detailList;
+            // this.evaluates = details.evaluates;
             this.productUsageDetailsDialog = true;
-            this.productVisitIds=details.visitIds
             this.handleSelectionChange(details.useWaitProductDetailDTO);
+
+            this.pickupServiceInformation_use = details.useRecordDTO;
+            this.productVisitIds = details.visitIds;
           }
         })
         .catch(err => {
@@ -3957,7 +4170,7 @@ export default {
     },
     //获取试穿人员列表
     async userList() {
-       let data = await personnel(6);
+      let data = await personnel(6);
       this.seach.scUserNameList = data;
       this.data_assignment.userList = data;
       // this.seach.scUserNameList = await personnel(6);
@@ -3972,7 +4185,7 @@ export default {
     },
     //根据市获取测评中心列表
     async siteList(id) {
-      this.seach.siteLists = await allSite(null,id);
+      this.seach.siteLists = await allSite(null, id);
     },
     //根据测评中心获取医院列表
     async hospitalList(id) {
@@ -4001,6 +4214,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#el-step .el-step__title {
+  font-size: 12px;
+}
 .color-red {
   color: #fb5b3c;
 }

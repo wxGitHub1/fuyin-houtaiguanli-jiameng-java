@@ -5,8 +5,8 @@ import axios from '../utils/ajax';
  * baseUrl  接口路径
  */
 // const baseUrl  = 'http://117.34.105.87:8088';//服务器IP
-// const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
-const baseUrl = 'http://192.168.1.108:8088';//杨腾飞加盟IP
+const baseUrl  = 'http://117.34.105.87:8087';//测试服务器IP
+// const baseUrl = 'http://192.168.1.108:8088';//杨腾飞加盟IP
 /*
 *
 *用户登录 
