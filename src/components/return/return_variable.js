@@ -348,7 +348,10 @@ const new_details_data = {
       experienceProblemHave: null,
       experienceProblemDo: null
     }
-  ]
+  ],
+  td_dialog:false,
+  value:0,
+  causeOfLoss:null,
 }
 export default {
   data_box,

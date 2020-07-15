@@ -1465,9 +1465,10 @@
       </div>
       <span slot="footer">
         <el-button @click="cancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
-        <el-button @click="addVisit()" type="success" icon="el-icon-circle-check">确认提交</el-button>
+        <el-button @click="td_addVisit()" type="success" icon="el-icon-circle-check">确认提交</el-button>
         <el-button @click="addPhone()" type="success" icon="el-icon-circle-plus-outline">添加联系电话</el-button>
         <el-button @click="morePrduct_function()" type="success" icon="el-icon-tickets">更多产品信息</el-button>
+        <el-button @click="fx_func()" type="success" icon="el-icon-tickets">客户态度分析</el-button>
         <el-button @click="userChurn" type="danger">确认流失</el-button>
       </span>
     </el-dialog>
@@ -1854,27 +1855,39 @@
       </div>
     </el-dialog>
     <!-- new_datails-->
-    <!-- <el-dialog
-      title="体验回访详情"
-      :visible.sync="new_details_data.experience_details_dialog"
+    <el-dialog
+      title="客户态度分析"
+      :visible.sync="new_details_data.td_dialog"
       :close-on-click-modal="false"
-      width="90%"
+      width="30%"
+      :before-close="td_cancel"
     >
       <div class="clearfix">
-        <div class="left pct-w50">
-          <h3 class="new-title">基本信息</h3>
+        <div class="left" style="height:20px;line-height:20px">客户态度评分：</div>
+        <div class="left">
+          <el-rate
+            v-model="new_details_data.value"
+            show-score
+            text-color="#ff9900"
+            show-text
+            allow-half
+            score-template="{value}分"
+          ></el-rate>
         </div>
-        <div class="left pct-w50">
-          <h3 class="new-title">产品体验回访信息</h3>
-        </div>
+      </div>
+      <div class="margin-t-20">
+        <el-input
+          type="textarea"
+          :autosize="{ minRows: 2, maxRows: 4}"
+          placeholder="请输入详情'非必填'"
+          v-model="new_details_data.causeOfLoss"
+        ></el-input>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
-        <el-button @click="addVisit()" type="success" icon="el-icon-circle-check">确认提交</el-button>
-        <el-button @click="addPhone()" type="success" icon="el-icon-circle-plus-outline">添加联系电话</el-button>
-        <el-button @click="morePrduct_function()" type="success" icon="el-icon-tickets">更多产品信息</el-button>
+        <el-button @click="td_cancel()" type="primary" icon="el-icon-circle-close">取消</el-button>
+        <el-button @click="addVisit()" type="success" icon="el-icon-circle-check">提交</el-button>
       </div>
-    </el-dialog>-->
+    </el-dialog>
   </div>
 </template>
 
@@ -2050,6 +2063,15 @@ export default {
     this.topItem_func(1);
   },
   methods: {
+    fx_func() {},
+    td_cancel() {
+      this.new_details_data.td_dialog = false;
+      this.new_details_data.value = 0;
+      this.new_details_data.causeOfLoss = null;
+    },
+    td_addVisit() {
+      this.new_details_data.td_dialog = true;
+    },
     new_details(obj) {
       this.new_details_data.obj = obj;
       this.new_details_data.experience_details_dialog = true;
@@ -2188,6 +2210,7 @@ export default {
               center: true
             });
           } else {
+            
             this.cancel();
             this.pageList();
             this.$message({
@@ -2202,9 +2225,17 @@ export default {
         });
     },
     addVisit() {
-      this.productVisitType.forEach((item, index) => {
-        let element = this.data_box[Number(item) - 1];
-        this.visitForms.push(element);
+      // this.productVisitType.forEach((item, index) => {
+      //   let element = this.data_box[Number(item) - 1];
+      //   this.visitForms.push(element);
+      // });
+      let visitFormsList = [];
+      this.data_box.forEach(obj => {
+        if (obj.list.length != 0) {
+          obj.list.forEach(item => {
+            visitFormsList.push(item);
+          });
+        }
       });
       console.log(this.visitForms);
       console.log(this.data_box);
@@ -2213,8 +2244,12 @@ export default {
         experiencePhoneStatus: this.experiencePhoneStatus,
         experiencePhone: this.experiencePhone,
         useWaitTime: this.useWaitTime,
-        visitForms: this.visitForms
+        remark: this.causeOfLoss,
+        memberAttitude: this.new_details_data.value,
+        memberAttitudeRemark: this.new_details_data.causeOfLoss,
+        visitForms: visitFormsList //this.visitForms
       };
+      console.log(data)
       insertExperienceVisit(data)
         .then(res => {
           if (res.data.returnCode != 0) {
@@ -2225,8 +2260,10 @@ export default {
             });
             this.visitForms = [];
           } else {
-            this.cancel();
-            this.pageList();
+            this.td_cancel()
+           this.cancel();
+            this.topItem_func(this.topActive)
+            // this.pageList();
             this.$message({
               type: "success",
               message: "提交成功！",
@@ -2327,43 +2364,43 @@ export default {
         for (let key in this.productItem) {
           this.productItem[key] = false;
         }
-        this.data_box.forEach(obj=>{
-          obj.list=[]
-        })
+        this.data_box.forEach(obj => {
+          obj.list = [];
+        });
         val.forEach(element => {
           this.productItem["item_" + element.saleProductType] = true;
           myType.push(element.saleProductType);
-          debugger
-
+          // debugger;
           let productTitle = element.saleProductNickname;
           let obj = {
-                experienceUseTime: null,
-                experienceSatisfaction: null,
-                experienceUseEffect: null,
-                experienceNotice: [],
-                experienceCTaxian: null,
-                experienceCKaijiao: null,
-                experienceZKaijiao: null,
-                experienceZDuanceng: null,
-                experienceMopifu: null,
-                experienceZimukouqiaoqi: null,
-                experienceGuanjielinghuodu: null,
-                experienceZhijuxiahua: null,
-                experienceJiaodubianhua: null,
-                experienceButai: null,
-                experienceLuosisongdong: null,
-                experienceJiaodusongdong: null,
-                experienceQita: null,
-                experienceProblemHave: null,
-                experienceProblemDo: null,
-                title:productTitle,
-               type:element.saleProductType
-              }
-              // obj=this.new_details_data.templateData[element.saleProductType - 1];
-              // obj.title = productTitle;
-              console.log(obj)
+            experienceUseTime: null,
+            experienceSatisfaction: null,
+            experienceUseEffect: null,
+            experienceNotice: [],
+            experienceCTaxian: null,
+            experienceCKaijiao: null,
+            experienceZKaijiao: null,
+            experienceZDuanceng: null,
+            experienceMopifu: null,
+            experienceZimukouqiaoqi: null,
+            experienceGuanjielinghuodu: null,
+            experienceZhijuxiahua: null,
+            experienceJiaodubianhua: null,
+            experienceButai: null,
+            experienceLuosisongdong: null,
+            experienceJiaodusongdong: null,
+            experienceQita: null,
+            experienceProblemHave: null,
+            experienceProblemDo: null,
+            title: productTitle,
+            productType: element.saleProductType,
+            visitId:element.visitId
+          };
+          // obj=this.new_details_data.templateData[element.saleProductType - 1];
+          // obj.title = productTitle;
+          console.log(obj);
           this.data_box[element.saleProductType - 1].list.push(obj);
-          
+
           this.multipleSelection.push(element.visitId);
         });
         // console.log(myType);
