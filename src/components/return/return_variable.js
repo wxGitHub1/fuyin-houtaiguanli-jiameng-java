@@ -358,10 +358,17 @@ const new_details_data = {
 const fayy_data={
   dayList:[
     {name:"上午",id:1},
-    // {name:"下午",id:2},
+    {name:"下午",id:2},
   ],
   dayValue:null,
   timeList:[
+    {name:"1点",id:1},
+    {name:"2点",id:2},
+    {name:"3点",id:3},
+    {name:"4点",id:4},
+    {name:"5点",id:5},
+    {name:"6点",id:6},
+    {name:"7点",id:7},
     {name:"8点",id:8},
     {name:"9点",id:9},
     {name:"10点",id:10},
@@ -370,11 +377,18 @@ const fayy_data={
   ],
   timeValue:null,
   minuteList:[
+    {name:"5分",id:5},
     {name:"10分",id:10},
+    {name:"15分",id:15},
     {name:"20分",id:20},
+    {name:"25分",id:15},
     {name:"30分",id:30},
+    {name:"35分",id:35},
     {name:"40分",id:40},
+    {name:"45分",id:45},
     {name:"50分",id:50},
+    {name:"55分",id:55},
+    {name:"60分",id:60},
   ],
   minuteValue:null,
 }
