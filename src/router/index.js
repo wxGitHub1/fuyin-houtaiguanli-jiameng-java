@@ -36,97 +36,92 @@ export default new Router({
       name: 'login',
       component: path.LoginPage,
     },
-    {
-      path: '/support',
-      name: 'supports',
-      component: path.Support,
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: path.LoginPage,
-    },
-    {
-      path: '/evaluation',
-      name: 'evaluationPage',
-      component: path.Evaluation,
-    },
-    {
-      path: '/taketype',
-      name: 'take',
-      component: path.TakeType,
-    },
-    {
-      path: '/modify',
-      name: 'modifytype',
-      component: path.Modify,
-    },
-    {
-      path: '/front',
-      name: 'frontdesk',
-      component: path.Front,
-    },
-    {
-      path: '/specialUser',
-      name: 'specialUser',
-      component: path.FrontUser,
-    },
-    {
-      path: '/bigclient',
-      name: 'bigClient',
-      meta: {
-        requireAuth: true
-      },
-      component: path.BigClient,
-    },
-    {
-      path: '/outwork',
-      name: 'outwork',
-      meta: {
-        requireAuth: true
-      },
-      component: path.OutWork,
-    },
-    {
-      path: '/process',
-      name: 'process',
-      component: path.Process,
-    },
-    {
-      path: '/quality',
-      name: 'quality',
-      component: path.Quality,
-    },
-    {
-      path: '/clothes',
-      name: 'tryclothes',
-      component: path.TryClothes,
-    },
-    {
+    // {
+    //   path: '/support',
+    //   name: 'supports',
+    //   component: path.Support,
+    // },
+    // {
+    //   path: '/evaluation',
+    //   name: 'evaluationPage',
+    //   component: path.Evaluation,
+    // },
+    // {
+    //   path: '/taketype',
+    //   name: 'take',
+    //   component: path.TakeType,
+    // },
+    // {
+    //   path: '/modify',
+    //   name: 'modifytype',
+    //   component: path.Modify,
+    // },
+    // {
+    //   path: '/front',
+    //   name: 'frontdesk',
+    //   component: path.Front,
+    // },
+    // {
+    //   path: '/specialUser',
+    //   name: 'specialUser',
+    //   component: path.FrontUser,
+    // },
+    // {
+    //   path: '/bigclient',
+    //   name: 'bigClient',
+    //   meta: {
+    //     requireAuth: true
+    //   },
+    //   component: path.BigClient,
+    // },
+    // {
+    //   path: '/outwork',
+    //   name: 'outwork',
+    //   meta: {
+    //     requireAuth: true
+    //   },
+    //   component: path.OutWork,
+    // },
+    // {
+    //   path: '/process',
+    //   name: 'process',
+    //   component: path.Process,
+    // },
+    // {
+    //   path: '/quality',
+    //   name: 'quality',
+    //   component: path.Quality,
+    // },
+    // {
+    //   path: '/clothes',
+    //   name: 'tryclothes',
+    //   component: path.TryClothes,
+    // },
+    // {
 
-      path: '/fiance',
-      name:'fiance',
-      component: path.Fiance,
-    },
-    {
-      path: '/warehouse',
-      name: 'warehouse',
-      component: path.Warehouse,
-    },
-    {
-      path: '/return',
-      name: 'return',
-      component: path.Return,
-    },
-    {
-      path: '/supermanage',
-      name: 'super',
-      component: path.SuperManage,
-    },
-    {
-      path: '/theory',
-      name: 'theory',
-      component: path.Theory,
-    },
+    //   path: '/fiance',
+    //   name:'fiance',
+    //   component: path.Fiance,
+    // },
+    // {
+    //   path: '/warehouse',
+    //   name: 'warehouse',
+    //   component: path.Warehouse,
+    // },
+    // {
+    //   path: '/return',
+    //   name: 'return',
+    //   component: path.Return,
+    // },
+    // {
+    //   path: '/supermanage',
+    //   name: 'super',
+    //   component: path.SuperManage,
+    // },
+    // {
+    //   path: '/theory',
+    //   name: 'theory',
+    //   component: path.Theory,
+    // },
   ],
 });

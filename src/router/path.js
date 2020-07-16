@@ -18,24 +18,24 @@
  */
 
 
-const Support = resolve => require(['@/components/support'], resolve)
+// const Support = resolve => require(['@/components/support'], resolve)
 const LoginPage = resolve => require(['../components/login'], resolve)
-const Evaluation = resolve => require(['../components/evaluation'], resolve)
-const Front = resolve => require(['../components/front'], resolve)
-const TakeType = resolve => require(['../components/taketype'], resolve)
-const Modify = resolve => require(['../components/modify'], resolve)
-const BigClient = resolve => require(['../components/bigclient'], resolve)
-const OutWork = resolve => require(['../components/outwork'], resolve)
-const Process = resolve => require(['../components/process'], resolve)
-const Quality = resolve => require(['../components/quality'], resolve)
-const TryClothes = resolve => require(['../components/tryclothes'], resolve)
-const Fiance = resolve => require(['../components/fiance'], resolve)
-const Warehouse = resolve => require(['../components/warehouse'], resolve)
-const Return = resolve => require(['../components/return'], resolve)
-const Theory = resolve => require(['../components/theory'], resolve)
-const SuperManage = resolve => require(['../components/supermanage'], resolve)
+// const Evaluation = resolve => require(['../components/evaluation'], resolve)
+// const Front = resolve => require(['../components/front'], resolve)
+// const TakeType = resolve => require(['../components/taketype'], resolve)
+// const Modify = resolve => require(['../components/modify'], resolve)
+// const BigClient = resolve => require(['../components/bigclient'], resolve)
+// const OutWork = resolve => require(['../components/outwork'], resolve)
+// const Process = resolve => require(['../components/process'], resolve)
+// const Quality = resolve => require(['../components/quality'], resolve)
+// const TryClothes = resolve => require(['../components/tryclothes'], resolve)
+// const Fiance = resolve => require(['../components/fiance'], resolve)
+// const Warehouse = resolve => require(['../components/warehouse'], resolve)
+// const Return = resolve => require(['../components/return'], resolve)
+// const Theory = resolve => require(['../components/theory'], resolve)
+// const SuperManage = resolve => require(['../components/supermanage'], resolve)
 const Error = resolve => require(['../components/error'], resolve)
-const FrontUser = resolve => require(['../components/frontUser'], resolve)
+// const FrontUser = resolve => require(['../components/frontUser'], resolve)
 const Home = resolve => require(['../components/home'], resolve)
 
 const menuList_data = [
@@ -64,23 +64,23 @@ function viewPage_function(arg, list) {
 export default {
   menuList_data,
   viewPage_function,
-  Support,
+  // Support,
   LoginPage,
-  Evaluation,
-  Front,
-  TakeType,
-  Modify,
-  BigClient,
-  OutWork,
-  Process,
-  Quality,
-  TryClothes,
-  Fiance,
-  Warehouse,
-  Return,
-  Theory,
-  SuperManage,
+  // Evaluation,
+  // Front,
+  // TakeType,
+  // Modify,
+  // BigClient,
+  // OutWork,
+  // Process,
+  // Quality,
+  // TryClothes,
+  // Fiance,
+  // Warehouse,
+  // Return,
+  // Theory,
+  // SuperManage,
   Error,
-  FrontUser,
+  // FrontUser,
   Home
 }
