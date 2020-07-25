@@ -220,6 +220,7 @@
     <el-table
       border
       :data="clientData"
+      max-height="620"
       v-loading="loading"
       element-loading-text="加载中..."
       element-loading-spinner="el-icon-loading"
@@ -250,12 +251,12 @@
           <el-button
             @click="printTicket(scope.row.orderNum)"
             type="primary"
-            size="mini"
+            size="small"
             icon="el-icon-receiving"
           >打印小票</el-button>
           <el-button
             @click="details(scope.row.orderNum)"
-            size="mini"
+            size="small"
             type="info"
             icon="el-icon-document"
           >详情</el-button>
@@ -2116,12 +2117,12 @@ export default {
   .span {
     display: inline-block;
     margin-bottom: 10px;
-    width: 140px;
+    width: 30%;
   }
   .span2 {
     display: inline-block;
     margin-bottom: 10px;
-    width: 140px;
+    width: 10%;
   }
   .div {
     display: inline-block;
@@ -2138,10 +2139,9 @@ export default {
   border: 1px solid #bbbbbb;
   box-sizing: border-box;
   div {
-    padding: 1.5px 0;
+    padding: 5px 0;
   }
   h2 {
-    margin: 10px auto;
     font-weight: bold;
     text-align: center;
   }
@@ -2153,7 +2153,6 @@ export default {
   }
   .dashed {
     border: 1px dashed #000;
-    margin: 1px;
   }
   .qzUrlImg {
     // width: 100%;
@@ -2235,8 +2234,5 @@ export default {
 }
 #margin-l-20 {
   margin-left: 20px;
-}
-hr {
-  margin: 1px;
 }
 </style>

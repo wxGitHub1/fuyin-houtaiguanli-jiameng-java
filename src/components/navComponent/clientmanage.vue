@@ -699,6 +699,7 @@
         <el-table-column prop="createTime" label="下单时间"></el-table-column>
         <el-table-column prop="orderUserName" label="下单人"></el-table-column>
         <el-table-column prop="status" label="订单状态"></el-table-column>
+        <el-table-column prop="orderNum" label="订单号"></el-table-column>
         <el-table-column prop="lakala" label="拉卡拉"></el-table-column>
         <el-table-column prop="transfer" label="转账"></el-table-column>
         <el-table-column prop="cash" label="现金"></el-table-column>
